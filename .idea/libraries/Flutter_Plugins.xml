@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core_web-2.21.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_timezone-4.1.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/purchases_flutter-8.6.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_core-3.12.1" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/firebase_crashlytics-4.3.4" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

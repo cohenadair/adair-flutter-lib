@@ -1,0 +1,140 @@
+{
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "ok": "Ok",
+  "error": "Error",
+  "warning": "Warning",
+  "continueString": "Continue",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "yearsFormat": "{numOfYears}y",
+  "@yearsFormat": {
+    "placeholders": {
+      "numOfYears": {
+        "type": "int"
+      }
+    }
+  },
+  "daysFormat": "{numOfDays}d",
+  "@daysFormat": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursFormat": "{numOfHours}h",
+  "@hoursFormat": {
+    "placeholders": {
+      "numOfHours": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{numOfMinutes}m",
+  "@minutesFormat": {
+    "placeholders": {
+      "numOfMinutes": {
+        "type": "int"
+      }
+    }
+  },
+  "secondsFormat": "{numOfSeconds}s",
+  "@secondsFormat": {
+    "placeholders": {
+      "numOfSeconds": {
+        "type": "int"
+      }
+    }
+  },
+  "dateTimeFormat": "{date} at {time}",
+  "@dateTimeFormat": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dateRangeFormat": "{from} to {to}",
+  "@dateRangeFormat": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "now": "Now",
+  "durationAllDates": "All dates",
+  "durationToday": "Today",
+  "durationYesterday": "Yesterday",
+  "durationThisWeek": "This week",
+  "durationThisMonth": "This month",
+  "durationThisYear": "This year",
+  "durationLastWeek": "Last week",
+  "durationLastMonth": "Last month",
+  "durationLastYear": "Last year",
+  "durationLast7Days": "Last 7 days",
+  "durationLast14Days": "Last 14 days",
+  "durationLast30Days": "Last 30 days",
+  "durationLast60Days": "Last 60 days",
+  "durationLast12Months": "Last 12 months",
+  "durationCustom": "Custom",
+  "proPageUpgradeTitle": "Upgrade to {appName} Pro",
+  "@proPageUpgradeTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageProTitle": "Pro",
+  "proPageYearlyTitle": "{price}/year",
+  "@proPageYearlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageYearlyTrial": "+{numOfDays} days free",
+  "@proPageYearlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageYearlySubtext": "Billed annually",
+  "proPageMonthlyTitle": "{price}/month",
+  "@proPageMonthlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageMonthlyTrial": "+{numOfDays} days free",
+  "@proPageMonthlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageMonthlySubtext": "Billed monthly",
+  "proPageFetchError": "Unable to fetch subscription options. Please ensure your device is connected to the internet and try again.",
+  "proPageUpgradeSuccess": "Congratulations, you are now a Pro user!",
+  "proPageRestoreQuestion": "Purchased Pro on another device?",
+  "proPageRestoreAction": "Restore.",
+  "proPageRestoreNoneFoundAppStore": "There were no previous purchases found. Please ensure you are signed in to the same Apple ID with which you made the original purchase.",
+  "proPageRestoreNoneFoundGooglePlay": "There were no previous purchases found. Please ensure you are signed in to the same Google account with which you made the original purchase.",
+  "proPageRestoreError": "Unexpected error occurred. Please ensure your device is connected to the internet and try again.",
+  "proPageDisclosureApple": "Cancel anytime. Billing starts after the free trial period ends. The free trial period is only valid for new subscribers. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current subscription period. All subscriptions can be managed through the App Store. Any unused portion of the free trial will be forfeited when a subscription is purchased.",
+  "proPageDisclosureAndroid": "Cancel anytime. Billing starts after the free trial period ends. The free trial period is only valid for new subscribers. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current subscription period. All subscriptions can be managed through the Google Play Store. Any unused portion of the free trial will be forfeited when a subscription is purchased."
+}
