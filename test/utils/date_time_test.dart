@@ -8,58 +8,11 @@ import 'package:timezone/timezone.dart';
 
 import '../mocks/mocks.mocks.dart';
 import '../test_utils/stubbed_managers.dart';
-import '../test_utils/widget.dart';
+import '../test_utils/testable.dart';
 
 void main() {
-  const defaultTimeZone = "America/New_York";
-
-  TZDateTime dateTime(
-    int year, [
-    int month = 1,
-    int day = 1,
-    int hour = 0,
-    int minute = 0,
-    int second = 0,
-    int millisecond = 0,
-    int microsecond = 0,
-  ]) {
-    return TZDateTime(
-      getLocation(defaultTimeZone),
-      year,
-      month,
-      day,
-      hour,
-      minute,
-      second,
-      millisecond,
-    );
-  }
-
-  setUp(() {
-    initializeTimeZones();
-  });
-
-  test("DisplayDuration formatHoursMinutes", () {
-    expect(
-      DisplayDuration(
-        const Duration(
-          milliseconds:
-              5 * Duration.millisecondsPerHour +
-              5 * Duration.millisecondsPerMinute,
-        ),
-      ).formatHoursMinutes(),
-      "05:05",
-    );
-    expect(
-      DisplayDuration(
-        const Duration(
-          milliseconds:
-              15 * Duration.millisecondsPerHour +
-              15 * Duration.millisecondsPerMinute,
-        ),
-      ).formatHoursMinutes(),
-      "15:15",
-    );
+  setUp(() async {
+    await StubbedManagers.create(); // Sets up TimeManager.
   });
 
   test("isLater", () {
@@ -94,40 +47,41 @@ void main() {
   });
 
   group("isInFutureWithMinuteAccuracy", () {
-    TZDateTime now() => dateTime(2015, 5, 15, 12, 30, 45, 10000);
+    TZDateTime now() =>
+        TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 30, 45, 10000);
 
     test("Value should be in the past", () {
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2014, 6, 16, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2014, 6, 16, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 4, 16, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 4, 16, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 14, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 14, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 11, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 11, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 12, 29, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 29, 46, 10001),
           now(),
         ),
         isFalse,
@@ -137,28 +91,28 @@ void main() {
     test("Value should be in the future", () {
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2016, 4, 14, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2016, 4, 14, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 6, 14, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 6, 14, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 16, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 16, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 13, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 13, 29, 44, 9999),
           now(),
         ),
         isTrue,
@@ -169,21 +123,21 @@ void main() {
       // Equal, since seconds and milliseconds aren't considered.
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 12, 30, 44, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 30, 44, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 12, 30, 45, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 30, 45, 9999),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithMinuteAccuracy(
-          dateTime(2015, 5, 15, 12, 30, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 30, 44, 9999),
           now(),
         ),
         isFalse,
@@ -192,26 +146,27 @@ void main() {
   });
 
   group("isInFutureWithDayAccuracy", () {
-    TZDateTime now() => dateTime(2015, 5, 15, 12, 30, 45, 10000);
+    TZDateTime now() =>
+        TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 30, 45, 10000);
 
     test("Value should be in the past", () {
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2014, 6, 16, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2014, 6, 16, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 4, 16, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 4, 16, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 5, 14, 13, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 14, 13, 31, 46, 10001),
           now(),
         ),
         isFalse,
@@ -221,21 +176,21 @@ void main() {
     test("Value should be in the future", () {
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2016, 4, 14, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2016, 4, 14, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 6, 14, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 6, 14, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 5, 16, 11, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 16, 11, 29, 44, 9999),
           now(),
         ),
         isTrue,
@@ -246,21 +201,21 @@ void main() {
       // Equal, since seconds and milliseconds aren't considered.
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 5, 15, 11, 31, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 11, 31, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 5, 15, 12, 29, 46, 10001),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 12, 29, 46, 10001),
           now(),
         ),
         isFalse,
       );
       expect(
         isInFutureWithDayAccuracy(
-          dateTime(2015, 5, 15, 13, 29, 44, 9999),
+          TimeManager.get.dateTimeFromValues(2015, 5, 15, 13, 29, 44, 9999),
           now(),
         ),
         isFalse,
@@ -269,41 +224,37 @@ void main() {
   });
 
   testWidgets("combine", (tester) async {
-    initializeTimeZones();
-    var managers = StubbedManagers();
-    when(
-      managers.timeManager.currentLocation,
-    ).thenReturn(TimeZoneLocation.fromName("America/New_York"));
-
     expect(combine(null, null), isNull);
     expect(combine(null, const TimeOfDay(hour: 5, minute: 5)), isNotNull);
-    expect(combine(dateTime(2020), null), isNotNull);
+    expect(combine(TimeManager.get.dateTimeFromValues(2020), null), isNotNull);
 
     expect(
       combine(
-        dateTime(2020, 10, 26, 15, 30, 20, 1000),
+        TimeManager.get.dateTimeFromValues(2020, 10, 26, 15, 30, 20, 1000),
         const TimeOfDay(hour: 16, minute: 45),
       ),
-      dateTime(2020, 10, 26, 16, 45, 20, 1000),
+      TimeManager.get.dateTimeFromValues(2020, 10, 26, 16, 45, 20, 1000),
     );
 
     var actual = combine(null, const TimeOfDay(hour: 16, minute: 45));
-    var expected = dateTime(0, 1, 1, 16, 45);
+    var expected = TimeManager.get.dateTimeFromValues(0, 1, 1, 16, 45);
     expect(actual, expected);
     expect(actual!.locationName, "America/New_York");
   });
 
   test("dateTimeToDayAccuracy", () {
     expect(
-      dateTimeToDayAccuracy(dateTime(2020, 10, 26, 15, 30, 20, 1000)),
-      dateTime(2020, 10, 26, 0, 0, 0, 0),
+      dateTimeToDayAccuracy(
+        TimeManager.get.dateTimeFromValues(2020, 10, 26, 15, 30, 20, 1000),
+      ),
+      TimeManager.get.dateTimeFromValues(2020, 10, 26, 0, 0, 0, 0),
     );
 
     initializeTimeZones();
 
     expect(
       dateTimeToDayAccuracy(
-        dateTime(2020, 10, 26, 15, 30, 20, 1000),
+        TimeManager.get.dateTimeFromValues(2020, 10, 26, 15, 30, 20, 1000),
         "America/Chicago",
       ),
       TZDateTime(getLocation("America/Chicago"), 2020, 10, 26, 0, 0, 0, 0),
@@ -311,15 +262,18 @@ void main() {
   });
 
   test("getStartOfWeek", () {
-    expect(startOfWeek(dateTime(2020, 9, 24)), dateTime(2020, 9, 21));
+    expect(
+      startOfWeek(TimeManager.get.dateTimeFromValues(2020, 9, 24)),
+      TimeManager.get.dateTimeFromValues(2020, 9, 21),
+    );
   });
 
   test("weekOfYear", () {
-    expect(weekOfYear(dateTime(2020, 2, 15)), 7);
+    expect(weekOfYear(TimeManager.get.dateTimeFromValues(2020, 2, 15)), 7);
   });
 
   test("dayOfYear", () {
-    expect(dayOfYear(dateTime(2020, 2, 15)), 46);
+    expect(dayOfYear(TimeManager.get.dateTimeFromValues(2020, 2, 15)), 46);
   });
 
   testWidgets("formatTimeOfDay", (tester) async {
@@ -354,19 +308,17 @@ void main() {
   });
 
   testWidgets("timestampToSearchString", (tester) async {
-    var managers = StubbedManagers();
-
-    when(
-      managers.timeManager.currentDateTime,
-    ).thenReturn(dateTime(2020, 9, 24));
-    when(
-      managers.timeManager.dateTime(any, any),
-    ).thenReturn(dateTime(2020, 9, 24));
+    initializeTimeZones();
+    var timeManager = MockTimeManager();
+    TimeManager.set(timeManager);
+    var dateTime = TZDateTime(getLocation("America/New_York"), 2020, 9, 24);
+    when(timeManager.currentDateTime).thenReturn(dateTime);
+    when(timeManager.dateTime(any, any)).thenReturn(dateTime);
 
     expect(
       timestampToSearchString(
         await buildContext(tester),
-        dateTime(2020, 9, 24).millisecondsSinceEpoch,
+        dateTime.millisecondsSinceEpoch,
         null,
       ),
       "Today at 12:00 AM September 24, 2020",
@@ -374,10 +326,13 @@ void main() {
   });
 
   testWidgets("formatDateAsRecent", (tester) async {
-    var managers = StubbedManagers();
+    initializeTimeZones();
+    var timeManager = MockTimeManager();
+    TimeManager.set(timeManager);
     when(
-      managers.timeManager.currentDateTime,
-    ).thenReturn(dateTime(2020, 9, 24));
+      timeManager.currentDateTime,
+    ).thenReturn(TZDateTime(getLocation("America/New_York"), 2020, 9, 24));
+
     var context = await buildContext(tester);
 
     expect(
@@ -426,10 +381,13 @@ void main() {
   });
 
   testWidgets("formatDateTime exclude midnight", (tester) async {
-    var managers = StubbedManagers();
+    initializeTimeZones();
+    var timeManager = MockTimeManager();
+    TimeManager.set(timeManager);
     when(
-      managers.timeManager.currentDateTime,
-    ).thenReturn(dateTime(2020, 9, 24));
+      timeManager.currentDateTime,
+    ).thenReturn(TZDateTime(getLocation("America/New_York"), 2020, 9, 24));
+
     var context = await buildContext(tester);
 
     expect(
@@ -448,351 +406,6 @@ void main() {
       ),
       "Aug 22",
     );
-  });
-
-  group("Format durations", () {
-    testWidgets("0 duration", (tester) async {
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(context: context, durations: [Duration()]),
-        "0y 0d 0h 0m 0s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration()],
-          condensed: true,
-        ),
-        "0m",
-      );
-    });
-
-    testWidgets("All units", (tester) async {
-      var ms =
-          const Duration(
-            days: 385,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "1y 20d 5h 45m 30s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-        ),
-        "1y 20d 5h 45m 30s",
-      );
-    });
-
-    testWidgets("Years only", (tester) async {
-      var ms = const Duration(days: 385).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "1y 20d 0h 0m 0s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-          numberOfQuantities: 1,
-        ),
-        "1y",
-      );
-    });
-
-    testWidgets("Days only", (tester) async {
-      var ms = const Duration(days: 2).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "0y 2d 0h 0m 0s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-        ),
-        "2d",
-      );
-    });
-
-    testWidgets("Hours only", (tester) async {
-      var ms = const Duration(hours: 10).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "0y 0d 10h 0m 0s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-        ),
-        "10h",
-      );
-    });
-
-    testWidgets("Minutes only", (tester) async {
-      var ms = const Duration(minutes: 20).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "0y 0d 0h 20m 0s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-        ),
-        "20m",
-      );
-    });
-
-    testWidgets("Seconds only", (tester) async {
-      var ms = const Duration(seconds: 50).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-        ),
-        "0y 0d 0h 0m 50s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-        ),
-        "50s",
-      );
-    });
-
-    testWidgets("Excluding days", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          includesDays: false,
-        ),
-        "0y 53h 45m 30s",
-      );
-    });
-
-    testWidgets("Excluding hours", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          includesYears: false,
-          includesDays: false,
-          includesHours: false,
-        ),
-        "3225m 30s",
-      );
-    });
-
-    testWidgets("Excluding minutes", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          includesYears: false,
-          includesDays: false,
-          includesHours: false,
-          includesMinutes: false,
-        ),
-        "193530s",
-      );
-    });
-
-    testWidgets("Excluding all", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          includesYears: false,
-          includesDays: false,
-          includesHours: false,
-          includesMinutes: false,
-          includesSeconds: false,
-        ),
-        "",
-      );
-    });
-
-    testWidgets("Show highest two only", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          numberOfQuantities: 2,
-        ),
-        "0y 2d",
-      );
-
-      ms = const Duration(hours: 5, minutes: 45, seconds: 30).inMilliseconds;
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-          numberOfQuantities: 2,
-        ),
-        "5h 45m",
-      );
-
-      ms = const Duration(minutes: 45, seconds: 30).inMilliseconds;
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-          numberOfQuantities: 2,
-        ),
-        "45m 30s",
-      );
-
-      ms = const Duration(seconds: 30).inMilliseconds;
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          condensed: true,
-          numberOfQuantities: 2,
-        ),
-        "30s",
-      );
-    });
-
-    testWidgets("With duration unit", (tester) async {
-      var ms =
-          const Duration(
-            days: 2,
-            hours: 5,
-            minutes: 45,
-            seconds: 30,
-          ).inMilliseconds;
-
-      var context = await buildContext(tester);
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          largestDurationUnit: DurationUnit.hours,
-        ),
-        "53h 45m 30s",
-      );
-
-      expect(
-        formatDurations(
-          context: context,
-          durations: [Duration(milliseconds: ms)],
-          largestDurationUnit: DurationUnit.minutes,
-        ),
-        "3225m 30s",
-      );
-    });
   });
 
   testWidgets("isFrequencyTimerReady timer is null", (tester) async {
@@ -850,17 +463,26 @@ void main() {
 
   test("isSameMonth", () {
     expect(
-      isSameYearAndMonth(DateTime(2022, 10, 5), DateTime(2022, 10, 6)),
+      isSameYearAndMonth(
+        TimeManager.get.dateTimeFromValues(2022, 10, 5),
+        TimeManager.get.dateTimeFromValues(2022, 10, 6),
+      ),
       isTrue,
     );
 
     expect(
-      isSameYearAndMonth(DateTime(2022, 11, 5), DateTime(2022, 10, 6)),
+      isSameYearAndMonth(
+        TimeManager.get.dateTimeFromValues(2022, 11, 5),
+        TimeManager.get.dateTimeFromValues(2022, 10, 6),
+      ),
       isFalse,
     );
 
     expect(
-      isSameYearAndMonth(DateTime(2021, 11, 5), DateTime(2022, 10, 6)),
+      isSameYearAndMonth(
+        TimeManager.get.dateTimeFromValues(2021, 11, 5),
+        TimeManager.get.dateTimeFromValues(2022, 10, 6),
+      ),
       isFalse,
     );
   });

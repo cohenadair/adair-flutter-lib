@@ -5,13 +5,14 @@ import 'package:mockito/mockito.dart';
 
 import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
+import '../test_utils/testable.dart';
 import '../test_utils/widget.dart';
 
 void main() {
   late StubbedManagers managers;
 
-  setUp(() {
-    managers = StubbedManagers();
+  setUp(() async {
+    managers = await StubbedManagers.create();
     when(managers.ioWrapper.isAndroid).thenReturn(false);
   });
 
@@ -43,8 +44,6 @@ void main() {
     await tester.pumpWidget(
       Testable((_) => const DialogButton(label: "Test", isEnabled: false)),
     );
-
-    var button = findFirstWithText<TextButton>(tester, "TEST");
-    expect(button.onPressed, isNull);
+    expect(findFirstWithText<TextButton>(tester, "TEST").onPressed, isNull);
   });
 }

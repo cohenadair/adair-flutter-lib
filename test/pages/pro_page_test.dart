@@ -9,15 +9,15 @@ import 'package:mockito/mockito.dart';
 import '../mocks/mocks.mocks.dart';
 import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
-import '../test_utils/widget.dart';
+import '../test_utils/testable.dart';
 
 void main() {
   late StubbedManagers managers;
   late MockPackage monthlyPackage;
   late MockPackage yearlyPackage;
 
-  setUp(() {
-    managers = StubbedManagers();
+  setUp(() async {
+    managers = await StubbedManagers.create();
 
     when(managers.appConfig.appName).thenReturn((_) => "Unit Test App");
     when(managers.appConfig.appIcon).thenReturn(Icons.add);

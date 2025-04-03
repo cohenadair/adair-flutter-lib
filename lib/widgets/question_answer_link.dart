@@ -16,8 +16,8 @@ class QuestionAnswerLink extends StatelessWidget {
     required this.question,
     required this.actionText,
     this.action,
-  }) : assert(isNotEmpty(question)),
-       assert(isNotEmpty(actionText));
+  })  : assert(isNotEmpty(question)),
+        assert(isNotEmpty(actionText));
 
   @override
   Widget build(BuildContext context) {

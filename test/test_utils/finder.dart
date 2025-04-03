@@ -10,12 +10,7 @@ T findLast<T>(WidgetTester tester) =>
 /// Different from [Finder.widgetWithText] in that it works for widgets with
 /// generic arguments.
 T findFirstWithText<T>(WidgetTester tester, String text) {
-  return tester.firstWidget(
-    find.ancestor(
-      of: find.text(text),
-      matching: find.byWidgetPredicate((widget) => widget is T),
-    ),
-  );
+  return find.widgetWithText(T, text).evaluate().first.widget as T;
 }
 
 T findFirstWithIcon<T>(WidgetTester tester, IconData icon) {
@@ -62,12 +57,12 @@ bool tapRichTextContaining(
       .firstWidget<RichText>(findRichText(fullText))
       .text
       .visitChildren((span) {
-        if (span is TextSpan && span.text == clickText) {
-          (span.recognizer as TapGestureRecognizer).onTap!();
-          return false;
-        }
-        return true;
-      });
+    if (span is TextSpan && span.text == clickText) {
+      (span.recognizer as TapGestureRecognizer).onTap!();
+      return false;
+    }
+    return true;
+  });
 }
 
 /// Different from [Finder.byType] in that it works for widgets with generic

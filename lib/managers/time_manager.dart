@@ -3,7 +3,7 @@ import 'package:quiver/strings.dart';
 import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 
-import '../utils/date_time.dart';
+import '../utils/duration.dart';
 import '../utils/log.dart';
 import '../utils/string.dart';
 import '../wrappers/native_time_zone_wrapper.dart';
@@ -44,11 +44,10 @@ class TimeManager {
     // Filter out all time zones that aren't available on the current device.
     var nativeTimeZones =
         await NativeTimeZoneWrapper.get.getAvailableTimeZones();
-    _availableLocations =
-        timeZoneDatabase.locations.values
-            .where((loc) => nativeTimeZones.contains(loc.name))
-            .map((loc) => TimeZoneLocation(loc))
-            .toList();
+    _availableLocations = timeZoneDatabase.locations.values
+        .where((loc) => nativeTimeZones.contains(loc.name))
+        .map((loc) => TimeZoneLocation(loc))
+        .toList();
     _availableLocations.sort((lhs, rhs) {
       var result = lhs.currentTimeZone.offset.compareTo(
         rhs.currentTimeZone.offset,
@@ -78,28 +77,53 @@ class TimeManager {
   /// Returns a [TZDateTime] from the given timestamp and time zone. If
   /// [timeZone] is empty, the current time zone is used.
   TZDateTime dateTime(int timestamp, [String? timeZone]) {
-    if (isEmpty(timeZone)) {
-      timeZone = currentTimeZone;
-    }
-    return dateTime(timestamp, timeZone!);
+    return TZDateTime.fromMillisecondsSinceEpoch(
+      getLocation(timeZone ?? currentTimeZone),
+      timestamp,
+    );
+  }
+
+  /// A seconds accuracy wrapper for [dateTime].
+  TZDateTime dateTimeFromSeconds(int timestampSeconds, [String? timeZone]) {
+    return dateTime(
+      timestampSeconds * Duration.millisecondsPerSecond,
+      timeZone,
+    );
+  }
+
+  /// A wrapper for the [TZDateTime] default constructor that uses the current
+  /// [Location].
+  TZDateTime dateTimeFromValues(
+    int year, [
+    int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0,
+    String? timeZone,
+  ]) {
+    return TZDateTime(
+      getLocation(timeZone ?? currentTimeZone),
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      second,
+      millisecond,
+    );
+  }
+
+  TZDateTime dateTimeToTz(DateTime dateTime) {
+    return TZDateTime.from(dateTime, currentLocation.value);
   }
 
   /// Returns the current [TZDateTime] at the given time zone, or the
   /// current time zone if [timeZone] is invalid.
   TZDateTime now([String? timeZone]) {
     return isEmpty(timeZone) ? currentDateTime : now(timeZone!);
-  }
-
-  TZDateTime toTZDateTime(DateTime dateTime) {
-    return TZDateTime.from(dateTime, currentLocation.value);
-  }
-
-  TZDateTime dateTimeFromSeconds(int timestampSeconds) {
-    return toTZDateTime(
-      DateTime.fromMillisecondsSinceEpoch(
-        timestampSeconds * Duration.millisecondsPerSecond,
-      ),
-    );
   }
 }
 
@@ -124,10 +148,9 @@ class TimeZoneLocation {
     var offset = "UTC";
     if (currentTimeZone.offset != 0) {
       offset += currentTimeZone.offset < 0 ? "-" : "+";
-      offset +=
-          DisplayDuration(
-            Duration(milliseconds: currentOffset),
-          ).formatHoursMinutes();
+      offset += DisplayDuration(
+        Duration(milliseconds: currentOffset),
+      ).formatHoursMinutes();
     }
     return offset;
   }

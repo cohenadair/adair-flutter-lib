@@ -110,10 +110,9 @@ class ProPageState extends State<ProPage> {
         builder: (context, snapshot) {
           return AnimatedSwitcher(
             duration: animDurationDefault,
-            child:
-                snapshot.connectionState != ConnectionState.done
-                    ? const Loading()
-                    : _buildSubscriptionOptions(snapshot.data),
+            child: snapshot.connectionState != ConnectionState.done
+                ? const Loading()
+                : _buildSubscriptionOptions(snapshot.data),
           );
         },
       );
@@ -215,10 +214,9 @@ class ProPageState extends State<ProPage> {
     String? dialogMessage;
     switch (result) {
       case RestoreSubscriptionResult.noSubscriptionsFound:
-        dialogMessage =
-            IoWrapper.get.isAndroid
-                ? strings.proPageRestoreNoneFoundGooglePlay
-                : strings.proPageRestoreNoneFoundAppStore;
+        dialogMessage = IoWrapper.get.isAndroid
+            ? strings.proPageRestoreNoneFoundGooglePlay
+            : strings.proPageRestoreNoneFoundAppStore;
         break;
       case RestoreSubscriptionResult.error:
         dialogMessage = strings.proPageRestoreError;

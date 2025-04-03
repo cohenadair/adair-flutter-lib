@@ -2,7 +2,7 @@ import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test_utils/widget.dart';
+import '../test_utils/testable.dart';
 
 void main() {
   testWidgets("Centered content", (tester) async {

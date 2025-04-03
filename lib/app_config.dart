@@ -16,12 +16,12 @@ class AppConfig {
 
   late final StringCallback appName;
   late final IconData appIcon;
-  late final Color colorAppTheme;
+  late final MaterialColor colorAppTheme;
 
   void init({
     required StringCallback appName,
     IconData? appIcon,
-    Color? colorAppTheme,
+    MaterialColor? colorAppTheme,
   }) {
     this.appName = appName;
     this.appIcon = appIcon ?? Icons.not_interested;

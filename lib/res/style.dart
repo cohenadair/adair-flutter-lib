@@ -12,8 +12,8 @@ TextStyle styleTitle2(BuildContext context) =>
     TextStyle(fontSize: 24, color: context.colorText);
 
 TextStyle styleHyperlink(BuildContext context) => stylePrimary(
-  context,
-).copyWith(color: Colors.blue, decoration: TextDecoration.underline);
+      context,
+    ).copyWith(color: Colors.blue, decoration: TextDecoration.underline);
 
 TextStyle styleError(BuildContext context) =>
     stylePrimary(context).copyWith(color: Colors.red);
@@ -28,11 +28,10 @@ TextStyle styleSecondarySubtext(BuildContext context) =>
 
 TextStyle stylePrimary(BuildContext context, {bool enabled = true}) {
   return Theme.of(context).textTheme.titleMedium!.copyWith(
-    color:
-        enabled
+        color: enabled
             ? Theme.of(context).textTheme.titleMedium!.color
             : Theme.of(context).disabledColor,
-  );
+      );
 }
 
 TextStyle styleSecondary(BuildContext context) =>

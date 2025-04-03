@@ -24,14 +24,14 @@ class Loading extends StatelessWidget {
 
   /// A [Loading] widget to be used in an [AppBar].
   const Loading.appBar()
-    : this(
-        padding: const EdgeInsets.only(
-          right: paddingDefault,
-          top: paddingDefault,
-        ),
-        isCentered: true,
-        isAppBar: true,
-      );
+      : this(
+          padding: const EdgeInsets.only(
+            right: paddingDefault,
+            top: paddingDefault,
+          ),
+          isCentered: true,
+          isAppBar: true,
+        );
 
   @override
   Widget build(BuildContext context) {

@@ -10,8 +10,8 @@ import '../test_utils/stubbed_managers.dart';
 void main() {
   late StubbedManagers managers;
 
-  setUp(() {
-    managers = StubbedManagers();
+  setUp(() async {
+    managers = await StubbedManagers.create();
     when(managers.propertiesManager.revenueCatApiKey).thenReturn("");
 
     when(
