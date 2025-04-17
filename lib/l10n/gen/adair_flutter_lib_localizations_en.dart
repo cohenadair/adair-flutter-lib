@@ -158,7 +158,7 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
       'Congratulations, you are now a Pro user!';
 
   @override
-  String get proPageRestoreQuestion => 'Purchased Pro on another device?';
+  String get proPageRestoreQuestion => 'Subscribed to Pro on another device?';
 
   @override
   String get proPageRestoreAction => 'Restore.';

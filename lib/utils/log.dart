@@ -14,8 +14,8 @@ class Log {
     _log("D/$_prefix$msg");
   }
 
-  void e(StackTrace stackTrace, String msg) {
-    _log("E/$_prefix$msg", stackTrace);
+  void e(String msg) {
+    _log("E/$_prefix$msg", StackTrace.current);
   }
 
   void w(String msg) {
@@ -49,7 +49,7 @@ class Log {
   void _logElapsed(String tag, Stopwatch watch, int msThreshold) {
     var elapsed = watch.elapsed.inMilliseconds;
     if (elapsed > msThreshold) {
-      e(StackTrace.current, "$tag exceeded threshold: ${elapsed}ms");
+      e("$tag exceeded threshold: ${elapsed}ms");
     } else {
       d("$tag took ${elapsed}ms");
     }

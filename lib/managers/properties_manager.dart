@@ -19,6 +19,8 @@ class PropertiesManager {
 
   final String _keyClientSenderEmail = "clientSender.email";
   final String _keyRevenueCatApiKey = "revenueCat.apiKey";
+  final String _keyRevenueCatGoogleApiKey = "revenueCat.googleApiKey";
+  final String _keyRevenueCatAppleApiKey = "revenueCat.appleApiKey";
   final String _keySupportEmail = "support.email";
   final String _keySendGridApiKey = "sendGrid.apikey";
 
@@ -36,7 +38,14 @@ class PropertiesManager {
   String get clientSenderEmail =>
       _properties.stringForKey(_keyClientSenderEmail);
 
+  @Deprecated("Use revenueCatGoogleApiKey and revenueCatAppleApiKey")
   String get revenueCatApiKey => _properties.stringForKey(_keyRevenueCatApiKey);
+
+  String get revenueCatGoogleApiKey =>
+      _properties.stringForKey(_keyRevenueCatGoogleApiKey);
+
+  String get revenueCatAppleApiKey =>
+      _properties.stringForKey(_keyRevenueCatAppleApiKey);
 
   String get supportEmail => _properties.stringForKey(_keySupportEmail);
 

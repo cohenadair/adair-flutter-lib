@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,8 @@ import '../utils/void_stream_controller.dart';
 import '../wrappers/crashlytics_wrapper.dart';
 import '../wrappers/purchases_wrapper.dart';
 import 'properties_manager.dart';
+
+final _log = const Log("SubscriptionManager");
 
 enum SubscriptionState { pro, free }
 
@@ -38,10 +41,6 @@ class SubscriptionManager {
   static const _debugPurchases = true;
   static const _idProEntitlement = "pro";
 
-  static const _trialDaysYearly = 30;
-  static const _trialDaysMonthly = 7;
-
-  final _log = const Log("SubscriptionManager");
   final _controller = VoidStreamController();
 
   var _state = SubscriptionState.free;
@@ -61,7 +60,9 @@ class SubscriptionManager {
   Future<void> init() async {
     // Setup RevenueCat.
     await PurchasesWrapper.get.configure(
-      PropertiesManager.get.revenueCatApiKey,
+      IoWrapper.get.isAndroid
+          ? PropertiesManager.get.revenueCatGoogleApiKey
+          : PropertiesManager.get.revenueCatAppleApiKey,
     );
     PurchasesWrapper.get.setLogLevel(
       _debugPurchases ? LogLevel.verbose : LogLevel.error,
@@ -89,7 +90,7 @@ class SubscriptionManager {
           code == PurchasesErrorCode.receiptAlreadyInUseError) {
         return;
       }
-      _log.e(StackTrace.current, "Purchase info error: ${e.message}");
+      _log.e("Purchase info error: ${e.message}");
     }
   }
 
@@ -104,7 +105,7 @@ class SubscriptionManager {
       var code = PurchasesErrorHelper.getErrorCode(e);
       if (code != PurchasesErrorCode.purchaseCancelledError &&
           code != PurchasesErrorCode.storeProblemError) {
-        _log.e(StackTrace.current, "Purchase error: ${e.message}");
+        _log.e("Purchase error: ${e.message}");
       }
     }
   }
@@ -116,7 +117,7 @@ class SubscriptionManager {
           ? RestoreSubscriptionResult.noSubscriptionsFound
           : RestoreSubscriptionResult.success;
     } on PlatformException catch (e) {
-      _log.e(StackTrace.current, "Purchase restore error: ${e.message}");
+      _log.e("Purchase restore error: ${e.message}");
       return RestoreSubscriptionResult.error;
     }
   }
@@ -125,18 +126,18 @@ class SubscriptionManager {
     var offerings = await PurchasesWrapper.get.getOfferings();
 
     if (offerings.current == null) {
-      _log.e(StackTrace.current, "Current offering is null");
+      _log.e("Current offering is null");
       return null;
     }
 
     if (offerings.current!.availablePackages.isEmpty) {
-      _log.e(StackTrace.current, "Current offering has no available packages");
+      _log.e("Current offering has no available packages");
       return null;
     }
 
     return Subscriptions(
-      Subscription(offerings.current!.monthly!, _trialDaysMonthly),
-      Subscription(offerings.current!.annual!, _trialDaysYearly),
+      Subscription(offerings.current!.monthly!),
+      Subscription(offerings.current!.annual!),
     );
   }
 
@@ -160,11 +161,28 @@ class SubscriptionManager {
 
 class Subscription {
   final Package package;
-  final int trialLengthDays;
 
-  Subscription(this.package, this.trialLengthDays);
+  Subscription(this.package);
 
   String get price => package.storeProduct.priceString;
+
+  int get trialLengthDays {
+    var unit = package.storeProduct.introductoryPrice!.periodUnit;
+
+    switch (package.storeProduct.introductoryPrice!.periodUnit) {
+      case PeriodUnit.day:
+        return 1;
+      case PeriodUnit.week:
+        return 7;
+      case PeriodUnit.month:
+        return 30;
+      case PeriodUnit.year:
+        return 365;
+      case PeriodUnit.unknown:
+        _log.e("Invalid period unit found: $unit");
+        return 0;
+    }
+  }
 }
 
 /// A convenience class that stores subscription options. A single class like

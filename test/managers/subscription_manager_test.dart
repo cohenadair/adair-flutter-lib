@@ -12,7 +12,10 @@ void main() {
 
   setUp(() async {
     managers = await StubbedManagers.create();
-    when(managers.propertiesManager.revenueCatApiKey).thenReturn("");
+
+    when(managers.ioWrapper.isAndroid).thenReturn(false);
+
+    when(managers.propertiesManager.revenueCatAppleApiKey).thenReturn("");
 
     when(
       managers.purchasesWrapper.configure(any),
@@ -29,6 +32,42 @@ void main() {
     ).thenAnswer((_) => Future.value(MockCustomerInfo()));
 
     SubscriptionManager.reset();
+  });
+
+  MockCustomerInfo stubbedCustomerInfo() {
+    var entitlementInfo = MockEntitlementInfo();
+    when(entitlementInfo.isActive).thenReturn(true);
+
+    var entitlementInfos = MockEntitlementInfos();
+    when(entitlementInfos.all).thenReturn({"pro": entitlementInfo});
+
+    var customerInfo = MockCustomerInfo();
+    when(customerInfo.entitlements).thenReturn(entitlementInfos);
+    when(customerInfo.originalAppUserId).thenReturn("user-id");
+
+    return customerInfo;
+  }
+
+  test("Initialize for Android", () async {
+    when(managers.purchasesWrapper.getCustomerInfo())
+        .thenAnswer((_) => Future.value(stubbedCustomerInfo()));
+    when(managers.ioWrapper.isAndroid).thenReturn(true);
+    when(managers.propertiesManager.revenueCatGoogleApiKey).thenReturn("G");
+
+    await SubscriptionManager.get.init();
+    verify(managers.propertiesManager.revenueCatGoogleApiKey).called(1);
+    verifyNever(managers.propertiesManager.revenueCatAppleApiKey);
+  });
+
+  test("Initialize for iOS", () async {
+    when(managers.purchasesWrapper.getCustomerInfo())
+        .thenAnswer((_) => Future.value(stubbedCustomerInfo()));
+    when(managers.ioWrapper.isAndroid).thenReturn(false);
+    when(managers.propertiesManager.revenueCatAppleApiKey).thenReturn("A");
+
+    await SubscriptionManager.get.init();
+    verify(managers.propertiesManager.revenueCatAppleApiKey).called(1);
+    verifyNever(managers.propertiesManager.revenueCatGoogleApiKey);
   });
 
   test("Initialize ignores network error", () async {
@@ -93,18 +132,9 @@ void main() {
   });
 
   test("Successful restore error sets state to pro", () async {
-    var entitlementInfo = MockEntitlementInfo();
-    when(entitlementInfo.isActive).thenReturn(true);
-
-    var entitlementInfos = MockEntitlementInfos();
-    when(entitlementInfos.all).thenReturn({"pro": entitlementInfo});
-
-    var purchaserInfo = MockCustomerInfo();
-    when(purchaserInfo.entitlements).thenReturn(entitlementInfos);
-
     when(
       managers.purchasesWrapper.restorePurchases(),
-    ).thenAnswer((_) => Future.value(purchaserInfo));
+    ).thenAnswer((_) => Future.value(stubbedCustomerInfo()));
 
     var restoreResult = await SubscriptionManager.get.restoreSubscription();
     expect(restoreResult, RestoreSubscriptionResult.success);

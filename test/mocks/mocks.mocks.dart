@@ -7,21 +7,22 @@ import 'dart:async' as _i13;
 import 'dart:io' as _i18;
 
 import 'package:adair_flutter_lib/app_config.dart' as _i9;
-import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i21;
-import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i23;
+import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i22;
+import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i24;
 import 'package:adair_flutter_lib/managers/time_manager.dart' as _i8;
 import 'package:adair_flutter_lib/utils/string.dart' as _i10;
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i12;
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i17;
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart'
-    as _i19;
-import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i22;
+    as _i20;
+import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i23;
 import 'package:flutter/material.dart' as _i2;
-import 'package:flutter/services.dart' as _i20;
+import 'package:flutter/services.dart' as _i21;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i11;
 import 'package:purchases_flutter/models/entitlement_info_wrapper.dart' as _i5;
 import 'package:purchases_flutter/models/entitlement_infos_wrapper.dart' as _i3;
+import 'package:purchases_flutter/models/period_unit.dart' as _i19;
 import 'package:purchases_flutter/models/store.dart' as _i15;
 import 'package:purchases_flutter/models/store_transaction.dart' as _i14;
 import 'package:purchases_flutter/models/verification_result.dart' as _i16;
@@ -77,69 +78,75 @@ class _Fake$EntitlementInfosCopyWith_5<$Res> extends _i1.SmartFake
       : super(parent, parentInvocation);
 }
 
-class _FakeCustomerInfo_6 extends _i1.SmartFake implements _i4.CustomerInfo {
-  _FakeCustomerInfo_6(Object parent, Invocation parentInvocation)
+class _Fake$IntroductoryPriceCopyWith_6<$Res> extends _i1.SmartFake
+    implements _i4.$IntroductoryPriceCopyWith<$Res> {
+  _Fake$IntroductoryPriceCopyWith_6(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _Fake$OfferingCopyWith_7<$Res> extends _i1.SmartFake
+class _FakeCustomerInfo_7 extends _i1.SmartFake implements _i4.CustomerInfo {
+  _FakeCustomerInfo_7(Object parent, Invocation parentInvocation)
+      : super(parent, parentInvocation);
+}
+
+class _Fake$OfferingCopyWith_8<$Res> extends _i1.SmartFake
     implements _i4.$OfferingCopyWith<$Res> {
-  _Fake$OfferingCopyWith_7(Object parent, Invocation parentInvocation)
+  _Fake$OfferingCopyWith_8(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _Fake$OfferingsCopyWith_8<$Res> extends _i1.SmartFake
+class _Fake$OfferingsCopyWith_9<$Res> extends _i1.SmartFake
     implements _i4.$OfferingsCopyWith<$Res> {
-  _Fake$OfferingsCopyWith_8(Object parent, Invocation parentInvocation)
+  _Fake$OfferingsCopyWith_9(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeStoreProduct_9 extends _i1.SmartFake implements _i4.StoreProduct {
-  _FakeStoreProduct_9(Object parent, Invocation parentInvocation)
+class _FakeStoreProduct_10 extends _i1.SmartFake implements _i4.StoreProduct {
+  _FakeStoreProduct_10(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakePresentedOfferingContext_10 extends _i1.SmartFake
+class _FakePresentedOfferingContext_11 extends _i1.SmartFake
     implements _i4.PresentedOfferingContext {
-  _FakePresentedOfferingContext_10(Object parent, Invocation parentInvocation)
+  _FakePresentedOfferingContext_11(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _Fake$PackageCopyWith_11<$Res> extends _i1.SmartFake
+class _Fake$PackageCopyWith_12<$Res> extends _i1.SmartFake
     implements _i4.$PackageCopyWith<$Res> {
-  _Fake$PackageCopyWith_11(Object parent, Invocation parentInvocation)
+  _Fake$PackageCopyWith_12(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeOfferings_12 extends _i1.SmartFake implements _i4.Offerings {
-  _FakeOfferings_12(Object parent, Invocation parentInvocation)
+class _FakeOfferings_13 extends _i1.SmartFake implements _i4.Offerings {
+  _FakeOfferings_13(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeLogInResult_13 extends _i1.SmartFake implements _i6.LogInResult {
-  _FakeLogInResult_13(Object parent, Invocation parentInvocation)
+class _FakeLogInResult_14 extends _i1.SmartFake implements _i6.LogInResult {
+  _FakeLogInResult_14(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _Fake$StoreProductCopyWith_14<$Res> extends _i1.SmartFake
+class _Fake$StoreProductCopyWith_15<$Res> extends _i1.SmartFake
     implements _i4.$StoreProductCopyWith<$Res> {
-  _Fake$StoreProductCopyWith_14(Object parent, Invocation parentInvocation)
+  _Fake$StoreProductCopyWith_15(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeTZDateTime_15 extends _i1.SmartFake implements _i7.TZDateTime {
-  _FakeTZDateTime_15(Object parent, Invocation parentInvocation)
+class _FakeTZDateTime_16 extends _i1.SmartFake implements _i7.TZDateTime {
+  _FakeTZDateTime_16(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeTimeZoneLocation_16 extends _i1.SmartFake
+class _FakeTimeZoneLocation_17 extends _i1.SmartFake
     implements _i8.TimeZoneLocation {
-  _FakeTimeZoneLocation_16(Object parent, Invocation parentInvocation)
+  _FakeTimeZoneLocation_17(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
-class _FakeTimeOfDay_17 extends _i1.SmartFake implements _i2.TimeOfDay {
-  _FakeTimeOfDay_17(Object parent, Invocation parentInvocation)
+class _FakeTimeOfDay_18 extends _i1.SmartFake implements _i2.TimeOfDay {
+  _FakeTimeOfDay_18(Object parent, Invocation parentInvocation)
       : super(parent, parentInvocation);
 }
 
@@ -506,6 +513,70 @@ class MockIoWrapper extends _i1.Mock implements _i17.IoWrapper {
       ) as _i13.Future<List<_i18.InternetAddress>>);
 }
 
+/// A class which mocks [IntroductoryPrice].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIntroductoryPrice extends _i1.Mock implements _i4.IntroductoryPrice {
+  MockIntroductoryPrice() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  double get price =>
+      (super.noSuchMethod(Invocation.getter(#price), returnValue: 0.0)
+          as double);
+
+  @override
+  String get priceString => (super.noSuchMethod(
+        Invocation.getter(#priceString),
+        returnValue: _i11.dummyValue<String>(
+          this,
+          Invocation.getter(#priceString),
+        ),
+      ) as String);
+
+  @override
+  String get period => (super.noSuchMethod(
+        Invocation.getter(#period),
+        returnValue: _i11.dummyValue<String>(
+          this,
+          Invocation.getter(#period),
+        ),
+      ) as String);
+
+  @override
+  int get cycles =>
+      (super.noSuchMethod(Invocation.getter(#cycles), returnValue: 0) as int);
+
+  @override
+  _i19.PeriodUnit get periodUnit => (super.noSuchMethod(
+        Invocation.getter(#periodUnit),
+        returnValue: _i19.PeriodUnit.day,
+      ) as _i19.PeriodUnit);
+
+  @override
+  int get periodNumberOfUnits => (super.noSuchMethod(
+        Invocation.getter(#periodNumberOfUnits),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  _i4.$IntroductoryPriceCopyWith<_i4.IntroductoryPrice> get copyWith =>
+      (super.noSuchMethod(
+        Invocation.getter(#copyWith),
+        returnValue: _Fake$IntroductoryPriceCopyWith_6<_i4.IntroductoryPrice>(
+          this,
+          Invocation.getter(#copyWith),
+        ),
+      ) as _i4.$IntroductoryPriceCopyWith<_i4.IntroductoryPrice>);
+
+  @override
+  Map<String, dynamic> toJson() => (super.noSuchMethod(
+        Invocation.method(#toJson, []),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+}
+
 /// A class which mocks [LogInResult].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -522,7 +593,7 @@ class MockLogInResult extends _i1.Mock implements _i6.LogInResult {
   @override
   _i4.CustomerInfo get customerInfo => (super.noSuchMethod(
         Invocation.getter(#customerInfo),
-        returnValue: _FakeCustomerInfo_6(
+        returnValue: _FakeCustomerInfo_7(
           this,
           Invocation.getter(#customerInfo),
         ),
@@ -533,7 +604,7 @@ class MockLogInResult extends _i1.Mock implements _i6.LogInResult {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNativeTimeZoneWrapper extends _i1.Mock
-    implements _i19.NativeTimeZoneWrapper {
+    implements _i20.NativeTimeZoneWrapper {
   MockNativeTimeZoneWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -597,7 +668,7 @@ class MockOffering extends _i1.Mock implements _i4.Offering {
   @override
   _i4.$OfferingCopyWith<_i4.Offering> get copyWith => (super.noSuchMethod(
         Invocation.getter(#copyWith),
-        returnValue: _Fake$OfferingCopyWith_7<_i4.Offering>(
+        returnValue: _Fake$OfferingCopyWith_8<_i4.Offering>(
           this,
           Invocation.getter(#copyWith),
         ),
@@ -632,7 +703,7 @@ class MockOfferings extends _i1.Mock implements _i4.Offerings {
   @override
   _i4.$OfferingsCopyWith<_i4.Offerings> get copyWith => (super.noSuchMethod(
         Invocation.getter(#copyWith),
-        returnValue: _Fake$OfferingsCopyWith_8<_i4.Offerings>(
+        returnValue: _Fake$OfferingsCopyWith_9<_i4.Offerings>(
           this,
           Invocation.getter(#copyWith),
         ),
@@ -676,7 +747,7 @@ class MockPackage extends _i1.Mock implements _i4.Package {
   @override
   _i4.StoreProduct get storeProduct => (super.noSuchMethod(
         Invocation.getter(#storeProduct),
-        returnValue: _FakeStoreProduct_9(
+        returnValue: _FakeStoreProduct_10(
           this,
           Invocation.getter(#storeProduct),
         ),
@@ -686,7 +757,7 @@ class MockPackage extends _i1.Mock implements _i4.Package {
   _i4.PresentedOfferingContext get presentedOfferingContext =>
       (super.noSuchMethod(
         Invocation.getter(#presentedOfferingContext),
-        returnValue: _FakePresentedOfferingContext_10(
+        returnValue: _FakePresentedOfferingContext_11(
           this,
           Invocation.getter(#presentedOfferingContext),
         ),
@@ -695,7 +766,7 @@ class MockPackage extends _i1.Mock implements _i4.Package {
   @override
   _i4.$PackageCopyWith<_i4.Package> get copyWith => (super.noSuchMethod(
         Invocation.getter(#copyWith),
-        returnValue: _Fake$PackageCopyWith_11<_i4.Package>(
+        returnValue: _Fake$PackageCopyWith_12<_i4.Package>(
           this,
           Invocation.getter(#copyWith),
         ),
@@ -711,7 +782,7 @@ class MockPackage extends _i1.Mock implements _i4.Package {
 /// A class which mocks [PlatformException].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlatformException extends _i1.Mock implements _i20.PlatformException {
+class MockPlatformException extends _i1.Mock implements _i21.PlatformException {
   MockPlatformException() {
     _i1.throwOnMissingStub(this);
   }
@@ -729,7 +800,7 @@ class MockPlatformException extends _i1.Mock implements _i20.PlatformException {
 /// A class which mocks [PropertiesManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPropertiesManager extends _i1.Mock implements _i21.PropertiesManager {
+class MockPropertiesManager extends _i1.Mock implements _i22.PropertiesManager {
   MockPropertiesManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -749,6 +820,24 @@ class MockPropertiesManager extends _i1.Mock implements _i21.PropertiesManager {
         returnValue: _i11.dummyValue<String>(
           this,
           Invocation.getter(#revenueCatApiKey),
+        ),
+      ) as String);
+
+  @override
+  String get revenueCatGoogleApiKey => (super.noSuchMethod(
+        Invocation.getter(#revenueCatGoogleApiKey),
+        returnValue: _i11.dummyValue<String>(
+          this,
+          Invocation.getter(#revenueCatGoogleApiKey),
+        ),
+      ) as String);
+
+  @override
+  String get revenueCatAppleApiKey => (super.noSuchMethod(
+        Invocation.getter(#revenueCatAppleApiKey),
+        returnValue: _i11.dummyValue<String>(
+          this,
+          Invocation.getter(#revenueCatAppleApiKey),
         ),
       ) as String);
 
@@ -790,7 +879,7 @@ class MockPropertiesManager extends _i1.Mock implements _i21.PropertiesManager {
 /// A class which mocks [PurchasesWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
+class MockPurchasesWrapper extends _i1.Mock implements _i23.PurchasesWrapper {
   MockPurchasesWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -827,7 +916,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
   _i13.Future<_i4.Offerings> getOfferings() => (super.noSuchMethod(
         Invocation.method(#getOfferings, []),
         returnValue: _i13.Future<_i4.Offerings>.value(
-          _FakeOfferings_12(this, Invocation.method(#getOfferings, [])),
+          _FakeOfferings_13(this, Invocation.method(#getOfferings, [])),
         ),
       ) as _i13.Future<_i4.Offerings>);
 
@@ -835,7 +924,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
   _i13.Future<_i4.CustomerInfo> getCustomerInfo() => (super.noSuchMethod(
         Invocation.method(#getCustomerInfo, []),
         returnValue: _i13.Future<_i4.CustomerInfo>.value(
-          _FakeCustomerInfo_6(
+          _FakeCustomerInfo_7(
             this,
             Invocation.method(#getCustomerInfo, []),
           ),
@@ -846,7 +935,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
   _i13.Future<_i6.LogInResult> logIn(String? appUserId) => (super.noSuchMethod(
         Invocation.method(#logIn, [appUserId]),
         returnValue: _i13.Future<_i6.LogInResult>.value(
-          _FakeLogInResult_13(this, Invocation.method(#logIn, [appUserId])),
+          _FakeLogInResult_14(this, Invocation.method(#logIn, [appUserId])),
         ),
       ) as _i13.Future<_i6.LogInResult>);
 
@@ -855,7 +944,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
       (super.noSuchMethod(
         Invocation.method(#purchasePackage, [package]),
         returnValue: _i13.Future<_i4.CustomerInfo>.value(
-          _FakeCustomerInfo_6(
+          _FakeCustomerInfo_7(
             this,
             Invocation.method(#purchasePackage, [package]),
           ),
@@ -866,7 +955,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
   _i13.Future<_i4.CustomerInfo> logOut() => (super.noSuchMethod(
         Invocation.method(#logOut, []),
         returnValue: _i13.Future<_i4.CustomerInfo>.value(
-          _FakeCustomerInfo_6(this, Invocation.method(#logOut, [])),
+          _FakeCustomerInfo_7(this, Invocation.method(#logOut, [])),
         ),
       ) as _i13.Future<_i4.CustomerInfo>);
 
@@ -874,7 +963,7 @@ class MockPurchasesWrapper extends _i1.Mock implements _i22.PurchasesWrapper {
   _i13.Future<_i4.CustomerInfo> restorePurchases() => (super.noSuchMethod(
         Invocation.method(#restorePurchases, []),
         returnValue: _i13.Future<_i4.CustomerInfo>.value(
-          _FakeCustomerInfo_6(
+          _FakeCustomerInfo_7(
             this,
             Invocation.method(#restorePurchases, []),
           ),
@@ -944,7 +1033,7 @@ class MockStoreProduct extends _i1.Mock implements _i4.StoreProduct {
   _i4.$StoreProductCopyWith<_i4.StoreProduct> get copyWith =>
       (super.noSuchMethod(
         Invocation.getter(#copyWith),
-        returnValue: _Fake$StoreProductCopyWith_14<_i4.StoreProduct>(
+        returnValue: _Fake$StoreProductCopyWith_15<_i4.StoreProduct>(
           this,
           Invocation.getter(#copyWith),
         ),
@@ -961,7 +1050,7 @@ class MockStoreProduct extends _i1.Mock implements _i4.StoreProduct {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionManager extends _i1.Mock
-    implements _i23.SubscriptionManager {
+    implements _i24.SubscriptionManager {
   MockSubscriptionManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -998,7 +1087,7 @@ class MockSubscriptionManager extends _i1.Mock
       ) as _i13.Future<void>);
 
   @override
-  _i13.Future<void> purchaseSubscription(_i23.Subscription? sub) =>
+  _i13.Future<void> purchaseSubscription(_i24.Subscription? sub) =>
       (super.noSuchMethod(
         Invocation.method(#purchaseSubscription, [sub]),
         returnValue: _i13.Future<void>.value(),
@@ -1006,19 +1095,19 @@ class MockSubscriptionManager extends _i1.Mock
       ) as _i13.Future<void>);
 
   @override
-  _i13.Future<_i23.RestoreSubscriptionResult> restoreSubscription() =>
+  _i13.Future<_i24.RestoreSubscriptionResult> restoreSubscription() =>
       (super.noSuchMethod(
         Invocation.method(#restoreSubscription, []),
-        returnValue: _i13.Future<_i23.RestoreSubscriptionResult>.value(
-          _i23.RestoreSubscriptionResult.noSubscriptionsFound,
+        returnValue: _i13.Future<_i24.RestoreSubscriptionResult>.value(
+          _i24.RestoreSubscriptionResult.noSubscriptionsFound,
         ),
-      ) as _i13.Future<_i23.RestoreSubscriptionResult>);
+      ) as _i13.Future<_i24.RestoreSubscriptionResult>);
 
   @override
-  _i13.Future<_i23.Subscriptions?> subscriptions() => (super.noSuchMethod(
+  _i13.Future<_i24.Subscriptions?> subscriptions() => (super.noSuchMethod(
         Invocation.method(#subscriptions, []),
-        returnValue: _i13.Future<_i23.Subscriptions?>.value(),
-      ) as _i13.Future<_i23.Subscriptions?>);
+        returnValue: _i13.Future<_i24.Subscriptions?>.value(),
+      ) as _i13.Future<_i24.Subscriptions?>);
 }
 
 /// A class which mocks [TimeManager].
@@ -1032,7 +1121,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   @override
   _i7.TZDateTime get currentDateTime => (super.noSuchMethod(
         Invocation.getter(#currentDateTime),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.getter(#currentDateTime),
         ),
@@ -1041,7 +1130,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   @override
   _i8.TimeZoneLocation get currentLocation => (super.noSuchMethod(
         Invocation.getter(#currentLocation),
-        returnValue: _FakeTimeZoneLocation_16(
+        returnValue: _FakeTimeZoneLocation_17(
           this,
           Invocation.getter(#currentLocation),
         ),
@@ -1050,7 +1139,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   @override
   _i2.TimeOfDay get currentTime => (super.noSuchMethod(
         Invocation.getter(#currentTime),
-        returnValue: _FakeTimeOfDay_17(
+        returnValue: _FakeTimeOfDay_18(
           this,
           Invocation.getter(#currentTime),
         ),
@@ -1091,7 +1180,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   _i7.TZDateTime dateTime(int? timestamp, [String? timeZone]) =>
       (super.noSuchMethod(
         Invocation.method(#dateTime, [timestamp, timeZone]),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.method(#dateTime, [timestamp, timeZone]),
         ),
@@ -1107,7 +1196,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
           timestampSeconds,
           timeZone,
         ]),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.method(#dateTimeFromSeconds, [
             timestampSeconds,
@@ -1140,7 +1229,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
           microsecond,
           timeZone,
         ]),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.method(#dateTimeFromValues, [
             year,
@@ -1159,7 +1248,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   @override
   _i7.TZDateTime dateTimeToTz(DateTime? dateTime) => (super.noSuchMethod(
         Invocation.method(#dateTimeToTz, [dateTime]),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.method(#dateTimeToTz, [dateTime]),
         ),
@@ -1168,7 +1257,7 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
   @override
   _i7.TZDateTime now([String? timeZone]) => (super.noSuchMethod(
         Invocation.method(#now, [timeZone]),
-        returnValue: _FakeTZDateTime_15(
+        returnValue: _FakeTZDateTime_16(
           this,
           Invocation.method(#now, [timeZone]),
         ),

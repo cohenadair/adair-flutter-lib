@@ -68,9 +68,7 @@ abstract class AdairFlutterLibLocalizations {
 
   static AdairFlutterLibLocalizations of(BuildContext context) {
     return Localizations.of<AdairFlutterLibLocalizations>(
-      context,
-      AdairFlutterLibLocalizations,
-    )!;
+        context, AdairFlutterLibLocalizations)!;
   }
 
   static const LocalizationsDelegate<AdairFlutterLibLocalizations> delegate =
@@ -97,7 +95,7 @@ abstract class AdairFlutterLibLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('en', 'US'),
+    Locale('en', 'US')
   ];
 
   /// No description provided for @cancel.
@@ -349,7 +347,7 @@ abstract class AdairFlutterLibLocalizations {
   /// No description provided for @proPageRestoreQuestion.
   ///
   /// In en, this message translates to:
-  /// **'Purchased Pro on another device?'**
+  /// **'Subscribed to Pro on another device?'**
   String get proPageRestoreQuestion;
 
   /// No description provided for @proPageRestoreAction.
@@ -396,8 +394,7 @@ class _AdairFlutterLibLocalizationsDelegate
   @override
   Future<AdairFlutterLibLocalizations> load(Locale locale) {
     return SynchronousFuture<AdairFlutterLibLocalizations>(
-      lookupAdairFlutterLibLocalizations(locale),
-    );
+        lookupAdairFlutterLibLocalizations(locale));
   }
 
   @override
@@ -428,9 +425,8 @@ AdairFlutterLibLocalizations lookupAdairFlutterLibLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-    'AdairFlutterLibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-    'an issue with the localizations generation tool. Please file an issue '
-    'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
-  );
+      'AdairFlutterLibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+      'an issue with the localizations generation tool. Please file an issue '
+      'on GitHub with a reproducible sample app and the gen-l10n configuration '
+      'that was used.');
 }

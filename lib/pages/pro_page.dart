@@ -23,11 +23,13 @@ class ProPage extends StatefulWidget {
   final List<ProPageFeatureRow> features;
   final VoidCallback? onCloseOverride;
   final bool isEmbeddedInScrollPage;
+  final EdgeInsets logoPadding;
 
   const ProPage({
     this.features = const [],
     this.onCloseOverride,
     this.isEmbeddedInScrollPage = true,
+    this.logoPadding = insetsVerticalDefault,
   });
 
   @override
@@ -51,10 +53,13 @@ class ProPageState extends State<ProPage> {
   Widget build(BuildContext context) {
     var children = [
       const VerticalSpace(paddingDefault),
-      Icon(
-        AppConfig.get.appIcon,
-        size: _logoHeight,
-        color: AppConfig.get.colorAppTheme,
+      Padding(
+        padding: widget.logoPadding,
+        child: Icon(
+          AppConfig.get.appIcon,
+          size: _logoHeight,
+          color: AppConfig.get.colorAppTheme,
+        ),
       ),
       Text(
         Strings.of(context).proPageUpgradeTitle(AppConfig.get.appName(context)),
@@ -65,7 +70,10 @@ class ProPageState extends State<ProPage> {
       const VerticalSpace(paddingSmall),
       const AppColorIcon(Icons.stars),
       const VerticalSpace(paddingXL),
-      ...widget.features,
+      Column(
+        spacing: paddingDefault,
+        children: widget.features,
+      ),
       const VerticalSpace(paddingXL),
       _buildSubscriptionState(),
     ];
@@ -155,6 +163,7 @@ class ProPageState extends State<ProPage> {
         ),
         const VerticalSpace(paddingDefault),
         QuestionAnswerLink(
+          textAlign: TextAlign.center,
           question: Strings.of(context).proPageRestoreQuestion,
           actionText: Strings.of(context).proPageRestoreAction,
           action: _restoreSubscription,

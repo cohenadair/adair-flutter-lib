@@ -130,7 +130,7 @@
   "proPageMonthlySubtext": "Billed monthly",
   "proPageFetchError": "Unable to fetch subscription options. Please ensure your device is connected to the internet and try again.",
   "proPageUpgradeSuccess": "Congratulations, you are now a Pro user!",
-  "proPageRestoreQuestion": "Purchased Pro on another device?",
+  "proPageRestoreQuestion": "Subscribed to Pro on another device?",
   "proPageRestoreAction": "Restore.",
   "proPageRestoreNoneFoundAppStore": "There were no previous purchases found. Please ensure you are signed in to the same Apple ID with which you made the original purchase.",
   "proPageRestoreNoneFoundGooglePlay": "There were no previous purchases found. Please ensure you are signed in to the same Google account with which you made the original purchase.",

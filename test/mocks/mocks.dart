@@ -17,6 +17,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([EntitlementInfo])
 @GenerateMocks([EntitlementInfos])
 @GenerateMocks([IoWrapper])
+@GenerateMocks([IntroductoryPrice])
 @GenerateMocks([LogInResult])
 @GenerateMocks([NativeTimeZoneWrapper])
 @GenerateMocks([Offering])

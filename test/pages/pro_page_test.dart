@@ -5,6 +5,7 @@ import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../mocks/mocks.mocks.dart';
 import '../test_utils/finder.dart';
@@ -30,12 +31,18 @@ void main() {
     ).thenAnswer((_) => const Stream.empty());
     when(managers.subscriptionManager.isPro).thenReturn(false);
 
+    var monthlyIntroPrice = MockIntroductoryPrice();
+    when(monthlyIntroPrice.periodUnit).thenReturn(PeriodUnit.week);
     var monthlyProduct = MockStoreProduct();
+    when(monthlyProduct.introductoryPrice).thenReturn(monthlyIntroPrice);
     when(monthlyProduct.priceString).thenReturn("\$2.99");
     monthlyPackage = MockPackage();
     when(monthlyPackage.storeProduct).thenReturn(monthlyProduct);
 
+    var yearlyIntroPrice = MockIntroductoryPrice();
+    when(yearlyIntroPrice.periodUnit).thenReturn(PeriodUnit.month);
     var yearlyProduct = MockStoreProduct();
+    when(yearlyProduct.introductoryPrice).thenReturn(yearlyIntroPrice);
     when(yearlyProduct.priceString).thenReturn("\$19.99");
     yearlyPackage = MockPackage();
     when(yearlyPackage.storeProduct).thenReturn(yearlyProduct);
@@ -43,8 +50,8 @@ void main() {
     when(managers.subscriptionManager.subscriptions()).thenAnswer(
       (_) => Future.value(
         Subscriptions(
-          Subscription(monthlyPackage, 7),
-          Subscription(yearlyPackage, 14),
+          Subscription(monthlyPackage),
+          Subscription(yearlyPackage),
         ),
       ),
     );
@@ -57,8 +64,8 @@ void main() {
         (_) => Future.delayed(
           const Duration(milliseconds: 50),
           () => Subscriptions(
-            Subscription(monthlyPackage, 7),
-            Subscription(yearlyPackage, 14),
+            Subscription(monthlyPackage),
+            Subscription(yearlyPackage),
           ),
         ),
       );
@@ -82,8 +89,8 @@ void main() {
       when(managers.subscriptionManager.subscriptions()).thenAnswer(
         (_) => Future.value(
           Subscriptions(
-            Subscription(monthlyPackage, 7),
-            Subscription(yearlyPackage, 14),
+            Subscription(monthlyPackage),
+            Subscription(yearlyPackage),
           ),
         ),
       );
@@ -95,6 +102,13 @@ void main() {
 
       await tester.pumpAndSettle(const Duration(milliseconds: 50));
       await tester.ensureVisible(find.text("Billed monthly"));
+
+      expect(find.text("\$2.99/month"), findsOneWidget);
+      expect(find.text("\$19.99/year"), findsOneWidget);
+      expect(find.text("+30 days free"), findsOneWidget);
+      expect(find.text("+7 days free"), findsOneWidget);
+
+      // Test purchase.
       await tester.tap(find.text("Billed monthly"));
       await tester.pump();
 
@@ -149,8 +163,8 @@ void main() {
     when(managers.subscriptionManager.subscriptions()).thenAnswer(
       (_) => Future.value(
         Subscriptions(
-          Subscription(monthlyPackage, 7),
-          Subscription(yearlyPackage, 14),
+          Subscription(monthlyPackage),
+          Subscription(yearlyPackage),
         ),
       ),
     );
@@ -167,7 +181,7 @@ void main() {
     expect(
       tapRichTextContaining(
         tester,
-        "Purchased Pro on another device? Restore.",
+        "Subscribed to Pro on another device? Restore.",
         "Restore.",
       ),
       isTrue,
@@ -192,8 +206,8 @@ void main() {
     when(managers.subscriptionManager.subscriptions()).thenAnswer(
       (_) => Future.value(
         Subscriptions(
-          Subscription(monthlyPackage, 7),
-          Subscription(yearlyPackage, 14),
+          Subscription(monthlyPackage),
+          Subscription(yearlyPackage),
         ),
       ),
     );
@@ -210,7 +224,7 @@ void main() {
     expect(
       tapRichTextContaining(
         tester,
-        "Purchased Pro on another device? Restore.",
+        "Subscribed to Pro on another device? Restore.",
         "Restore.",
       ),
       isTrue,
@@ -239,8 +253,8 @@ void main() {
     when(managers.subscriptionManager.subscriptions()).thenAnswer(
       (_) => Future.value(
         Subscriptions(
-          Subscription(monthlyPackage, 7),
-          Subscription(yearlyPackage, 14),
+          Subscription(monthlyPackage),
+          Subscription(yearlyPackage),
         ),
       ),
     );
@@ -257,7 +271,7 @@ void main() {
     expect(
       tapRichTextContaining(
         tester,
-        "Purchased Pro on another device? Restore.",
+        "Subscribed to Pro on another device? Restore.",
         "Restore.",
       ),
       isTrue,
@@ -286,8 +300,8 @@ void main() {
     when(managers.subscriptionManager.subscriptions()).thenAnswer(
       (_) => Future.value(
         Subscriptions(
-          Subscription(monthlyPackage, 7),
-          Subscription(yearlyPackage, 14),
+          Subscription(monthlyPackage),
+          Subscription(yearlyPackage),
         ),
       ),
     );
@@ -304,7 +318,7 @@ void main() {
     expect(
       tapRichTextContaining(
         tester,
-        "Purchased Pro on another device? Restore.",
+        "Subscribed to Pro on another device? Restore.",
         "Restore.",
       ),
       isTrue,

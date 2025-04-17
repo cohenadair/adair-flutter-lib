@@ -10,11 +10,13 @@ import '../res/style.dart';
 class QuestionAnswerLink extends StatelessWidget {
   final String question;
   final String actionText;
+  final TextAlign textAlign;
   final VoidCallback? action;
 
   QuestionAnswerLink({
     required this.question,
     required this.actionText,
+    this.textAlign = TextAlign.start,
     this.action,
   })  : assert(isNotEmpty(question)),
         assert(isNotEmpty(actionText));
@@ -22,6 +24,7 @@ class QuestionAnswerLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textAlign: textAlign,
       text: TextSpan(
         children: [
           TextSpan(

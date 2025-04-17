@@ -33,6 +33,8 @@ class Loading extends StatelessWidget {
           isAppBar: true,
         );
 
+  const Loading.listItem() : this(isCentered: false, isAppBar: false);
+
   @override
   Widget build(BuildContext context) {
     var indicator = SizedBox.fromSize(
