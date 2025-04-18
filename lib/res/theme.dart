@@ -10,6 +10,8 @@ class AdairFlutterLibTheme {
   static ThemeData light() =>
       ThemeData.light(useMaterial3: useMaterial3).copyWith(
         primaryColor: AppConfig.get.colorAppTheme,
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: AppConfig.get.colorAppTheme),
         elevatedButtonTheme: _elevatedButtonTheme(),
       );
 
