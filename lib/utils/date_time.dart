@@ -5,8 +5,8 @@ import 'package:quiver/strings.dart';
 import 'package:quiver/time.dart';
 import 'package:timezone/timezone.dart';
 
+import '../l10n/l10n.dart';
 import '../managers/time_manager.dart';
-import '../src/strings.dart';
 
 const monthFormat = "MMMM";
 const monthDayFormat = "MMM d";
@@ -177,7 +177,7 @@ String formatHourRange(BuildContext context, int startHour, int endHour) {
   var start = TimeOfDay(hour: startHour, minute: 0);
   var end = TimeOfDay(hour: endHour, minute: 0);
 
-  return Strings.of(context).dateRangeFormat(
+  return L10n.get.lib.dateRangeFormat(
     formatTimeOfDay(context, start),
     formatTimeOfDay(context, end),
   );
@@ -216,9 +216,8 @@ String formatDateTime(
     return recentDate;
   }
 
-  return Strings.of(
-    context,
-  ).dateTimeFormat(recentDate, formatTimeOfDay(context, time));
+  return L10n.get.lib
+      .dateTimeFormat(recentDate, formatTimeOfDay(context, time));
 }
 
 String formatTimestamp(BuildContext context, int timestamp, String? timeZone) {
@@ -259,10 +258,10 @@ String formatDateAsRecent(
 
   if (isSameDate(dateTime, now)) {
     // Today.
-    return Strings.of(context).today;
+    return L10n.get.lib.today;
   } else if (isYesterday(now, dateTime)) {
     // Yesterday.
-    return Strings.of(context).yesterday;
+    return L10n.get.lib.yesterday;
   } else if (isWithinOneWeek(dateTime, now)) {
     // 2 days ago to 6 days ago.
     return DateFormat(abbreviated ? "E" : "EEEE").format(dateTime);

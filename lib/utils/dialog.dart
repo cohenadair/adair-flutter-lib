@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../src/strings.dart';
+import '../l10n/l10n.dart';
 
 void showDeleteDialog({
   required BuildContext context,
@@ -15,9 +15,9 @@ void showDeleteDialog({
         title: title == null ? null : Text(title),
         content: description == null ? null : Text(description),
         actions: <Widget>[
-          DialogButton(label: Strings.of(context).cancel),
+          DialogButton(label: L10n.get.lib.cancel),
           DialogButton(
-            label: Strings.of(context).delete,
+            label: L10n.get.lib.delete,
             textColor: Colors.red,
             onTap: onDelete,
           ),
@@ -36,12 +36,12 @@ void showWarningDialog({
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(Strings.of(context).warning),
+        title: Text(L10n.get.lib.warning),
         content: description == null ? null : Text(description),
         actions: <Widget>[
-          DialogButton(label: Strings.of(context).cancel),
+          DialogButton(label: L10n.get.lib.cancel),
           DialogButton(
-            label: Strings.of(context).continueString,
+            label: L10n.get.lib.continueString,
             textColor: Colors.red,
             onTap: onContinue,
           ),
@@ -57,7 +57,7 @@ void showErrorDialog({
 }) {
   showOkDialog(
     context: context,
-    title: Strings.of(context).error,
+    title: L10n.get.lib.error,
     description: description,
   );
 }
@@ -75,7 +75,7 @@ void showOkDialog({
         title: title == null ? null : Text(title),
         content: description == null ? null : Text(description),
         actions: <Widget>[
-          DialogButton(label: Strings.of(context).ok, onTap: onTapOk),
+          DialogButton(label: L10n.get.lib.ok, onTap: onTapOk),
         ],
       );
     },

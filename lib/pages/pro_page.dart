@@ -4,11 +4,11 @@ import 'package:adair_flutter_lib/widgets/app_color_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
+import '../l10n/l10n.dart';
 import '../managers/subscription_manager.dart';
 import '../res/anim.dart';
 import '../res/dimen.dart';
 import '../res/style.dart';
-import '../src/strings.dart';
 import '../utils/dialog.dart';
 import '../utils/widget.dart';
 import '../widgets/horizontal_space.dart';
@@ -62,11 +62,11 @@ class ProPageState extends State<ProPage> {
         ),
       ),
       Text(
-        Strings.of(context).proPageUpgradeTitle(AppConfig.get.appName(context)),
+        L10n.get.lib.proPageUpgradeTitle(AppConfig.get.appName(context)),
         style: styleTitle2(context),
       ),
       const VerticalSpace(paddingSmall),
-      TitleText.style1(Strings.of(context).proPageProTitle),
+      TitleText.style1(L10n.get.lib.proPageProTitle),
       const VerticalSpace(paddingSmall),
       const AppColorIcon(Icons.stars),
       const VerticalSpace(paddingXL),
@@ -110,7 +110,7 @@ class ProPageState extends State<ProPage> {
       child = const Loading();
     } else if (SubscriptionManager.get.isPro) {
       child = WorkResult.success(
-        description: Strings.of(context).proPageUpgradeSuccess,
+        description: L10n.get.lib.proPageUpgradeSuccess,
       );
     } else {
       child = FutureBuilder<Subscriptions?>(
@@ -132,7 +132,7 @@ class ProPageState extends State<ProPage> {
   Widget _buildSubscriptionOptions(Subscriptions? subscriptions) {
     if (subscriptions == null) {
       return WorkResult.error(
-        description: Strings.of(context).proPageFetchError,
+        description: L10n.get.lib.proPageFetchError,
       );
     }
 
@@ -147,16 +147,16 @@ class ProPageState extends State<ProPage> {
             children: [
               _buildSubscriptionButton(
                 sub: subscriptions.yearly,
-                priceText: Strings.of(context).proPageYearlyTitle,
-                trialText: Strings.of(context).proPageYearlyTrial,
-                billingFrequencyText: Strings.of(context).proPageYearlySubtext,
+                priceText: L10n.get.lib.proPageYearlyTitle,
+                trialText: L10n.get.lib.proPageYearlyTrial,
+                billingFrequencyText: L10n.get.lib.proPageYearlySubtext,
               ),
               const HorizontalSpace(paddingDefault),
               _buildSubscriptionButton(
                 sub: subscriptions.monthly,
-                priceText: Strings.of(context).proPageMonthlyTitle,
-                trialText: Strings.of(context).proPageMonthlyTrial,
-                billingFrequencyText: Strings.of(context).proPageMonthlySubtext,
+                priceText: L10n.get.lib.proPageMonthlyTitle,
+                trialText: L10n.get.lib.proPageMonthlyTrial,
+                billingFrequencyText: L10n.get.lib.proPageMonthlySubtext,
               ),
             ],
           ),
@@ -164,15 +164,15 @@ class ProPageState extends State<ProPage> {
         const VerticalSpace(paddingDefault),
         QuestionAnswerLink(
           textAlign: TextAlign.center,
-          question: Strings.of(context).proPageRestoreQuestion,
-          actionText: Strings.of(context).proPageRestoreAction,
+          question: L10n.get.lib.proPageRestoreQuestion,
+          actionText: L10n.get.lib.proPageRestoreAction,
           action: _restoreSubscription,
         ),
         const VerticalSpace(paddingDefault),
         Text(
           IoWrapper.get.isAndroid
-              ? Strings.of(context).proPageDisclosureAndroid
-              : Strings.of(context).proPageDisclosureApple,
+              ? L10n.get.lib.proPageDisclosureAndroid
+              : L10n.get.lib.proPageDisclosureApple,
           style: styleSubtext,
         ),
       ],
@@ -214,8 +214,6 @@ class ProPageState extends State<ProPage> {
 
   Future<void> _restoreSubscription() async {
     _setIsPendingTransaction(true);
-
-    var strings = Strings.of(context);
     var result = await SubscriptionManager.get.restoreSubscription();
 
     _setIsPendingTransaction(false);
@@ -224,11 +222,11 @@ class ProPageState extends State<ProPage> {
     switch (result) {
       case RestoreSubscriptionResult.noSubscriptionsFound:
         dialogMessage = IoWrapper.get.isAndroid
-            ? strings.proPageRestoreNoneFoundGooglePlay
-            : strings.proPageRestoreNoneFoundAppStore;
+            ? L10n.get.lib.proPageRestoreNoneFoundGooglePlay
+            : L10n.get.lib.proPageRestoreNoneFoundAppStore;
         break;
       case RestoreSubscriptionResult.error:
-        dialogMessage = strings.proPageRestoreError;
+        dialogMessage = L10n.get.lib.proPageRestoreError;
         break;
       case RestoreSubscriptionResult.success:
         // Nothing to do.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../src/strings.dart';
+import '../l10n/l10n.dart';
 
 /// Units of duration, ordered smallest to largest.
 enum DurationUnit { seconds, minutes, hours, days, years }
@@ -148,37 +148,37 @@ String formatDurations({
   }
 
   if (shouldAdd(includesYears, duration.years)) {
-    result += Strings.of(context).yearsFormat(duration.years);
+    result += L10n.get.lib.yearsFormat(duration.years);
     numberIncluded++;
   }
 
   if (shouldAdd(includesDays, duration.days)) {
     maybeAddSpace();
-    result += Strings.of(context).daysFormat(duration.days);
+    result += L10n.get.lib.daysFormat(duration.days);
     numberIncluded++;
   }
 
   if (shouldAdd(includesHours, duration.hours)) {
     maybeAddSpace();
-    result += Strings.of(context).hoursFormat(duration.hours);
+    result += L10n.get.lib.hoursFormat(duration.hours);
     numberIncluded++;
   }
 
   if (shouldAdd(includesMinutes, duration.minutes)) {
     maybeAddSpace();
-    result += Strings.of(context).minutesFormat(duration.minutes);
+    result += L10n.get.lib.minutesFormat(duration.minutes);
     numberIncluded++;
   }
 
   if (shouldAdd(includesSeconds, duration.seconds)) {
     maybeAddSpace();
-    result += Strings.of(context).secondsFormat(duration.seconds);
+    result += L10n.get.lib.secondsFormat(duration.seconds);
   }
 
   // If there is no result and not everything is excluded, default to 0m.
   if (result.isEmpty &&
       (includesSeconds || includesMinutes || includesHours || includesDays)) {
-    result += Strings.of(context).minutesFormat(0);
+    result += L10n.get.lib.minutesFormat(0);
   }
 
   // Remove all '-', except the first.

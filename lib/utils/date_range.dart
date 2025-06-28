@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
 
+import '../l10n/l10n.dart';
 import '../managers/time_manager.dart';
-import '../src/strings.dart';
 import 'date_time.dart';
 import 'duration.dart';
 
@@ -62,14 +62,14 @@ class DisplayDateRange {
     id: "allDates",
     onValue: (now) =>
         DateRange(startDate: TimeManager.get.dateTime(0), endDate: now),
-    onTitle: (context) => Strings.of(context).durationAllDates,
+    onTitle: (context) => L10n.get.lib.durationAllDates,
   );
 
   static final today = DisplayDateRange._(
     id: "today",
     onValue: (now) =>
         DateRange(startDate: dateTimeToDayAccuracy(now), endDate: now),
-    onTitle: (context) => Strings.of(context).durationToday,
+    onTitle: (context) => L10n.get.lib.durationToday,
   );
 
   static final yesterday = DisplayDateRange._(
@@ -80,25 +80,25 @@ class DisplayDateRange {
       ).subtract(const Duration(days: 1)),
       endDate: dateTimeToDayAccuracy(now),
     ),
-    onTitle: (context) => Strings.of(context).durationYesterday,
+    onTitle: (context) => L10n.get.lib.durationYesterday,
   );
 
   static final thisWeek = DisplayDateRange._(
     id: "thisWeek",
     onValue: (now) => DateRange(startDate: startOfWeek(now), endDate: now),
-    onTitle: (context) => Strings.of(context).durationThisWeek,
+    onTitle: (context) => L10n.get.lib.durationThisWeek,
   );
 
   static final thisMonth = DisplayDateRange._(
     id: "thisMonth",
     onValue: (now) => DateRange(startDate: startOfMonth(now), endDate: now),
-    onTitle: (context) => Strings.of(context).durationThisMonth,
+    onTitle: (context) => L10n.get.lib.durationThisMonth,
   );
 
   static final thisYear = DisplayDateRange._(
     id: "thisYear",
     onValue: (now) => DateRange(startDate: startOfYear(now), endDate: now),
-    onTitle: (context) => Strings.of(context).durationThisYear,
+    onTitle: (context) => L10n.get.lib.durationThisYear,
   );
 
   static final lastWeek = DisplayDateRange._(
@@ -110,7 +110,7 @@ class DisplayDateRange {
       );
       return DateRange(startDate: startOfLastWeek, endDate: endOfLastWeek);
     },
-    onTitle: (context) => Strings.of(context).durationLastWeek,
+    onTitle: (context) => L10n.get.lib.durationLastWeek,
   );
 
   static final lastMonth = DisplayDateRange._(
@@ -128,7 +128,7 @@ class DisplayDateRange {
         endDate: endOfLastMonth,
       );
     },
-    onTitle: (context) => Strings.of(context).durationLastMonth,
+    onTitle: (context) => L10n.get.lib.durationLastMonth,
   );
 
   static final lastYear = DisplayDateRange._(
@@ -137,7 +137,7 @@ class DisplayDateRange {
       startDate: TimeManager.get.dateTimeToTz(DateTime(now.year - 1)),
       endDate: startOfYear(now),
     ),
-    onTitle: (context) => Strings.of(context).durationLastYear,
+    onTitle: (context) => L10n.get.lib.durationLastYear,
   );
 
   static final last7Days = DisplayDateRange._(
@@ -146,7 +146,7 @@ class DisplayDateRange {
       startDate: now.subtract(const Duration(days: 7)),
       endDate: now,
     ),
-    onTitle: (context) => Strings.of(context).durationLast7Days,
+    onTitle: (context) => L10n.get.lib.durationLast7Days,
   );
 
   static final last14Days = DisplayDateRange._(
@@ -155,7 +155,7 @@ class DisplayDateRange {
       startDate: now.subtract(const Duration(days: 14)),
       endDate: now,
     ),
-    onTitle: (context) => Strings.of(context).durationLast14Days,
+    onTitle: (context) => L10n.get.lib.durationLast14Days,
   );
 
   static final last30Days = DisplayDateRange._(
@@ -164,7 +164,7 @@ class DisplayDateRange {
       startDate: now.subtract(const Duration(days: 30)),
       endDate: now,
     ),
-    onTitle: (context) => Strings.of(context).durationLast30Days,
+    onTitle: (context) => L10n.get.lib.durationLast30Days,
   );
 
   static final last60Days = DisplayDateRange._(
@@ -173,7 +173,7 @@ class DisplayDateRange {
       startDate: now.subtract(const Duration(days: 60)),
       endDate: now,
     ),
-    onTitle: (context) => Strings.of(context).durationLast60Days,
+    onTitle: (context) => L10n.get.lib.durationLast60Days,
   );
 
   static final last12Months = DisplayDateRange._(
@@ -182,13 +182,13 @@ class DisplayDateRange {
       startDate: now.subtract(const Duration(days: 365)),
       endDate: now,
     ),
-    onTitle: (context) => Strings.of(context).durationLast12Months,
+    onTitle: (context) => L10n.get.lib.durationLast12Months,
   );
 
   static final custom = DisplayDateRange._(
     id: "custom",
     onValue: (now) => DisplayDateRange.thisMonth.onValue(now),
-    onTitle: (context) => Strings.of(context).durationCustom,
+    onTitle: (context) => L10n.get.lib.durationCustom,
   );
 
   static final all = [
