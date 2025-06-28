@@ -1,4 +1,5 @@
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
+import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/widgets/empty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,7 +11,9 @@ class Testable extends StatelessWidget {
   final MediaQueryData mediaQueryData;
   final TargetPlatform? platform;
   final ThemeMode? themeMode;
-  final List<LocalizationsDelegate> localizations;
+  final Iterable<LocalizationsDelegate> localizations;
+  final Iterable<Locale>? locales;
+  final Locale? locale;
 
   const Testable(
     this.builder, {
@@ -18,6 +21,8 @@ class Testable extends StatelessWidget {
     this.platform,
     this.themeMode,
     this.localizations = const [],
+    this.locales,
+    this.locale,
   });
 
   @override
@@ -35,10 +40,18 @@ class Testable extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         ...localizations,
       ],
-      locale: const Locale("en", "CA"),
+      supportedLocales: locales ?? const [Locale("en", "CA")],
+      locale: locale ?? const Locale("en", "CA"),
       home: MediaQuery(
         data: mediaQueryData,
-        child: Material(child: Builder(builder: builder)),
+        child: Material(
+          child: Builder(
+            builder: (context) {
+              L10n.get.context = context;
+              return builder(context);
+            },
+          ),
+        ),
       ),
     );
   }

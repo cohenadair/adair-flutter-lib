@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'adair_flutter_lib_localizations_en.dart';
+import 'adair_flutter_lib_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,7 +96,8 @@ abstract class AdairFlutterLibLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('en', 'US')
+    Locale('en', 'US'),
+    Locale('es')
   ];
 
   /// No description provided for @cancel.
@@ -399,7 +401,7 @@ class _AdairFlutterLibLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AdairFlutterLibLocalizationsDelegate old) => false;
@@ -422,6 +424,8 @@ AdairFlutterLibLocalizations lookupAdairFlutterLibLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AdairFlutterLibLocalizationsEn();
+    case 'es':
+      return AdairFlutterLibLocalizationsEs();
   }
 
   throw FlutterError(

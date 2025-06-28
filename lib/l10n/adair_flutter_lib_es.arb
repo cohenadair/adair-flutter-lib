@@ -1,0 +1,140 @@
+{
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "ok": "Está bien",
+  "error": "Error",
+  "warning": "Advertencia",
+  "continueString": "Continuar",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "yearsFormat": "{numOfYears}a",
+  "@yearsFormat": {
+    "placeholders": {
+      "numOfYears": {
+        "type": "int"
+      }
+    }
+  },
+  "daysFormat": "{numOfDays}d",
+  "@daysFormat": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursFormat": "{numOfHours}h",
+  "@hoursFormat": {
+    "placeholders": {
+      "numOfHours": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesFormat": "{numOfMinutes}min",
+  "@minutesFormat": {
+    "placeholders": {
+      "numOfMinutes": {
+        "type": "int"
+      }
+    }
+  },
+  "secondsFormat": "{numOfSeconds}s",
+  "@secondsFormat": {
+    "placeholders": {
+      "numOfSeconds": {
+        "type": "int"
+      }
+    }
+  },
+  "dateTimeFormat": "{date} a las {time}",
+  "@dateTimeFormat": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "dateRangeFormat": "{from} a {to}",
+  "@dateRangeFormat": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "now": "Now",
+  "durationAllDates": "Todas las fechas",
+  "durationToday": "Hoy",
+  "durationYesterday": "Ayer",
+  "durationThisWeek": "Esta semana",
+  "durationThisMonth": "Este mes",
+  "durationThisYear": "Este año",
+  "durationLastWeek": "Última semana",
+  "durationLastMonth": "Último mes",
+  "durationLastYear": "Último año",
+  "durationLast7Days": "Últimos 7 días",
+  "durationLast14Days": "Últimos 14 días",
+  "durationLast30Days": "Últimos 30 días",
+  "durationLast60Days": "Últimos 60 días",
+  "durationLast12Months": "Últimos 12 meses",
+  "durationCustom": "Personalizado",
+  "proPageUpgradeTitle": "Actualiza a {appName}",
+  "@proPageUpgradeTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageProTitle": "Pro",
+  "proPageYearlyTitle": "{price} / año",
+  "@proPageYearlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageYearlyTrial": "+{numOfDays} días gratis",
+  "@proPageYearlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageYearlySubtext": "Facturado anualmente",
+  "proPageMonthlyTitle": "{price} al mes",
+  "@proPageMonthlyTitle": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "proPageMonthlyTrial": "+{numOfDays} días gratis",
+  "@proPageMonthlyTrial": {
+    "placeholders": {
+      "numOfDays": {
+        "type": "int"
+      }
+    }
+  },
+  "proPageMonthlySubtext": "Facturado mensualmente",
+  "proPageFetchError": "No se pueden obtener las opciones de suscripción. Asegúrate de que tu dispositivo esté conectado a Internet y vuelve a intentarlo.",
+  "proPageUpgradeSuccess": "¡Felicidades, eres un usuario Pro de Anglers'' Log!",
+  "proPageRestoreQuestion": "¿Compraste Pro en otro dispositivo?",
+  "proPageRestoreAction": "Restaurar.",
+  "proPageRestoreNoneFoundAppStore": "No se encontraron compras anteriores. Asegúrate de haber iniciado sesión con el mismo ID de Apple con el que realizaste la compra original.",
+  "proPageRestoreNoneFoundGooglePlay": "No se encontraron compras anteriores. Asegúrate de haber iniciado sesión con la misma cuenta de Google con la que realizaste la compra original.",
+  "proPageRestoreError": "Ocurrió un error inesperado. Asegúrate de que tu dispositivo esté conectado a Internet y vuelve a intentarlo.",
+  "proPageDisclosureApple": "Cancela en cualquier momento. La facturación comienza después de que finalice el período de prueba gratuito. El período de prueba gratuito solo es válido para nuevos suscriptores. Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de suscripción actual. Todas las suscripciones se pueden gestionar a través de la App Store. Cualquier parte no utilizada del período de prueba gratuito se perderá cuando se compre una suscripción.",
+  "proPageDisclosureAndroid": "Cancela en cualquier momento. La facturación comienza después de que finalice el período de prueba gratuito. El período de prueba gratuito es válido solo para nuevos suscriptores. Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de suscripción actual. Todas las suscripciones se pueden gestionar a través de Google Play Store. Cualquier parte no utilizada del período de prueba gratuito se perderá cuando se compre una suscripción."
+}

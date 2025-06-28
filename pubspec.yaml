@@ -4,9 +4,12 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  # TODO: Update to 3.7.0 when https://github.com/dart-lang/dart_style/commit/71421b328391a6ed9c1a9e7229c394d9ed613d77 is released.
+  # TODO: Update to 3.7.0+ when https://github.com/dart-lang/dart_style/commit/71421b328391a6ed9c1a9e7229c394d9ed613d77 is released.
   sdk: ^3.6.0
   flutter: ">=1.17.0"
+
+flutter:
+  generate: true
 
 dependencies:
   flutter:
@@ -14,11 +17,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  collection: ^1.19.1                       # https://pub.dev/packages/collection
   firebase_crashlytics: ^4.3.4              # https://pub.dev/packages/firebase_crashlytics
-
-  # TODO: Can't update until https://github.com/flutter/flutter/pull/162591 is released.
-  intl: ^0.19.0                             # https://pub.dev/packages/intl
-
+  intl: ^0.20.2                             # https://pub.dev/packages/intl
   fixnum: ^1.1.1                            # https://pub.dev/packages/fixnum
   flutter_timezone: ^4.1.0                  # https://pub.dev/packages/flutter_timezone
   meta: ^1.16.0                             # https://pub.dev/packages/meta
