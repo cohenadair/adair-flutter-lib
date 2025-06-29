@@ -28,6 +28,7 @@ class Testable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: themeMode,
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.lightBlue,

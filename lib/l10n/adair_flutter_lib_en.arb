@@ -85,7 +85,7 @@
   "durationLast60Days": "Last 60 days",
   "durationLast12Months": "Last 12 months",
   "durationCustom": "Custom",
-  "proPageUpgradeTitle": "Upgrade to {appName} Pro",
+  "proPageUpgradeTitle": "Upgrade to {appName}",
   "@proPageUpgradeTitle": {
     "placeholders": {
       "appName": {

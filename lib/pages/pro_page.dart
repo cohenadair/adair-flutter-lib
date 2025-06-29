@@ -11,6 +11,7 @@ import '../res/dimen.dart';
 import '../res/style.dart';
 import '../utils/dialog.dart';
 import '../utils/widget.dart';
+import '../widgets/empty.dart';
 import '../widgets/horizontal_space.dart';
 import '../widgets/loading.dart';
 import '../widgets/question_answer_link.dart';
@@ -21,14 +22,14 @@ import '../wrappers/io_wrapper.dart';
 
 class ProPage extends StatefulWidget {
   final List<ProPageFeatureRow> features;
-  final VoidCallback? onCloseOverride;
-  final bool isEmbeddedInScrollPage;
+  final Widget? footnote;
+  final bool embedInScrollPage;
   final EdgeInsets logoPadding;
 
   const ProPage({
     this.features = const [],
-    this.onCloseOverride,
-    this.isEmbeddedInScrollPage = true,
+    this.footnote,
+    this.embedInScrollPage = true,
     this.logoPadding = insetsVerticalDefault,
   });
 
@@ -76,9 +77,10 @@ class ProPageState extends State<ProPage> {
       ),
       const VerticalSpace(paddingXL),
       _buildSubscriptionState(),
+      _buildFootnote(),
     ];
 
-    if (widget.isEmbeddedInScrollPage) {
+    if (widget.embedInScrollPage) {
       return ScrollPage(
         children: [
           Stack(
@@ -147,15 +149,15 @@ class ProPageState extends State<ProPage> {
             children: [
               _buildSubscriptionButton(
                 sub: subscriptions.yearly,
-                priceText: L10n.get.lib.proPageYearlyTitle,
-                trialText: L10n.get.lib.proPageYearlyTrial,
+                priceCallback: L10n.get.lib.proPageYearlyTitle,
+                trialCallback: L10n.get.lib.proPageYearlyTrial,
                 billingFrequencyText: L10n.get.lib.proPageYearlySubtext,
               ),
               const HorizontalSpace(paddingDefault),
               _buildSubscriptionButton(
                 sub: subscriptions.monthly,
-                priceText: L10n.get.lib.proPageMonthlyTitle,
-                trialText: L10n.get.lib.proPageMonthlyTrial,
+                priceCallback: L10n.get.lib.proPageMonthlyTitle,
+                trialCallback: L10n.get.lib.proPageMonthlyTrial,
                 billingFrequencyText: L10n.get.lib.proPageMonthlySubtext,
               ),
             ],
@@ -181,8 +183,8 @@ class ProPageState extends State<ProPage> {
 
   Widget _buildSubscriptionButton({
     required Subscription sub,
-    required String Function(String) priceText,
-    required String Function(int) trialText,
+    required String Function(String) priceCallback,
+    required String Function(int) trialCallback,
     required String billingFrequencyText,
   }) {
     assert(isNotEmpty(billingFrequencyText));
@@ -195,13 +197,13 @@ class ProPageState extends State<ProPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                priceText(sub.price),
+                priceCallback(sub.price),
                 style: stylePrimary(
                   context,
                 ).copyWith(fontWeight: fontWeightBold),
               ),
               const VerticalSpace(paddingTiny),
-              Text(trialText(sub.trialLengthDays)),
+              Text(trialCallback(sub.trialLengthDays)),
               const VerticalSpace(paddingTiny),
               Text(billingFrequencyText, style: styleSubtext),
             ],
@@ -210,6 +212,13 @@ class ProPageState extends State<ProPage> {
         onPressed: () => _purchaseSubscription(sub),
       ),
     );
+  }
+
+  Widget _buildFootnote() {
+    if (widget.footnote == null) {
+      return const Empty();
+    }
+    return Padding(padding: insetsTopDefault, child: widget.footnote);
   }
 
   Future<void> _restoreSubscription() async {

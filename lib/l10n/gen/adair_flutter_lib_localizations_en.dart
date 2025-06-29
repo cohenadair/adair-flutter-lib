@@ -117,7 +117,7 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String proPageUpgradeTitle(String appName) {
-    return 'Upgrade to $appName Pro';
+    return 'Upgrade to $appName';
   }
 
   @override

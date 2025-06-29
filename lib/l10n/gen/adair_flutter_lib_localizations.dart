@@ -289,7 +289,7 @@ abstract class AdairFlutterLibLocalizations {
   /// No description provided for @proPageUpgradeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Upgrade to {appName} Pro'**
+  /// **'Upgrade to {appName}'**
   String proPageUpgradeTitle(String appName);
 
   /// No description provided for @proPageProTitle.

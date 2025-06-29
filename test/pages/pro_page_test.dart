@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/pages/pro_page.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
+import 'package:adair_flutter_lib/widgets/empty.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,6 +12,7 @@ import '../mocks/mocks.mocks.dart';
 import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
 import '../test_utils/testable.dart';
+import '../test_utils/widget.dart';
 
 void main() {
   late StubbedManagers managers;
@@ -19,10 +21,6 @@ void main() {
 
   setUp(() async {
     managers = await StubbedManagers.create();
-
-    when(managers.appConfig.appName).thenReturn((_) => "Unit Test App");
-    when(managers.appConfig.appIcon).thenReturn(Icons.add);
-    when(managers.appConfig.colorAppTheme).thenReturn(Colors.green);
 
     when(managers.ioWrapper.isAndroid).thenReturn(true);
 
@@ -33,6 +31,7 @@ void main() {
 
     var monthlyIntroPrice = MockIntroductoryPrice();
     when(monthlyIntroPrice.periodUnit).thenReturn(PeriodUnit.week);
+    when(monthlyIntroPrice.periodNumberOfUnits).thenReturn(1);
     var monthlyProduct = MockStoreProduct();
     when(monthlyProduct.introductoryPrice).thenReturn(monthlyIntroPrice);
     when(monthlyProduct.priceString).thenReturn("\$2.99");
@@ -41,6 +40,7 @@ void main() {
 
     var yearlyIntroPrice = MockIntroductoryPrice();
     when(yearlyIntroPrice.periodUnit).thenReturn(PeriodUnit.month);
+    when(yearlyIntroPrice.periodNumberOfUnits).thenReturn(1);
     var yearlyProduct = MockStoreProduct();
     when(yearlyProduct.introductoryPrice).thenReturn(yearlyIntroPrice);
     when(yearlyProduct.priceString).thenReturn("\$19.99");
@@ -343,7 +343,7 @@ void main() {
 
   testWidgets("Embedded in scroll view", (tester) async {
     await tester.pumpWidget(
-      Testable((_) => const ProPage(isEmbeddedInScrollPage: true)),
+      Testable((_) => const ProPage(embedInScrollPage: true)),
     );
 
     expect(find.byType(ScrollPage), findsOneWidget);
@@ -352,8 +352,7 @@ void main() {
   testWidgets("Not embedded in scroll view", (tester) async {
     await tester.pumpWidget(
       Testable(
-        (_) =>
-            ListView(children: const [ProPage(isEmbeddedInScrollPage: false)]),
+        (_) => ListView(children: const [ProPage(embedInScrollPage: false)]),
       ),
     );
 
@@ -380,5 +379,41 @@ void main() {
 
     expect(find.substring("Google Play Store"), findsNothing);
     expect(find.substring("App Store"), findsOneWidget);
+  });
+
+  testWidgets("Footnote is shown", (tester) async {
+    await tester.pumpWidget(
+        Testable((_) => const ProPage(footnote: Text("Test footnote"))));
+    // Wait for subscriptions future to finish.
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+    expect(find.text("Test footnote"), findsOneWidget);
+  });
+
+  testWidgets("Footnote is hidden", (tester) async {
+    await tester.pumpWidget(Testable((_) => const ProPage(footnote: null)));
+    // Wait for subscriptions future to finish.
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+    expect(find.byType(Empty), findsOneWidget);
+  });
+
+  testWidgets("Features are rendered", (tester) async {
+    await tester.pumpWidget(Testable((_) => const ProPage(features: [
+      ProPageFeatureRow("Feature 1"),
+      ProPageFeatureRow("Feature 2"),
+    ])));
+    // Wait for subscriptions future to finish.
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+    expect(find.text("Feature 1"), findsOneWidget);
+    expect(find.text("Feature 2"), findsOneWidget);
+  });
+
+  testWidgets("Close button pop's page", (tester) async {
+    await tester.pumpWidget(Testable((_) => const ProPage()));
+    // Wait for subscriptions future to finish.
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+
+    expect(find.byType(ProPage), findsOneWidget);
+    await tapAndSettle(tester, find.byType(CloseButton));
+    expect(find.byType(ProPage), findsNothing);
   });
 }

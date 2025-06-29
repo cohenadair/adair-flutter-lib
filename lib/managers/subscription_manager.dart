@@ -168,20 +168,23 @@ class Subscription {
 
   int get trialLengthDays {
     var unit = package.storeProduct.introductoryPrice!.periodUnit;
+    var result = 0;
 
     switch (package.storeProduct.introductoryPrice!.periodUnit) {
       case PeriodUnit.day:
-        return 1;
+        result = 1;
       case PeriodUnit.week:
-        return 7;
+        result = 7;
       case PeriodUnit.month:
-        return 30;
+        result = 30;
       case PeriodUnit.year:
-        return 365;
+        result = 365;
       case PeriodUnit.unknown:
         _log.e("Invalid period unit found: $unit");
-        return 0;
+        result = 0;
     }
+
+    return result * package.storeProduct.introductoryPrice!.periodNumberOfUnits;
   }
 }
 

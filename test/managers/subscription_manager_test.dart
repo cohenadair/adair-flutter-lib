@@ -2,7 +2,7 @@ import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:purchases_flutter/errors.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../mocks/mocks.mocks.dart';
 import '../test_utils/stubbed_managers.dart';
@@ -237,5 +237,36 @@ void main() {
     expect(called, isTrue);
 
     listener.cancel();
+  });
+
+  test("Subscription trial length days returns correct result", () {
+    var price = MockIntroductoryPrice();
+    when(price.periodUnit).thenReturn(PeriodUnit.month);
+    when(price.periodNumberOfUnits).thenReturn(2);
+
+    var product = MockStoreProduct();
+    when(product.introductoryPrice).thenReturn(price);
+
+    var package = MockPackage();
+    when(package.storeProduct).thenReturn(product);
+
+    var sub = Subscription(package);
+    expect(sub.trialLengthDays, 60);
+
+    when(price.periodUnit).thenReturn(PeriodUnit.day);
+    when(price.periodNumberOfUnits).thenReturn(15);
+    expect(sub.trialLengthDays, 15);
+
+    when(price.periodUnit).thenReturn(PeriodUnit.week);
+    when(price.periodNumberOfUnits).thenReturn(1);
+    expect(sub.trialLengthDays, 7);
+
+    when(price.periodUnit).thenReturn(PeriodUnit.year);
+    when(price.periodNumberOfUnits).thenReturn(1);
+    expect(sub.trialLengthDays, 365);
+
+    when(price.periodUnit).thenReturn(PeriodUnit.unknown);
+    when(price.periodNumberOfUnits).thenReturn(1);
+    expect(sub.trialLengthDays, 0);
   });
 }
