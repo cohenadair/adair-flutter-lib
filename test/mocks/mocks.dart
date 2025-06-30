@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
@@ -11,6 +12,7 @@ import 'package:mockito/annotations.dart';
 
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+@GenerateMocks([AdairFlutterLib])
 @GenerateMocks([AppConfig])
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])

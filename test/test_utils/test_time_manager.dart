@@ -1,6 +1,10 @@
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:timezone/timezone.dart';
 
+/// This class is not strictly required, but using a stubbed class will result
+/// in a lot of duplicated code between the stubs and real implementation. All
+/// we really need is to stub the current time, and everything else will work
+/// from there.
 class TestTimeManager extends TimeManager {
   final String timeZone;
 

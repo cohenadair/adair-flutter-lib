@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
@@ -13,6 +14,7 @@ import '../mocks/mocks.mocks.dart';
 import 'test_time_manager.dart';
 
 class StubbedManagers {
+  late final MockAdairFlutterLib adairFlutterLib;
   late final MockAppConfig appConfig;
   late final MockPropertiesManager propertiesManager;
   late final MockSubscriptionManager subscriptionManager;
@@ -31,6 +33,10 @@ class StubbedManagers {
   }
 
   StubbedManagers._() {
+    adairFlutterLib = MockAdairFlutterLib();
+    when(adairFlutterLib.init()).thenAnswer((_) => Future.value());
+    AdairFlutterLib.set(adairFlutterLib);
+
     appConfig = MockAppConfig();
     when(appConfig.colorAppTheme).thenReturn(Colors.pink);
     when(appConfig.appIcon).thenReturn(Icons.add); // Random icon.
@@ -39,6 +45,7 @@ class StubbedManagers {
 
     propertiesManager = MockPropertiesManager();
     when(propertiesManager.init()).thenAnswer((_) => Future.value());
+    when(propertiesManager.stringForKey(any)).thenReturn("");
     PropertiesManager.set(propertiesManager);
 
     subscriptionManager = MockSubscriptionManager();

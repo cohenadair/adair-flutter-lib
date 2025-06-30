@@ -23,6 +23,7 @@ class TimeManager {
 
   final _log = const Log("TimeManager");
 
+  @visibleForTesting
   TimeManager();
 
   TZDateTime get currentDateTime => TZDateTime.now(currentLocation.value);

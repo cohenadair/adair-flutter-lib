@@ -18,7 +18,6 @@ class PropertiesManager {
   PropertiesManager._();
 
   final String _keyClientSenderEmail = "clientSender.email";
-  final String _keyRevenueCatApiKey = "revenueCat.apiKey";
   final String _keyRevenueCatGoogleApiKey = "revenueCat.googleApiKey";
   final String _keyRevenueCatAppleApiKey = "revenueCat.appleApiKey";
   final String _keySupportEmail = "support.email";
@@ -35,21 +34,17 @@ class PropertiesManager {
     _feedbackTemplate = await rootBundle.loadString(_feedbackTemplatePath);
   }
 
-  String get clientSenderEmail =>
-      _properties.stringForKey(_keyClientSenderEmail);
+  String get clientSenderEmail => stringForKey(_keyClientSenderEmail);
 
-  @Deprecated("Use revenueCatGoogleApiKey and revenueCatAppleApiKey")
-  String get revenueCatApiKey => _properties.stringForKey(_keyRevenueCatApiKey);
+  String get revenueCatGoogleApiKey => stringForKey(_keyRevenueCatGoogleApiKey);
 
-  String get revenueCatGoogleApiKey =>
-      _properties.stringForKey(_keyRevenueCatGoogleApiKey);
+  String get revenueCatAppleApiKey => stringForKey(_keyRevenueCatAppleApiKey);
 
-  String get revenueCatAppleApiKey =>
-      _properties.stringForKey(_keyRevenueCatAppleApiKey);
+  String get supportEmail => stringForKey(_keySupportEmail);
 
-  String get supportEmail => _properties.stringForKey(_keySupportEmail);
-
-  String get sendGridApiKey => _properties.stringForKey(_keySendGridApiKey);
+  String get sendGridApiKey => stringForKey(_keySendGridApiKey);
 
   String get feedbackTemplate => _feedbackTemplate;
+
+  String stringForKey(String key) => _properties.stringForKey(key);
 }

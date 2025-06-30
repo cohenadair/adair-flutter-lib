@@ -397,10 +397,16 @@ void main() {
   });
 
   testWidgets("Features are rendered", (tester) async {
-    await tester.pumpWidget(Testable((_) => const ProPage(features: [
-      ProPageFeatureRow("Feature 1"),
-      ProPageFeatureRow("Feature 2"),
-    ])));
+    await tester.pumpWidget(
+      Testable(
+        (_) => const ProPage(
+          features: [
+            ProPageFeatureRow("Feature 1"),
+            ProPageFeatureRow("Feature 2"),
+          ],
+        ),
+      ),
+    );
     // Wait for subscriptions future to finish.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
     expect(find.text("Feature 1"), findsOneWidget);
