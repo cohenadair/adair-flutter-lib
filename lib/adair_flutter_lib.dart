@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:flutter/foundation.dart';
 
@@ -20,8 +21,9 @@ class AdairFlutterLib {
   final _log = const Log("AdairFlutterLib");
 
   Future<void> init() async {
+    await TimeManager.get.init();
     await PropertiesManager.get.init();
     await SubscriptionManager.get.init();
-    _log.d("Initialized");
+    _log.d("Flutter lib initialized");
   }
 }

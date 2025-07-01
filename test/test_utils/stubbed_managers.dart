@@ -9,9 +9,11 @@ import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
+import 'package:quiver/strings.dart';
+import 'package:timezone/data/latest_all.dart';
+import 'package:timezone/timezone.dart';
 
 import '../mocks/mocks.mocks.dart';
-import 'test_time_manager.dart';
 
 class StubbedManagers {
   late final MockAdairFlutterLib adairFlutterLib;
@@ -23,13 +25,11 @@ class StubbedManagers {
   late final MockIoWrapper ioWrapper;
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
   late final MockPurchasesWrapper purchasesWrapper;
+  late final MockTimeManager timeManager;
 
-  late final TestTimeManager timeManager;
-
+  // TODO: Remove the Future return type.
   static Future<StubbedManagers> create() async {
-    var result = StubbedManagers._();
-    await result._initTimeManager();
-    return result;
+    return StubbedManagers._();
   }
 
   StubbedManagers._() {
@@ -64,20 +64,56 @@ class StubbedManagers {
     purchasesWrapper = MockPurchasesWrapper();
     PurchasesWrapper.set(purchasesWrapper);
 
-    timeManager = TestTimeManager();
+    timeManager = MockTimeManager();
+    stubCurrentTime(DateTime.now());
     TimeManager.set(timeManager);
   }
 
-  /// Initializes the real [TimeManager] instance with a default time zone. If
-  /// needed, apps can create a [MockTimeManager] and call [TimeManager.set].
-  Future<void> _initTimeManager() async {
+  void stubCurrentTime(DateTime now, {String timeZone = "America/New_York"}) {
+    initializeTimeZones();
+
+    var defaultLocation = getLocation(timeZone);
+    var tzNow = TZDateTime.from(now, defaultLocation);
+    when(timeManager.now(any)).thenReturn(tzNow);
+    when(timeManager.currentDateTime).thenReturn(tzNow);
+    when(timeManager.currentTime).thenReturn(TimeOfDay.fromDateTime(tzNow));
+    when(timeManager.currentTimestamp).thenReturn(tzNow.millisecondsSinceEpoch);
+
+    when(timeManager.currentLocation)
+        .thenReturn(TimeZoneLocation.fromName(timeZone));
+    when(timeManager.currentTimeZone).thenReturn(timeZone);
+    when(timeManager.dateTime(any, any)).thenAnswer((invocation) {
+      String? tz = invocation.positionalArguments.length == 2
+          ? invocation.positionalArguments[1]
+          : null;
+      if (isEmpty(tz)) {
+        tz = timeZone;
+      }
+      return TZDateTime.fromMillisecondsSinceEpoch(
+          getLocation(tz!), invocation.positionalArguments[0]);
+    });
+    when(timeManager.dateTimeToTz(any)).thenAnswer((invocation) =>
+        TZDateTime.from(invocation.positionalArguments.first, defaultLocation));
+    when(timeManager.dateTimeFromValues(any, any, any, any, any, any, any, any))
+        .thenAnswer(
+      (invocation) => TZDateTime(
+        defaultLocation,
+        invocation.positionalArguments[0],
+        invocation.positionalArguments[1],
+        invocation.positionalArguments[2],
+        invocation.positionalArguments[3],
+        invocation.positionalArguments[4],
+        invocation.positionalArguments[5],
+        invocation.positionalArguments[6],
+        invocation.positionalArguments[7],
+      ),
+    );
+
     when(
       nativeTimeZoneWrapper.getAvailableTimeZones(),
-    ).thenAnswer((_) => Future.value([timeManager.timeZone]));
+    ).thenAnswer((_) => Future.value([timeManager.currentTimeZone]));
     when(
       nativeTimeZoneWrapper.getLocalTimeZone(),
-    ).thenAnswer((_) => Future.value(timeManager.timeZone));
-
-    return timeManager.init();
+    ).thenAnswer((_) => Future.value(timeManager.currentTimeZone));
   }
 }

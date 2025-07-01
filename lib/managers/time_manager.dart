@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
-import 'package:timezone/data/latest.dart';
+import 'package:timezone/data/latest_all.dart';
 import 'package:timezone/timezone.dart';
 
 import '../utils/duration.dart';
@@ -124,7 +124,9 @@ class TimeManager {
   /// Returns the current [TZDateTime] at the given time zone, or the
   /// current time zone if [timeZone] is invalid.
   TZDateTime now([String? timeZone]) {
-    return isEmpty(timeZone) ? currentDateTime : now(timeZone!);
+    return isEmpty(timeZone)
+        ? currentDateTime
+        : TZDateTime.now(getLocation(timeZone!));
   }
 }
 

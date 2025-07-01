@@ -151,6 +151,16 @@ class _FakeTimeOfDay_18 extends _i1.SmartFake implements _i2.TimeOfDay {
       : super(parent, parentInvocation);
 }
 
+class _FakeTimeZone_19 extends _i1.SmartFake implements _i7.TimeZone {
+  _FakeTimeZone_19(Object parent, Invocation parentInvocation)
+      : super(parent, parentInvocation);
+}
+
+class _FakeLocation_20 extends _i1.SmartFake implements _i7.Location {
+  _FakeLocation_20(Object parent, Invocation parentInvocation)
+      : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AdairFlutterLib].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1279,4 +1289,71 @@ class MockTimeManager extends _i1.Mock implements _i8.TimeManager {
           Invocation.method(#now, [timeZone]),
         ),
       ) as _i7.TZDateTime);
+}
+
+/// A class which mocks [TimeZoneLocation].
+///
+/// See the documentation for Mockito's code generation for more information.
+// ignore: must_be_immutable
+class MockTimeZoneLocation extends _i1.Mock implements _i8.TimeZoneLocation {
+  MockTimeZoneLocation() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i7.TimeZone get currentTimeZone => (super.noSuchMethod(
+        Invocation.getter(#currentTimeZone),
+        returnValue: _FakeTimeZone_19(
+          this,
+          Invocation.getter(#currentTimeZone),
+        ),
+      ) as _i7.TimeZone);
+
+  @override
+  String get name => (super.noSuchMethod(
+        Invocation.getter(#name),
+        returnValue: _i13.dummyValue<String>(
+          this,
+          Invocation.getter(#name),
+        ),
+      ) as String);
+
+  @override
+  String get displayName => (super.noSuchMethod(
+        Invocation.getter(#displayName),
+        returnValue: _i13.dummyValue<String>(
+          this,
+          Invocation.getter(#displayName),
+        ),
+      ) as String);
+
+  @override
+  String get displayNameUtc => (super.noSuchMethod(
+        Invocation.getter(#displayNameUtc),
+        returnValue: _i13.dummyValue<String>(
+          this,
+          Invocation.getter(#displayNameUtc),
+        ),
+      ) as String);
+
+  @override
+  String get displayUtc => (super.noSuchMethod(
+        Invocation.getter(#displayUtc),
+        returnValue: _i13.dummyValue<String>(
+          this,
+          Invocation.getter(#displayUtc),
+        ),
+      ) as String);
+
+  @override
+  _i7.Location get value => (super.noSuchMethod(
+        Invocation.getter(#value),
+        returnValue: _FakeLocation_20(this, Invocation.getter(#value)),
+      ) as _i7.Location);
+
+  @override
+  bool matchesFilter(String? filter) => (super.noSuchMethod(
+        Invocation.method(#matchesFilter, [filter]),
+        returnValue: false,
+      ) as bool);
 }

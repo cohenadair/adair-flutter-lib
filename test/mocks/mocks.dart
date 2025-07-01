@@ -31,4 +31,5 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([StoreProduct])
 @GenerateMocks([SubscriptionManager])
 @GenerateMocks([TimeManager])
+@GenerateMocks([TimeZoneLocation])
 void main() {}
