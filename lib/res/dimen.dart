@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-const paddingXL = 32.0;
-const paddingDefault = 16.0;
-const paddingMedium = 12.0;
-const paddingSmall = 8.0;
 const paddingTiny = 4.0;
+const paddingSmall = 8.0;
+const paddingMedium = 12.0;
+const paddingDefault = 16.0;
+const paddingLarge = 24.0;
+const paddingXL = 32.0;
 
 const insetsZero = EdgeInsets.all(0);
 const insetsTiny = EdgeInsets.all(paddingTiny);
+const insetsSmall = EdgeInsets.all(paddingSmall);
+const insetsMedium = EdgeInsets.all(paddingMedium);
 const insetsDefault = EdgeInsets.all(paddingDefault);
+const insetsXL = EdgeInsets.all(paddingXL);
 
 const insetsRowDefault = EdgeInsets.only(
   left: paddingDefault,
@@ -38,9 +42,46 @@ const insetsHorizontalDefault = EdgeInsets.only(
   bottom: 0,
 );
 
+const insetsHorizontalDefaultVerticalSmall = EdgeInsets.only(
+  left: paddingDefault,
+  right: paddingDefault,
+  top: paddingSmall,
+  bottom: paddingSmall,
+);
+
+const insetsHorizontalDefaultBottomSmall = EdgeInsets.only(
+  left: paddingDefault,
+  right: paddingDefault,
+  bottom: paddingSmall,
+);
+
+const insetsHorizontalDefaultTopDefault = EdgeInsets.only(
+  left: paddingDefault,
+  right: paddingDefault,
+  top: paddingDefault,
+);
+
+const insetsHorizontalDefaultTopSmall = EdgeInsets.only(
+  left: paddingDefault,
+  right: paddingDefault,
+  top: paddingSmall,
+);
+
 const insetsHorizontalDefaultBottomDefault = EdgeInsets.only(
   left: paddingDefault,
   right: paddingDefault,
+  bottom: paddingDefault,
+);
+
+const insetsHorizontalSmall = EdgeInsets.only(
+  left: paddingSmall,
+  right: paddingSmall,
+);
+
+const insetsHorizontalSmallVerticalDefault = EdgeInsets.only(
+  left: paddingSmall,
+  right: paddingSmall,
+  top: paddingDefault,
   bottom: paddingDefault,
 );
 
@@ -81,18 +122,14 @@ const insetsLeftDefault = EdgeInsets.only(
 
 const insetsLeftSmall = EdgeInsets.only(left: paddingSmall);
 
-const insetsRightDefault = EdgeInsets.only(right: paddingDefault);
 const insetsRightTiny = EdgeInsets.only(right: paddingTiny);
-
-const insetsVerticalDefaultHorizontalSmall = EdgeInsets.only(
-  left: paddingSmall,
-  right: paddingSmall,
-  top: paddingDefault,
-  bottom: paddingDefault,
-);
+const insetsRightSmall = EdgeInsets.only(right: paddingSmall);
+const insetsRightDefault = EdgeInsets.only(right: paddingDefault);
 
 const iconSizeDefault = 24.0;
 const iconSizeLarge = 32.0;
 
 const chartBarHeightDefault = 75.0;
 const chartBarHeightSingle = 100.0;
+
+const checkboxSizeDefault = 24.0;
