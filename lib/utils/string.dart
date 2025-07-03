@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
+// TODO: Remove. Use L10n instead.
 typedef StringCallback = String Function(BuildContext);
 
 int Function(String, String) get ignoreCaseAlphabeticalComparator =>

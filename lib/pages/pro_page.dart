@@ -63,7 +63,7 @@ class ProPageState extends State<ProPage> {
         ),
       ),
       Text(
-        L10n.get.lib.proPageUpgradeTitle(AppConfig.get.appName(context)),
+        L10n.get.lib.proPageUpgradeTitle(AppConfig.get.appName()),
         style: styleTitle2(context),
       ),
       const VerticalSpace(paddingSmall),

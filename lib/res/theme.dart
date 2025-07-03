@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 
 import '../app_config.dart';
 
-const themeMode = ThemeMode.system;
 const useMaterial3 = false;
 
 class AdairFlutterLibTheme {
   static ThemeData light() =>
       ThemeData.light(useMaterial3: useMaterial3).copyWith(
         primaryColor: AppConfig.get.colorAppTheme,
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: AppConfig.get.colorAppTheme),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: AppConfig.get.colorAppTheme,
+        ).copyWith(error: Colors.red),
         elevatedButtonTheme: _elevatedButtonTheme(),
       );
 
@@ -32,7 +32,7 @@ class AdairFlutterLibTheme {
 
 extension BuildContexts on BuildContext {
   bool get isDarkTheme {
-    switch (themeMode) {
+    switch (AppConfig.get.themeMode()) {
       case ThemeMode.system:
         return MediaQuery.of(this).platformBrightness == Brightness.dark;
       case ThemeMode.light:

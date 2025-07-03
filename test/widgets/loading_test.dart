@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../test_utils/finder.dart';
+import '../test_utils/stubbed_managers.dart';
 import '../test_utils/testable.dart';
 
 void main() {
+  setUp(() async {
+    await StubbedManagers.create();
+  });
+
   testWidgets("Centered includes a centered column", (tester) async {
     await tester.pumpWidget(
       Testable((_) => const Loading(isCentered: true, label: "Test...")),

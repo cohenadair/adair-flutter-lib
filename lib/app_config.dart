@@ -1,4 +1,3 @@
-import 'package:adair_flutter_lib/utils/string.dart';
 import 'package:flutter/material.dart';
 
 class AppConfig {
@@ -14,17 +13,20 @@ class AppConfig {
 
   AppConfig._();
 
-  late final StringCallback appName;
+  late final String Function() appName;
   late final IconData appIcon;
   late final MaterialColor colorAppTheme;
+  late final ThemeMode Function() themeMode;
 
   void init({
-    required StringCallback appName,
+    required String Function() appName,
     IconData? appIcon,
     MaterialColor? colorAppTheme,
+    ThemeMode Function()? themeMode,
   }) {
     this.appName = appName;
     this.appIcon = appIcon ?? Icons.not_interested;
     this.colorAppTheme = colorAppTheme ?? Colors.pink;
+    this.themeMode = themeMode ?? () => ThemeMode.system;
   }
 }

@@ -40,7 +40,8 @@ class StubbedManagers {
     appConfig = MockAppConfig();
     when(appConfig.colorAppTheme).thenReturn(Colors.pink);
     when(appConfig.appIcon).thenReturn(Icons.add); // Random icon.
-    when(appConfig.appName).thenReturn((_) => "Test App");
+    when(appConfig.appName).thenReturn(() => "Test App");
+    when(appConfig.themeMode).thenReturn(() => ThemeMode.system);
     AppConfig.set(appConfig);
 
     propertiesManager = MockPropertiesManager();
