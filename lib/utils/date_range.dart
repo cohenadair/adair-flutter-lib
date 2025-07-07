@@ -1,26 +1,12 @@
-import 'package:adair_flutter_lib/utils/string.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart';
 
 import '../l10n/l10n.dart';
 import '../managers/time_manager.dart';
+import '../model/gen/adair_flutter_lib.pb.dart';
 import 'date_time.dart';
-import 'duration.dart';
 
-typedef DateRangeCallback = DateRange Function(TZDateTime now);
-
-class DateRange {
-  final int _daysInMonth = 30;
-
-  final TZDateTime startDate;
-  final TZDateTime endDate;
-
-  DateRange({required this.startDate, required this.endDate})
-      : assert(
-          startDate.isAtSameMomentAs(endDate) || startDate.isBefore(endDate),
-        );
-
+extension DateRanges on DateRange {
   int get startMs => startDate.millisecondsSinceEpoch;
 
   int get endMs => endDate.millisecondsSinceEpoch;
@@ -43,236 +29,136 @@ class DateRange {
   /// taking the total [Duration] of the [DateRange] and dividing it by
   /// the number of milliseconds in a month. A month length is defined as 30
   /// days.
-  num get months => durationMs / (Duration.millisecondsPerDay * _daysInMonth);
+  num get months =>
+      durationMs / (Duration.millisecondsPerDay * DateTimes.daysPerMonth);
 
-  /// Returns a formatted [DateRange] to be displayed to the user.
-  ///
-  /// Example:
-  ///   Dec. 8, 2018 - Dec. 29, 2018
-  String format() {
-    return "${DateFormat(monthDayYearFormat).format(startDate)} - ${DateFormat(monthDayYearFormat).format(endDate)}";
-  }
-}
+  TZDateTime get startDate {
+    if (hasStartTimestamp()) {
+      return TimeManager.get.dateTime(startTimestamp.toInt(), timeZone);
+    }
 
-/// A pre-defined set of date ranges meant for user section. Includes ranges
-/// such as "This week", "This month", "Last year", etc.
-@immutable
-class DisplayDateRange {
-  static final allDates = DisplayDateRange._(
-    id: "allDates",
-    onValue: (now) =>
-        DateRange(startDate: TimeManager.get.dateTime(0), endDate: now),
-    onTitle: (context) => L10n.get.lib.durationAllDates,
-  );
+    var now = TimeManager.get.now(timeZone);
 
-  static final today = DisplayDateRange._(
-    id: "today",
-    onValue: (now) =>
-        DateRange(startDate: dateTimeToDayAccuracy(now), endDate: now),
-    onTitle: (context) => L10n.get.lib.durationToday,
-  );
-
-  static final yesterday = DisplayDateRange._(
-    id: "yesterday",
-    onValue: (now) => DateRange(
-      startDate: dateTimeToDayAccuracy(
-        now,
-      ).subtract(const Duration(days: 1)),
-      endDate: dateTimeToDayAccuracy(now),
-    ),
-    onTitle: (context) => L10n.get.lib.durationYesterday,
-  );
-
-  static final thisWeek = DisplayDateRange._(
-    id: "thisWeek",
-    onValue: (now) => DateRange(startDate: startOfWeek(now), endDate: now),
-    onTitle: (context) => L10n.get.lib.durationThisWeek,
-  );
-
-  static final thisMonth = DisplayDateRange._(
-    id: "thisMonth",
-    onValue: (now) => DateRange(startDate: startOfMonth(now), endDate: now),
-    onTitle: (context) => L10n.get.lib.durationThisMonth,
-  );
-
-  static final thisYear = DisplayDateRange._(
-    id: "thisYear",
-    onValue: (now) => DateRange(startDate: startOfYear(now), endDate: now),
-    onTitle: (context) => L10n.get.lib.durationThisYear,
-  );
-
-  static final lastWeek = DisplayDateRange._(
-    id: "lastWeek",
-    onValue: (now) {
-      var endOfLastWeek = startOfWeek(now);
-      var startOfLastWeek = endOfLastWeek.subtract(
-        const Duration(days: DateTime.daysPerWeek),
-      );
-      return DateRange(startDate: startOfLastWeek, endDate: endOfLastWeek);
-    },
-    onTitle: (context) => L10n.get.lib.durationLastWeek,
-  );
-
-  static final lastMonth = DisplayDateRange._(
-    id: "lastMonth",
-    onValue: (now) {
-      var endOfLastMonth = startOfMonth(now);
-      var year = now.year;
-      var month = now.month - 1;
-      if (month < DateTime.january) {
-        month = DateTime.december;
-        year -= 1;
-      }
-      return DateRange(
-        startDate: TimeManager.get.dateTimeToTz(DateTime(year, month)),
-        endDate: endOfLastMonth,
-      );
-    },
-    onTitle: (context) => L10n.get.lib.durationLastMonth,
-  );
-
-  static final lastYear = DisplayDateRange._(
-    id: "lastYear",
-    onValue: (now) => DateRange(
-      startDate: TimeManager.get.dateTimeToTz(DateTime(now.year - 1)),
-      endDate: startOfYear(now),
-    ),
-    onTitle: (context) => L10n.get.lib.durationLastYear,
-  );
-
-  static final last7Days = DisplayDateRange._(
-    id: "last7Days",
-    onValue: (now) => DateRange(
-      startDate: now.subtract(const Duration(days: 7)),
-      endDate: now,
-    ),
-    onTitle: (context) => L10n.get.lib.durationLast7Days,
-  );
-
-  static final last14Days = DisplayDateRange._(
-    id: "last14Days",
-    onValue: (now) => DateRange(
-      startDate: now.subtract(const Duration(days: 14)),
-      endDate: now,
-    ),
-    onTitle: (context) => L10n.get.lib.durationLast14Days,
-  );
-
-  static final last30Days = DisplayDateRange._(
-    id: "last30Days",
-    onValue: (now) => DateRange(
-      startDate: now.subtract(const Duration(days: 30)),
-      endDate: now,
-    ),
-    onTitle: (context) => L10n.get.lib.durationLast30Days,
-  );
-
-  static final last60Days = DisplayDateRange._(
-    id: "last60Days",
-    onValue: (now) => DateRange(
-      startDate: now.subtract(const Duration(days: 60)),
-      endDate: now,
-    ),
-    onTitle: (context) => L10n.get.lib.durationLast60Days,
-  );
-
-  static final last12Months = DisplayDateRange._(
-    id: "last12Months",
-    onValue: (now) => DateRange(
-      startDate: now.subtract(const Duration(days: 365)),
-      endDate: now,
-    ),
-    onTitle: (context) => L10n.get.lib.durationLast12Months,
-  );
-
-  static final custom = DisplayDateRange._(
-    id: "custom",
-    onValue: (now) => DisplayDateRange.thisMonth.onValue(now),
-    onTitle: (context) => L10n.get.lib.durationCustom,
-  );
-
-  static final all = [
-    allDates,
-    today,
-    yesterday,
-    thisWeek,
-    thisMonth,
-    thisYear,
-    lastWeek,
-    lastMonth,
-    lastYear,
-    last7Days,
-    last14Days,
-    last30Days,
-    last60Days,
-    last12Months,
-    custom,
-  ];
-
-  /// Returns the [DisplayDateRange] for the given ID, or `null` if none exists.
-  static DisplayDateRange? of(String id) {
-    try {
-      return all.firstWhere((range) => range.id == id);
-    } on StateError {
-      return null;
+    switch (period) {
+      case DateRange_Period.allDates:
+        return TimeManager.get.dateTime(0, timeZone);
+      case DateRange_Period.today:
+        return dateTimeToDayAccuracy(now);
+      case DateRange_Period.yesterday:
+        return dateTimeToDayAccuracy(now).subtract(const Duration(days: 1));
+      case DateRange_Period.thisWeek:
+        return startOfWeek(now);
+      case DateRange_Period.thisMonth:
+      case DateRange_Period.custom: // Default custom to this month.
+        return startOfMonth(now);
+      case DateRange_Period.thisYear:
+        return startOfYear(now);
+      case DateRange_Period.lastWeek:
+        return startOfWeek(now)
+            .subtract(const Duration(days: DateTime.daysPerWeek));
+      case DateRange_Period.lastMonth:
+        var year = now.year;
+        var month = now.month - 1;
+        if (month < DateTime.january) {
+          month = DateTime.december;
+          year -= 1;
+        }
+        return TZDateTime(now.location, year, month);
+      case DateRange_Period.lastYear:
+        return TZDateTime(now.location, now.year - 1);
+      case DateRange_Period.last7Days:
+        return now.subtract(const Duration(days: 7));
+      case DateRange_Period.last14Days:
+        return now.subtract(const Duration(days: 14));
+      case DateRange_Period.last30Days:
+        return now.subtract(const Duration(days: 30));
+      case DateRange_Period.last60Days:
+        return now.subtract(const Duration(days: 60));
+      case DateRange_Period.last12Months:
+      default:
+        return now.subtract(const Duration(days: 365));
     }
   }
 
-  final String id;
-  final DateRangeCallback onValue;
-  final StringCallback onTitle;
-
-  const DisplayDateRange._({
-    required this.id,
-    required this.onValue,
-    required this.onTitle,
-  });
-
-  /// Used to create a [DisplayDateRange] with custom start and end dates, but
-  /// with the same ID as [DisplayDateRange.custom].
-  DisplayDateRange.newCustom({
-    required DateRangeCallback onValue,
-    required StringCallback onTitle,
-  }) : this._(id: custom.id, onValue: onValue, onTitle: onTitle);
-
-  DisplayDateRange.dateRange(DateRange dateRange)
-      : this._(
-          id: custom.id,
-          onValue: (_) => dateRange,
-          onTitle: (_) => dateRange.format(),
-        );
-
-  DateRange get value => onValue(TimeManager.get.now());
-
-  /// Returns a formatted [Duration] with an appended label for the receiver.
-  /// For [custom] and [allDates], no label is added.
-  ///
-  /// Examples:
-  ///   - 0d 12h 45m 0s last week
-  ///   - 0d 0h 45m 0s today
-  String formatDuration({
-    required BuildContext context,
-    Duration duration = const Duration(),
-    DurationUnit? largestDurationUnit,
-  }) {
-    String formattedDuration = formatDurations(
-      context: context,
-      durations: [duration],
-      largestDurationUnit: largestDurationUnit,
-    );
-
-    if (this == allDates || this == custom) {
-      return formattedDuration;
+  TZDateTime get endDate {
+    if (hasEndTimestamp()) {
+      return TimeManager.get.dateTime(endTimestamp.toInt(), timeZone);
     }
 
-    return "$formattedDuration ${onTitle(context)}";
+    var now = TimeManager.get.now(timeZone);
+
+    switch (period) {
+      case DateRange_Period.allDates:
+      case DateRange_Period.today:
+      case DateRange_Period.thisWeek:
+      case DateRange_Period.thisMonth:
+      case DateRange_Period.custom: // Default custom to this month.
+      case DateRange_Period.thisYear:
+      case DateRange_Period.last7Days:
+      case DateRange_Period.last14Days:
+      case DateRange_Period.last30Days:
+      case DateRange_Period.last60Days:
+      case DateRange_Period.last12Months:
+        return now;
+      case DateRange_Period.yesterday:
+        return dateTimeToDayAccuracy(now);
+      case DateRange_Period.lastWeek:
+        return startOfWeek(now);
+      case DateRange_Period.lastMonth:
+        return startOfMonth(now);
+      case DateRange_Period.lastYear:
+        return startOfYear(now);
+    }
+    throw ArgumentError("Invalid input: $period");
   }
 
-  @override
-  bool operator ==(other) {
-    return other is DisplayDateRange && other.id == id;
+  String get displayName {
+    if (hasStartTimestamp() && hasEndTimestamp()) {
+      var formatter = DateFormat(
+          L10n.get.lib.dateFormatMonthDayYear, L10n.get.lib.localeName);
+      return L10n.get.lib.dateRangeFormat(
+        formatter.format(startDate),
+        formatter.format(endDate),
+      );
+    }
+
+    switch (period) {
+      case DateRange_Period.allDates:
+        return L10n.get.lib.durationAllDates;
+      case DateRange_Period.today:
+        return L10n.get.lib.durationToday;
+      case DateRange_Period.yesterday:
+        return L10n.get.lib.durationYesterday;
+      case DateRange_Period.thisWeek:
+        return L10n.get.lib.durationThisWeek;
+      case DateRange_Period.thisMonth:
+        return L10n.get.lib.durationThisMonth;
+      case DateRange_Period.thisYear:
+        return L10n.get.lib.durationThisYear;
+      case DateRange_Period.last7Days:
+        return L10n.get.lib.durationLast7Days;
+      case DateRange_Period.last14Days:
+        return L10n.get.lib.durationLast14Days;
+      case DateRange_Period.last30Days:
+        return L10n.get.lib.durationLast30Days;
+      case DateRange_Period.last60Days:
+        return L10n.get.lib.durationLast60Days;
+      case DateRange_Period.last12Months:
+        return L10n.get.lib.durationLast12Months;
+      case DateRange_Period.lastWeek:
+        return L10n.get.lib.durationLastWeek;
+      case DateRange_Period.lastMonth:
+        return L10n.get.lib.durationLastMonth;
+      case DateRange_Period.lastYear:
+        return L10n.get.lib.durationLastYear;
+      case DateRange_Period.custom:
+        return L10n.get.lib.durationCustom;
+    }
+    throw ArgumentError("Invalid input: $period");
   }
 
-  @override
-  int get hashCode => id.hashCode;
+  bool contains(int timestamp) {
+    var utcDateRange = deepCopy()..timeZone = "UTC";
+    return timestamp >= utcDateRange.startMs && timestamp <= utcDateRange.endMs;
+  }
 }

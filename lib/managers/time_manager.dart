@@ -79,7 +79,7 @@ class TimeManager {
   /// [timeZone] is empty, the current time zone is used.
   TZDateTime dateTime(int timestamp, [String? timeZone]) {
     return TZDateTime.fromMillisecondsSinceEpoch(
-      getLocation(timeZone ?? currentTimeZone),
+      getLocation(isEmpty(timeZone) ? currentTimeZone : timeZone!),
       timestamp,
     );
   }

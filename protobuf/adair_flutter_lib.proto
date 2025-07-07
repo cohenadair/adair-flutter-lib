@@ -1,0 +1,30 @@
+syntax = "proto3";
+package adair_flutter_lib;
+
+message DateRange {
+  enum Period {
+    allDates = 0;
+    today = 1;
+    yesterday = 2;
+    thisWeek = 3;
+    thisMonth = 4;
+    thisYear = 5;
+    lastWeek = 6;
+    lastMonth = 7;
+    lastYear = 8;
+    last7Days = 9;
+    last14Days = 10;
+    last30Days = 11;
+    last60Days = 12;
+    last12Months = 13;
+    custom = 14;
+  }
+
+  Period period = 1;
+
+  // Should only be set for Period.custom.
+  uint64 start_timestamp = 2;
+  uint64 end_timestamp = 3;
+
+  string time_zone = 23;
+}

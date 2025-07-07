@@ -182,6 +182,30 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
   @override
   String get proPageDisclosureAndroid =>
       'Cancel anytime. Billing starts after the free trial period ends. The free trial period is only valid for new subscribers. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current subscription period. All subscriptions can be managed through the Google Play Store. Any unused portion of the free trial will be forfeited when a subscription is purchased.';
+
+  @override
+  String get dateFormatMonth => 'MMM';
+
+  @override
+  String get dateFormatMonthDay => 'MMM d';
+
+  @override
+  String get dateFormatMonthDayYear => 'MMM d, yyyy';
+
+  @override
+  String get dateFormatMonthDayYearFull => 'MMMM d, yyyy';
+
+  @override
+  String get dateFormatMonthFull => 'MMMM';
+
+  @override
+  String get dateFormatMonthYearFull => 'MMMM yyyy';
+
+  @override
+  String get dateFormatWeekDay => 'E';
+
+  @override
+  String get dateFormatWeekDayFull => 'EEEE';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

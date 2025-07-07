@@ -300,6 +300,10 @@ extension TZDateTimes on TZDateTime {
   bool get isMidnight => hour == 0 && minute == 0;
 }
 
+extension DateTimes on DateTime {
+  static int get daysPerMonth => 30;
+}
+
 extension TimeOfDays on TimeOfDay {
   bool get isMidnight => hour == 0 && minute == 0;
 }

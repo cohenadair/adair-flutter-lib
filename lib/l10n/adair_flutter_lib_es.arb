@@ -136,5 +136,13 @@
   "proPageRestoreNoneFoundGooglePlay": "No se encontraron compras anteriores. Asegúrate de haber iniciado sesión con la misma cuenta de Google con la que realizaste la compra original.",
   "proPageRestoreError": "Ocurrió un error inesperado. Asegúrate de que tu dispositivo esté conectado a Internet y vuelve a intentarlo.",
   "proPageDisclosureApple": "Cancela en cualquier momento. La facturación comienza después de que finalice el período de prueba gratuito. El período de prueba gratuito solo es válido para nuevos suscriptores. Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de suscripción actual. Todas las suscripciones se pueden gestionar a través de la App Store. Cualquier parte no utilizada del período de prueba gratuito se perderá cuando se compre una suscripción.",
-  "proPageDisclosureAndroid": "Cancela en cualquier momento. La facturación comienza después de que finalice el período de prueba gratuito. El período de prueba gratuito es válido solo para nuevos suscriptores. Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de suscripción actual. Todas las suscripciones se pueden gestionar a través de Google Play Store. Cualquier parte no utilizada del período de prueba gratuito se perderá cuando se compre una suscripción."
+  "proPageDisclosureAndroid": "Cancela en cualquier momento. La facturación comienza después de que finalice el período de prueba gratuito. El período de prueba gratuito es válido solo para nuevos suscriptores. Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de suscripción actual. Todas las suscripciones se pueden gestionar a través de Google Play Store. Cualquier parte no utilizada del período de prueba gratuito se perderá cuando se compre una suscripción.",
+  "dateFormatMonth": "MMM",
+  "dateFormatMonthDay": "d ''de'' MMM",
+  "dateFormatMonthDayYear": "d ''de'' MMM ''de'' yyyy",
+  "dateFormatMonthDayYearFull": "d ''de'' MMMM ''de'' yyyy",
+  "dateFormatMonthFull": "MMMM",
+  "dateFormatMonthYearFull": "MMMM ''de'' yyyy",
+  "dateFormatWeekDay": "E",
+  "dateFormatWeekDayFull": "EEEE"
 }

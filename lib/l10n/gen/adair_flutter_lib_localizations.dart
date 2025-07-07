@@ -387,6 +387,54 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Cancel anytime. Billing starts after the free trial period ends. The free trial period is only valid for new subscribers. Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current subscription period. All subscriptions can be managed through the Google Play Store. Any unused portion of the free trial will be forfeited when a subscription is purchased.'**
   String get proPageDisclosureAndroid;
+
+  /// No description provided for @dateFormatMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'MMM'**
+  String get dateFormatMonth;
+
+  /// No description provided for @dateFormatMonthDay.
+  ///
+  /// In en, this message translates to:
+  /// **'MMM d'**
+  String get dateFormatMonthDay;
+
+  /// No description provided for @dateFormatMonthDayYear.
+  ///
+  /// In en, this message translates to:
+  /// **'MMM d, yyyy'**
+  String get dateFormatMonthDayYear;
+
+  /// No description provided for @dateFormatMonthDayYearFull.
+  ///
+  /// In en, this message translates to:
+  /// **'MMMM d, yyyy'**
+  String get dateFormatMonthDayYearFull;
+
+  /// No description provided for @dateFormatMonthFull.
+  ///
+  /// In en, this message translates to:
+  /// **'MMMM'**
+  String get dateFormatMonthFull;
+
+  /// No description provided for @dateFormatMonthYearFull.
+  ///
+  /// In en, this message translates to:
+  /// **'MMMM yyyy'**
+  String get dateFormatMonthYearFull;
+
+  /// No description provided for @dateFormatWeekDay.
+  ///
+  /// In en, this message translates to:
+  /// **'E'**
+  String get dateFormatWeekDay;
+
+  /// No description provided for @dateFormatWeekDayFull.
+  ///
+  /// In en, this message translates to:
+  /// **'EEEE'**
+  String get dateFormatWeekDayFull;
 }
 
 class _AdairFlutterLibLocalizationsDelegate
