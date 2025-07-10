@@ -67,9 +67,10 @@ class DisplayDuration {
 }
 
 extension Durations on Duration {
-  static const int monthsPerYear = 12;
-  static const int daysPerYear = 365;
-  static const int microsecondsPerYear =
+  static const monthsPerYear = 12;
+  static const daysPerMonth = 30;
+  static const daysPerYear = 365;
+  static const microsecondsPerYear =
       Duration.microsecondsPerDay * Durations.daysPerYear;
 
   /// The number of years spanned by this duration.

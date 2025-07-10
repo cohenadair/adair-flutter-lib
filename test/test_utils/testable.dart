@@ -36,12 +36,15 @@ class Testable extends StatelessWidget {
       ),
       localizationsDelegates: [
         AdairFlutterLibLocalizations.delegate,
-        DefaultMaterialLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         ...localizations,
       ],
-      supportedLocales: locales ?? const [Locale("en", "CA")],
+      supportedLocales: [
+        ...AdairFlutterLibLocalizations.supportedLocales,
+        ...locales ?? [],
+      ],
       locale: locale ?? const Locale("en", "CA"),
       home: MediaQuery(
         data: mediaQueryData,

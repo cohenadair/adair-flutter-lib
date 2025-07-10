@@ -7,17 +7,7 @@ import 'package:timezone/timezone.dart';
 
 import '../l10n/l10n.dart';
 import '../managers/time_manager.dart';
-
-const monthFormat = "MMMM";
-const monthDayFormat = "MMM d";
-const monthDayYearFormat = "MMM d, yyyy";
-const monthDayYearFormatFull = "MMMM d, yyyy";
-const monthYearFormat = "MMMM yyyy";
-
-TZDateTime now(String timeZone) {
-  assert(isNotEmpty(timeZone));
-  return TZDateTime.now(getLocation(timeZone));
-}
+import 'date_format.dart';
 
 bool isSameYear(TZDateTime a, TZDateTime b) {
   return a.year == b.year;
@@ -206,7 +196,6 @@ String formatDateTime(
   bool excludeMidnight = false,
 }) {
   var recentDate = formatDateAsRecent(
-    context,
     dateTime,
     abbreviated: abbreviated,
   );
@@ -237,7 +226,9 @@ String timestampToSearchString(
 ) {
   var dateTime = TimeManager.get.dateTime(timestamp, timeZone);
   return "${formatDateTime(context, dateTime)} "
-      "${DateFormat(monthDayYearFormatFull).format(dateTime)}";
+      "${DateFormats.localized(
+    L10n.get.lib.dateFormatMonthDayYearFull,
+  ).format(dateTime)}";
 }
 
 /// Returns a formatted [TZDateTime] to be displayed to the user. Includes
@@ -250,11 +241,11 @@ String timestampToSearchString(
 ///   - Jan. 8
 ///   - Dec. 8, 2018
 String formatDateAsRecent(
-  BuildContext context,
   TZDateTime dateTime, {
   bool abbreviated = false,
 }) {
   final now = TimeManager.get.currentDateTime;
+  var format = "";
 
   if (isSameDate(dateTime, now)) {
     // Today.
@@ -264,14 +255,18 @@ String formatDateAsRecent(
     return L10n.get.lib.yesterday;
   } else if (isWithinOneWeek(dateTime, now)) {
     // 2 days ago to 6 days ago.
-    return DateFormat(abbreviated ? "E" : "EEEE").format(dateTime);
+    format = abbreviated
+        ? L10n.get.lib.dateFormatWeekDay
+        : L10n.get.lib.dateFormatWeekDayFull;
   } else if (isSameYear(dateTime, now)) {
     // Same year.
-    return DateFormat(monthDayFormat).format(dateTime);
+    format = L10n.get.lib.dateFormatMonthDay;
   } else {
     // Different year.
-    return DateFormat(monthDayYearFormat).format(dateTime);
+    format = L10n.get.lib.dateFormatMonthDayYear;
   }
+
+  return DateFormats.localized(format).format(dateTime);
 }
 
 bool isFrequencyTimerReady({
@@ -298,10 +293,6 @@ extension TZDateTimes on TZDateTime {
   String get locationName => location.name;
 
   bool get isMidnight => hour == 0 && minute == 0;
-}
-
-extension DateTimes on DateTime {
-  static int get daysPerMonth => 30;
 }
 
 extension TimeOfDays on TimeOfDay {

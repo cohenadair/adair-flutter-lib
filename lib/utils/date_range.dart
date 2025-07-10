@@ -5,6 +5,7 @@ import '../l10n/l10n.dart';
 import '../managers/time_manager.dart';
 import '../model/gen/adair_flutter_lib.pb.dart';
 import 'date_time.dart';
+import 'duration.dart';
 
 extension DateRanges on DateRange {
   int get startMs => startDate.millisecondsSinceEpoch;
@@ -30,7 +31,7 @@ extension DateRanges on DateRange {
   /// the number of milliseconds in a month. A month length is defined as 30
   /// days.
   num get months =>
-      durationMs / (Duration.millisecondsPerDay * DateTimes.daysPerMonth);
+      durationMs / (Duration.millisecondsPerDay * Durations.daysPerMonth);
 
   TZDateTime get startDate {
     if (hasStartTimestamp()) {
