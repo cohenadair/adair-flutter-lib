@@ -20,7 +20,7 @@ TextStyle styleError(BuildContext context) =>
 TextStyle styleSuccess(BuildContext context) =>
     stylePrimary(context).copyWith(color: Colors.green);
 
-const TextStyle styleSubtext = TextStyle(fontSize: 11.0);
+const TextStyle styleSubtext = TextStyle(fontSize: 13.0);
 
 TextStyle styleSecondarySubtext(BuildContext context) =>
     TextStyle(fontSize: 11.0, color: styleSecondary(context).color);
