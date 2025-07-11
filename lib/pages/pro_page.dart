@@ -39,7 +39,7 @@ class ProPage extends StatefulWidget {
 
 class ProPageState extends State<ProPage> {
   static const _logoHeight = 150.0;
-  static const _maxButtonsContainerWidth = 325.0;
+  static const _maxButtonsContainerWidth = 350.0;
 
   late Future<Subscriptions?> _subscriptionsFuture;
   var _isPendingTransaction = false;
@@ -65,6 +65,7 @@ class ProPageState extends State<ProPage> {
       Text(
         L10n.get.lib.proPageUpgradeTitle(AppConfig.get.appName()),
         style: styleTitle2(context),
+        textAlign: TextAlign.center,
       ),
       const VerticalSpace(paddingSmall),
       TitleText.style1(L10n.get.lib.proPageProTitle),
@@ -205,7 +206,11 @@ class ProPageState extends State<ProPage> {
               const VerticalSpace(paddingTiny),
               Text(trialCallback(sub.trialLengthDays)),
               const VerticalSpace(paddingTiny),
-              Text(billingFrequencyText, style: styleSubtext),
+              Text(
+                billingFrequencyText,
+                style: styleSubtext,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
