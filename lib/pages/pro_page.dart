@@ -190,6 +190,15 @@ class ProPageState extends State<ProPage> {
   }) {
     assert(isNotEmpty(billingFrequencyText));
 
+    Widget trialLengthWidget = const Empty();
+    var trialLength = sub.trialLengthDays;
+    if (trialLength != null) {
+      trialLengthWidget = Padding(
+        padding: insetsBottomTiny,
+        child: Text(trialCallback(trialLength)),
+      );
+    }
+
     return Expanded(
       child: ElevatedButton(
         child: Padding(
@@ -204,8 +213,7 @@ class ProPageState extends State<ProPage> {
                 ).copyWith(fontWeight: fontWeightBold),
               ),
               const VerticalSpace(paddingTiny),
-              Text(trialCallback(sub.trialLengthDays)),
-              const VerticalSpace(paddingTiny),
+              trialLengthWidget,
               Text(
                 billingFrequencyText,
                 style: styleSubtext,

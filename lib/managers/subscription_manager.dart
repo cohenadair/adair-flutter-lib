@@ -166,11 +166,17 @@ class Subscription {
 
   String get price => package.storeProduct.priceString;
 
-  int get trialLengthDays {
-    var unit = package.storeProduct.introductoryPrice!.periodUnit;
+  int? get trialLengthDays {
+    // Note that introductoryPrice will be null on Android if a user no longer
+    // qualifies for the trial period. For example, if they have subscribed in
+    // the past, but have since cancelled their subscription.
+    var introPrice = package.storeProduct.introductoryPrice;
+    if (introPrice == null) {
+      return null;
+    }
     var result = 0;
 
-    switch (package.storeProduct.introductoryPrice!.periodUnit) {
+    switch (introPrice.periodUnit) {
       case PeriodUnit.day:
         result = 1;
       case PeriodUnit.week:
@@ -180,11 +186,11 @@ class Subscription {
       case PeriodUnit.year:
         result = 365;
       case PeriodUnit.unknown:
-        _log.e("Invalid period unit found: $unit");
+        _log.e("Invalid period unit found: ${introPrice.periodUnit}");
         result = 0;
     }
 
-    return result * package.storeProduct.introductoryPrice!.periodNumberOfUnits;
+    return result * introPrice.periodNumberOfUnits;
   }
 }
 

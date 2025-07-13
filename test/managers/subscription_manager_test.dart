@@ -239,6 +239,17 @@ void main() {
     listener.cancel();
   });
 
+  test("Subscription trial length days returns null", () {
+    var product = MockStoreProduct();
+    when(product.introductoryPrice).thenReturn(null);
+
+    var package = MockPackage();
+    when(package.storeProduct).thenReturn(product);
+
+    var sub = Subscription(package);
+    expect(sub.trialLengthDays, null);
+  });
+
   test("Subscription trial length days returns correct result", () {
     var price = MockIntroductoryPrice();
     when(price.periodUnit).thenReturn(PeriodUnit.month);

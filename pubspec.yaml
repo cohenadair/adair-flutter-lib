@@ -24,7 +24,7 @@ dependencies:
   flutter_timezone: ^4.1.0                  # https://pub.dev/packages/flutter_timezone
   meta: ^1.16.0                             # https://pub.dev/packages/meta
   protobuf: ^4.1.0                          # https://pub.dev/packages/protobuf (Dart)
-  purchases_flutter: ^8.6.1                 # https://pub.dev/packages/purchases_flutter
+  purchases_flutter: ^8.10.6                # https://pub.dev/packages/purchases_flutter
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
 

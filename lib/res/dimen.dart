@@ -113,6 +113,13 @@ const insetsBottomSmall = EdgeInsets.only(
   bottom: paddingSmall,
 );
 
+const insetsBottomTiny = EdgeInsets.only(
+  left: 0,
+  top: 0,
+  right: 0,
+  bottom: paddingTiny,
+);
+
 const insetsLeftDefault = EdgeInsets.only(
   left: paddingDefault,
   top: 0,

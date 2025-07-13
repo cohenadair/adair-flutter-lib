@@ -18,6 +18,8 @@ void main() {
   late StubbedManagers managers;
   late MockPackage monthlyPackage;
   late MockPackage yearlyPackage;
+  late MockStoreProduct monthlyProduct;
+  late MockStoreProduct yearlyProduct;
 
   setUp(() async {
     managers = await StubbedManagers.create();
@@ -32,7 +34,7 @@ void main() {
     var monthlyIntroPrice = MockIntroductoryPrice();
     when(monthlyIntroPrice.periodUnit).thenReturn(PeriodUnit.week);
     when(monthlyIntroPrice.periodNumberOfUnits).thenReturn(1);
-    var monthlyProduct = MockStoreProduct();
+    monthlyProduct = MockStoreProduct();
     when(monthlyProduct.introductoryPrice).thenReturn(monthlyIntroPrice);
     when(monthlyProduct.priceString).thenReturn("\$2.99");
     monthlyPackage = MockPackage();
@@ -41,7 +43,7 @@ void main() {
     var yearlyIntroPrice = MockIntroductoryPrice();
     when(yearlyIntroPrice.periodUnit).thenReturn(PeriodUnit.month);
     when(yearlyIntroPrice.periodNumberOfUnits).thenReturn(1);
-    var yearlyProduct = MockStoreProduct();
+    yearlyProduct = MockStoreProduct();
     when(yearlyProduct.introductoryPrice).thenReturn(yearlyIntroPrice);
     when(yearlyProduct.priceString).thenReturn("\$19.99");
     yearlyPackage = MockPackage();
@@ -421,5 +423,17 @@ void main() {
     expect(find.byType(ProPage), findsOneWidget);
     await tapAndSettle(tester, find.byType(CloseButton));
     expect(find.byType(ProPage), findsNothing);
+  });
+
+  testWidgets("Trial length is hidden", (tester) async {
+    when(monthlyProduct.introductoryPrice).thenReturn(null);
+    when(yearlyProduct.introductoryPrice).thenReturn(null);
+
+    await tester.pumpWidget(Testable((_) => const ProPage()));
+    // Wait for subscriptions future to finish.
+    await tester.pumpAndSettle(const Duration(milliseconds: 50));
+
+    expect(find.text("+30 days free"), findsNothing);
+    expect(find.text("+7 days free"), findsNothing);
   });
 }
