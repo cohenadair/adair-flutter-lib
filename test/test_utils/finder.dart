@@ -57,12 +57,12 @@ bool tapRichTextContaining(
       .firstWidget<RichText>(findRichText(fullText))
       .text
       .visitChildren((span) {
-    if (span is TextSpan && span.text == clickText) {
-      (span.recognizer as TapGestureRecognizer).onTap!();
-      return false;
-    }
-    return true;
-  });
+        if (span is TextSpan && span.text == clickText) {
+          (span.recognizer as TapGestureRecognizer).onTap!();
+          return false;
+        }
+        return true;
+      });
 }
 
 /// Different from [Finder.byType] in that it works for widgets with generic

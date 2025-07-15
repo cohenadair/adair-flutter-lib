@@ -195,18 +195,17 @@ String formatDateTime(
   bool abbreviated = false,
   bool excludeMidnight = false,
 }) {
-  var recentDate = formatDateAsRecent(
-    dateTime,
-    abbreviated: abbreviated,
-  );
+  var recentDate = formatDateAsRecent(dateTime, abbreviated: abbreviated);
 
   var time = TimeOfDay.fromDateTime(dateTime);
   if (excludeMidnight && time.hour == 0 && time.minute == 0) {
     return recentDate;
   }
 
-  return L10n.get.lib
-      .dateTimeFormat(recentDate, formatTimeOfDay(context, time));
+  return L10n.get.lib.dateTimeFormat(
+    recentDate,
+    formatTimeOfDay(context, time),
+  );
 }
 
 String formatTimestamp(BuildContext context, int timestamp, String? timeZone) {
@@ -226,9 +225,7 @@ String timestampToSearchString(
 ) {
   var dateTime = TimeManager.get.dateTime(timestamp, timeZone);
   return "${formatDateTime(context, dateTime)} "
-      "${DateFormats.localized(
-    L10n.get.lib.dateFormatMonthDayYearFull,
-  ).format(dateTime)}";
+      "${DateFormats.localized(L10n.get.lib.dateFormatMonthDayYearFull).format(dateTime)}";
 }
 
 /// Returns a formatted [TZDateTime] to be displayed to the user. Includes
@@ -240,10 +237,7 @@ String timestampToSearchString(
 ///   - Monday
 ///   - Jan. 8
 ///   - Dec. 8, 2018
-String formatDateAsRecent(
-  TZDateTime dateTime, {
-  bool abbreviated = false,
-}) {
+String formatDateAsRecent(TZDateTime dateTime, {bool abbreviated = false}) {
   final now = TimeManager.get.currentDateTime;
   var format = "";
 

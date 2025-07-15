@@ -63,13 +63,15 @@ import 'adair_flutter_lib_localizations_es.dart';
 /// property.
 abstract class AdairFlutterLibLocalizations {
   AdairFlutterLibLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
   static AdairFlutterLibLocalizations of(BuildContext context) {
     return Localizations.of<AdairFlutterLibLocalizations>(
-        context, AdairFlutterLibLocalizations)!;
+      context,
+      AdairFlutterLibLocalizations,
+    )!;
   }
 
   static const LocalizationsDelegate<AdairFlutterLibLocalizations> delegate =
@@ -87,17 +89,17 @@ abstract class AdairFlutterLibLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('en', 'US'),
-    Locale('es')
+    Locale('es'),
   ];
 
   /// No description provided for @cancel.
@@ -444,7 +446,8 @@ class _AdairFlutterLibLocalizationsDelegate
   @override
   Future<AdairFlutterLibLocalizations> load(Locale locale) {
     return SynchronousFuture<AdairFlutterLibLocalizations>(
-        lookupAdairFlutterLibLocalizations(locale));
+      lookupAdairFlutterLibLocalizations(locale),
+    );
   }
 
   @override
@@ -477,8 +480,9 @@ AdairFlutterLibLocalizations lookupAdairFlutterLibLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AdairFlutterLibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AdairFlutterLibLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

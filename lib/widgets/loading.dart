@@ -24,14 +24,14 @@ class Loading extends StatelessWidget {
 
   /// A [Loading] widget to be used in an [AppBar].
   const Loading.appBar()
-      : this(
-          padding: const EdgeInsets.only(
-            right: paddingDefault,
-            top: paddingDefault,
-          ),
-          isCentered: true,
-          isAppBar: true,
-        );
+    : this(
+        padding: const EdgeInsets.only(
+          right: paddingDefault,
+          top: paddingDefault,
+        ),
+        isCentered: true,
+        isAppBar: true,
+      );
 
   const Loading.listItem() : this(isCentered: false, isAppBar: false);
 
@@ -49,8 +49,9 @@ class Loading extends StatelessWidget {
       return Padding(
         padding: padding,
         child: Column(
-          mainAxisAlignment:
-              isCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
+          mainAxisAlignment: isCentered
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: [
             indicator,
             const VerticalSpace(paddingDefault),

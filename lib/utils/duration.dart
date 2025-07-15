@@ -21,10 +21,10 @@ class DisplayDuration {
     bool includesDays = true,
     bool includesHours = true,
     bool includesMinutes = true,
-  })  : _includesYears = includesYears,
-        _includesDays = includesDays,
-        _includesHours = includesHours,
-        _includesMinutes = includesMinutes;
+  }) : _includesYears = includesYears,
+       _includesDays = includesDays,
+       _includesHours = includesHours,
+       _includesMinutes = includesMinutes;
 
   int get years => _duration.inYears;
 

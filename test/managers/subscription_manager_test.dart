@@ -49,8 +49,9 @@ void main() {
   }
 
   test("Initialize for Android", () async {
-    when(managers.purchasesWrapper.getCustomerInfo())
-        .thenAnswer((_) => Future.value(stubbedCustomerInfo()));
+    when(
+      managers.purchasesWrapper.getCustomerInfo(),
+    ).thenAnswer((_) => Future.value(stubbedCustomerInfo()));
     when(managers.ioWrapper.isAndroid).thenReturn(true);
     when(managers.propertiesManager.revenueCatGoogleApiKey).thenReturn("G");
 
@@ -60,8 +61,9 @@ void main() {
   });
 
   test("Initialize for iOS", () async {
-    when(managers.purchasesWrapper.getCustomerInfo())
-        .thenAnswer((_) => Future.value(stubbedCustomerInfo()));
+    when(
+      managers.purchasesWrapper.getCustomerInfo(),
+    ).thenAnswer((_) => Future.value(stubbedCustomerInfo()));
     when(managers.ioWrapper.isAndroid).thenReturn(false);
     when(managers.propertiesManager.revenueCatAppleApiKey).thenReturn("A");
 

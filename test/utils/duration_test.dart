@@ -8,7 +8,8 @@ void main() {
     expect(
       DisplayDuration(
         const Duration(
-          milliseconds: 5 * Duration.millisecondsPerHour +
+          milliseconds:
+              5 * Duration.millisecondsPerHour +
               5 * Duration.millisecondsPerMinute,
         ),
       ).formatHoursMinutes(),
@@ -17,7 +18,8 @@ void main() {
     expect(
       DisplayDuration(
         const Duration(
-          milliseconds: 15 * Duration.millisecondsPerHour +
+          milliseconds:
+              15 * Duration.millisecondsPerHour +
               15 * Duration.millisecondsPerMinute,
         ),
       ).formatHoursMinutes(),

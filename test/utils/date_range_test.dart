@@ -22,9 +22,11 @@ void main() {
     int hour = 0,
     int minute = 0,
   ]) {
-    return Int64(TimeManager.get
-        .dateTimeFromValues(year, month, day, hour, minute)
-        .millisecondsSinceEpoch);
+    return Int64(
+      TimeManager.get
+          .dateTimeFromValues(year, month, day, hour, minute)
+          .millisecondsSinceEpoch,
+    );
   }
 
   void assertStatsDateRange(
@@ -39,8 +41,10 @@ void main() {
 
     dateRange.timeZone = TimeManager.get.currentTimeZone;
     expect(dateRange.startDate, equals(expectedStart));
-    expect(dateRange.endDate,
-        equals(expectedEnd ?? TimeManager.get.now(dateRange.timeZone)));
+    expect(
+      dateRange.endDate,
+      equals(expectedEnd ?? TimeManager.get.now(dateRange.timeZone)),
+    );
   }
 
   test("Days calculated correctly", () {
@@ -423,8 +427,14 @@ void main() {
       tester,
       dateRange: DateRange(period: DateRange_Period.last60Days),
       now: TimeManager.get.dateTimeFromValues(2019, 2, 20, 15, 30),
-      expectedStart:
-          TimeManager.get.dateTimeFromValues(2018, 12, 22, 15, 30, 0),
+      expectedStart: TimeManager.get.dateTimeFromValues(
+        2018,
+        12,
+        22,
+        15,
+        30,
+        0,
+      ),
     );
   });
 

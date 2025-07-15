@@ -18,8 +18,8 @@ class QuestionAnswerLink extends StatelessWidget {
     required this.actionText,
     this.textAlign = TextAlign.start,
     this.action,
-  })  : assert(isNotEmpty(question)),
-        assert(isNotEmpty(actionText));
+  }) : assert(isNotEmpty(question)),
+       assert(isNotEmpty(actionText));
 
   @override
   Widget build(BuildContext context) {

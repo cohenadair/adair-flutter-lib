@@ -80,8 +80,9 @@ class StubbedManagers {
     when(timeManager.currentTime).thenReturn(TimeOfDay.fromDateTime(tzNow));
     when(timeManager.currentTimestamp).thenReturn(tzNow.millisecondsSinceEpoch);
 
-    when(timeManager.currentLocation)
-        .thenReturn(TimeZoneLocation.fromName(timeZone));
+    when(
+      timeManager.currentLocation,
+    ).thenReturn(TimeZoneLocation.fromName(timeZone));
     when(timeManager.currentTimeZone).thenReturn(timeZone);
     when(timeManager.dateTime(any, any)).thenAnswer((invocation) {
       String? tz = invocation.positionalArguments.length == 2
@@ -91,12 +92,19 @@ class StubbedManagers {
         tz = timeZone;
       }
       return TZDateTime.fromMillisecondsSinceEpoch(
-          getLocation(tz!), invocation.positionalArguments[0]);
+        getLocation(tz!),
+        invocation.positionalArguments[0],
+      );
     });
-    when(timeManager.dateTimeToTz(any)).thenAnswer((invocation) =>
-        TZDateTime.from(invocation.positionalArguments.first, defaultLocation));
-    when(timeManager.dateTimeFromValues(any, any, any, any, any, any, any, any))
-        .thenAnswer(
+    when(timeManager.dateTimeToTz(any)).thenAnswer(
+      (invocation) => TZDateTime.from(
+        invocation.positionalArguments.first,
+        defaultLocation,
+      ),
+    );
+    when(
+      timeManager.dateTimeFromValues(any, any, any, any, any, any, any, any),
+    ).thenAnswer(
       (invocation) => TZDateTime(
         defaultLocation,
         invocation.positionalArguments[0],

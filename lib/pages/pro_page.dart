@@ -72,10 +72,7 @@ class ProPageState extends State<ProPage> {
       const VerticalSpace(paddingSmall),
       const AppColorIcon(Icons.stars),
       const VerticalSpace(paddingXL),
-      Column(
-        spacing: paddingDefault,
-        children: widget.features,
-      ),
+      Column(spacing: paddingDefault, children: widget.features),
       const VerticalSpace(paddingXL),
       _buildSubscriptionState(),
       _buildFootnote(),
@@ -134,9 +131,7 @@ class ProPageState extends State<ProPage> {
 
   Widget _buildSubscriptionOptions(Subscriptions? subscriptions) {
     if (subscriptions == null) {
-      return WorkResult.error(
-        description: L10n.get.lib.proPageFetchError,
-      );
+      return WorkResult.error(description: L10n.get.lib.proPageFetchError);
     }
 
     return Column(

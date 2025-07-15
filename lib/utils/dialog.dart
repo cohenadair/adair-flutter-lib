@@ -74,9 +74,7 @@ void showOkDialog({
       return AlertDialog(
         title: title == null ? null : Text(title),
         content: description == null ? null : Text(description),
-        actions: <Widget>[
-          DialogButton(label: L10n.get.lib.ok, onTap: onTapOk),
-        ],
+        actions: <Widget>[DialogButton(label: L10n.get.lib.ok, onTap: onTapOk)],
       );
     },
   );

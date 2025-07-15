@@ -4,8 +4,7 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  # TODO: Update to 3.7.0+ when https://github.com/dart-lang/dart_style/commit/71421b328391a6ed9c1a9e7229c394d9ed613d77 is released.
-  sdk: ^3.6.0
+  sdk: ^3.8.1
   flutter: ">=1.17.0"
 
 flutter:

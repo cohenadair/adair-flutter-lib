@@ -22,12 +22,12 @@ class AdairFlutterLibTheme {
       );
 
   static _elevatedButtonTheme() => ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty<Color>.fromMap({
-            WidgetState.any: AppConfig.get.colorAppTheme,
-          }),
-        ),
-      );
+    style: ButtonStyle(
+      backgroundColor: WidgetStateProperty<Color>.fromMap({
+        WidgetState.any: AppConfig.get.colorAppTheme,
+      }),
+    ),
+  );
 }
 
 extension BuildContexts on BuildContext {

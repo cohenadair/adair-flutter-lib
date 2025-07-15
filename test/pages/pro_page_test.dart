@@ -385,7 +385,8 @@ void main() {
 
   testWidgets("Footnote is shown", (tester) async {
     await tester.pumpWidget(
-        Testable((_) => const ProPage(footnote: Text("Test footnote"))));
+      Testable((_) => const ProPage(footnote: Text("Test footnote"))),
+    );
     // Wait for subscriptions future to finish.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
     expect(find.text("Test footnote"), findsOneWidget);

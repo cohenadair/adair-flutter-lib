@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
+
 import '../res/dimen.dart';
 import '../res/style.dart';
-
 import 'empty.dart';
 
 /// A widget to be used when some UI blocking work has finished, such as after
@@ -17,12 +17,12 @@ class WorkResult extends StatelessWidget {
   final IconData _icon;
 
   const WorkResult.success({this.description, this.descriptionDetail})
-      : _style = styleSuccess,
-        _icon = Icons.check_circle;
+    : _style = styleSuccess,
+      _icon = Icons.check_circle;
 
   const WorkResult.error({this.description, this.descriptionDetail})
-      : _style = styleError,
-        _icon = Icons.error;
+    : _style = styleError,
+      _icon = Icons.error;
 
   @override
   Widget build(BuildContext context) {

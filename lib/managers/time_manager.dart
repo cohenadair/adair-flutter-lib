@@ -43,8 +43,8 @@ class TimeManager {
     initializeTimeZones();
 
     // Filter out all time zones that aren't available on the current device.
-    var nativeTimeZones =
-        await NativeTimeZoneWrapper.get.getAvailableTimeZones();
+    var nativeTimeZones = await NativeTimeZoneWrapper.get
+        .getAvailableTimeZones();
     _availableLocations = timeZoneDatabase.locations.values
         .where((loc) => nativeTimeZones.contains(loc.name))
         .map((loc) => TimeZoneLocation(loc))

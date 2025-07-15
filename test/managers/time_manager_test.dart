@@ -10,24 +10,27 @@ void main() {
   setUp(() async {
     managers = await StubbedManagers.create();
 
-    when(managers.nativeTimeZoneWrapper.getAvailableTimeZones())
-        .thenAnswer((_) {
+    when(managers.nativeTimeZoneWrapper.getAvailableTimeZones()).thenAnswer((
+      _,
+    ) {
       return Future.value([
         "America/New_York",
         "America/Chicago",
         "Europe/Isle_of_Man",
       ]);
     });
-    when(managers.nativeTimeZoneWrapper.getLocalTimeZone())
-        .thenAnswer((realInvocation) => Future.value("America/New_York"));
+    when(
+      managers.nativeTimeZoneWrapper.getLocalTimeZone(),
+    ).thenAnswer((realInvocation) => Future.value("America/New_York"));
 
     TimeManager.reset();
     await TimeManager.get.init();
   });
 
   test("init reconciles native and lib time zones", () async {
-    when(managers.nativeTimeZoneWrapper.getAvailableTimeZones())
-        .thenAnswer((_) {
+    when(managers.nativeTimeZoneWrapper.getAvailableTimeZones()).thenAnswer((
+      _,
+    ) {
       return Future.value([
         "Europe/Isle_of_Man",
         "America/Menominee",
@@ -46,8 +49,10 @@ void main() {
   });
 
   test("filteredLocations excludes location", () async {
-    var locations = TimeManager.get.filteredLocations(null,
-        exclude: TimeZoneLocation.fromName("America/New_York"));
+    var locations = TimeManager.get.filteredLocations(
+      null,
+      exclude: TimeZoneLocation.fromName("America/New_York"),
+    );
     expect(locations.length, 2);
     expect(locations[0].name, "America/Chicago");
     expect(locations[1].name, "Europe/Isle_of_Man");
@@ -119,12 +124,16 @@ void main() {
   test("TimeZoneLocation matchesFilter empty filter returns true", () {
     expect(TimeZoneLocation.fromName("Africa/Tunis").matchesFilter(""), isTrue);
     expect(
-        TimeZoneLocation.fromName("Africa/Tunis").matchesFilter(null), isTrue);
+      TimeZoneLocation.fromName("Africa/Tunis").matchesFilter(null),
+      isTrue,
+    );
   });
 
   test("TimeZoneLocation matchesFilter using display name", () {
     expect(
-        TimeZoneLocation.fromName("Africa/Tunis").matchesFilter("Tun"), isTrue);
+      TimeZoneLocation.fromName("Africa/Tunis").matchesFilter("Tun"),
+      isTrue,
+    );
   });
 
   test("TimeZoneLocation matchesFilter using abbreviation", () {

@@ -55,8 +55,9 @@ extension DateRanges on DateRange {
       case DateRange_Period.thisYear:
         return startOfYear(now);
       case DateRange_Period.lastWeek:
-        return startOfWeek(now)
-            .subtract(const Duration(days: DateTime.daysPerWeek));
+        return startOfWeek(
+          now,
+        ).subtract(const Duration(days: DateTime.daysPerWeek));
       case DateRange_Period.lastMonth:
         var year = now.year;
         var month = now.month - 1;
@@ -116,7 +117,9 @@ extension DateRanges on DateRange {
   String get displayName {
     if (hasStartTimestamp() && hasEndTimestamp()) {
       var formatter = DateFormat(
-          L10n.get.lib.dateFormatMonthDayYear, L10n.get.lib.localeName);
+        L10n.get.lib.dateFormatMonthDayYear,
+        L10n.get.lib.localeName,
+      );
       return L10n.get.lib.dateRangeFormat(
         formatter.format(startDate),
         formatter.format(endDate),
