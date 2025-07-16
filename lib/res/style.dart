@@ -11,6 +11,9 @@ const TextStyle styleTitle1 = TextStyle(
 TextStyle styleTitle2(BuildContext context) =>
     TextStyle(fontSize: 24, color: context.colorText);
 
+TextStyle styleTitleAlert(BuildContext context) =>
+    TextStyle(fontSize: 24, color: context.colorText);
+
 TextStyle styleHyperlink(BuildContext context) => stylePrimary(
   context,
 ).copyWith(color: Colors.blue, decoration: TextDecoration.underline);

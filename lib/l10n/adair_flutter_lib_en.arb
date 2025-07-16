@@ -144,5 +144,7 @@
   "dateFormatMonthFull": "MMMM",
   "dateFormatMonthYearFull": "MMMM yyyy",
   "dateFormatWeekDay": "E",
-  "dateFormatWeekDayFull": "EEEE"
+  "dateFormatWeekDayFull": "EEEE",
+  "no": "No",
+  "yes": "Yes"
 }

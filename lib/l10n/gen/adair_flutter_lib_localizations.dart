@@ -437,6 +437,18 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'EEEE'**
   String get dateFormatWeekDayFull;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

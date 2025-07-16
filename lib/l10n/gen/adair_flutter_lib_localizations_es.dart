@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'adair_flutter_lib_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -206,4 +207,10 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get dateFormatWeekDayFull => 'EEEE';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get yes => 'Sí';
 }

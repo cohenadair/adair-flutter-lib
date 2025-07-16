@@ -255,7 +255,10 @@ class ProPageState extends State<ProPage> {
     if (isNotEmpty(dialogMessage)) {
       safeUseContext(
         this,
-        () => showErrorDialog(context: context, description: dialogMessage!),
+        () => showErrorDialog(
+          context: context,
+          description: Text(dialogMessage!),
+        ),
       );
     }
   }

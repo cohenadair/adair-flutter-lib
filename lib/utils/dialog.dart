@@ -1,60 +1,55 @@
+import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:quiver/strings.dart';
 
-import '../l10n/l10n.dart';
+import '../res/style.dart';
 
 void showDeleteDialog({
   required BuildContext context,
   String? title,
-  String? description,
-  required VoidCallback onDelete,
+  Widget? description,
+  VoidCallback? onDelete,
 }) {
-  showDialog(
+  showDestructiveDialog(
     context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: title == null ? null : Text(title),
-        content: description == null ? null : Text(description),
-        actions: <Widget>[
-          DialogButton(label: L10n.get.lib.cancel),
-          DialogButton(
-            label: L10n.get.lib.delete,
-            textColor: Colors.red,
-            onTap: onDelete,
-          ),
-        ],
-      );
-    },
+    title: title ?? L10n.get.lib.delete,
+    description: description,
+    destroyText: L10n.get.lib.delete,
+    onTapDestroy: onDelete,
+  );
+}
+
+void showConfirmYesDialog({
+  required BuildContext context,
+  Widget? description,
+  VoidCallback? onConfirm,
+}) {
+  showDestructiveDialog(
+    context: context,
+    description: description,
+    cancelText: L10n.get.lib.no,
+    destroyText: L10n.get.lib.yes,
+    onTapDestroy: onConfirm,
   );
 }
 
 void showWarningDialog({
   required BuildContext context,
-  required VoidCallback onContinue,
-  String? description,
+  String? title,
+  Widget? description,
+  VoidCallback? onContinue,
 }) {
-  showDialog(
+  showDestructiveDialog(
     context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(L10n.get.lib.warning),
-        content: description == null ? null : Text(description),
-        actions: <Widget>[
-          DialogButton(label: L10n.get.lib.cancel),
-          DialogButton(
-            label: L10n.get.lib.continueString,
-            textColor: Colors.red,
-            onTap: onContinue,
-          ),
-        ],
-      );
-    },
+    title: title,
+    description: description,
+    destroyText: L10n.get.lib.continueString,
+    onTapDestroy: onContinue,
+    warning: true,
   );
 }
 
-void showErrorDialog({
-  required BuildContext context,
-  required String description,
-}) {
+void showErrorDialog({required BuildContext context, Widget? description}) {
   showOkDialog(
     context: context,
     title: L10n.get.lib.error,
@@ -65,31 +60,65 @@ void showErrorDialog({
 void showOkDialog({
   required BuildContext context,
   String? title,
-  String? description,
-  VoidCallback? onTapOk,
+  Widget? description,
 }) {
   showDialog(
     context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: title == null ? null : Text(title),
-        content: description == null ? null : Text(description),
-        actions: <Widget>[DialogButton(label: L10n.get.lib.ok, onTap: onTapOk)],
-      );
-    },
+    builder: (context) => AlertDialog(
+      title: isEmpty(title) ? null : Text(title!),
+      titleTextStyle: styleTitleAlert(context),
+      content: description,
+      actions: <Widget>[DialogButton(label: L10n.get.lib.ok)],
+    ),
   );
 }
 
-void showErrorSnackBar(
-  BuildContext context,
-  String errorMessage, [
-  Duration? duration,
-]) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(errorMessage, style: const TextStyle(color: Colors.white)),
-      duration: duration ?? const Duration(seconds: 5),
-      backgroundColor: Colors.red,
+Future<void> showCancelDialog(
+  BuildContext context, {
+  String? title,
+  String? description,
+  required String actionText,
+  VoidCallback? onTapAction,
+}) {
+  assert(isNotEmpty(actionText));
+
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: isEmpty(title) ? null : Text(title!),
+      titleTextStyle: styleTitleAlert(context),
+      content: isEmpty(description) ? null : Text(description!),
+      actions: <Widget>[
+        DialogButton(label: L10n.get.lib.cancel),
+        DialogButton(label: actionText, onTap: onTapAction),
+      ],
+    ),
+  );
+}
+
+void showDestructiveDialog({
+  required BuildContext context,
+  String? title,
+  Widget? description,
+  String? cancelText,
+  required String destroyText,
+  VoidCallback? onTapDestroy,
+  bool warning = false,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: title == null ? null : Text(title),
+      titleTextStyle: styleTitleAlert(context),
+      content: description,
+      actions: <Widget>[
+        DialogButton(label: cancelText ?? L10n.get.lib.cancel),
+        DialogButton(
+          label: destroyText,
+          textColor: warning ? null : Colors.red,
+          onTap: onTapDestroy,
+        ),
+      ],
     ),
   );
 }
@@ -111,19 +140,16 @@ class DialogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VoidCallback? onPressed;
-    if (isEnabled) {
-      onPressed = () {
-        onTap?.call();
-        if (popOnTap) {
-          Navigator.pop(context);
-        }
-      };
-    }
-
     return TextButton(
       style: TextButton.styleFrom(foregroundColor: textColor),
-      onPressed: onPressed,
+      onPressed: isEnabled
+          ? () {
+              onTap?.call();
+              if (popOnTap) {
+                Navigator.pop(context);
+              }
+            }
+          : null,
       child: Text(label.toUpperCase()),
     );
   }
