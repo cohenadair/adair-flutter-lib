@@ -3,13 +3,13 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
+import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:flutter/services.dart';
 import 'package:mockito/annotations.dart';
-
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 @GenerateMocks([AdairFlutterLib])
@@ -20,6 +20,12 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([EntitlementInfos])
 @GenerateMocks([IoWrapper])
 @GenerateMocks([IntroductoryPrice])
+@GenerateMocks(
+  [],
+  customMocks: [
+    MockSpec<Log>(unsupportedMembers: {Symbol("sync"), Symbol("async")}),
+  ],
+)
 @GenerateMocks([LogInResult])
 @GenerateMocks([NativeTimeZoneWrapper])
 @GenerateMocks([Offering])
