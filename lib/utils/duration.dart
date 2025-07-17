@@ -132,7 +132,7 @@ String formatDurations({
     includesMinutes: includesMinutes,
   );
 
-  String result = "";
+  var result = "";
 
   maybeAddSpace() {
     if (result.isNotEmpty) {
@@ -140,7 +140,7 @@ String formatDurations({
     }
   }
 
-  int numberIncluded = 0;
+  var numberIncluded = 0;
 
   bool shouldAdd(bool include, int value) {
     return include &&

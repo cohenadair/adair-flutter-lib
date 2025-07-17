@@ -15,6 +15,12 @@ class IoWrapper {
 
   IoWrapper._();
 
+  bool isFileSync(String path) => FileSystemEntity.isFileSync(path);
+
+  Directory directory(String path) => Directory(path);
+
+  File file(String path) => File(path);
+
   Future<List<InternetAddress>> lookup(String host) async {
     try {
       return await InternetAddress.lookup(host);
