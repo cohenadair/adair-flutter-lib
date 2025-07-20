@@ -7,6 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// A widget that wraps a child in default localizations.
 class Testable extends StatelessWidget {
+  /// A convenient way to use [Testable] in non-library project tests, without
+  /// having to create a wrapped [Testable] widget.
+  static List<LocalizationsDelegate> additionalLocalizations = [];
+  static List<Locale> additionalLocales = [];
+
   final WidgetBuilder builder;
   final MediaQueryData mediaQueryData;
   final TargetPlatform? platform;
@@ -40,10 +45,12 @@ class Testable extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         ...localizations,
+        ...additionalLocalizations,
       ],
       supportedLocales: [
         ...AdairFlutterLibLocalizations.supportedLocales,
         ...locales ?? [],
+        ...additionalLocales,
       ],
       locale: locale ?? const Locale("en", "CA"),
       home: MediaQuery(
@@ -83,4 +90,26 @@ Future<BuildContext> buildContext(
     ),
   );
   return context!;
+}
+
+Future<BuildContext> pumpContext(
+  WidgetTester tester,
+  Widget Function(BuildContext) builder, {
+  MediaQueryData mediaQueryData = const MediaQueryData(),
+  ThemeMode? themeMode,
+  Locale? locale,
+}) async {
+  late BuildContext context;
+  await tester.pumpWidget(
+    Testable(
+      (buildContext) {
+        context = buildContext;
+        return builder(context);
+      },
+      mediaQueryData: mediaQueryData,
+      themeMode: themeMode,
+      locale: locale,
+    ),
+  );
+  return context;
 }

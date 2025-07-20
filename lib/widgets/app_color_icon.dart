@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColorIcon extends StatelessWidget {
   final IconData data;
 
-  const AppColorIcon(this.data);
+  const AppColorIcon(this.data, {super.key});
 
   @override
   Widget build(BuildContext context) {
