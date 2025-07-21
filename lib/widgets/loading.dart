@@ -1,5 +1,4 @@
 import 'package:adair_flutter_lib/res/theme.dart';
-import 'package:adair_flutter_lib/widgets/vertical_space.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
@@ -54,7 +53,7 @@ class Loading extends StatelessWidget {
               : MainAxisAlignment.start,
           children: [
             indicator,
-            const VerticalSpace(paddingDefault),
+            Container(height: paddingDefault),
             isEmpty(label) ? const Empty() : Text(label!),
           ],
         ),

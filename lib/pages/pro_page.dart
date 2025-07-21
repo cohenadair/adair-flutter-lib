@@ -12,11 +12,9 @@ import '../res/style.dart';
 import '../utils/dialog.dart';
 import '../utils/widget.dart';
 import '../widgets/empty.dart';
-import '../widgets/horizontal_space.dart';
 import '../widgets/loading.dart';
 import '../widgets/question_answer_link.dart';
 import '../widgets/title_text.dart';
-import '../widgets/vertical_space.dart';
 import '../widgets/work_result.dart';
 import '../wrappers/io_wrapper.dart';
 
@@ -53,7 +51,7 @@ class ProPageState extends State<ProPage> {
   @override
   Widget build(BuildContext context) {
     var children = [
-      const VerticalSpace(paddingDefault),
+      Container(height: paddingDefault),
       Padding(
         padding: widget.logoPadding,
         child: Icon(
@@ -67,13 +65,13 @@ class ProPageState extends State<ProPage> {
         style: styleTitle2(context),
         textAlign: TextAlign.center,
       ),
-      const VerticalSpace(paddingSmall),
+      Container(height: paddingSmall),
       TitleText.style1(L10n.get.lib.proPageProTitle),
-      const VerticalSpace(paddingSmall),
+      Container(height: paddingSmall),
       const AppColorIcon(Icons.stars),
-      const VerticalSpace(paddingXL),
+      Container(height: paddingXL),
       Column(spacing: paddingDefault, children: widget.features),
-      const VerticalSpace(paddingXL),
+      Container(height: paddingXL),
       _buildSubscriptionState(),
       _buildFootnote(),
     ];
@@ -149,7 +147,7 @@ class ProPageState extends State<ProPage> {
                 trialCallback: L10n.get.lib.proPageYearlyTrial,
                 billingFrequencyText: L10n.get.lib.proPageYearlySubtext,
               ),
-              const HorizontalSpace(paddingDefault),
+              Container(width: paddingDefault),
               _buildSubscriptionButton(
                 sub: subscriptions.monthly,
                 priceCallback: L10n.get.lib.proPageMonthlyTitle,
@@ -159,14 +157,14 @@ class ProPageState extends State<ProPage> {
             ],
           ),
         ),
-        const VerticalSpace(paddingDefault),
+        Container(height: paddingDefault),
         QuestionAnswerLink(
           textAlign: TextAlign.center,
           question: L10n.get.lib.proPageRestoreQuestion,
           actionText: L10n.get.lib.proPageRestoreAction,
           action: _restoreSubscription,
         ),
-        const VerticalSpace(paddingDefault),
+        Container(height: paddingDefault),
         Text(
           IoWrapper.get.isAndroid
               ? L10n.get.lib.proPageDisclosureAndroid
@@ -207,7 +205,7 @@ class ProPageState extends State<ProPage> {
                   context,
                 ).copyWith(fontWeight: fontWeightBold),
               ),
-              const VerticalSpace(paddingTiny),
+              Container(height: paddingTiny),
               trialLengthWidget,
               Text(
                 billingFrequencyText,
@@ -293,7 +291,7 @@ class ProPageFeatureRow extends StatelessWidget {
             overflow: TextOverflow.visible,
           ),
         ),
-        const HorizontalSpace(paddingDefault),
+        Container(width: paddingDefault),
         const Icon(
           Icons.check_circle_outline,
           color: Colors.green,

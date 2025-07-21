@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../res/dimen.dart';
-import '../widgets/vertical_space.dart';
 
 class ScrollPage extends StatelessWidget {
   final ScrollController? controller;
@@ -63,9 +62,9 @@ class ScrollPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: crossAxisAlignment,
           children: [
-            VerticalSpace(padding.top),
+            Container(height: padding.top),
             ...children,
-            VerticalSpace(padding.bottom),
+            Container(height: padding.bottom),
           ],
         ),
       ),
