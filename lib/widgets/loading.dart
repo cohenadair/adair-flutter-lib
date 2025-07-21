@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
 import '../res/dimen.dart';
-import 'empty.dart';
 
 class Loading extends StatelessWidget {
   static const _size = 20.0;
@@ -54,7 +53,7 @@ class Loading extends StatelessWidget {
           children: [
             indicator,
             Container(height: paddingDefault),
-            isEmpty(label) ? const Empty() : Text(label!),
+            isEmpty(label) ? const SizedBox() : Text(label!),
           ],
         ),
       );

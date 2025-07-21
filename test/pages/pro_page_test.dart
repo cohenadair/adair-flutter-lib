@@ -1,7 +1,6 @@
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/pages/pro_page.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
-import 'package:adair_flutter_lib/widgets/empty.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -396,7 +395,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const ProPage(footnote: null)));
     // Wait for subscriptions future to finish.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
-    expect(find.byType(Empty), findsOneWidget);
+    expect(find.byType(SizedBox), findsNWidgets(5)); // +1 for no footnote.
   });
 
   testWidgets("Features are rendered", (tester) async {

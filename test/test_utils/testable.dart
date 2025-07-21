@@ -1,6 +1,5 @@
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
-import 'package:adair_flutter_lib/widgets/empty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -80,7 +79,7 @@ Future<BuildContext> buildContext(
     Testable(
       (buildContext) {
         context = buildContext;
-        return const Empty();
+        return const SizedBox();
       },
       mediaQueryData: MediaQueryData(
         devicePixelRatio: 1.0,

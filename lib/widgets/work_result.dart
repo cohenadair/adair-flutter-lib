@@ -3,7 +3,6 @@ import 'package:quiver/strings.dart';
 
 import '../res/dimen.dart';
 import '../res/style.dart';
-import 'empty.dart';
 
 /// A widget to be used when some UI blocking work has finished, such as after
 /// importing data or making a purchase.
@@ -41,7 +40,7 @@ class WorkResult extends StatelessWidget {
 
   Widget _buildDescriptionWidget(String? description, TextStyle style) {
     if (isEmpty(description)) {
-      return const Empty();
+      return const SizedBox();
     }
 
     return Padding(

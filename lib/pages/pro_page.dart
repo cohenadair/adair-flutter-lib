@@ -11,7 +11,6 @@ import '../res/dimen.dart';
 import '../res/style.dart';
 import '../utils/dialog.dart';
 import '../utils/widget.dart';
-import '../widgets/empty.dart';
 import '../widgets/loading.dart';
 import '../widgets/question_answer_link.dart';
 import '../widgets/title_text.dart';
@@ -183,7 +182,7 @@ class ProPageState extends State<ProPage> {
   }) {
     assert(isNotEmpty(billingFrequencyText));
 
-    Widget trialLengthWidget = const Empty();
+    Widget trialLengthWidget = const SizedBox();
     var trialLength = sub.trialLengthDays;
     if (trialLength != null) {
       trialLengthWidget = Padding(
@@ -222,7 +221,7 @@ class ProPageState extends State<ProPage> {
 
   Widget _buildFootnote() {
     if (widget.footnote == null) {
-      return const Empty();
+      return const SizedBox();
     }
     return Padding(padding: insetsTopDefault, child: widget.footnote);
   }
