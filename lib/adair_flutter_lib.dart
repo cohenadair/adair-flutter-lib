@@ -20,6 +20,7 @@ class AdairFlutterLib {
 
   final _log = const Log("AdairFlutterLib");
 
+  /// Must be called on when initializing the app using the library.
   Future<void> init() async {
     await TimeManager.get.init();
     await PropertiesManager.get.init();

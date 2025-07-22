@@ -18,6 +18,8 @@ class AppConfig {
   late final MaterialColor colorAppTheme;
   late final ThemeMode Function() themeMode;
 
+  /// Needs to be called while initializing the main Flutter app, likely in
+  /// initState.
   void init({
     required String Function() appName,
     IconData? appIcon,
