@@ -18,15 +18,29 @@ class CrashlyticsWrapper {
     return FirebaseCrashlytics.instance.log(message);
   }
 
-  Future<void> recordError(String message, StackTrace? stack, String reason) {
+  Future<void> setUserId(String identifier) {
+    return FirebaseCrashlytics.instance.setUserIdentifier(identifier);
+  }
+
+  Future<void> setCustomKey(String key, Object value) {
+    return FirebaseCrashlytics.instance.setCustomKey(key, value);
+  }
+
+  Future<void> recordError(
+    dynamic message,
+    StackTrace? stack, {
+    dynamic reason,
+    Iterable<Object> information = const [],
+    bool? printDetails,
+    bool fatal = false,
+  }) {
     return FirebaseCrashlytics.instance.recordError(
       message,
       stack,
       reason: reason,
+      information: information,
+      printDetails: printDetails,
+      fatal: fatal,
     );
-  }
-
-  Future<void> setUserId(String identifier) {
-    return FirebaseCrashlytics.instance.setUserIdentifier(identifier);
   }
 }

@@ -67,7 +67,11 @@ class Log {
     if (stackTrace == null) {
       CrashlyticsWrapper.get.log(msg);
     } else {
-      CrashlyticsWrapper.get.recordError(msg, stackTrace, "Logged error");
+      CrashlyticsWrapper.get.recordError(
+        msg,
+        stackTrace,
+        reason: "Logged error",
+      );
     }
   }
 }

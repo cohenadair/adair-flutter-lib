@@ -298,22 +298,43 @@ class MockCrashlyticsWrapper extends _i1.Mock
           as _i7.Future<void>);
 
   @override
-  _i7.Future<void> recordError(
-    String? message,
-    StackTrace? stack,
-    String? reason,
-  ) =>
+  _i7.Future<void> setUserId(String? identifier) =>
       (super.noSuchMethod(
-            Invocation.method(#recordError, [message, stack, reason]),
+            Invocation.method(#setUserId, [identifier]),
             returnValue: _i7.Future<void>.value(),
             returnValueForMissingStub: _i7.Future<void>.value(),
           )
           as _i7.Future<void>);
 
   @override
-  _i7.Future<void> setUserId(String? identifier) =>
+  _i7.Future<void> setCustomKey(String? key, Object? value) =>
       (super.noSuchMethod(
-            Invocation.method(#setUserId, [identifier]),
+            Invocation.method(#setCustomKey, [key, value]),
+            returnValue: _i7.Future<void>.value(),
+            returnValueForMissingStub: _i7.Future<void>.value(),
+          )
+          as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> recordError(
+    dynamic message,
+    StackTrace? stack, {
+    dynamic reason,
+    Iterable<Object>? information = const [],
+    bool? printDetails,
+    bool? fatal = false,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(
+              #recordError,
+              [message, stack],
+              {
+                #reason: reason,
+                #information: information,
+                #printDetails: printDetails,
+                #fatal: fatal,
+              },
+            ),
             returnValue: _i7.Future<void>.value(),
             returnValueForMissingStub: _i7.Future<void>.value(),
           )
