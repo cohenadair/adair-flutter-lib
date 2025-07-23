@@ -165,4 +165,22 @@ extension DateRanges on DateRange {
     var utcDateRange = deepCopy()..timeZone = "UTC";
     return timestamp >= utcDateRange.startMs && timestamp <= utcDateRange.endMs;
   }
+
+  bool get containsNow {
+    switch (period) {
+      case DateRange_Period.allDates:
+      case DateRange_Period.today:
+      case DateRange_Period.thisWeek:
+      case DateRange_Period.thisMonth:
+      case DateRange_Period.thisYear:
+      case DateRange_Period.last7Days:
+      case DateRange_Period.last14Days:
+      case DateRange_Period.last30Days:
+      case DateRange_Period.last60Days:
+      case DateRange_Period.last12Months:
+        return true;
+      default:
+        return false;
+    }
+  }
 }
