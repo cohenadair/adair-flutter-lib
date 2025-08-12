@@ -61,6 +61,7 @@ void showOkDialog({
   required BuildContext context,
   String? title,
   Widget? description,
+  VoidCallback? onTapOk,
 }) {
   showDialog(
     context: context,
@@ -68,7 +69,7 @@ void showOkDialog({
       title: isEmpty(title) ? null : Text(title!),
       titleTextStyle: styleTitleAlert(context),
       content: description,
-      actions: <Widget>[DialogButton(label: L10n.get.lib.ok)],
+      actions: <Widget>[DialogButton(label: L10n.get.lib.ok, onTap: onTapOk)],
     ),
   );
 }
