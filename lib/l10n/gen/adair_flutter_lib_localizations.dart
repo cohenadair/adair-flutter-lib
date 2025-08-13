@@ -345,7 +345,7 @@ abstract class AdairFlutterLibLocalizations {
   /// No description provided for @proPageUpgradeSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Congratulations, you are now a Pro user!'**
+  /// **'Congratulations, you are a Pro user!'**
   String get proPageUpgradeSuccess;
 
   /// No description provided for @proPageRestoreQuestion.

@@ -155,8 +155,7 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
       'No se pueden obtener las opciones de suscripción. Asegúrate de que tu dispositivo esté conectado a Internet y vuelve a intentarlo.';
 
   @override
-  String get proPageUpgradeSuccess =>
-      '¡Felicidades, eres un usuario Pro de Anglers\' Log!';
+  String get proPageUpgradeSuccess => '¡Felicidades, eres un usuario Pro!';
 
   @override
   String get proPageRestoreQuestion => '¿Compraste Pro en otro dispositivo?';

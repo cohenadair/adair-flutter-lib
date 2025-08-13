@@ -155,8 +155,7 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
       'Unable to fetch subscription options. Please ensure your device is connected to the internet and try again.';
 
   @override
-  String get proPageUpgradeSuccess =>
-      'Congratulations, you are now a Pro user!';
+  String get proPageUpgradeSuccess => 'Congratulations, you are a Pro user!';
 
   @override
   String get proPageRestoreQuestion => 'Subscribed to Pro on another device?';

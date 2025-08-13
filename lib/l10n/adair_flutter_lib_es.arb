@@ -129,7 +129,7 @@
   },
   "proPageMonthlySubtext": "Facturado mensualmente",
   "proPageFetchError": "No se pueden obtener las opciones de suscripción. Asegúrate de que tu dispositivo esté conectado a Internet y vuelve a intentarlo.",
-  "proPageUpgradeSuccess": "¡Felicidades, eres un usuario Pro de Anglers'' Log!",
+  "proPageUpgradeSuccess": "¡Felicidades, eres un usuario Pro!",
   "proPageRestoreQuestion": "¿Compraste Pro en otro dispositivo?",
   "proPageRestoreAction": "Restaurar.",
   "proPageRestoreNoneFoundAppStore": "No se encontraron compras anteriores. Asegúrate de haber iniciado sesión con el mismo ID de Apple con el que realizaste la compra original.",
