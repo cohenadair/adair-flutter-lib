@@ -120,10 +120,7 @@ void main() {
       when(managers.subscriptionManager.isPro).thenReturn(true);
       await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-      expect(
-        find.text("Congratulations, you are a Pro user!"),
-        findsOneWidget,
-      );
+      expect(find.text("Congratulations, you are a Pro user!"), findsOneWidget);
     },
   );
 
@@ -134,10 +131,7 @@ void main() {
 
     await tester.pumpWidget(Testable((_) => const ProPage()));
 
-    expect(
-      find.text("Congratulations, you are a Pro user!"),
-      findsOneWidget,
-    );
+    expect(find.text("Congratulations, you are a Pro user!"), findsOneWidget);
   });
 
   testWidgets("Error shown if error fetching subscriptions", (tester) async {
@@ -196,10 +190,7 @@ void main() {
     when(managers.subscriptionManager.isPro).thenReturn(true);
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
-    expect(
-      find.text("Congratulations, you are a Pro user!"),
-      findsOneWidget,
-    );
+    expect(find.text("Congratulations, you are a Pro user!"), findsOneWidget);
   });
 
   testWidgets("No purchases found when restoring on iOS", (tester) async {
