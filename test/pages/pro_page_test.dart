@@ -121,7 +121,7 @@ void main() {
       await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
       expect(
-        find.text("Congratulations, you are now a Pro user!"),
+        find.text("Congratulations, you are a Pro user!"),
         findsOneWidget,
       );
     },
@@ -135,7 +135,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const ProPage()));
 
     expect(
-      find.text("Congratulations, you are now a Pro user!"),
+      find.text("Congratulations, you are a Pro user!"),
       findsOneWidget,
     );
   });
@@ -197,7 +197,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
 
     expect(
-      find.text("Congratulations, you are now a Pro user!"),
+      find.text("Congratulations, you are a Pro user!"),
       findsOneWidget,
     );
   });
