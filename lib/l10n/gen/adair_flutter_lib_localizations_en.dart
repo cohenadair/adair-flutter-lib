@@ -212,6 +212,9 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get yes => 'Yes';
+
+  @override
+  String get proChipButtonLabel => 'Pro';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

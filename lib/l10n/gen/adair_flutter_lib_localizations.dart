@@ -449,6 +449,12 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Yes'**
   String get yes;
+
+  /// No description provided for @proChipButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get proChipButtonLabel;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

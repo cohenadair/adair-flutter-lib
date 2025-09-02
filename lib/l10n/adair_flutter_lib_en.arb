@@ -146,5 +146,6 @@
   "dateFormatWeekDay": "E",
   "dateFormatWeekDayFull": "EEEE",
   "no": "No",
-  "yes": "Yes"
+  "yes": "Yes",
+  "proChipButtonLabel": "Pro"
 }

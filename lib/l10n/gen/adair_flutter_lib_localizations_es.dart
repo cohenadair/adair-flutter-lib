@@ -212,4 +212,7 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get yes => 'Sí';
+
+  @override
+  String get proChipButtonLabel => 'Pro';
 }
