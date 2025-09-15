@@ -215,6 +215,12 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get proChipButtonLabel => 'Pro';
+
+  @override
+  String get notificationPermissionPageTitle => 'Notify';
+
+  @override
+  String get setPermissionButton => 'Set Permission';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

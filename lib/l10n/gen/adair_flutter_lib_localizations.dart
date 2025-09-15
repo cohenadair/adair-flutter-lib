@@ -455,6 +455,18 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Pro'**
   String get proChipButtonLabel;
+
+  /// No description provided for @notificationPermissionPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify'**
+  String get notificationPermissionPageTitle;
+
+  /// No description provided for @setPermissionButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Permission'**
+  String get setPermissionButton;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

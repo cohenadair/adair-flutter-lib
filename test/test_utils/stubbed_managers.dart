@@ -4,8 +4,11 @@ import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
@@ -22,8 +25,11 @@ class StubbedManagers {
   late final MockSubscriptionManager subscriptionManager;
 
   late final MockCrashlyticsWrapper crashlyticsWrapper;
+  late final MockDeviceInfoWrapper deviceInfoWrapper;
   late final MockIoWrapper ioWrapper;
+  late final MockLocalNotificationsWrapper localNotificationsWrapper;
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
+  late final MockPermissionHandlerWrapper permissionHandlerWrapper;
   late final MockPurchasesWrapper purchasesWrapper;
   late final MockTimeManager timeManager;
 
@@ -68,6 +74,15 @@ class StubbedManagers {
     timeManager = MockTimeManager();
     stubCurrentTime(DateTime.now());
     TimeManager.set(timeManager);
+
+    deviceInfoWrapper = MockDeviceInfoWrapper();
+    DeviceInfoWrapper.set(deviceInfoWrapper);
+
+    localNotificationsWrapper = MockLocalNotificationsWrapper();
+    LocalNotificationsWrapper.set(localNotificationsWrapper);
+
+    permissionHandlerWrapper = MockPermissionHandlerWrapper();
+    PermissionHandlerWrapper.set(permissionHandlerWrapper);
   }
 
   void stubCurrentTime(DateTime now, {String timeZone = "America/New_York"}) {

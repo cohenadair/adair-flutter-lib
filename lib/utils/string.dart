@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
@@ -40,3 +43,19 @@ bool parseBoolFromInt(String str) {
 }
 
 String newLineOrEmpty(String input) => input.isEmpty ? "" : "\n";
+
+extension StringExt on String {
+  // Created by ChatGPT:
+  // https://chatgpt.com/share/68bed950-7ff4-800b-bd22-f9d8788da387
+  int get toIntId {
+    final bytes = utf8.encode(this);
+    final digest = sha256.convert(bytes).bytes; // 256-bit hash
+    // Take the first 4 bytes (big-endian) => 32 bits, then force positive 31
+    // bits.
+    return ((digest[0] << 24) |
+            (digest[1] << 16) |
+            (digest[2] << 8) |
+            (digest[3])) &
+        0x7fffffff; // Keep it positive and within 31 bits.
+  }
+}

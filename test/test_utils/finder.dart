@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'widget.dart';
+
 T findFirst<T>(WidgetTester tester) => tester.firstWidget(find.byType(T)) as T;
 
 T findLast<T>(WidgetTester tester) =>
@@ -15,17 +17,19 @@ T findFirstWithText<T>(WidgetTester tester, String text) {
 
 T findFirstWithIcon<T>(WidgetTester tester, IconData icon) {
   return tester.firstWidget(
-    find.ancestor(
-      of: find.byIcon(icon),
-      matching: find.byWidgetPredicate((widget) => widget is T),
-    ),
-  );
+        find.ancestor(
+          of: find.byIcon(icon),
+          matching: find.byWidgetPredicate((widget) => widget is T),
+        ),
+      )
+      as T;
 }
 
 T findSiblingOfText<T>(WidgetTester tester, Type parentType, String text) {
   return tester.firstWidget(
-    siblingOfText(tester, parentType, text, find.byType(T)),
-  );
+        siblingOfText(tester, parentType, text, find.byType(T)),
+      )
+      as T;
 }
 
 Finder siblingOfText(
@@ -77,6 +81,22 @@ List<T> findType<T>(WidgetTester tester, {bool skipOffstage = true}) {
       )
       .map((e) => e as T)
       .toList();
+}
+
+Future<void> pickTimeAndSettle(
+  WidgetTester tester, {
+  required String oldHour,
+  required String oldMinute,
+  required String newHour,
+  required String newMinute,
+  bool am = true,
+}) async {
+  await tapAndSettle(tester, find.byIcon(Icons.keyboard_outlined));
+  await enterTextAndSettle(tester, find.text(oldHour), newHour);
+  await enterTextAndSettle(tester, find.text(oldMinute), newMinute);
+  await tapAndSettle(tester, find.text(am ? "AM" : "PM"));
+  await tapAndSettle(tester, find.text("OK"));
+  expect(find.text("OK"), findsNothing);
 }
 
 extension CommonFindersExt on CommonFinders {

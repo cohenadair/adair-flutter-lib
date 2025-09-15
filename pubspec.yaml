@@ -17,11 +17,15 @@ dependencies:
     sdk: flutter
 
   collection: ^1.19.1                       # https://pub.dev/packages/collection
+  crypto: ^3.0.6                            # https://pub.dev/packages/crypto (Dart)
+  device_info_plus: ^11.4.0                 # https://pub.dev/packages/device_info_plus (Flutter)
   firebase_crashlytics: ^4.3.4              # https://pub.dev/packages/firebase_crashlytics
+  flutter_local_notifications: ^19.4.1      # https://pub.dev/packages/flutter_local_notifications (Verified)
   intl: ^0.20.2                             # https://pub.dev/packages/intl
   fixnum: ^1.1.1                            # https://pub.dev/packages/fixnum
   flutter_timezone: ^4.1.0                  # https://pub.dev/packages/flutter_timezone
   meta: ^1.16.0                             # https://pub.dev/packages/meta
+  permission_handler: ^11.3.0               # https://pub.dev/packages/permission_handler (verified)
   protobuf: ^4.1.0                          # https://pub.dev/packages/protobuf (Dart)
   purchases_flutter: ^8.10.6                # https://pub.dev/packages/purchases_flutter
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver

@@ -147,5 +147,7 @@
   "dateFormatWeekDayFull": "EEEE",
   "no": "No",
   "yes": "Yes",
-  "proChipButtonLabel": "Pro"
+  "proChipButtonLabel": "Pro",
+  "notificationPermissionPageTitle": "Notify",
+  "setPermissionButton": "Set Permission"
 }
