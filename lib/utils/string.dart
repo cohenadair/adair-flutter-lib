@@ -13,7 +13,6 @@ int Function(String, String) get ignoreCaseAlphabeticalComparator =>
 /// Supported formats:
 ///   - %s
 /// For each argument, toString() is called to replace %s.
-@Deprecated("Strings should be correctly internationalized")
 String format(String s, List<dynamic> args) {
   int index = 0;
   return s.replaceAllMapped(RegExp(r'%s'), (Match match) {
