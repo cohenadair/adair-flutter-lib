@@ -30,10 +30,9 @@ TextStyle styleSecondarySubtext(BuildContext context) =>
     TextStyle(fontSize: 11.0, color: styleSecondary(context).color);
 
 TextStyle stylePrimary(BuildContext context, {bool enabled = true}) {
-  return Theme.of(context).textTheme.titleMedium!.copyWith(
-    color: enabled
-        ? Theme.of(context).textTheme.titleMedium!.color
-        : Theme.of(context).disabledColor,
+  return TextStyle(
+    fontSize: 16.0,
+    color: enabled ? null : Theme.of(context).disabledColor,
   );
 }
 

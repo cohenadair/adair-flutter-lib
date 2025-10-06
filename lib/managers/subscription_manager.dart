@@ -90,7 +90,7 @@ class SubscriptionManager {
           code == PurchasesErrorCode.receiptAlreadyInUseError) {
         return;
       }
-      _log.e("Purchase info error: ${e.message}");
+      _log.e(Exception("Purchase info error: ${e.message}"));
     }
   }
 
@@ -105,7 +105,7 @@ class SubscriptionManager {
       var code = PurchasesErrorHelper.getErrorCode(e);
       if (code != PurchasesErrorCode.purchaseCancelledError &&
           code != PurchasesErrorCode.storeProblemError) {
-        _log.e("Purchase error: ${e.message}");
+        _log.e(Exception("Purchase error: ${e.message}"));
       }
     }
   }
@@ -117,7 +117,7 @@ class SubscriptionManager {
           ? RestoreSubscriptionResult.noSubscriptionsFound
           : RestoreSubscriptionResult.success;
     } on PlatformException catch (e) {
-      _log.e("Purchase restore error: ${e.message}");
+      _log.e(Exception("Purchase restore error: ${e.message}"));
       return RestoreSubscriptionResult.error;
     }
   }
@@ -126,12 +126,12 @@ class SubscriptionManager {
     var offerings = await PurchasesWrapper.get.getOfferings();
 
     if (offerings.current == null) {
-      _log.e("Current offering is null");
+      _log.e(Exception("Current offering is null"));
       return null;
     }
 
     if (offerings.current!.availablePackages.isEmpty) {
-      _log.e("Current offering has no available packages");
+      _log.e(Exception("Current offering has no available packages"));
       return null;
     }
 
@@ -186,7 +186,9 @@ class Subscription {
       case PeriodUnit.year:
         result = 365;
       case PeriodUnit.unknown:
-        _log.e("Invalid period unit found: ${introPrice.periodUnit}");
+        _log.e(
+          Exception("Invalid period unit found: ${introPrice.periodUnit}"),
+        );
         result = 0;
     }
 

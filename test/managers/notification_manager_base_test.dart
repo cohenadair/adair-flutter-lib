@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mocks/mocks.mocks.dart';
-import '../test_utils/disposable_tester.dart';
 import '../test_utils/stubbed_managers.dart';
 import '../test_utils/testable.dart';
 import '../test_utils/widget.dart';
@@ -33,39 +32,60 @@ void main() {
     ).thenReturn(mockNotificationsPlugin);
   });
 
-  testWidgets("Permission request exists early if user denied", (tester) async {
+  testWidgets("Permission request returns true if already granted", (
+    tester,
+  ) async {
     when(
       managers.permissionHandlerWrapper.isNotificationDenied,
     ).thenAnswer((_) => Future.value(false));
+    when(
+      managers.permissionHandlerWrapper.isNotificationGranted,
+    ).thenAnswer((_) => Future.value(true));
 
-    late BuildContext context;
-    late DisposableTester testWidget;
-    await pumpContext(tester, (con) {
-      context = con;
-      testWidget = const DisposableTester(child: SizedBox());
-      return testWidget;
-    });
-
-    await notificationManager.requestPermissionIfNeeded(
-      context,
-      "Test description.",
+    expect(
+      await notificationManager.requestPermissionIfNeeded(
+        await buildContext(tester),
+        "",
+      ),
+      isTrue,
     );
-    await tester.pumpAndSettle();
-    expect(find.byType(NotificationPermissionPage), findsNothing);
-    verify(managers.permissionHandlerWrapper.isNotificationDenied).called(1);
+    verify(managers.permissionHandlerWrapper.isNotificationGranted).called(1);
   });
 
-  testWidgets("Permission request is issued", (tester) async {
+  testWidgets("Permission request exits early if context isn't mounted", (
+    tester,
+  ) async {
+    when(managers.permissionHandlerWrapper.isNotificationDenied).thenAnswer(
+      (_) => Future.delayed(const Duration(milliseconds: 50), () => true),
+    );
+
+    await pumpContext(
+      tester,
+      (_) => _PermissionRequestTester(notificationManager, "Test description."),
+    );
+    await tester.tap(find.text("TEST"));
+    await tester.pump();
+
+    // Dispose of test widget before permission future returns.
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+
+    expect(find.byType(NotificationPermissionPage), findsNothing);
+  });
+
+  testWidgets("Permission request shows permission page", (tester) async {
     when(
       managers.permissionHandlerWrapper.isNotificationDenied,
     ).thenAnswer((_) => Future.value(true));
 
-    await tester.pumpWidget(
-      Testable((_) => _PermissionRequestTester(notificationManager)),
+    await pumpContext(
+      tester,
+      (_) => _PermissionRequestTester(notificationManager, "Test description."),
     );
 
     await tapAndSettle(tester, find.text("TEST"));
     expect(find.byType(NotificationPermissionPage), findsOneWidget);
+    expect(find.text("Test description."), findsOneWidget);
   });
 }
 
@@ -73,8 +93,9 @@ class _NotificationManager extends NotificationManagerBase {}
 
 class _PermissionRequestTester extends StatefulWidget {
   final _NotificationManager notificationManager;
+  final String description;
 
-  const _PermissionRequestTester(this.notificationManager);
+  const _PermissionRequestTester(this.notificationManager, this.description);
 
   @override
   State<_PermissionRequestTester> createState() =>
@@ -89,7 +110,7 @@ class __PermissionRequestTesterState extends State<_PermissionRequestTester> {
       onPressed: () {
         widget.notificationManager.requestPermissionIfNeeded(
           context,
-          "Some description.",
+          widget.description,
         );
       },
     );

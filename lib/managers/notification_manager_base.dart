@@ -41,21 +41,29 @@ abstract class NotificationManagerBase {
   }
 
   /// If needed, [NotificationPermissionPage] is shown to the user, allowing
-  /// them to deny or allow the app to send them local notifications.
+  /// them to deny or allow the app to send them local notifications. Returns
+  /// true if permission was granted; false otherwise.
   ///
   /// To by-pass the explanation (not recommended), use
   /// [PermissionHandlerWrapper.requestNotification].
-  Future<void> requestPermissionIfNeeded(
+  @protected
+  Future<bool> requestPermissionIfNeeded(
     BuildContext context,
-    String userFacingDescription,
+    String userDescription,
   ) async {
     // Request notification permission if they've never been requested before.
     if (!(await PermissionHandlerWrapper.get.isNotificationDenied)) {
-      return;
+      return PermissionHandlerWrapper.get.isNotificationGranted;
     }
-    if (context.mounted) {
-      present(context, NotificationPermissionPage(userFacingDescription));
+
+    if (!context.mounted) {
+      return false;
     }
+
+    return (await present<bool>(
+      context,
+      NotificationPermissionPage(userDescription),
+    ))!;
   }
 
   /// Shows a local notification. Wrapper for

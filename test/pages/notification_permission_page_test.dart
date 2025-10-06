@@ -1,4 +1,6 @@
 import 'package:adair_flutter_lib/pages/notification_permission_page.dart';
+import 'package:adair_flutter_lib/utils/page.dart';
+import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,5 +44,51 @@ void main() {
 
     await tapAndSettle(tester, find.byType(CloseButton));
     verifyNever(managers.permissionHandlerWrapper.requestNotification());
+  });
+
+  testWidgets("Navigator returns false when page is closed", (tester) async {
+    bool? navigatorResult;
+    await pumpContext(tester, (context) {
+      return Button(
+        text: "TEST",
+        onPressed: () async {
+          navigatorResult = await present(
+            context,
+            const NotificationPermissionPage("Test"),
+          );
+        },
+      );
+    });
+    await tapAndSettle(tester, find.text("TEST"));
+    await tapAndSettle(tester, find.byType(CloseButton));
+    expect(navigatorResult, isNotNull);
+    expect(navigatorResult, isFalse);
+  });
+
+  testWidgets("Navigator returns true when permission is granted", (
+    tester,
+  ) async {
+    when(managers.permissionHandlerWrapper.requestNotification()).thenAnswer(
+      (_) => Future.delayed(
+        const Duration(milliseconds: 50),
+        () => Future.value(true),
+      ),
+    );
+    bool? navigatorResult;
+    await pumpContext(tester, (context) {
+      return Button(
+        text: "TEST",
+        onPressed: () async {
+          navigatorResult = await present(
+            context,
+            const NotificationPermissionPage("Test"),
+          );
+        },
+      );
+    });
+    await tapAndSettle(tester, find.text("TEST"));
+    await tapAndSettle(tester, find.text("SET PERMISSION"));
+    expect(navigatorResult, isNotNull);
+    expect(navigatorResult, isTrue);
   });
 }

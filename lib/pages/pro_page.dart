@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/widgets/app_color_icon.dart';
+import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
@@ -276,18 +277,32 @@ class ProPageState extends State<ProPage> {
 
 class ProPageFeatureRow extends StatelessWidget {
   final String description;
+  final String? subtext;
 
-  const ProPageFeatureRow(this.description);
+  const ProPageFeatureRow(this.description, {this.subtext});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(
-          child: Text(
-            description,
-            style: stylePrimary(context),
-            overflow: TextOverflow.visible,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                description,
+                style: stylePrimary(context),
+                overflow: TextOverflow.visible,
+              ),
+              EmptyOr(
+                isShowing: isNotEmpty(subtext),
+                builder: (_) => Text(
+                  subtext!,
+                  style: styleSecondary(context),
+                  overflow: TextOverflow.visible,
+                ),
+              ),
+            ],
           ),
         ),
         Container(width: paddingDefault),

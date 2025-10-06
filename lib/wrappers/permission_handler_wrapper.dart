@@ -55,11 +55,13 @@ class PermissionHandlerWrapper {
   ///     [PermissionStatus.permanentlyDenied].
   ///   - User selects "Allow", returns [PermissionStatus.granted].
   Future<bool> requestNotification() async =>
-      (await notification.request()).isGranted;
+      (await _notification.request()).isGranted;
 
-  Permission get notification => Permission.notification;
+  Future<bool> get isNotificationDenied => _notification.isDenied;
 
-  Future<bool> get isNotificationDenied => notification.isDenied;
+  Future<bool> get isNotificationGranted => _notification.isGranted;
+
+  Permission get _notification => Permission.notification;
 
   Future<bool> openSettings() => openAppSettings();
 }

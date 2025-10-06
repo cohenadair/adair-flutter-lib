@@ -12,6 +12,12 @@ import '../widgets/button.dart';
 import '../widgets/transparent_app_bar.dart';
 import '../widgets/watermark_logo.dart';
 
+/// A page to be used to request notification permission from the user. It's a
+/// simple page that includes a description of why the app is requesting
+/// permission, and a button that actually performs the request.
+///
+/// When finished, pops from [Navigator] with a result of true if the
+/// notification permission has been granted; false otherwise.
 class NotificationPermissionPage extends StatefulWidget {
   final String description;
 
@@ -31,7 +37,10 @@ class _NotificationPermissionPageState
     return ScrollPage(
       appBar: TransparentAppBar(
         context,
-        leading: CloseButton(color: AppConfig.get.colorAppTheme),
+        leading: CloseButton(
+          color: AppConfig.get.colorAppTheme,
+          onPressed: () => Navigator.pop(context, false),
+        ),
       ),
       children: [
         WatermarkLogo(
@@ -64,11 +73,12 @@ class _NotificationPermissionPageState
       text: L10n.get.lib.setPermissionButton,
       onPressed: () async {
         setState(() => _isPendingPermission = true);
-        await PermissionHandlerWrapper.get.requestNotification();
+        var isGranted = await PermissionHandlerWrapper.get
+            .requestNotification();
         setState(() => _isPendingPermission = false);
 
         if (mounted) {
-          Navigator.pop(context);
+          Navigator.pop(context, isGranted);
         }
       },
     );

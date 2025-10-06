@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import '../wrappers/crashlytics_wrapper.dart';
@@ -14,8 +16,18 @@ class Log {
     _log("D/$_prefix$msg");
   }
 
-  void e(String msg) {
-    _log("E/$_prefix$msg", StackTrace.current);
+  void e(
+    Object exception, {
+    String? reason,
+    StackTrace? stackTrace,
+    bool fatal = false,
+  }) {
+    _log(
+      reason == null ? null : "E/$_prefix$reason",
+      exception: exception,
+      stackTrace: stackTrace,
+      fatal: fatal,
+    );
   }
 
   void w(String msg) {
@@ -49,28 +61,48 @@ class Log {
   void _logElapsed(String tag, Stopwatch watch, int msThreshold) {
     var elapsed = watch.elapsed.inMilliseconds;
     if (elapsed > msThreshold) {
-      e("$tag exceeded threshold: ${elapsed}ms");
+      e(
+        TimeoutException(
+          "$tag (${elapsed}ms) exceeded run threshold",
+          Duration(milliseconds: msThreshold),
+        ),
+      );
     } else {
       d("$tag took ${elapsed}ms");
     }
   }
 
-  void _log(String msg, [StackTrace? stackTrace]) {
+  /// Handles the log message. In release builds, logs are sent to Firebase
+  /// Crashlytics. Note that the [fatal] argument doesn't actually crash the
+  /// app; it just displays the error as a fatal error in the Crashlytics web
+  /// portal.
+  void _log(
+    String? msg, {
+    Object? exception,
+    StackTrace? stackTrace,
+    bool fatal = false,
+  }) {
     // Don't engage Crashlytics at all if we're on a debug build. Even if
     // crash reporting is off, Crashlytics queues crashes to be sent later.
     if (_isDebug) {
       // ignore: avoid_print
-      print(msg);
+      print(msg ?? exception);
+      if (stackTrace != null) {
+        // ignore: avoid_print
+        print(stackTrace);
+      }
       return;
     }
 
-    if (stackTrace == null) {
-      CrashlyticsWrapper.get.log(msg);
+    if (exception == null) {
+      assert(msg != null);
+      CrashlyticsWrapper.get.log(msg!);
     } else {
       CrashlyticsWrapper.get.recordError(
-        msg,
+        exception,
         stackTrace,
-        reason: "Logged error",
+        reason: msg,
+        fatal: fatal,
       );
     }
   }

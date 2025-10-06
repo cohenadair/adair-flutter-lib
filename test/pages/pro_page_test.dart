@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/pages/pro_page.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
+import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -426,5 +427,25 @@ void main() {
 
     expect(find.text("+30 days free"), findsNothing);
     expect(find.text("+7 days free"), findsNothing);
+  });
+
+  testWidgets("Subtext on item is shown", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => const ProPage(
+        features: [
+          ProPageFeatureRow("Test description", subtext: "Test subtext"),
+        ],
+      ),
+    );
+    expect(find.text("Test subtext"), findsOneWidget);
+  });
+
+  testWidgets("Subtext on item is hidden", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => const ProPage(features: [ProPageFeatureRow("Test description")]),
+    );
+    expect(findFirst<EmptyOr>(tester).isShowing, isFalse);
   });
 }
