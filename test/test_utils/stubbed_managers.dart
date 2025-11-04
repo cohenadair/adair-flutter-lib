@@ -10,6 +10,7 @@ import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
 import 'package:quiver/strings.dart';
@@ -139,5 +140,34 @@ class StubbedManagers {
     when(
       nativeTimeZoneWrapper.getLocalTimeZone(),
     ).thenAnswer((_) => Future.value(timeManager.currentTimeZone));
+  }
+
+  void stubIosDeviceInfo() {
+    when(deviceInfoWrapper.iosInfo).thenAnswer(
+      (_) => Future.value(
+        IosDeviceInfo.fromMap({
+          "freeDiskSize": 0,
+          "totalDiskSize": 0,
+          "physicalRamSize": 0,
+          "availableRamSize": 0,
+          "name": "iOS Device Info",
+          "systemName": "iOS System",
+          "systemVersion": "1234",
+          "model": "iPhone",
+          "modelName": "14 Pro",
+          "localizedModel": "iPhone",
+          "identifierForVendor": "Vendor ID",
+          "isPhysicalDevice": true,
+          "isiOSAppOnMac": false,
+          "utsname": {
+            "sysname": "Sys name",
+            "nodename": "Node name",
+            "release": "Release",
+            "version": "Version",
+            "machine": "iPhone Name",
+          },
+        }),
+      ),
+    );
   }
 }
