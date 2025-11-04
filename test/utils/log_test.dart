@@ -28,20 +28,16 @@ void main() {
     log = Log("Test", isDebug: false);
   });
 
-  test("e prints reason if not empty", () {
+  test("e prints reason and exception if not empty", () {
     var statements = capturePrintStatements(() {
-      Log("Test", isDebug: true).e(Exception(), reason: "Test reason");
+      Log(
+        "Test",
+        isDebug: true,
+      ).e(Exception("Test exception"), reason: "Test reason");
     });
-    expect(statements.length, 1);
+    expect(statements.length, 2);
     expect(statements.first.contains("Test reason"), isTrue);
-  });
-
-  test("e with null reason input", () {
-    var statements = capturePrintStatements(() {
-      Log("Test", isDebug: true).e(Exception("Test exception"), reason: null);
-    });
-    expect(statements.length, 1);
-    expect(statements.first.contains("Test exception"), isTrue);
+    expect(statements.last.contains("Test exception"), isTrue);
   });
 
   test("sync logs error", () {

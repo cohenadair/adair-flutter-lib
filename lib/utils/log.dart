@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:quiver/strings.dart';
 
 import '../wrappers/crashlytics_wrapper.dart';
 
@@ -85,12 +86,21 @@ class Log {
     // Don't engage Crashlytics at all if we're on a debug build. Even if
     // crash reporting is off, Crashlytics queues crashes to be sent later.
     if (_isDebug) {
-      // ignore: avoid_print
-      print(msg ?? exception);
+      if (isNotEmpty(msg)) {
+        // ignore: avoid_print
+        print(msg);
+      }
+
+      if (exception != null) {
+        // ignore: avoid_print
+        print(exception);
+      }
+
       if (stackTrace != null) {
         // ignore: avoid_print
         print(stackTrace);
       }
+
       return;
     }
 
