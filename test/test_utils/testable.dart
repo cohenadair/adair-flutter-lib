@@ -1,5 +1,5 @@
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
-import 'package:adair_flutter_lib/l10n/l10n.dart';
+import 'package:adair_flutter_lib/utils/root.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -57,7 +57,7 @@ class Testable extends StatelessWidget {
         child: Material(
           child: Builder(
             builder: (context) {
-              L10n.get.context = context;
+              Root.get.buildContext = context;
               return builder(context);
             },
           ),

@@ -1,5 +1,5 @@
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
-import 'package:flutter/material.dart';
+import 'package:adair_flutter_lib/utils/root.dart';
 
 class L10n {
   static final _instance = L10n._();
@@ -12,18 +12,6 @@ class L10n {
 
   L10n._();
 
-  BuildContext? _context;
-
-  BuildContext get context {
-    assert(
-      _context != null,
-      "Must set L10n.get.context to use localized strings",
-    );
-    return _context!;
-  }
-
-  set context(BuildContext context) => _context = context;
-
   AdairFlutterLibLocalizations get lib =>
-      AdairFlutterLibLocalizations.of(context);
+      AdairFlutterLibLocalizations.of(Root.get.buildContext);
 }
