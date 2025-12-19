@@ -8,12 +8,13 @@ import '../utils/log.dart';
 /// [loadingBuilder] (if not null) or an empty container while the given
 /// [Future] is in progress.
 ///
-/// If the future throws an error, it will be logged, and the widget rendered is
-/// the one returned by [errorBuilder], then [loadingBuilder], then lastly, an
-/// empty container.
+/// If the future throws an error, it will be logged to Firebase, and the widget
+/// rendered is the one returned by [errorBuilder], then [loadingBuilder], then
+/// lastly, an empty container.
 ///
 /// It is recommended to use this widget in place of all [FutureBuilder]
-/// instances.
+/// instances, so that errors thrown by [future] are caught and logged, rather
+/// than fail silently.
 class SafeFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;
   final Widget Function(BuildContext, T?) builder;
