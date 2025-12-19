@@ -50,7 +50,10 @@ class PermissionHandlerWrapper {
   }
 
   /// Observed behaviour:
-  ///   - Fresh install, returns [PermissionStatus.denied].
+  ///   - On an iOS fresh install, returns [PermissionStatus.denied]
+  ///     immediately if Podfile isn't updated. See
+  ///     https://github.com/Baseflow/flutter-permission-handler/issues/1497#issuecomment-3361080105
+  ///     for details.
   ///   - User selects "Don't Allow", returns
   ///     [PermissionStatus.permanentlyDenied].
   ///   - User selects "Allow", returns [PermissionStatus.granted].
