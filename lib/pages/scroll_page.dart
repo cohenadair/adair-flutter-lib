@@ -44,6 +44,14 @@ class ScrollPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Scrollable area should take up entire screen/parent, or drag
+    //  effect (when not scrollable) on Android should be disabled if content
+    //  doesn't actually require scrolling.
+    // TODO: When centerContent is true, the content needs to be centered
+    //  within the scroll view, rather than the scroll view itself being
+    //  centered within the parent (for the same reason as above). Should test
+    //  what happens on a native Android app and mimic that behaviour.
+
     Widget scrollView = SingleChildScrollView(
       // Apply vertical padding inside the child Column so scrolling isn't
       // cut off.
