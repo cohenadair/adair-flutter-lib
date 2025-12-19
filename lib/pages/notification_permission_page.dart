@@ -43,6 +43,7 @@ class _NotificationPermissionPageState
         ),
       ),
       children: [
+        Container(height: paddingDefault),
         WatermarkLogo(
           icon: Icons.notifications,
           title: L10n.get.lib.notificationPermissionPageTitle,
