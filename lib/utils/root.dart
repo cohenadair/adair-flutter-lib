@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 /// generally considered best practice to access the current tree's shallowest
 /// object instance.
 class Root {
-  static var _instance = Root._();
+  static final _instance = Root._();
 
   static Root get get => _instance;
 
-  @visibleForTesting
-  static void set(Root rootObjects) => _instance = rootObjects;
-
-  @visibleForTesting
-  static void reset() => _instance = Root._();
+  // Note that the testable methods, set and reset, have been intentionally
+  // omitted; tests should always use the real instance of Root (see the
+  // Testable widget).
 
   Root._();
 
