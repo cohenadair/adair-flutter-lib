@@ -11,6 +11,7 @@ import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mockito/annotations.dart';
@@ -46,4 +47,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([SubscriptionManager])
 @GenerateMocks([TimeManager])
 @GenerateMocks([TimeZoneLocation])
+@GenerateMocks([AndroidBuildVersion])
+@GenerateMocks([AndroidDeviceInfo])
+@GenerateMocks([IosDeviceInfo])
 void main() {}

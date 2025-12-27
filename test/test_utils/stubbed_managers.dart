@@ -89,8 +89,8 @@ class StubbedManagers {
   void stubCurrentTime(DateTime now, {String timeZone = "America/New_York"}) {
     initializeTimeZones();
 
-    var defaultLocation = getLocation(timeZone);
-    var tzNow = TZDateTime.from(now, defaultLocation);
+    final defaultLocation = getLocation(timeZone);
+    final tzNow = TZDateTime.from(now, defaultLocation);
     when(timeManager.now(any)).thenReturn(tzNow);
     when(timeManager.currentDateTime).thenReturn(tzNow);
     when(timeManager.currentTime).thenReturn(TimeOfDay.fromDateTime(tzNow));
@@ -142,7 +142,10 @@ class StubbedManagers {
     ).thenAnswer((_) => Future.value(timeManager.currentTimeZone));
   }
 
-  void stubIosDeviceInfo() {
+  void stubIosDeviceInfo({String? iosVersion = "17.0.0"}) {
+    when(ioWrapper.isIOS).thenReturn(true);
+    when(ioWrapper.isAndroid).thenReturn(false);
+
     when(deviceInfoWrapper.iosInfo).thenAnswer(
       (_) => Future.value(
         IosDeviceInfo.fromMap({
@@ -152,7 +155,7 @@ class StubbedManagers {
           "availableRamSize": 0,
           "name": "iOS Device Info",
           "systemName": "iOS System",
-          "systemVersion": "1234",
+          "systemVersion": iosVersion,
           "model": "iPhone",
           "modelName": "14 Pro",
           "localizedModel": "iPhone",
@@ -169,5 +172,22 @@ class StubbedManagers {
         }),
       ),
     );
+  }
+
+  void stubAndroidDeviceInfo({int sdkInt = 33}) {
+    when(ioWrapper.isIOS).thenReturn(false);
+    when(ioWrapper.isAndroid).thenReturn(true);
+
+    final buildVersion = MockAndroidBuildVersion();
+    when(buildVersion.sdkInt).thenReturn(sdkInt);
+
+    final deviceInfo = MockAndroidDeviceInfo();
+    when(deviceInfo.version).thenReturn(buildVersion);
+    when(deviceInfo.model).thenReturn("Pixel XL");
+    when(deviceInfo.id).thenReturn("ABCD1234");
+
+    when(
+      deviceInfoWrapper.androidInfo,
+    ).thenAnswer((_) => Future.value(deviceInfo));
   }
 }
