@@ -28,8 +28,8 @@ void main() {
     log = Log("Test", isDebug: false);
   });
 
-  test("e prints reason and exception if not empty", () {
-    var statements = capturePrintStatements(() {
+  test("e prints reason and exception if not empty", () async {
+    final statements = await capturePrintStatements(() {
       Log(
         "Test",
         isDebug: true,
@@ -105,8 +105,8 @@ void main() {
     );
   });
 
-  test("Debug mode prints stack trace", () {
-    final printed = capturePrintStatements(
+  test("Debug mode prints stack trace", () async {
+    final printed = await capturePrintStatements(
       () => Log("Test", isDebug: true).e(
         Exception(),
         reason: "Test exception",
@@ -117,8 +117,8 @@ void main() {
     expect(printed, contains("Test stack trace"));
   });
 
-  test("Debug mode does not print stack trace", () {
-    final printed = capturePrintStatements(
+  test("Debug mode does not print stack trace", () async {
+    final printed = await capturePrintStatements(
       () => Log("Test", isDebug: true).w("Test warning"),
     );
     expect(printed.length, 1);
@@ -143,7 +143,7 @@ void main() {
       fatal: true,
     );
 
-    var result = verify(
+    final result = verify(
       crashlytics.recordError(
         any,
         any,

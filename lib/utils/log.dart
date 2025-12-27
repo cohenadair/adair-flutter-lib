@@ -83,8 +83,6 @@ class Log {
     StackTrace? stackTrace,
     bool fatal = false,
   }) {
-    // Don't engage Crashlytics at all if we're on a debug build. Even if
-    // crash reporting is off, Crashlytics queues crashes to be sent later.
     if (_isDebug) {
       if (isNotEmpty(msg)) {
         // ignore: avoid_print
@@ -101,6 +99,8 @@ class Log {
         print(stackTrace);
       }
 
+      // Don't engage Crashlytics at all if we're on a debug build. Even if
+      // crash reporting is off, Crashlytics queues crashes to be sent later.
       return;
     }
 
