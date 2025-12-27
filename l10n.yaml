@@ -4,5 +4,4 @@ template-arb-file: adair_flutter_lib_en.arb
 output-localization-file: adair_flutter_lib_localizations.dart
 nullable-getter: false
 use-escaping: true
-synthetic-package: false
 output-class: AdairFlutterLibLocalizations
