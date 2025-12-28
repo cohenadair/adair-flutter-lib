@@ -142,7 +142,10 @@ class StubbedManagers {
     ).thenAnswer((_) => Future.value(timeManager.currentTimeZone));
   }
 
-  void stubIosDeviceInfo({String? iosVersion = "17.0.0"}) {
+  void stubIosDeviceInfo({
+    String? iosVersion = "17.0.0",
+    String? machine = "iPhone Name",
+  }) {
     when(ioWrapper.isIOS).thenReturn(true);
     when(ioWrapper.isAndroid).thenReturn(false);
 
@@ -167,7 +170,7 @@ class StubbedManagers {
             "nodename": "Node name",
             "release": "Release",
             "version": "Version",
-            "machine": "iPhone Name",
+            "machine": machine,
           },
         }),
       ),
