@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
@@ -35,11 +36,13 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var indicator = SizedBox.fromSize(
+    final indicator = SizedBox.fromSize(
       size: const Size(_size, _size),
       child: CircularProgressIndicator(
         strokeWidth: _strokeWidth,
-        color: isAppBar ? context.colorText : null,
+        color: isAppBar
+            ? AppConfig.get.colorAppBarContent(context.isDarkTheme)
+            : null,
       ),
     );
 

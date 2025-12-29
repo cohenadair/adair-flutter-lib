@@ -46,8 +46,6 @@ extension BuildContexts on BuildContext {
 
   Color get colorText => isDarkTheme ? Colors.white : Colors.black;
 
-  Color get colorTextActionBar => Colors.white;
-
   Color get colorBarChartLines => isDarkTheme ? Colors.white12 : Colors.black12;
 
   Color get colorBoxShadow => isDarkTheme ? Colors.black54 : Colors.grey;
