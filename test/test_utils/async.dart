@@ -10,7 +10,7 @@ Future<List<String>> capturePrintStatements(
   await runZoned<FutureOr<void>>(
     work,
     zoneSpecification: ZoneSpecification(
-      print: (_, __, ___, line) => result.add(line),
+      print: (_, _, _, line) => result.add(line),
     ),
   );
 

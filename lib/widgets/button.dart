@@ -22,15 +22,16 @@ class Button extends StatelessWidget {
         ? ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(backgroundColor: color),
-            child: _textWidget,
+            child: _buildTextWidget(context),
           )
         : ElevatedButton.icon(
             onPressed: onPressed,
             icon: icon!,
-            label: _textWidget,
+            label: _buildTextWidget(context),
             style: ElevatedButton.styleFrom(backgroundColor: color),
           );
   }
 
-  Widget get _textWidget => Text(text.toUpperCase());
+  Widget _buildTextWidget(BuildContext context) =>
+      Text(Theme.of(context).useMaterial3 ? text : text.toUpperCase());
 }

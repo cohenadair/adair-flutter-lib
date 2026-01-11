@@ -10,6 +10,7 @@ import '../utils/log.dart';
 import '../utils/void_stream_controller.dart';
 import '../wrappers/crashlytics_wrapper.dart';
 import '../wrappers/purchases_wrapper.dart';
+import 'manager.dart';
 import 'properties_manager.dart';
 
 final _log = const Log("SubscriptionManager");
@@ -25,7 +26,7 @@ enum RestoreSubscriptionResult { noSubscriptionsFound, error, success }
 /// - iOS subscriptions will auto-review five times before becoming inactive.
 ///   There's nothing to do here but wait. For wait times, see
 ///   https://help.apple.com/app-store-connect/#/dev7e89e149d.
-class SubscriptionManager {
+class SubscriptionManager implements Manager {
   static var _instance = SubscriptionManager._();
 
   static SubscriptionManager get get => _instance;
@@ -57,6 +58,7 @@ class SubscriptionManager {
   Future<String> get userId async =>
       (await PurchasesWrapper.get.getCustomerInfo()).originalAppUserId;
 
+  @override
   Future<void> init() async {
     // Setup RevenueCat.
     await PurchasesWrapper.get.configure(

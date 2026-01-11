@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/widgets/web_max_width.dart';
 import 'package:flutter/material.dart';
 
 import '../res/dimen.dart';
@@ -11,6 +12,7 @@ class ScrollPage extends StatelessWidget {
   final List<Widget> footer;
 
   final EdgeInsets padding;
+  final double spacing;
   final CrossAxisAlignment crossAxisAlignment;
 
   /// See [Scaffold.extendBodyBehindAppBar].
@@ -18,6 +20,7 @@ class ScrollPage extends StatelessWidget {
 
   final bool enableHorizontalSafeArea;
   final bool centerContent;
+  final bool restrictWebWidth;
 
   /// When non-null, material swipe-to-refresh feature is enabled. See
   /// [RefreshIndicator.onRefresh].
@@ -34,10 +37,12 @@ class ScrollPage extends StatelessWidget {
     this.children = const [],
     this.footer = const [],
     this.padding = insetsZero,
+    this.spacing = 0.0,
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.extendBodyBehindAppBar = true,
     this.enableHorizontalSafeArea = true,
     this.centerContent = false,
+    this.restrictWebWidth = false,
     this.onRefresh,
     this.refreshIndicatorKey,
   });
@@ -69,6 +74,7 @@ class ScrollPage extends StatelessWidget {
         right: enableHorizontalSafeArea,
         child: Column(
           crossAxisAlignment: crossAxisAlignment,
+          spacing: spacing,
           children: [
             Container(height: padding.top),
             ...children,
@@ -89,6 +95,10 @@ class ScrollPage extends StatelessWidget {
         onRefresh: onRefresh!,
         child: scrollView,
       );
+    }
+
+    if (restrictWebWidth) {
+      child = WebMaxWidth(child: child);
     }
 
     return Scaffold(

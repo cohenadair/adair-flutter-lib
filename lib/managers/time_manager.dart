@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 import 'package:timezone/data/latest_all.dart';
@@ -8,7 +9,7 @@ import '../utils/log.dart';
 import '../utils/string.dart';
 import '../wrappers/native_time_zone_wrapper.dart';
 
-class TimeManager {
+class TimeManager implements Manager {
   static var _instance = TimeManager._();
 
   static TimeManager get get => _instance;
@@ -39,6 +40,7 @@ class TimeManager {
   List<TimeZoneLocation> _availableLocations = [];
   late TimeZoneLocation _currentLocation;
 
+  @override
   Future<void> init() async {
     initializeTimeZones();
 

@@ -1,10 +1,11 @@
+import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../utils/properties_file.dart';
 
 /// A class for accessing data in configuration files.
-class PropertiesManager {
+class PropertiesManager implements Manager {
   static var _instance = PropertiesManager._();
 
   static PropertiesManager get get => _instance;
@@ -29,6 +30,7 @@ class PropertiesManager {
   late PropertiesFile _properties;
   late String _feedbackTemplate;
 
+  @override
   Future<void> init() async {
     _properties = PropertiesFile(await rootBundle.loadString(_path));
     _feedbackTemplate = await rootBundle.loadString(_feedbackTemplatePath);

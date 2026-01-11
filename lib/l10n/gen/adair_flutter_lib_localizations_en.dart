@@ -221,6 +221,18 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get setPermissionButton => 'Set Permission';
+
+  @override
+  String get signInPageEmailLabel => 'Email';
+
+  @override
+  String get signInPagePasswordLabel => 'Password';
+
+  @override
+  String get signInPageSignInButton => 'Sign In';
+
+  @override
+  String get signInPageTitle => 'Sign In';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

@@ -221,4 +221,16 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get setPermissionButton => 'Establecer permiso';
+
+  @override
+  String get signInPageEmailLabel => 'Correo electrónico';
+
+  @override
+  String get signInPagePasswordLabel => 'Contraseña';
+
+  @override
+  String get signInPageSignInButton => 'Iniciar sesión';
+
+  @override
+  String get signInPageTitle => 'Iniciar sesión';
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class IoWrapper {
   static var _instance = IoWrapper._();
@@ -32,4 +32,6 @@ class IoWrapper {
   bool get isAndroid => Platform.isAndroid;
 
   bool get isIOS => Platform.isIOS;
+
+  bool get isWeb => kIsWeb;
 }

@@ -32,7 +32,7 @@ class Loading extends StatelessWidget {
         isAppBar: true,
       );
 
-  const Loading.listItem() : this(isCentered: false, isAppBar: false);
+  const Loading.minimized() : this(isCentered: false, isAppBar: false);
 
   @override
   Widget build(BuildContext context) {

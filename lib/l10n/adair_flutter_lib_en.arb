@@ -149,5 +149,9 @@
   "yes": "Yes",
   "proChipButtonLabel": "Pro",
   "notificationPermissionPageTitle": "Notify",
-  "setPermissionButton": "Set Permission"
+  "setPermissionButton": "Set Permission",
+  "signInPageEmailLabel": "Email",
+  "signInPagePasswordLabel": "Password",
+  "signInPageSignInButton": "Sign In",
+  "signInPageTitle": "Sign In"
 }

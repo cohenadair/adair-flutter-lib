@@ -3,6 +3,11 @@ import 'package:flutter/services.dart';
 
 import '../app_config.dart';
 
+// TODO: There's not a ton of commonality here, and _elevatedButtonTheme
+//  doesn't work for Material 3. Should revert to Flutter defaults wherever
+//  possible (i.e. remove most of what's in this file in favour of proper
+//  Flutter theming.
+
 const useMaterial3 = false;
 
 class AdairFlutterLibTheme {
@@ -21,16 +26,19 @@ class AdairFlutterLibTheme {
         elevatedButtonTheme: _elevatedButtonTheme(),
       );
 
-  static _elevatedButtonTheme() => ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty<Color>.fromMap({
-        WidgetState.any: AppConfig.get.colorAppTheme,
-      }),
-    ),
-  );
+  static ElevatedButtonThemeData _elevatedButtonTheme() =>
+      ElevatedButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty<Color>.fromMap({
+            WidgetState.any: AppConfig.get.colorAppTheme,
+          }),
+        ),
+      );
 }
 
 extension BuildContexts on BuildContext {
+  // TODO: Can be replaced with
+  //  `bool get isDarkTheme => Theme.of(this).brightness == Brightness.dark;`
   bool get isDarkTheme {
     switch (AppConfig.get.themeMode()) {
       case ThemeMode.system:
@@ -42,7 +50,8 @@ extension BuildContexts on BuildContext {
     }
   }
 
-  // TODO: See if any of these can be moved to ThemeData.
+  TextStyle get styleError =>
+      TextStyle(color: Theme.of(this).colorScheme.error);
 
   Color get colorText => isDarkTheme ? Colors.white : Colors.black;
 

@@ -29,6 +29,7 @@ dependencies:
   purchases_flutter: ^8.10.6                # https://pub.dev/packages/purchases_flutter
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
+  firebase_auth: ^5.7.0                     # https://pub.dev/packages/firebase_auth
 
 dev_dependencies:
   flutter_test:

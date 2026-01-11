@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO: Rename to AdairFlutterLibAppConfig to be consistent with other
+//  lib-specific classes (or rename the other classes).
 class AppConfig {
   static var _instance = AppConfig._();
 
@@ -15,6 +17,9 @@ class AppConfig {
 
   late final String Function() appName;
   late final IconData appIcon;
+
+  // TODO: All theme-related properties should be handled in the app's theme.
+  //  Remove them from here.
   late final MaterialColor colorAppTheme;
   late final Color Function(bool) colorAppBarContent;
   late final ThemeMode Function() themeMode;

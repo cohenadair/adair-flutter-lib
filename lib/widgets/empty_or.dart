@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../res/dimen.dart';
 
 class EmptyOr extends StatelessWidget {
-  final Widget Function(BuildContext) builder;
+  /// The widget to render if [isShowing] is true.
+  final WidgetBuilder builder;
 
   /// Padding wrapped around the widget returned by [childBuilder]. If
   /// [isShowing] is false, this padding is not rendered.

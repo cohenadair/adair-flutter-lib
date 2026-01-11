@@ -18,6 +18,7 @@ class Testable extends StatelessWidget {
   final Iterable<LocalizationsDelegate> localizations;
   final Iterable<Locale>? locales;
   final Locale? locale;
+  final bool useMaterial3;
 
   const Testable(
     this.builder, {
@@ -27,6 +28,7 @@ class Testable extends StatelessWidget {
     this.localizations = const [],
     this.locales,
     this.locale,
+    this.useMaterial3 = false,
   });
 
   @override
@@ -34,7 +36,7 @@ class Testable extends StatelessWidget {
     return MaterialApp(
       themeMode: themeMode,
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: useMaterial3,
         primarySwatch: Colors.lightBlue,
         platform: platform,
       ),
@@ -67,8 +69,10 @@ class Testable extends StatelessWidget {
   }
 }
 
+// TODO: Remove. Duplicate of pumpContext.
 /// A convenience method for creating a [BuildContext] instance in a non-UI
 /// test.
+@Deprecated("Use pumpContext instead.")
 Future<BuildContext> buildContext(
   WidgetTester tester, {
   bool use24Hour = false,
@@ -97,6 +101,7 @@ Future<BuildContext> pumpContext(
   MediaQueryData mediaQueryData = const MediaQueryData(),
   ThemeMode? themeMode,
   Locale? locale,
+  bool useMaterial3 = false,
 }) async {
   late BuildContext context;
   await tester.pumpWidget(
@@ -108,6 +113,7 @@ Future<BuildContext> pumpContext(
       mediaQueryData: mediaQueryData,
       themeMode: themeMode,
       locale: locale,
+      useMaterial3: useMaterial3,
     ),
   );
   return context;

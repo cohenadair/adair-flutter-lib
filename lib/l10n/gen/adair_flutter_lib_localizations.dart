@@ -467,6 +467,30 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Set Permission'**
   String get setPermissionButton;
+
+  /// No description provided for @signInPageEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get signInPageEmailLabel;
+
+  /// No description provided for @signInPagePasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get signInPagePasswordLabel;
+
+  /// No description provided for @signInPageSignInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signInPageSignInButton;
+
+  /// No description provided for @signInPageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signInPageTitle;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

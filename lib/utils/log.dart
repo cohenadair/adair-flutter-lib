@@ -84,14 +84,15 @@ class Log {
     bool fatal = false,
   }) {
     if (_isDebug) {
-      if (isNotEmpty(msg)) {
+      if (isNotEmpty(msg) && exception != null) {
+        // ignore: avoid_print
+        print("$msg ($exception)");
+      } else if (isNotEmpty(msg)) {
         // ignore: avoid_print
         print(msg);
-      }
-
-      if (exception != null) {
+      } else if (exception != null) {
         // ignore: avoid_print
-        print(exception);
+        print("E/$_prefix$exception");
       }
 
       if (stackTrace != null) {

@@ -7,12 +7,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../pages/notification_permission_page.dart';
 import '../utils/page.dart';
 import '../wrappers/permission_handler_wrapper.dart';
+import 'manager.dart';
 
-abstract class NotificationManagerBase {
+abstract class NotificationManagerBase implements Manager {
   // Called when a user taps a notification.
   VoidCallback? onDidReceiveNotificationResponse;
   late final FlutterLocalNotificationsPlugin _flutterNotifications;
 
+  @override
   @protected
   Future<void> init() async {
     _flutterNotifications = LocalNotificationsWrapper.get.newInstance();

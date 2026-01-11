@@ -28,16 +28,20 @@ void main() {
     log = Log("Test", isDebug: false);
   });
 
-  test("e prints reason and exception if not empty", () async {
+  test("e prints reason and exception together if not empty", () async {
     final statements = await capturePrintStatements(() {
-      Log(
-        "Test",
-        isDebug: true,
-      ).e(Exception("Test exception"), reason: "Test reason");
+      Log("Test", isDebug: true).e(Exception("Test"), reason: "Test reason");
     });
-    expect(statements.length, 2);
-    expect(statements.first.contains("Test reason"), isTrue);
-    expect(statements.last.contains("Test exception"), isTrue);
+    expect(statements.length, 1);
+    expect(statements.first.contains("Test reason (Exception: Test)"), isTrue);
+  });
+
+  test("e prints exception only", () async {
+    final statements = await capturePrintStatements(() {
+      Log("Test", isDebug: true).e(Exception("Test"));
+    });
+    expect(statements.length, 1);
+    expect(statements.first.contains("E/AL-Test: Exception: Test"), isTrue);
   });
 
   test("sync logs error", () {
@@ -87,6 +91,14 @@ void main() {
     );
   });
 
+  test("Log prints only the message; omits exception", () async {
+    final printed = await capturePrintStatements(
+      () => Log("Test", isDebug: true).w("Message"),
+    );
+    expect(printed.length, 1);
+    expect(printed[0], "W/AL-Test: Message");
+  });
+
   test("Debug mode doesn't use Crashlytics", () async {
     log = Log("Test", isDebug: true);
     await log.async(
@@ -113,7 +125,7 @@ void main() {
         stackTrace: StackTrace.fromString("Test stack trace"),
       ),
     );
-    expect(printed, contains("E/AL-Test: Test exception"));
+    expect(printed, contains("E/AL-Test: Test exception (Exception)"));
     expect(printed, contains("Test stack trace"));
   });
 

@@ -5,27 +5,46 @@ import 'package:flutter_test/flutter_test.dart';
 import '../test_utils/testable.dart';
 
 void main() {
-  group("Button", () {
-    testWidgets("No icon", (tester) async {
-      var pressed = false;
-      var button = Button(text: "Test", onPressed: () => pressed = true);
+  testWidgets("No icon", (tester) async {
+    var pressed = false;
+    final button = Button(text: "Test", onPressed: () => pressed = true);
 
-      await tester.pumpWidget(Testable((_) => button));
+    await pumpContext(tester, (_) => button);
 
-      expect(find.byWidget(button), findsOneWidget);
-      await tester.tap(find.byWidget(button));
-      expect(pressed, isTrue);
-    });
+    expect(find.byWidget(button), findsOneWidget);
+    await tester.tap(find.byWidget(button));
+    expect(pressed, isTrue);
+  });
 
-    testWidgets("Icon", (tester) async {
-      var button = Button(
+  testWidgets("Icon", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => Button(
         text: "Test",
         onPressed: () => {},
         icon: const Icon(Icons.group),
-      );
+      ),
+    );
+    expect(find.byIcon(Icons.group), findsOneWidget);
+  });
 
-      await tester.pumpWidget(Testable((_) => button));
-      expect(find.byIcon(Icons.group), findsOneWidget);
-    });
+  testWidgets("Material 3 shows exact text", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => Button(text: "Test Button", onPressed: () {}),
+      useMaterial3: true,
+    );
+    expect(find.text("Test Button"), findsOneWidget);
+    expect(find.text("TEST BUTTON"), findsNothing);
+  });
+
+  testWidgets("Material 2 shows uppercased text", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => Button(text: "Test Button", onPressed: () {}),
+      useMaterial3: false,
+    );
+    expect(find.text("Test Button"), findsNothing);
+    expect(find.text("TEST BUTTON"), findsOneWidget);
   });
 }
