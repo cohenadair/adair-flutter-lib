@@ -89,7 +89,15 @@ void main() {
   });
 }
 
-class _NotificationManager extends NotificationManagerBase {}
+class _NotificationManager extends NotificationManagerBase {
+  @override
+  Future<bool> requestPermissionIfNeeded(
+    BuildContext context,
+    String userDescription,
+  ) async {
+    return super.requestPermissionIfNeeded(context, userDescription);
+  }
+}
 
 class _PermissionRequestTester extends StatefulWidget {
   final _NotificationManager notificationManager;
