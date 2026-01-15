@@ -18,18 +18,12 @@ class AdairFlutterLibTheme {
           primarySwatch: AppConfig.get.colorAppTheme,
         ).copyWith(error: Colors.red),
         elevatedButtonTheme: _elevatedButtonTheme(),
-        textTheme: _textTheme(
-          ThemeData.light(useMaterial3: useMaterial3).textTheme,
-        ),
       );
 
   static ThemeData dark() =>
       ThemeData.dark(useMaterial3: useMaterial3).copyWith(
         primaryColor: AppConfig.get.colorAppTheme,
         elevatedButtonTheme: _elevatedButtonTheme(),
-        textTheme: _textTheme(
-          ThemeData.dark(useMaterial3: useMaterial3).textTheme,
-        ),
       );
 
   static ElevatedButtonThemeData _elevatedButtonTheme() =>
@@ -40,12 +34,6 @@ class AdairFlutterLibTheme {
           }),
         ),
       );
-
-  static TextTheme _textTheme(TextTheme base) => base.copyWith(
-    bodySmall: const TextStyle(fontSize: 14),
-    bodyMedium: const TextStyle(fontSize: 16),
-    bodyLarge: const TextStyle(fontSize: 18),
-  );
 }
 
 @immutable
