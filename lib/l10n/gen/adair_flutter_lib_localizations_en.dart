@@ -233,6 +233,14 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get signInPageTitle => 'Sign In';
+
+  @override
+  String landingPageInitError(Object appName) {
+    return 'Uh oh! Something went wrong during initialization. The $appName team has been notified, and we apologize for the inconvenience.';
+  }
+
+  @override
+  String get by => 'by';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

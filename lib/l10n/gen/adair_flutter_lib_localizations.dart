@@ -491,6 +491,18 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Sign In'**
   String get signInPageTitle;
+
+  /// No description provided for @landingPageInitError.
+  ///
+  /// In en, this message translates to:
+  /// **'Uh oh! Something went wrong during initialization. The {appName} team has been notified, and we apologize for the inconvenience.'**
+  String landingPageInitError(Object appName);
+
+  /// No description provided for @by.
+  ///
+  /// In en, this message translates to:
+  /// **'by'**
+  String get by;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

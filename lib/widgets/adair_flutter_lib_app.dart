@@ -1,4 +1,5 @@
 import 'package:adair_flutter_lib/managers/manager.dart';
+import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/widgets/safe_future_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../app_config.dart';
 import '../l10n/gen/adair_flutter_lib_localizations.dart';
 import '../pages/sign_in_page.dart';
+import '../utils/log.dart';
 import '../utils/root.dart';
 import '../wrappers/firebase_auth_wrapper.dart';
 
@@ -60,6 +62,8 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   late final Future<void> _initAppFuture;
   late final Stream<User?> _authStateStream;
 
+  final _log = Log("AdairFlutterLibApp");
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +76,8 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
     return MaterialApp(
       onGenerateTitle: (context) {
         Root.get.buildContext = context;
+        // TODO: Init AppConfig here so context is available. Possibly pass
+        //  AppConfig fields to AdairFlutterLibApp.
         return AppConfig.get.appName();
       },
       theme: widget.theme,
@@ -80,7 +86,8 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       home: SafeFutureBuilder(
         future: _initAppFuture,
         errorReason: "Initializing app",
-        loadingBuilder: _buildLoadingPage,
+        loadingBuilder: (_) => LandingPage(hasError: false),
+        errorBuilder: (_) => LandingPage(hasError: true),
         builder: (context, _) => _buildStartPage(context),
       ),
       debugShowCheckedModeBanner: false,
@@ -99,12 +106,6 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
     );
   }
 
-  Widget _buildLoadingPage(BuildContext context) {
-    // TODO: Replace with LandingPage + error handling from Anglers'
-    //  Log/SafeFutureBuilder.
-    return Scaffold(backgroundColor: Theme.of(context).colorScheme.surface);
-  }
-
   Widget _buildStartPage(BuildContext context) {
     if (!widget.requiresAuth) {
       return widget.homeBuilder(context);
@@ -113,21 +114,16 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
     return StreamBuilder<User?>(
       stream: _authStateStream,
       builder: (_, snapshot) {
-        // TODO: Pass to LandingPage.
         if (snapshot.hasError) {
-          return Text("Something went wrong on sign in: ${snapshot.error}");
+          _log.e(snapshot.error!, reason: "Fetching auth state");
+          return LandingPage(hasError: true);
         }
 
-        // TODO: Pass to LandingPage.
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading...");
+          return LandingPage(hasError: false);
         }
 
-        if (!snapshot.hasData) {
-          return const SignInPage();
-        }
-
-        return widget.homeBuilder(context);
+        return snapshot.hasData ? widget.homeBuilder(context) : SignInPage();
       },
     );
   }

@@ -51,6 +51,7 @@ class StubbedManagers {
     when(appConfig.colorAppBarContent).thenReturn((_) => Colors.white);
     when(appConfig.appIcon).thenReturn(Icons.add); // Random icon.
     when(appConfig.appName).thenReturn(() => "Test App");
+    when(appConfig.companyName).thenReturn(() => "Test, Inc.");
     when(appConfig.themeMode).thenReturn(() => ThemeMode.system);
     AppConfig.set(appConfig);
 

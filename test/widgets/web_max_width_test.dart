@@ -18,10 +18,7 @@ void main() {
     tester.view.physicalSize = const Size(1600, 900);
     tester.view.devicePixelRatio = 1.0;
 
-    await pumpContext(
-      tester,
-          (_) => WebMaxWidth(child: TextField()),
-    );
+    await pumpContext(tester, (_) => WebMaxWidth(child: TextField()));
     expect(tester.getSize(find.byType(TextField)).width, 1600);
   });
 
@@ -30,10 +27,7 @@ void main() {
     tester.view.physicalSize = const Size(1600, 900);
     tester.view.devicePixelRatio = 1.0;
 
-    await pumpContext(
-      tester,
-      (_) => WebMaxWidth(child: TextField()),
-    );
+    await pumpContext(tester, (_) => WebMaxWidth(child: TextField()));
     expect(tester.getSize(find.byType(TextField)).width, 500);
   });
 }

@@ -343,6 +343,12 @@ class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
   );
 
   @override
+  set companyName(String Function()? value) => super.noSuchMethod(
+    Invocation.setter(#companyName, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   set appIcon(_i2.IconData? value) => super.noSuchMethod(
     Invocation.setter(#appIcon, value),
     returnValueForMissingStub: null,
@@ -369,6 +375,7 @@ class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
   @override
   void init({
     required String Function()? appName,
+    String Function()? companyName,
     _i2.IconData? appIcon,
     _i2.MaterialColor? colorAppTheme,
     _i3.Color Function(bool)? colorAppBarContent,
@@ -376,6 +383,7 @@ class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
   }) => super.noSuchMethod(
     Invocation.method(#init, [], {
       #appName: appName,
+      #companyName: companyName,
       #appIcon: appIcon,
       #colorAppTheme: colorAppTheme,
       #colorAppBarContent: colorAppBarContent,
@@ -2888,15 +2896,6 @@ class MockUser extends _i1.Mock implements _i14.User {
             ),
           )
           as _i10.Future<_i14.User>);
-
-  @override
-  _i10.Future<void> updateEmail(String? newEmail) =>
-      (super.noSuchMethod(
-            Invocation.method(#updateEmail, [newEmail]),
-            returnValue: _i10.Future<void>.value(),
-            returnValueForMissingStub: _i10.Future<void>.value(),
-          )
-          as _i10.Future<void>);
 
   @override
   _i10.Future<void> updatePassword(String? newPassword) =>

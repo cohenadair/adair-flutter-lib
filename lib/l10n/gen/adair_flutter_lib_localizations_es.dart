@@ -233,4 +233,12 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get signInPageTitle => 'Iniciar sesión';
+
+  @override
+  String landingPageInitError(Object appName) {
+    return '¡Oh no! Algo salió mal durante la inicialización. El equipo de $appName ha sido notificado y nos disculpamos por las molestias.';
+  }
+
+  @override
+  String get by => 'por';
 }

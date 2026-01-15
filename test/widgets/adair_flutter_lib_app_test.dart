@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/pages/sign_in_page.dart';
 import 'package:adair_flutter_lib/utils/root.dart';
 import 'package:adair_flutter_lib/widgets/adair_flutter_lib_app.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../mocks/mocks.mocks.dart';
+import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
 
 void main() {
@@ -23,8 +25,6 @@ void main() {
       managers.firebaseAuthWrapper.authStateChanges(),
     ).thenAnswer((_) => authController.stream);
 
-    when(managers.appConfig.appName).thenReturn(() => "Test");
-
     when(managers.ioWrapper.isWeb).thenReturn(false);
   });
 
@@ -36,7 +36,7 @@ void main() {
     verify(managers.appConfig.appName()).called(1);
   });
 
-  testWidgets("Loading page is shown while managers initialize", (
+  testWidgets("Landing page is shown while managers initialize", (
     tester,
   ) async {
     when(managers.subscriptionManager.init()).thenAnswer((_) => Future.value());
@@ -48,12 +48,34 @@ void main() {
         homeBuilder: (_) => Text("Home"),
       ),
     );
-    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.byType(LandingPage), findsOneWidget);
 
     await tester.pumpAndSettle();
     expect(find.text("Home"), findsOneWidget);
     verify(managers.subscriptionManager.init()).called(1);
     verify(managers.timeManager.init()).called(1);
+  });
+
+  testWidgets("Landing page shows error when managers fail to initialize", (
+    tester,
+  ) async {
+    when(
+      managers.subscriptionManager.init(),
+    ).thenAnswer((_) => throw Exception("test-error"));
+
+    await tester.pumpWidget(
+      AdairFlutterLibApp(
+        managers: [managers.subscriptionManager],
+        homeBuilder: (_) => Text("Home"),
+      ),
+    );
+    expect(find.byType(LandingPage), findsOneWidget);
+    expect(findFirst<LandingPage>(tester).hasError, isFalse);
+
+    await tester.pumpAndSettle();
+    expect(findFirst<LandingPage>(tester).hasError, isTrue);
+    expect(find.text("Home"), findsNothing);
+    verify(managers.subscriptionManager.init()).called(1);
   });
 
   testWidgets("Home page is shown when requiresAuth is false", (tester) async {
@@ -72,11 +94,7 @@ void main() {
 
     authController.addError("test-error");
     await tester.pump();
-    expect(find.text("Loading..."), findsNothing);
-    expect(
-      find.text("Something went wrong on sign in: test-error"),
-      findsOneWidget,
-    );
+    expect(findFirst<LandingPage>(tester).hasError, isTrue);
   });
 
   testWidgets("Firebase auth state waiting", (tester) async {
@@ -85,7 +103,8 @@ void main() {
     );
 
     await tester.pump();
-    expect(find.text("Loading..."), findsOneWidget);
+    expect(find.byType(LandingPage), findsOneWidget);
+    expect(findFirst<LandingPage>(tester).hasError, isFalse);
   });
 
   testWidgets("Firebase auth state not authorized", (tester) async {
