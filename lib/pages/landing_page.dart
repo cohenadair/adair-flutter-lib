@@ -21,15 +21,19 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.colorApp,
       body: Stack(
-        children: [_buildLogo(), _buildInitError(), _buildCompanyName()],
+        children: [_buildLogo(context), _buildInitError(), _buildCompanyName()],
       ),
     );
   }
 
-  Widget _buildLogo() {
+  Widget _buildLogo(BuildContext context) {
     return Align(
       alignment: Alignment(_iconHorizontalAlignment, _iconVerticalAlignment),
-      child: Icon(AppConfig.get.appIcon, size: _iconSize, color: Colors.white),
+      child: Icon(
+        AppConfig.get.appIcon,
+        size: _iconSize,
+        color: context.colorOnApp,
+      ),
     );
   }
 

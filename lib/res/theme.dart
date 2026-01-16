@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/res/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -97,11 +98,16 @@ extension BuildContexts on BuildContext {
     }
   }
 
-  TextStyle get styleError => TextStyle(color: colorError);
+  TextStyle get styleError =>
+      TextStyle(color: colorError, fontSize: stylePrimary(this).fontSize);
 
-  TextStyle get styleOnApp => TextStyle(color: colorOnApp);
+  TextStyle get styleOnApp =>
+      TextStyle(color: colorOnApp, fontSize: stylePrimary(this).fontSize);
 
-  TextStyle get styleOnAppSecondary => TextStyle(color: colorOnAppSecondary);
+  TextStyle get styleOnAppSecondary => TextStyle(
+    color: colorOnAppSecondary,
+    fontSize: stylePrimary(this).fontSize,
+  );
 
   Color get colorError => Theme.of(this).colorScheme.error;
 
