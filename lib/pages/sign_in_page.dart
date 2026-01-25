@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
@@ -14,7 +15,6 @@ import '../widgets/button.dart';
 
 // TODO: Support other providers (Apple, Google at a minimum).
 // TODO: Persist email address.
-// TODO: Add app icon.
 class SignInPage extends StatefulWidget {
   const SignInPage();
 
@@ -48,16 +48,25 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return ScrollPage(
-      appBar: AppBar(title: Text(L10n.get.lib.signInPageTitle)),
       padding: insetsHorizontalDefault,
       spacing: paddingDefault,
       restrictWidth: true,
       children: [
+        _buildLogo(),
         _buildEmailField(),
         _buildPasswordField(),
         _buildError(),
         _buildSignInButton(),
       ],
+    );
+  }
+
+  Widget _buildLogo() {
+    return Padding(
+      padding: insetsDefault,
+      // Not sure if this is future-proof, since some app icons/logos may not
+      // be 100% square, or convertible into a custom icon.
+      child: Icon(AppConfig.get.appIcon, size: 200),
     );
   }
 
