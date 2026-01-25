@@ -1,5 +1,5 @@
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
-import 'package:adair_flutter_lib/widgets/web_max_width.dart';
+import 'package:adair_flutter_lib/widgets/restricted_width.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -125,17 +125,16 @@ void main() {
   testWidgets("Page width is restricted for web apps", (tester) async {
     await pumpContext(
       tester,
-      (_) => ScrollPage(restrictWebWidth: true, children: const [Text("Test")]),
+      (_) => ScrollPage(restrictWidth: true, children: const [Text("Test")]),
     );
-    expect(find.byType(WebMaxWidth), findsOneWidget);
+    expect(find.byType(RestrictedWidth), findsOneWidget);
   });
 
   testWidgets("Page width is unrestricted for non-web apps", (tester) async {
     await pumpContext(
       tester,
-      (_) =>
-          ScrollPage(restrictWebWidth: false, children: const [Text("Test")]),
+      (_) => ScrollPage(restrictWidth: false, children: const [Text("Test")]),
     );
-    expect(find.byType(WebMaxWidth), findsNothing);
+    expect(find.byType(RestrictedWidth), findsNothing);
   });
 }

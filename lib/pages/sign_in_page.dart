@@ -51,7 +51,7 @@ class _SignInPageState extends State<SignInPage> {
       appBar: AppBar(title: Text(L10n.get.lib.signInPageTitle)),
       padding: insetsHorizontalDefault,
       spacing: paddingDefault,
-      restrictWebWidth: true,
+      restrictWidth: true,
       children: [
         _buildEmailField(),
         _buildPasswordField(),
