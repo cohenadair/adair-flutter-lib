@@ -238,4 +238,41 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get by => 'por';
+
+  @override
+  String get signInPageErrorInvalidEmail =>
+      'El formato de la dirección de correo electrónico no es válido.';
+
+  @override
+  String get signInPageErrorNetworkFailed =>
+      'Comprueba tu conexión a Internet y vuelve a intentarlo.';
+
+  @override
+  String get signInPageErrorOperationNotAllowed =>
+      'El inicio de sesión con correo electrónico y contraseña está deshabilitado para esta aplicación.';
+
+  @override
+  String get signInPageErrorTokenExpired =>
+      'La autenticación ha expirado. Inténtalo de nuevo.';
+
+  @override
+  String get signInPageErrorTooManyRequests =>
+      'Se han realizado demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.';
+
+  @override
+  String signInPageErrorUnknown(Object code) {
+    return 'Error de inicio de sesión desconocido ($code).';
+  }
+
+  @override
+  String get signInPageErrorUserDisabled =>
+      'La cuenta de usuario ha sido deshabilitada.';
+
+  @override
+  String get signInPageErrorUserNotFound =>
+      'No existe ningún usuario con la dirección de correo electrónico proporcionada.';
+
+  @override
+  String get signInPageErrorInvalidCredentials =>
+      'El correo electrónico o la contraseña son incorrectos.';
 }

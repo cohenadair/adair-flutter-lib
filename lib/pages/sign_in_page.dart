@@ -23,7 +23,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  // TODO: Move Anglers' Log TextInput + dependencies for realtime validation.
+  // If realtime input validation is ever needed, move Anglers' Log's TextInput
+  // and dependencies.
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _log = Log("SignInPage");
@@ -126,18 +127,41 @@ class _SignInPageState extends State<SignInPage> {
         password: _passwordController.text,
       );
     } on FirebaseAuthException catch (e) {
-      // TODO: Show actual error messages, not just codes.
-      // Possible codes: https://pub.dev/documentation/firebase_auth/latest/firebase_auth/FirebaseAuth/signInWithEmailAndPassword.html
-      _log.d(e.code);
-      error = e.code;
+      error = errorMessage(e.code);
     } catch (e) {
       _log.e(e, reason: "Sign in with email");
-      error = "Unknown error (${e.toString()})";
+      error = errorMessage(e.toString());
     }
 
     setState(() {
       _isSigningIn = false;
       _error = error;
     });
+  }
+
+  String errorMessage(String code) {
+    // Possible codes: https://pub.dev/documentation/firebase_auth/latest/firebase_auth/FirebaseAuth/signInWithEmailAndPassword.html
+    switch (code) {
+      case "invalid-email":
+        return L10n.get.lib.signInPageErrorInvalidEmail;
+      case "user-disabled":
+        return L10n.get.lib.signInPageErrorUserDisabled;
+      case "user-not-found":
+        return L10n.get.lib.signInPageErrorUserNotFound;
+      case "too-many-requests":
+        return L10n.get.lib.signInPageErrorTooManyRequests;
+      case "user-token-expired":
+        return L10n.get.lib.signInPageErrorTokenExpired;
+      case "network-request-failed":
+        return L10n.get.lib.signInPageErrorNetworkFailed;
+      case "INVALID_LOGIN_CREDENTIALS":
+      case "invalid-credential":
+      case "wrong-password":
+        return L10n.get.lib.signInPageErrorInvalidCredentials;
+      case "operation-not-allowed":
+        return L10n.get.lib.signInPageErrorOperationNotAllowed;
+      default:
+        return L10n.get.lib.signInPageErrorUnknown(code);
+    }
   }
 }

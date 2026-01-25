@@ -154,5 +154,14 @@
   "signInPagePasswordLabel": "Password",
   "signInPageSignInButton": "Sign In",
   "landingPageInitError": "Uh oh! Something went wrong during initialization. The {appName} team has been notified, and we apologize for the inconvenience.",
-  "by": "by"
+  "by": "by",
+  "signInPageErrorInvalidEmail": "Invalid email address format.",
+  "signInPageErrorNetworkFailed": "Please check your network connection and try again.",
+  "signInPageErrorOperationNotAllowed": "Email and password sign in is disabled for this app.",
+  "signInPageErrorTokenExpired": "Authentication has expired. Please try again.",
+  "signInPageErrorTooManyRequests": "Sign in has been throttled. Please try again later.",
+  "signInPageErrorUnknown": "Unknown sign in error ({code}).",
+  "signInPageErrorUserDisabled": "User has been disabled.",
+  "signInPageErrorUserNotFound": "No user exists with the given email address.",
+  "signInPageErrorInvalidCredentials": "Incorrect email and password combination."
 }

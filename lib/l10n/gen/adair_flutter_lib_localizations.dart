@@ -497,6 +497,60 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'by'**
   String get by;
+
+  /// No description provided for @signInPageErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address format.'**
+  String get signInPageErrorInvalidEmail;
+
+  /// No description provided for @signInPageErrorNetworkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your network connection and try again.'**
+  String get signInPageErrorNetworkFailed;
+
+  /// No description provided for @signInPageErrorOperationNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Email and password sign in is disabled for this app.'**
+  String get signInPageErrorOperationNotAllowed;
+
+  /// No description provided for @signInPageErrorTokenExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication has expired. Please try again.'**
+  String get signInPageErrorTokenExpired;
+
+  /// No description provided for @signInPageErrorTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in has been throttled. Please try again later.'**
+  String get signInPageErrorTooManyRequests;
+
+  /// No description provided for @signInPageErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown sign in error ({code}).'**
+  String signInPageErrorUnknown(Object code);
+
+  /// No description provided for @signInPageErrorUserDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'User has been disabled.'**
+  String get signInPageErrorUserDisabled;
+
+  /// No description provided for @signInPageErrorUserNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No user exists with the given email address.'**
+  String get signInPageErrorUserNotFound;
+
+  /// No description provided for @signInPageErrorInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email and password combination.'**
+  String get signInPageErrorInvalidCredentials;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

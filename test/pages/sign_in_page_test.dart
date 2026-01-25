@@ -86,7 +86,117 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 1));
   });
 
-  testWidgets("Firebase throws auth exception", (tester) async {
+  testWidgets("Firebase throws invalid-email", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "invalid-email"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(find.text("Invalid email address format."), findsOneWidget);
+  });
+
+  testWidgets("Firebase throws user-disabled", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "user-disabled"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(find.text("User has been disabled."), findsOneWidget);
+  });
+
+  testWidgets("Firebase throws user-not-found", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "user-not-found"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("No user exists with the given email address."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws too-many-requests", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "too-many-requests"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Sign in has been throttled. Please try again later."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws user-token-expired", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "user-token-expired"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Authentication has expired. Please try again."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws network-request-failed", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn(
+      (_) => throw FirebaseAuthException(code: "network-request-failed"),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Please check your network connection and try again."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws INVALID_LOGIN_CREDENTIALS", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn(
+      (_) => throw FirebaseAuthException(code: "INVALID_LOGIN_CREDENTIALS"),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Incorrect email and password combination."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws invalid-credential", (tester) async {
     await pumpContext(tester, (_) => SignInPage());
     await enterEmailAndPassword(tester);
 
@@ -96,7 +206,57 @@ void main() {
 
     expect(findFirst<Button>(tester).onPressed, isNotNull);
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("invalid-credential"), findsOneWidget);
+    expect(
+      find.text("Incorrect email and password combination."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws wrong-password", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "wrong-password"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Incorrect email and password combination."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws operation-not-allowed", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn(
+      (_) => throw FirebaseAuthException(code: "operation-not-allowed"),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(
+      find.text("Email and password sign in is disabled for this app."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets("Firebase throws unknown error", (tester) async {
+    await pumpContext(tester, (_) => SignInPage());
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "unknown-error"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(findFirst<Button>(tester).onPressed, isNotNull);
+    expect(find.byType(Loading), findsNothing);
+    expect(find.text("Unknown sign in error (unknown-error)."), findsOneWidget);
   });
 
   testWidgets("Firebase throws non-auth exception", (tester) async {
@@ -109,6 +269,9 @@ void main() {
 
     expect(findFirst<Button>(tester).onPressed, isNotNull);
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Unknown error (Exception: Bad gateway)"), findsOneWidget);
+    expect(
+      find.text("Unknown sign in error (Exception: Bad gateway)."),
+      findsOneWidget,
+    );
   });
 }

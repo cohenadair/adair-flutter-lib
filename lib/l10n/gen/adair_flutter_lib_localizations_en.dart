@@ -238,6 +238,41 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get by => 'by';
+
+  @override
+  String get signInPageErrorInvalidEmail => 'Invalid email address format.';
+
+  @override
+  String get signInPageErrorNetworkFailed =>
+      'Please check your network connection and try again.';
+
+  @override
+  String get signInPageErrorOperationNotAllowed =>
+      'Email and password sign in is disabled for this app.';
+
+  @override
+  String get signInPageErrorTokenExpired =>
+      'Authentication has expired. Please try again.';
+
+  @override
+  String get signInPageErrorTooManyRequests =>
+      'Sign in has been throttled. Please try again later.';
+
+  @override
+  String signInPageErrorUnknown(Object code) {
+    return 'Unknown sign in error ($code).';
+  }
+
+  @override
+  String get signInPageErrorUserDisabled => 'User has been disabled.';
+
+  @override
+  String get signInPageErrorUserNotFound =>
+      'No user exists with the given email address.';
+
+  @override
+  String get signInPageErrorInvalidCredentials =>
+      'Incorrect email and password combination.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

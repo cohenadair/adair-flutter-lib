@@ -154,5 +154,14 @@
   "signInPagePasswordLabel": "Contraseña",
   "signInPageSignInButton": "Iniciar sesión",
   "landingPageInitError": "¡Oh no! Algo salió mal durante la inicialización. El equipo de {appName} ha sido notificado y nos disculpamos por las molestias.",
-  "by": "por"
+  "by": "por",
+  "signInPageErrorInvalidEmail": "El formato de la dirección de correo electrónico no es válido.",
+  "signInPageErrorNetworkFailed": "Comprueba tu conexión a Internet y vuelve a intentarlo.",
+  "signInPageErrorTokenExpired": "La autenticación ha expirado. Inténtalo de nuevo.",
+  "signInPageErrorTooManyRequests": "Se han realizado demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.",
+  "signInPageErrorUnknown": "Error de inicio de sesión desconocido ({code}).",
+  "signInPageErrorUserDisabled": "La cuenta de usuario ha sido deshabilitada.",
+  "signInPageErrorUserNotFound": "No existe ningún usuario con la dirección de correo electrónico proporcionada.",
+  "signInPageErrorOperationNotAllowed": "El inicio de sesión con correo electrónico y contraseña está deshabilitado para esta aplicación.",
+  "signInPageErrorInvalidCredentials": "El correo electrónico o la contraseña son incorrectos."
 }
