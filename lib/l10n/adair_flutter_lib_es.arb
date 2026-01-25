@@ -153,7 +153,6 @@
   "signInPageEmailLabel": "Correo electrónico",
   "signInPagePasswordLabel": "Contraseña",
   "signInPageSignInButton": "Iniciar sesión",
-  "signInPageTitle": "Iniciar sesión",
   "landingPageInitError": "¡Oh no! Algo salió mal durante la inicialización. El equipo de {appName} ha sido notificado y nos disculpamos por las molestias.",
   "by": "por"
 }

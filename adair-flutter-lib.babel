@@ -1179,25 +1179,6 @@
 						</translations>
 					</concept_node>
 					<concept_node>
-						<name>signInPageTitle</name>
-						<description/>
-						<comment/>
-						<translations>
-							<translation>
-								<language>en-CA</language>
-								<approved>false</approved>
-							</translation>
-							<translation>
-								<language>en-US</language>
-								<approved>false</approved>
-							</translation>
-							<translation>
-								<language>es-ES</language>
-								<approved>false</approved>
-							</translation>
-						</translations>
-					</concept_node>
-					<concept_node>
 						<name>today</name>
 						<description/>
 						<comment/>

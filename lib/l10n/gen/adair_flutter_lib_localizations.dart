@@ -486,12 +486,6 @@ abstract class AdairFlutterLibLocalizations {
   /// **'Sign In'**
   String get signInPageSignInButton;
 
-  /// No description provided for @signInPageTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign In'**
-  String get signInPageTitle;
-
   /// No description provided for @landingPageInitError.
   ///
   /// In en, this message translates to:
