@@ -14,9 +14,11 @@ import '../utils/log.dart';
 import '../widgets/button.dart';
 
 // TODO: Support other providers (Apple, Google at a minimum).
-// TODO: Persist email address.
 class SignInPage extends StatefulWidget {
-  const SignInPage();
+  /// If null, defaults to [AppConfig.appIcon].
+  final Widget? logo;
+
+  const SignInPage({this.logo});
 
   @override
   State<SignInPage> createState() => _SignInPageState();
@@ -65,9 +67,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buildLogo() {
     return Padding(
       padding: insetsDefault,
-      // Not sure if this is future-proof, since some app icons/logos may not
-      // be 100% square, or convertible into a custom icon.
-      child: Icon(AppConfig.get.appIcon, size: 200),
+      child: widget.logo ?? Icon(AppConfig.get.appIcon, size: 200),
     );
   }
 

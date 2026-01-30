@@ -17,7 +17,6 @@ void main() {
 
   setUp(() async {
     managers = await StubbedManagers.create();
-    when(managers.ioWrapper.isWeb).thenReturn(false);
   });
 
   enterEmailAndPassword(WidgetTester tester) async {
@@ -84,6 +83,18 @@ void main() {
     expect(find.byType(Loading), findsOneWidget);
 
     await tester.pumpAndSettle(const Duration(seconds: 1));
+  });
+
+  testWidgets("Custom logo", (tester) async {
+    await pumpContext(tester, (_) => SignInPage(logo: Text("TEST LOGO")));
+    expect(find.text("TEST LOGO"), findsOneWidget);
+    expect(find.byType(Icon), findsNothing);
+  });
+
+  testWidgets("Default logo", (tester) async {
+    when(managers.appConfig.appIcon).thenReturn(Icons.onetwothree);
+    await pumpContext(tester, (_) => SignInPage(logo: null));
+    expect(findFirst<Icon>(tester).icon, Icons.onetwothree);
   });
 
   testWidgets("Firebase throws invalid-email", (tester) async {

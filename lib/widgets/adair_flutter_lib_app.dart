@@ -18,8 +18,9 @@ class AdairFlutterLibApp extends StatefulWidget {
   /// the [SignInPage] or [homeBuilder].
   final List<Manager> managers;
 
-  /// True if user authentication using Firebase is required; false otherwise.
-  final bool requiresAuth;
+  /// Non-null if user authentication using Firebase is required; null
+  /// otherwise.
+  final AdairFlutterLibAppAuthInfo? authInfo;
 
   /// See [MaterialApp.theme].
   final ThemeData? theme;
@@ -45,7 +46,7 @@ class AdairFlutterLibApp extends StatefulWidget {
 
   const AdairFlutterLibApp({
     this.managers = const [],
-    this.requiresAuth = false,
+    this.authInfo,
     this.theme,
     this.darkTheme,
     this.themeMode,
@@ -107,7 +108,7 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   }
 
   Widget _buildStartPage(BuildContext context) {
-    if (!widget.requiresAuth) {
+    if (widget.authInfo == null) {
       return widget.homeBuilder(context);
     }
 
@@ -123,7 +124,9 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
           return LandingPage(hasError: false);
         }
 
-        return snapshot.hasData ? widget.homeBuilder(context) : SignInPage();
+        return snapshot.hasData
+            ? widget.homeBuilder(context)
+            : SignInPage(logo: widget.authInfo!.logo);
       },
     );
   }
@@ -133,4 +136,10 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       await manager.init();
     }
   }
+}
+
+class AdairFlutterLibAppAuthInfo {
+  final Widget? logo;
+
+  AdairFlutterLibAppAuthInfo({this.logo});
 }
