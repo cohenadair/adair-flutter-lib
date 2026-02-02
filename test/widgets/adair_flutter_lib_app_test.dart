@@ -80,7 +80,7 @@ void main() {
 
   testWidgets("Home page is shown when requiresAuth is false", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(requiresAuth: false, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(authInfo: null, homeBuilder: (_) => Text("Home")),
     );
     await tester.pumpAndSettle();
     expect(find.text("Home"), findsOneWidget);
@@ -88,7 +88,10 @@ void main() {
 
   testWidgets("Firebase auth state error", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(requiresAuth: true, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(
+        authInfo: AdairFlutterLibAppAuthInfo(),
+        homeBuilder: (_) => Text("Home"),
+      ),
     );
     await tester.pump();
 
@@ -99,7 +102,10 @@ void main() {
 
   testWidgets("Firebase auth state waiting", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(requiresAuth: true, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(
+        authInfo: AdairFlutterLibAppAuthInfo(),
+        homeBuilder: (_) => Text("Home"),
+      ),
     );
 
     await tester.pump();
@@ -109,7 +115,10 @@ void main() {
 
   testWidgets("Firebase auth state not authorized", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(requiresAuth: true, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(
+        authInfo: AdairFlutterLibAppAuthInfo(),
+        homeBuilder: (_) => Text("Home"),
+      ),
     );
     await tester.pump();
 
@@ -122,7 +131,10 @@ void main() {
 
   testWidgets("Firebase auth state authorized", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(requiresAuth: true, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(
+        authInfo: AdairFlutterLibAppAuthInfo(),
+        homeBuilder: (_) => Text("Home"),
+      ),
     );
     await tester.pump();
 
