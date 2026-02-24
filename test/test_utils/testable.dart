@@ -69,30 +69,22 @@ class Testable extends StatelessWidget {
   }
 }
 
-// TODO: Remove. Duplicate of pumpContext.
 /// A convenience method for creating a [BuildContext] instance in a non-UI
 /// test.
-@Deprecated("Use pumpContext instead.")
 Future<BuildContext> buildContext(
   WidgetTester tester, {
   bool use24Hour = false,
   List<LocalizationsDelegate> localizations = const [],
 }) async {
-  BuildContext? context;
-  await tester.pumpWidget(
-    Testable(
-      (buildContext) {
-        context = buildContext;
-        return const SizedBox();
-      },
-      mediaQueryData: MediaQueryData(
-        devicePixelRatio: 1.0,
-        alwaysUse24HourFormat: use24Hour,
-      ),
-      localizations: localizations,
+  return pumpContext(
+    tester,
+    (_) => const SizedBox(),
+    mediaQueryData: MediaQueryData(
+      devicePixelRatio: 1.0,
+      alwaysUse24HourFormat: use24Hour,
     ),
+    localizations: localizations,
   );
-  return context!;
 }
 
 Future<BuildContext> pumpContext(
@@ -102,6 +94,7 @@ Future<BuildContext> pumpContext(
   ThemeMode? themeMode,
   Locale? locale,
   bool useMaterial3 = false,
+  List<LocalizationsDelegate> localizations = const [],
 }) async {
   late BuildContext context;
   await tester.pumpWidget(
@@ -114,6 +107,7 @@ Future<BuildContext> pumpContext(
       themeMode: themeMode,
       locale: locale,
       useMaterial3: useMaterial3,
+      localizations: localizations,
     ),
   );
   return context;
