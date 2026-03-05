@@ -273,6 +273,24 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
   @override
   String get signInPageErrorInvalidCredentials =>
       'Incorrect email and password combination.';
+
+  @override
+  String get inputNameLabel => 'Name';
+
+  @override
+  String get inputDescriptionLabel => 'Description';
+
+  @override
+  String get inputEmailLabel => 'Email';
+
+  @override
+  String get inputGenericRequired => 'Required';
+
+  @override
+  String get inputInvalidNumber => 'Invalid number input';
+
+  @override
+  String get inputInvalidEmail => 'Invalid email format';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

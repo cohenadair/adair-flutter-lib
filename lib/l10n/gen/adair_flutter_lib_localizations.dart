@@ -551,6 +551,42 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Incorrect email and password combination.'**
   String get signInPageErrorInvalidCredentials;
+
+  /// No description provided for @inputNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get inputNameLabel;
+
+  /// No description provided for @inputDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get inputDescriptionLabel;
+
+  /// No description provided for @inputEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get inputEmailLabel;
+
+  /// No description provided for @inputGenericRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get inputGenericRequired;
+
+  /// No description provided for @inputInvalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid number input'**
+  String get inputInvalidNumber;
+
+  /// No description provided for @inputInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email format'**
+  String get inputInvalidEmail;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

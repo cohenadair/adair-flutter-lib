@@ -163,5 +163,11 @@
   "signInPageErrorUnknown": "Unknown sign in error ({code}).",
   "signInPageErrorUserDisabled": "User has been disabled.",
   "signInPageErrorUserNotFound": "No user exists with the given email address.",
-  "signInPageErrorInvalidCredentials": "Incorrect email and password combination."
+  "signInPageErrorInvalidCredentials": "Incorrect email and password combination.",
+  "inputNameLabel": "Name",
+  "inputDescriptionLabel": "Description",
+  "inputEmailLabel": "Email",
+  "inputGenericRequired": "Required",
+  "inputInvalidNumber": "Invalid number input",
+  "inputInvalidEmail": "Invalid email format"
 }

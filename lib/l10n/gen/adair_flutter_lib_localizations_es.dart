@@ -275,4 +275,22 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
   @override
   String get signInPageErrorInvalidCredentials =>
       'El correo electrónico o la contraseña son incorrectos.';
+
+  @override
+  String get inputNameLabel => 'Nombre';
+
+  @override
+  String get inputDescriptionLabel => 'Descripción';
+
+  @override
+  String get inputEmailLabel => 'Correo electrónico';
+
+  @override
+  String get inputGenericRequired => 'Requerido';
+
+  @override
+  String get inputInvalidNumber => 'Entrada de número inválida';
+
+  @override
+  String get inputInvalidEmail => 'Formato de correo electrónico inválido';
 }

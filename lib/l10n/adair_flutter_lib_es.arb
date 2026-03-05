@@ -163,5 +163,11 @@
   "signInPageErrorUserDisabled": "La cuenta de usuario ha sido deshabilitada.",
   "signInPageErrorUserNotFound": "No existe ningún usuario con la dirección de correo electrónico proporcionada.",
   "signInPageErrorOperationNotAllowed": "El inicio de sesión con correo electrónico y contraseña está deshabilitado para esta aplicación.",
-  "signInPageErrorInvalidCredentials": "El correo electrónico o la contraseña son incorrectos."
+  "signInPageErrorInvalidCredentials": "El correo electrónico o la contraseña son incorrectos.",
+  "inputNameLabel": "Nombre",
+  "inputDescriptionLabel": "Descripción",
+  "inputEmailLabel": "Correo electrónico",
+  "inputGenericRequired": "Requerido",
+  "inputInvalidNumber": "Entrada de número inválida",
+  "inputInvalidEmail": "Formato de correo electrónico inválido"
 }
