@@ -69,7 +69,10 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   void initState() {
     super.initState();
     _initAppFuture = _initApp();
-    _authStateStream = FirebaseAuthWrapper.get.authStateChanges();
+
+    if (widget.authInfo != null) {
+      _authStateStream = FirebaseAuthWrapper.get.authStateChanges();
+    }
   }
 
   @override
