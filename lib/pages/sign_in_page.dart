@@ -1,9 +1,9 @@
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
-import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
+import 'package:adair_flutter_lib/widgets/restricted_width.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,8 @@ import '../res/theme.dart';
 import '../utils/log.dart';
 import '../widgets/button.dart';
 
-// TODO: Support other providers (Apple, Google at a minimum).
+// TODO: Support other providers (Apple, Google at a minimum). May need to go
+//  back to a ScrollPage; will have to test on smaller devices.
 class SignInPage extends StatefulWidget {
   /// If null, defaults to [AppConfig.appIcon].
   final Widget? logo;
@@ -25,6 +26,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  static const _logoSize = 200.0;
+
   // If realtime input validation is ever needed, move Anglers' Log's TextInput
   // and dependencies.
   final _emailController = TextEditingController();
@@ -50,24 +53,31 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollPage(
-      padding: insetsHorizontalDefault,
-      spacing: paddingDefault,
-      restrictWidth: true,
-      children: [
-        _buildLogo(),
-        _buildEmailField(),
-        _buildPasswordField(),
-        _buildError(),
-        _buildSignInButton(),
-      ],
+    return Scaffold(
+      body: RestrictedWidth(
+        child: Padding(
+          padding: insetsDefault,
+          child: Column(
+            spacing: paddingDefault,
+            children: [
+              Spacer(),
+              _buildLogo(),
+              _buildEmailField(),
+              _buildPasswordField(),
+              _buildError(),
+              _buildSignInButton(),
+              Spacer(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildLogo() {
     return Padding(
       padding: insetsDefault,
-      child: widget.logo ?? Icon(AppConfig.get.appIcon, size: 200),
+      child: widget.logo ?? Icon(AppConfig.get.appIcon, size: _logoSize),
     );
   }
 
@@ -133,10 +143,13 @@ class _SignInPageState extends State<SignInPage> {
       error = errorMessage(e.toString());
     }
 
-    setState(() {
-      _isSigningIn = false;
-      _error = error;
-    });
+    // May not still be mounted if disposed via auth state stream.
+    if (mounted) {
+      setState(() {
+        _isSigningIn = false;
+        _error = error;
+      });
+    }
   }
 
   String errorMessage(String code) {
