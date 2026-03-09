@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/pages/sign_in_page.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
@@ -14,9 +17,15 @@ import '../test_utils/widget.dart';
 
 void main() {
   late StubbedManagers managers;
+  late StreamController<User?> authController;
 
   setUp(() async {
     managers = await StubbedManagers.create();
+
+    authController = StreamController<User?>(sync: true);
+    when(
+      managers.firebaseAuthWrapper.authStateChanges(),
+    ).thenAnswer((_) => authController.stream);
   });
 
   enterEmailAndPassword(WidgetTester tester) async {
@@ -42,14 +51,30 @@ void main() {
     ).thenAnswer(answer);
   }
 
+  Future<void> pumpNotSignedIn(
+    WidgetTester tester, [
+    SignInPageInfo? info,
+    String? homeText,
+  ]) async {
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: info ?? SignInPageInfo(),
+        homeBuilder: (_) => Text(homeText ?? ""),
+      ),
+    );
+    authController.add(null);
+    await tester.pump();
+  }
+
   testWidgets("No text input", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     expect(findFirst<Button>(tester).onPressed, isNull);
     expect(find.byType(Loading), findsNothing);
   });
 
   testWidgets("Sign in button is enabled when input is valid", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
 
     await enterTextAndSettle(
       tester,
@@ -67,7 +92,7 @@ void main() {
   });
 
   testWidgets("Signing in", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn(
@@ -86,19 +111,19 @@ void main() {
   });
 
   testWidgets("Custom logo", (tester) async {
-    await pumpContext(tester, (_) => SignInPage(logo: Text("TEST LOGO")));
+    await pumpNotSignedIn(tester, SignInPageInfo(logo: Text("TEST LOGO")));
     expect(find.text("TEST LOGO"), findsOneWidget);
     expect(find.byType(Icon), findsNothing);
   });
 
   testWidgets("Default logo", (tester) async {
     when(managers.appConfig.appIcon).thenReturn(Icons.onetwothree);
-    await pumpContext(tester, (_) => SignInPage(logo: null));
+    await pumpNotSignedIn(tester, SignInPageInfo(logo: null));
     expect(findFirst<Icon>(tester).icon, Icons.onetwothree);
   });
 
   testWidgets("Firebase throws invalid-email", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "invalid-email"));
@@ -111,7 +136,7 @@ void main() {
   });
 
   testWidgets("Firebase throws user-disabled", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "user-disabled"));
@@ -124,7 +149,7 @@ void main() {
   });
 
   testWidgets("Firebase throws user-not-found", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "user-not-found"));
@@ -140,7 +165,7 @@ void main() {
   });
 
   testWidgets("Firebase throws too-many-requests", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "too-many-requests"));
@@ -156,7 +181,7 @@ void main() {
   });
 
   testWidgets("Firebase throws user-token-expired", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "user-token-expired"));
@@ -172,7 +197,7 @@ void main() {
   });
 
   testWidgets("Firebase throws network-request-failed", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn(
@@ -190,7 +215,7 @@ void main() {
   });
 
   testWidgets("Firebase throws INVALID_LOGIN_CREDENTIALS", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn(
@@ -208,7 +233,7 @@ void main() {
   });
 
   testWidgets("Firebase throws invalid-credential", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "invalid-credential"));
@@ -224,7 +249,7 @@ void main() {
   });
 
   testWidgets("Firebase throws wrong-password", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "wrong-password"));
@@ -240,7 +265,7 @@ void main() {
   });
 
   testWidgets("Firebase throws operation-not-allowed", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn(
@@ -258,7 +283,7 @@ void main() {
   });
 
   testWidgets("Firebase throws unknown error", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw FirebaseAuthException(code: "unknown-error"));
@@ -271,7 +296,7 @@ void main() {
   });
 
   testWidgets("Firebase throws non-auth exception", (tester) async {
-    await pumpContext(tester, (_) => SignInPage());
+    await pumpNotSignedIn(tester);
     await enterEmailAndPassword(tester);
 
     stubSignIn((_) => throw Exception("Bad gateway"));
@@ -284,5 +309,96 @@ void main() {
       find.text("Unknown sign in error (Exception: Bad gateway)."),
       findsOneWidget,
     );
+  });
+
+  testWidgets("Firebase auth state error", (tester) async {
+    await pumpNotSignedIn(tester);
+    await tester.pump();
+
+    authController.addError("test-error");
+    await tester.pump();
+    expect(findFirst<LandingPage>(tester).hasError, isTrue);
+  });
+
+  testWidgets("Firebase auth state waiting", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => SignInPage(info: SignInPageInfo(), homeBuilder: (_) => Text("")),
+    );
+
+    expect(find.byType(LandingPage), findsOneWidget);
+    expect(findFirst<LandingPage>(tester).hasError, isFalse);
+  });
+
+  testWidgets("Firebase auth state not authorized", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => SignInPage(info: SignInPageInfo(), homeBuilder: (_) => Text("H")),
+    );
+
+    authController.add(null);
+    await tester.pump();
+
+    expect(find.byType(SignInPage), findsOneWidget);
+    expect(find.text("H"), findsNothing);
+  });
+
+  testWidgets("Firebase auth state authorized", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => SignInPage(info: SignInPageInfo(), homeBuilder: (_) => Text("")),
+    );
+    await tester.pump();
+
+    authController.add(MockUser());
+    await tester.pump();
+
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text(""), findsOneWidget);
+  });
+
+  testWidgets("Post sign in verification fails", (tester) async {
+    await pumpNotSignedIn(
+      tester,
+      SignInPageInfo(
+        postSignInVerification: () => Future.value("post-sign-in-error"),
+      ),
+      "H",
+    );
+    await enterEmailAndPassword(tester);
+
+    // Sign in.
+    stubSignIn(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
+        () => MockUserCredential(),
+      ),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text("post-sign-in-error"), findsOneWidget);
+    expect(find.text("H"), findsNothing);
+  });
+
+  testWidgets("Post sign in verification succeeds", (tester) async {
+    await pumpNotSignedIn(
+      tester,
+      SignInPageInfo(postSignInVerification: () => Future.value(null)),
+      "HOME",
+    );
+    await enterEmailAndPassword(tester);
+
+    // Sign in.
+    stubSignIn(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
+        () => MockUserCredential(),
+      ),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text("HOME"), findsNothing);
   });
 }

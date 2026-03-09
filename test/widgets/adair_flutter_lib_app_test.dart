@@ -9,22 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mocks/mocks.mocks.dart';
 import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
 
 void main() {
   late StubbedManagers managers;
-  late StreamController<User?> authController;
 
   setUp(() async {
     managers = await StubbedManagers.create();
-
-    authController = StreamController<User?>(sync: true);
-    when(
-      managers.firebaseAuthWrapper.authStateChanges(),
-    ).thenAnswer((_) => authController.stream);
-
     when(managers.ioWrapper.isWeb).thenReturn(false);
   });
 
@@ -78,70 +70,38 @@ void main() {
     verify(managers.subscriptionManager.init()).called(1);
   });
 
-  testWidgets("Home page is shown when requiresAuth is false", (tester) async {
+  testWidgets("Home page is shown when signInPageInfo is null", (tester) async {
     await tester.pumpWidget(
-      AdairFlutterLibApp(authInfo: null, homeBuilder: (_) => Text("Home")),
+      AdairFlutterLibApp(
+        signInPageInfo: null,
+        homeBuilder: (_) => Text("Home"),
+      ),
     );
     await tester.pumpAndSettle();
     expect(find.text("Home"), findsOneWidget);
   });
 
-  testWidgets("Firebase auth state error", (tester) async {
+  testWidgets("Sign in page is shown when signInPageInfo is set", (
+    tester,
+  ) async {
+    final authController = StreamController<User?>(sync: true);
+    when(
+      managers.firebaseAuthWrapper.authStateChanges(),
+    ).thenAnswer((_) => authController.stream);
+
     await tester.pumpWidget(
       AdairFlutterLibApp(
-        authInfo: AdairFlutterLibAppAuthInfo(),
-        homeBuilder: (_) => Text("Home"),
-      ),
-    );
-    await tester.pump();
-
-    authController.addError("test-error");
-    await tester.pump();
-    expect(findFirst<LandingPage>(tester).hasError, isTrue);
-  });
-
-  testWidgets("Firebase auth state waiting", (tester) async {
-    await tester.pumpWidget(
-      AdairFlutterLibApp(
-        authInfo: AdairFlutterLibAppAuthInfo(),
+        signInPageInfo: SignInPageInfo(),
         homeBuilder: (_) => Text("Home"),
       ),
     );
 
-    await tester.pump();
-    expect(find.byType(LandingPage), findsOneWidget);
-    expect(findFirst<LandingPage>(tester).hasError, isFalse);
-  });
-
-  testWidgets("Firebase auth state not authorized", (tester) async {
-    await tester.pumpWidget(
-      AdairFlutterLibApp(
-        authInfo: AdairFlutterLibAppAuthInfo(),
-        homeBuilder: (_) => Text("Home"),
-      ),
-    );
-    await tester.pump();
-
+    // Ensure user is not signed in.
     authController.add(null);
-    await tester.pump();
+    await tester.pumpAndSettle();
 
-    expect(find.byType(SignInPage), findsOneWidget);
+    expect(find.text("Email"), findsOneWidget);
+    expect(find.text("Password"), findsOneWidget);
     expect(find.text("Home"), findsNothing);
-  });
-
-  testWidgets("Firebase auth state authorized", (tester) async {
-    await tester.pumpWidget(
-      AdairFlutterLibApp(
-        authInfo: AdairFlutterLibAppAuthInfo(),
-        homeBuilder: (_) => Text("Home"),
-      ),
-    );
-    await tester.pump();
-
-    authController.add(MockUser());
-    await tester.pump();
-
-    expect(find.byType(SignInPage), findsNothing);
-    expect(find.text("Home"), findsOneWidget);
   });
 }

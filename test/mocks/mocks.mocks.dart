@@ -966,6 +966,16 @@ class MockIoWrapper extends _i1.Mock implements _i28.IoWrapper {
           as bool);
 
   @override
+  bool get isMobile =>
+      (super.noSuchMethod(Invocation.getter(#isMobile), returnValue: false)
+          as bool);
+
+  @override
+  bool get isMacOS =>
+      (super.noSuchMethod(Invocation.getter(#isMacOS), returnValue: false)
+          as bool);
+
+  @override
   bool get isWeb =>
       (super.noSuchMethod(Invocation.getter(#isWeb), returnValue: false)
           as bool);

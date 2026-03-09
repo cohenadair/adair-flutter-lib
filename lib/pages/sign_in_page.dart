@@ -1,9 +1,10 @@
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
+import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
+import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
-import 'package:adair_flutter_lib/widgets/restricted_width.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,14 @@ import 'package:quiver/strings.dart';
 import '../res/theme.dart';
 import '../utils/log.dart';
 import '../widgets/button.dart';
+import 'landing_page.dart';
 
-// TODO: Support other providers (Apple, Google at a minimum). May need to go
-//  back to a ScrollPage; will have to test on smaller devices.
+// TODO: Support other providers (Apple, Google at a minimum).
 class SignInPage extends StatefulWidget {
-  /// If null, defaults to [AppConfig.appIcon].
-  final Widget? logo;
+  final SignInPageInfo info;
+  final WidgetCallback homeBuilder;
 
-  const SignInPage({this.logo});
+  const SignInPage({required this.info, required this.homeBuilder});
 
   @override
   State<SignInPage> createState() => _SignInPageState();
@@ -28,8 +29,9 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   static const _logoSize = 200.0;
 
-  // If realtime input validation is ever needed, move Anglers' Log's TextInput
-  // and dependencies.
+  late final Stream<User?> _authStateStream;
+
+  // TODO: Refactor to use TextInput + realtime validation.
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _log = Log("SignInPage");
@@ -42,6 +44,7 @@ class _SignInPageState extends State<SignInPage> {
     super.initState();
     _emailController.addListener(_onTextChanged);
     _passwordController.addListener(_onTextChanged);
+    _authStateStream = FirebaseAuthWrapper.get.authStateChanges();
   }
 
   @override
@@ -53,31 +56,45 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RestrictedWidth(
-        child: Padding(
-          padding: insetsDefault,
-          child: Column(
-            spacing: paddingDefault,
-            children: [
-              Spacer(),
-              _buildLogo(),
-              _buildEmailField(),
-              _buildPasswordField(),
-              _buildError(),
-              _buildSignInButton(),
-              Spacer(),
-            ],
-          ),
-        ),
-      ),
+    return StreamBuilder<User?>(
+      stream: _authStateStream,
+      builder: (_, snapshot) {
+        if (snapshot.hasError) {
+          _log.e(snapshot.error!, reason: "Fetching auth state");
+          return LandingPage(hasError: true);
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return LandingPage(hasError: false);
+        }
+
+        return snapshot.hasData && !_isSigningIn
+            ? widget.homeBuilder(context)
+            : _buildPage();
+      },
+    );
+  }
+
+  Widget _buildPage() {
+    return ScrollPage(
+      restrictWidth: true,
+      padding: insetsDefault,
+      spacing: paddingDefault,
+      centerContent: true,
+      children: [
+        _buildLogo(),
+        _buildEmailField(),
+        _buildPasswordField(),
+        _buildError(),
+        _buildSignInButton(),
+      ],
     );
   }
 
   Widget _buildLogo() {
     return Padding(
       padding: insetsDefault,
-      child: widget.logo ?? Icon(AppConfig.get.appIcon, size: _logoSize),
+      child: widget.info.logo ?? Icon(AppConfig.get.appIcon, size: _logoSize),
     );
   }
 
@@ -136,6 +153,10 @@ class _SignInPageState extends State<SignInPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      if ((await widget.info.postSignInVerification?.call() ?? "").isNotEmpty) {
+        error = await widget.info.postSignInVerification?.call() ?? "";
+        await FirebaseAuthWrapper.get.signOut();
+      }
     } on FirebaseAuthException catch (e) {
       error = errorMessage(e.code);
     } catch (e) {
@@ -143,13 +164,16 @@ class _SignInPageState extends State<SignInPage> {
       error = errorMessage(e.toString());
     }
 
-    // May not still be mounted if disposed via auth state stream.
-    if (mounted) {
-      setState(() {
-        _isSigningIn = false;
-        _error = error;
-      });
-    }
+    setState(() {
+      _isSigningIn = false;
+      _error = error;
+
+      // Clear password field on successful sign in so it must be re-entered
+      // when the user signs out.
+      if (_error.isEmpty) {
+        _passwordController.clear();
+      }
+    });
   }
 
   String errorMessage(String code) {
@@ -177,4 +201,16 @@ class _SignInPageState extends State<SignInPage> {
         return L10n.get.lib.signInPageErrorUnknown(code);
     }
   }
+}
+
+class SignInPageInfo {
+  /// If null, defaults to [AppConfig.appIcon].
+  final Widget? logo;
+
+  /// Called after sign in, if not null. Return an error string to stop the
+  /// sign in. The returned value is shown to the user. Return null to signal a
+  /// successful verification.
+  final Future<String?> Function()? postSignInVerification;
+
+  SignInPageInfo({this.logo, this.postSignInVerification});
 }

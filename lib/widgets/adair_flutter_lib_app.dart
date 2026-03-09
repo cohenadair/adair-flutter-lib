@@ -1,16 +1,13 @@
 import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/widgets/safe_future_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../app_config.dart';
 import '../l10n/gen/adair_flutter_lib_localizations.dart';
 import '../pages/sign_in_page.dart';
-import '../utils/log.dart';
 import '../utils/root.dart';
-import '../wrappers/firebase_auth_wrapper.dart';
 
 class AdairFlutterLibApp extends StatefulWidget {
   /// A list of managers that need to be initialized before the app starts.
@@ -20,7 +17,7 @@ class AdairFlutterLibApp extends StatefulWidget {
 
   /// Non-null if user authentication using Firebase is required; null
   /// otherwise.
-  final AdairFlutterLibAppAuthInfo? authInfo;
+  final SignInPageInfo? signInPageInfo;
 
   /// See [MaterialApp.theme].
   final ThemeData? theme;
@@ -46,7 +43,7 @@ class AdairFlutterLibApp extends StatefulWidget {
 
   const AdairFlutterLibApp({
     this.managers = const [],
-    this.authInfo,
+    this.signInPageInfo,
     this.theme,
     this.darkTheme,
     this.themeMode,
@@ -61,18 +58,11 @@ class AdairFlutterLibApp extends StatefulWidget {
 
 class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   late final Future<void> _initAppFuture;
-  late final Stream<User?> _authStateStream;
-
-  final _log = Log("AdairFlutterLibApp");
 
   @override
   void initState() {
     super.initState();
     _initAppFuture = _initApp();
-
-    if (widget.authInfo != null) {
-      _authStateStream = FirebaseAuthWrapper.get.authStateChanges();
-    }
   }
 
   @override
@@ -111,27 +101,12 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   }
 
   Widget _buildStartPage(BuildContext context) {
-    if (widget.authInfo == null) {
-      return widget.homeBuilder(context);
-    }
-
-    return StreamBuilder<User?>(
-      stream: _authStateStream,
-      builder: (_, snapshot) {
-        if (snapshot.hasError) {
-          _log.e(snapshot.error!, reason: "Fetching auth state");
-          return LandingPage(hasError: true);
-        }
-
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return LandingPage(hasError: false);
-        }
-
-        return snapshot.hasData
-            ? widget.homeBuilder(context)
-            : SignInPage(logo: widget.authInfo!.logo);
-      },
-    );
+    return widget.signInPageInfo == null
+        ? widget.homeBuilder(context)
+        : SignInPage(
+            info: widget.signInPageInfo!,
+            homeBuilder: widget.homeBuilder,
+          );
   }
 
   Future<void> _initApp() async {
@@ -139,10 +114,4 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       await manager.init();
     }
   }
-}
-
-class AdairFlutterLibAppAuthInfo {
-  final Widget? logo;
-
-  AdairFlutterLibAppAuthInfo({this.logo});
 }

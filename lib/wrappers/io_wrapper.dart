@@ -33,5 +33,9 @@ class IoWrapper {
 
   bool get isIOS => Platform.isIOS;
 
+  bool get isMobile => isAndroid || isIOS;
+
+  bool get isMacOS => Platform.isMacOS;
+
   bool get isWeb => kIsWeb;
 }

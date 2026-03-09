@@ -14,6 +14,8 @@ class FirebaseAuthWrapper {
 
   FirebaseAuthWrapper._();
 
+  User? get currentUser => FirebaseAuth.instance.currentUser;
+
   Stream<User?> authStateChanges() => FirebaseAuth.instance.authStateChanges();
 
   Stream<User?> idTokenChanges() => FirebaseAuth.instance.idTokenChanges();
