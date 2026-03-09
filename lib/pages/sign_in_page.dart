@@ -153,15 +153,25 @@ class _SignInPageState extends State<SignInPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if ((await widget.info.postSignInVerification?.call() ?? "").isNotEmpty) {
-        error = await widget.info.postSignInVerification?.call() ?? "";
-        await FirebaseAuthWrapper.get.signOut();
-      }
     } on FirebaseAuthException catch (e) {
       error = errorMessage(e.code);
     } catch (e) {
       _log.e(e, reason: "Sign in with email");
       error = errorMessage(e.toString());
+    }
+
+    try {
+      if ((await widget.info.postSignInVerification?.call() ?? "").isNotEmpty) {
+        error = await widget.info.postSignInVerification?.call() ?? "";
+      }
+    } catch (e) {
+      _log.e(e, reason: "Post-sign in verification");
+      error = e.toString();
+    }
+
+    // Something bad happened. Make sure we're signed out.
+    if (error.isNotEmpty) {
+      await FirebaseAuthWrapper.get.signOut();
     }
 
     setState(() {

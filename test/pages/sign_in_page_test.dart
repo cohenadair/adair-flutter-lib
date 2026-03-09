@@ -280,6 +280,7 @@ void main() {
       find.text("Email and password sign in is disabled for this app."),
       findsOneWidget,
     );
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
   });
 
   testWidgets("Firebase throws unknown error", (tester) async {
@@ -309,6 +310,7 @@ void main() {
       find.text("Unknown sign in error (Exception: Bad gateway)."),
       findsOneWidget,
     );
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
   });
 
   testWidgets("Firebase auth state error", (tester) async {
@@ -379,6 +381,32 @@ void main() {
 
     expect(find.text("post-sign-in-error"), findsOneWidget);
     expect(find.text("H"), findsNothing);
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+  });
+
+  testWidgets("Post sign in verification throws exception", (tester) async {
+    await pumpNotSignedIn(
+      tester,
+      SignInPageInfo(
+        postSignInVerification: () => throw Exception("post-sign-in-exception"),
+      ),
+      "H",
+    );
+    await enterEmailAndPassword(tester);
+
+    // Sign in.
+    stubSignIn(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
+        () => MockUserCredential(),
+      ),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+
+    expect(find.text("Exception: post-sign-in-exception"), findsOneWidget);
+    expect(find.text("H"), findsNothing);
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
   });
 
   testWidgets("Post sign in verification succeeds", (tester) async {
@@ -400,5 +428,6 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
     expect(find.text("HOME"), findsNothing);
+    verifyNever(managers.firebaseAuthWrapper.signOut());
   });
 }
