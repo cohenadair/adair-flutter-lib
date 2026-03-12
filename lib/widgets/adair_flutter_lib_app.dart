@@ -1,6 +1,6 @@
 import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
-import 'package:adair_flutter_lib/widgets/safe_future_builder.dart';
+import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -77,7 +77,7 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       theme: widget.theme,
       darkTheme: widget.darkTheme,
       themeMode: widget.themeMode,
-      home: SafeFutureBuilder(
+      home: AsyncBuilder.future(
         future: _initAppFuture,
         errorReason: "Initializing app",
         loadingBuilder: (_) => LandingPage(hasError: false),
