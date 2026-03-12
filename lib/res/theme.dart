@@ -109,6 +109,10 @@ extension BuildContexts on BuildContext {
     fontSize: stylePrimary(this).fontSize,
   );
 
+  TextStyle? get styleTitleLargeBold => Theme.of(
+    this,
+  ).textTheme.titleLarge?.copyWith(fontWeight: fontWeightBoldTitle);
+
   Color get colorError => Theme.of(this).colorScheme.error;
 
   Color get colorApp =>

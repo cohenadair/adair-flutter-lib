@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 //  https://chatgpt.com/share/695cfc4e-8aa8-800b-bc79-24ace9931387.
 
 const FontWeight fontWeightBold = FontWeight.w500;
+const FontWeight fontWeightBoldTitle = FontWeight.w700;
 
 const TextStyle styleTitle1 = TextStyle(
   fontSize: 36,

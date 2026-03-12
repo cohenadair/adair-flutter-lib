@@ -11,6 +11,7 @@ class Log {
 
   const Log(this._className, {bool isDebug = kDebugMode}) : _isDebug = isDebug;
 
+  // TODO: Allow setting per app.
   String get _prefix => "AL-$_className: ";
 
   void d(String msg) {
