@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -108,14 +110,50 @@ void main() {
   });
 
   testWidgets("Successful Future widget is rendered", (tester) async {
-    // TODO
+    await pumpContext(
+      tester,
+      (_) => AsyncBuilder<bool>.future(
+        future: Future.value(true),
+        errorReason: "Error",
+        builder: (_, data) => Text("$data"),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text("true"), findsOneWidget);
   });
 
   testWidgets("Stream is loading", (tester) async {
-    // TODO
+    final controller = StreamController<bool>();
+    addTearDown(controller.close);
+
+    await pumpContext(
+      tester,
+      (_) => AsyncBuilder<bool>.stream(
+        stream: controller.stream,
+        errorReason: "Error",
+        loadingBuilder: (_) => Text("Loading..."),
+        builder: (_, _) => Text("Test Text"),
+      ),
+    );
+    expect(find.text("Loading..."), findsOneWidget);
+    expect(find.text("Test Text"), findsNothing);
+
+    controller.add(true);
+    await tester.pumpAndSettle();
+    expect(find.text("Loading..."), findsNothing);
+    expect(find.text("Test Text"), findsOneWidget);
   });
 
   testWidgets("Successful Stream widget is rendered", (tester) async {
-    // TODO
+    await pumpContext(
+      tester,
+      (_) => AsyncBuilder<bool>.stream(
+        stream: Stream.value(true),
+        errorReason: "Error",
+        builder: (_, data) => Text("$data"),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text("true"), findsOneWidget);
   });
 }

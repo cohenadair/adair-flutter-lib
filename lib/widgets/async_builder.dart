@@ -26,7 +26,7 @@ class AsyncBuilder<T> extends StatelessWidget {
   final String errorReason;
   final bool isErrorFatal;
 
-  final _log = Log("SafeFutureBuilder<$T>");
+  final _log = Log("AsyncBuilder<$T>");
 
   final Future<T>? _future;
   final Stream<T>? _stream;
