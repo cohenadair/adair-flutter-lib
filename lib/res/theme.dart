@@ -113,6 +113,9 @@ extension BuildContexts on BuildContext {
     this,
   ).textTheme.titleLarge?.copyWith(fontWeight: fontWeightBoldTitle);
 
+  TextStyle? get styleLabelMediumSecondary =>
+      Theme.of(this).textTheme.labelMedium?.copyWith(color: colorSecondaryText);
+
   Color get colorError => Theme.of(this).colorScheme.error;
 
   Color get colorApp =>

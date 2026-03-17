@@ -16,7 +16,7 @@ import '../utils/log.dart';
 /// [StreamBuilder] instances, so that errors thrown by async operations are
 /// caught and logged, rather than fail silently.
 class AsyncBuilder<T> extends StatelessWidget {
-  final Widget Function(BuildContext, T?) builder;
+  final Widget Function(BuildContext, T) builder;
   final WidgetCallback? loadingBuilder;
   final WidgetCallback? errorBuilder;
 
@@ -84,6 +84,6 @@ class AsyncBuilder<T> extends StatelessWidget {
           const SizedBox();
     }
 
-    return builder(context, snapshot.data);
+    return builder(context, snapshot.data as T);
   }
 }
