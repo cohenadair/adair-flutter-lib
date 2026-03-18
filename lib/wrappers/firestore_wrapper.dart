@@ -16,4 +16,7 @@ class FirestoreWrapper {
 
   DocumentReference<Map<String, dynamic>> doc(String path) =>
       FirebaseFirestore.instance.doc(path);
+
+  CollectionReference<Map<String, dynamic>> collection(String path) =>
+      FirebaseFirestore.instance.collection(path);
 }

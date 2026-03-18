@@ -13,6 +13,9 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
   String get cancel => 'Cancelar';
 
   @override
+  String get save => 'Guardar';
+
+  @override
   String get delete => 'Eliminar';
 
   @override

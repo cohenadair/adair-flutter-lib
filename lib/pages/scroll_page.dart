@@ -31,6 +31,9 @@ class ScrollPage extends StatelessWidget {
   /// is null.
   final Key? refreshIndicatorKey;
 
+  /// See [Scaffold.floatingActionButton].
+  final Widget? floatingActionButton;
+
   const ScrollPage({
     this.controller,
     this.appBar,
@@ -45,6 +48,7 @@ class ScrollPage extends StatelessWidget {
     this.restrictWidth = false,
     this.onRefresh,
     this.refreshIndicatorKey,
+    this.floatingActionButton,
   });
 
   @override
@@ -105,6 +109,7 @@ class ScrollPage extends StatelessWidget {
       appBar: appBar,
       extendBodyBehindAppBar: extendBodyBehindAppBar,
       persistentFooterButtons: footer.isEmpty ? null : footer,
+      floatingActionButton: floatingActionButton,
       body: child,
     );
   }

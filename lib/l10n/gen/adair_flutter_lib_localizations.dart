@@ -108,6 +108,12 @@ abstract class AdairFlutterLibLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
   /// No description provided for @delete.
   ///
   /// In en, this message translates to:
