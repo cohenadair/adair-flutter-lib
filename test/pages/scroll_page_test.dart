@@ -137,4 +137,34 @@ void main() {
     );
     expect(find.byType(RestrictedWidth), findsNothing);
   });
+
+  testWidgets("Nav rail content wraps in ClipRRect", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => const ScrollPage(
+        isNavRailContent: true,
+        extendBodyBehindAppBar: false,
+        children: [Text("Test")],
+      ),
+    );
+    expect(find.byType(ClipRRect), findsOneWidget);
+  });
+
+  testWidgets("Non-nav rail content has no ClipRRect", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => const ScrollPage(children: [Text("Test")]),
+    );
+    expect(find.byType(ClipRRect), findsNothing);
+  });
+
+  test(
+    "Assert fires when isNavRailContent and extendBodyBehindAppBar are both true",
+    () {
+      expect(
+        () => ScrollPage(isNavRailContent: true, extendBodyBehindAppBar: true),
+        throwsAssertionError,
+      );
+    },
+  );
 }
