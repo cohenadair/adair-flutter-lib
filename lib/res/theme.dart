@@ -49,10 +49,15 @@ class AdairFlutterLibThemeExtension
   /// The secondary (less emphasis) color of widgets rendered on top of [app].
   final Color? onAppSecondary;
 
+  /// The radius of the top-left of a NavigationRail content widget, as shown
+  /// in https://m3.material.io/components/navigation-rail/overview.
+  final double navigationRailContentRadius;
+
   const AdairFlutterLibThemeExtension({
     this.app,
     this.onApp,
     this.onAppSecondary,
+    this.navigationRailContentRadius = 36.0,
   });
 
   @override
@@ -142,6 +147,12 @@ extension BuildContexts on BuildContext {
 
   Color get colorGreyAccentLight =>
       isDarkTheme ? Colors.grey.shade800 : Colors.grey.shade200;
+
+  double get radiusNavigationRailContent =>
+      Theme.of(this)
+          .extension<AdairFlutterLibThemeExtension>()
+          ?.navigationRailContentRadius ??
+      0;
 
   SystemUiOverlayStyle get appBarSystemStyle =>
       isDarkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
