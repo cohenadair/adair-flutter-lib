@@ -4,7 +4,9 @@ import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
+import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
+import 'package:adair_flutter_lib/widgets/text_input.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +33,8 @@ class _SignInPageState extends State<SignInPage> {
 
   late final Stream<User?> _authStateStream;
 
-  // TODO: Refactor to use TextInput + realtime validation.
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = EmailInputController(required: false);
+  final _passwordController = TextInputController();
   final _log = Log("SignInPage");
 
   var _error = "";
@@ -42,8 +43,6 @@ class _SignInPageState extends State<SignInPage> {
   @override
   void initState() {
     super.initState();
-    _emailController.addListener(_onTextChanged);
-    _passwordController.addListener(_onTextChanged);
     _authStateStream = FirebaseAuthWrapper.get.authStateChanges();
   }
 
@@ -58,7 +57,7 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       stream: _authStateStream,
-      builder: (_, snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.hasError) {
           _log.e(snapshot.error!, reason: "Fetching auth state");
           return LandingPage(hasError: true);
@@ -70,12 +69,12 @@ class _SignInPageState extends State<SignInPage> {
 
         return snapshot.hasData && !_isSigningIn
             ? widget.homeBuilder(context)
-            : _buildPage();
+            : _buildPage(context);
       },
     );
   }
 
-  Widget _buildPage() {
+  Widget _buildPage(BuildContext context) {
     return ScrollPage(
       restrictWidth: true,
       padding: insetsDefault,
@@ -83,10 +82,10 @@ class _SignInPageState extends State<SignInPage> {
       centerContent: true,
       children: [
         _buildLogo(),
-        _buildEmailField(),
-        _buildPasswordField(),
-        _buildError(),
-        _buildSignInButton(),
+        _buildEmailField(context),
+        _buildPasswordField(context),
+        _buildError(context),
+        _buildSignInButton(context),
       ],
     );
   }
@@ -98,33 +97,38 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Widget _buildEmailField() {
-    return TextField(
+  Widget _buildEmailField(BuildContext context) {
+    return TextInput.email(
+      context,
       controller: _emailController,
-      decoration: InputDecoration(labelText: L10n.get.lib.signInPageEmailLabel),
-      textCapitalization: TextCapitalization.none,
+      textInputAction: TextInputAction.next,
+      hideMaxLength: true, // Not needed for login.
+      onChanged: (_) => setState(() {}),
     );
   }
 
-  Widget _buildPasswordField() {
-    return TextField(
+  Widget _buildPasswordField(BuildContext context) {
+    // TODO: Refactor to TextInput.password constructor.
+    return TextInput(
+      label: L10n.get.lib.signInPagePasswordLabel,
       controller: _passwordController,
       obscureText: true,
-      decoration: InputDecoration(
-        labelText: L10n.get.lib.signInPagePasswordLabel,
-      ),
-      textCapitalization: TextCapitalization.none,
+      maxLines: 1,
+      maxLength: null,
+      textInputAction: TextInputAction.done,
+      onChanged: (_) => setState(() {}),
+      onSubmitted: _isInputValid() ? _signIn : null,
     );
   }
 
-  Widget _buildError() {
+  Widget _buildError(BuildContext context) {
     return EmptyOr(
       isShowing: isNotEmpty(_error),
       builder: (context) => Text(_error, style: context.styleError),
     );
   }
 
-  Widget _buildSignInButton() {
+  Widget _buildSignInButton(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -140,9 +144,8 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   bool _isInputValid() =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  void _onTextChanged() => setState(() {});
+      _emailController.editingController.text.isNotEmpty &&
+      _passwordController.editingController.text.isNotEmpty;
 
   Future<void> _signIn() async {
     setState(() => _isSigningIn = true);
@@ -150,8 +153,8 @@ class _SignInPageState extends State<SignInPage> {
     var error = "";
     try {
       await FirebaseAuthWrapper.get.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
+        email: _emailController.editingController.text,
+        password: _passwordController.editingController.text,
       );
     } on FirebaseAuthException catch (e) {
       error = errorMessage(e.code);
@@ -181,7 +184,7 @@ class _SignInPageState extends State<SignInPage> {
       // Clear password field on successful sign in so it must be re-entered
       // when the user signs out.
       if (_error.isEmpty) {
-        _passwordController.clear();
+        _passwordController.clearText();
       }
     });
   }
