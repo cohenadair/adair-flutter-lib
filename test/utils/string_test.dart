@@ -18,4 +18,23 @@ void main() {
     expect(newLineOrEmpty(""), "");
     expect(newLineOrEmpty("Test"), "\n");
   });
+
+  test("capitalize returns empty string when input is empty", () {
+    expect("".capitalize, "");
+  });
+
+  test("capitalize uppercases a single character", () {
+    expect("a".capitalize, "A");
+  });
+
+  test(
+    "capitalize uppercases only the first character and leaves the rest unchanged",
+    () {
+      expect("hello world".capitalize, "Hello world");
+    },
+  );
+
+  test("capitalize leaves already-uppercase first character unchanged", () {
+    expect("Hello".capitalize, "Hello");
+  });
 }

@@ -44,6 +44,11 @@ bool parseBoolFromInt(String str) {
 String newLineOrEmpty(String input) => input.isEmpty ? "" : "\n";
 
 extension StringExt on String {
+  /// Returns the string with the first character uppercased and the rest
+  /// unchanged. Returns the original string if it is empty.
+  String get capitalize =>
+      this.isEmpty ? this : this[0].toUpperCase() + substring(1);
+
   // Created by ChatGPT:
   // https://chatgpt.com/share/68bed950-7ff4-800b-bd22-f9d8788da387
   int get toIntId {
