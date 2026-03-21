@@ -10,7 +10,10 @@ Color? parseHexColor(String hex) {
     return null;
   }
   final sanitized = hex.replaceAll("#", "");
-  return Color(int.parse("FF$sanitized", radix: 16));
+  final value = int.tryParse(sanitized, radix: 16);
+  return value == null
+      ? null
+      : Color(sanitized.length == 6 ? value | 0xFF000000 : value);
 }
 
 /// Returns true if [foreground] is readable against [background] using the

@@ -7,6 +7,14 @@ void main() {
     expect(parseHexColor(""), isNull);
   });
 
+  test("parseHexColor returns null for invalid hex string", () {
+    expect(parseHexColor("GGGGGG"), isNull);
+  });
+
+  test("parseHexColor applies full opacity to 6-char hex", () {
+    expect(parseHexColor("#0000FF"), const Color(0xFF0000FF));
+  });
+
   test("parseHexColor parses 6-char hex without #", () {
     expect(parseHexColor("FF0000"), equals(const Color(0xFFFF0000)));
   });
