@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test("parseHexColor returns null for empty hex string", () {
+    expect(parseHexColor(""), isNull);
+  });
+
   test("parseHexColor parses 6-char hex without #", () {
     expect(parseHexColor("FF0000"), equals(const Color(0xFFFF0000)));
   });
@@ -20,10 +24,16 @@ void main() {
   });
 
   test("parseHexColor always produces a fully opaque color", () {
-    expect(parseHexColor("1565C0").alpha, equals(0xFF));
+    expect(parseHexColor("1565C0")!.clampedAlpha, equals(0xFF));
   });
 
-  // isColorReadable
+  test("isColorReadable returns false if primary is null", () {
+    expect(isColorReadable(null, Colors.white), isFalse);
+  });
+
+  test("isColorReadable returns false if secondary is null", () {
+    expect(isColorReadable(null, Colors.white), isFalse);
+  });
 
   test("isColorReadable returns true for black on white (~21:1 contrast)", () {
     expect(isColorReadable(Colors.black, Colors.white), isTrue);
