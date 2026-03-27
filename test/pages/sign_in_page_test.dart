@@ -296,23 +296,6 @@ void main() {
     expect(find.text("Unknown sign in error (unknown-error)."), findsOneWidget);
   });
 
-  testWidgets("Firebase throws non-auth exception", (tester) async {
-    await pumpNotSignedIn(tester);
-    await enterEmailAndPassword(tester);
-
-    stubSignIn((_) => throw Exception("Bad gateway"));
-    await tester.tap(find.byType(Button));
-    await tester.pump();
-
-    expect(findFirst<Button>(tester).onPressed, isNotNull);
-    expect(find.byType(Loading), findsNothing);
-    expect(
-      find.text("Unknown sign in error (Exception: Bad gateway)."),
-      findsOneWidget,
-    );
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
-  });
-
   testWidgets("Firebase auth state error", (tester) async {
     await pumpNotSignedIn(tester);
     await tester.pump();
@@ -429,5 +412,27 @@ void main() {
 
     expect(find.text("HOME"), findsNothing);
     verifyNever(managers.firebaseAuthWrapper.signOut());
+  });
+
+  testWidgets("Post sign in verification is not called when sign in fails", (
+    tester,
+  ) async {
+    var verificationCalled = false;
+    await pumpNotSignedIn(
+      tester,
+      SignInPageInfo(
+        postSignInVerification: () {
+          verificationCalled = true;
+          return Future.value(null);
+        },
+      ),
+    );
+    await enterEmailAndPassword(tester);
+
+    stubSignIn((_) => throw FirebaseAuthException(code: "invalid-email"));
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    expect(verificationCalled, isFalse);
   });
 }

@@ -6,6 +6,7 @@ import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
@@ -30,6 +31,7 @@ class StubbedManagers {
   late final MockCrashlyticsWrapper crashlyticsWrapper;
   late final MockDeviceInfoWrapper deviceInfoWrapper;
   late final MockFirebaseAuthWrapper firebaseAuthWrapper;
+  late final MockFunctionsWrapper functionsWrapper;
   late final MockIoWrapper ioWrapper;
   late final MockLocalNotificationsWrapper localNotificationsWrapper;
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
@@ -85,6 +87,9 @@ class StubbedManagers {
 
     firebaseAuthWrapper = MockFirebaseAuthWrapper();
     FirebaseAuthWrapper.set(firebaseAuthWrapper);
+
+    functionsWrapper = MockFunctionsWrapper();
+    FunctionsWrapper.set(functionsWrapper);
 
     localNotificationsWrapper = MockLocalNotificationsWrapper();
     LocalNotificationsWrapper.set(localNotificationsWrapper);

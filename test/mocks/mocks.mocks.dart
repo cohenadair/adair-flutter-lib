@@ -7,46 +7,50 @@ import 'dart:async' as _i10;
 import 'dart:io' as _i8;
 import 'dart:ui' as _i3;
 
-import 'package:adair_flutter_lib/adair_flutter_lib.dart' as _i15;
-import 'package:adair_flutter_lib/app_config.dart' as _i16;
-import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i35;
-import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i37;
+import 'package:adair_flutter_lib/adair_flutter_lib.dart' as _i17;
+import 'package:adair_flutter_lib/app_config.dart' as _i18;
+import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i37;
+import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i39;
 import 'package:adair_flutter_lib/managers/time_manager.dart' as _i13;
-import 'package:adair_flutter_lib/utils/log.dart' as _i31;
-import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i18;
-import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart' as _i20;
-import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i38;
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i28;
+import 'package:adair_flutter_lib/utils/log.dart' as _i33;
+import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i20;
+import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart' as _i22;
+import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i40;
+import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart' as _i41;
+import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i30;
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart'
-    as _i30;
-import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart'
     as _i32;
+import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart'
+    as _i34;
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart'
-    as _i33;
-import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i36;
+    as _i35;
+import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i38;
+import 'package:cloud_functions/cloud_functions.dart' as _i15;
+import 'package:cloud_functions_platform_interface/cloud_functions_platform_interface.dart'
+    as _i16;
 import 'package:device_info_plus/device_info_plus.dart' as _i6;
 import 'package:firebase_auth/firebase_auth.dart' as _i14;
 import 'package:flutter/material.dart' as _i2;
-import 'package:flutter/services.dart' as _i34;
+import 'package:flutter/services.dart' as _i36;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i9;
 import 'package:flutter_local_notifications/src/initialization_settings.dart'
-    as _i23;
-import 'package:flutter_local_notifications/src/notification_details.dart'
     as _i25;
+import 'package:flutter_local_notifications/src/notification_details.dart'
+    as _i27;
 import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
-    as _i26;
-import 'package:flutter_local_notifications/src/types.dart' as _i27;
+    as _i28;
+import 'package:flutter_local_notifications/src/types.dart' as _i29;
 import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
-    as _i24;
+    as _i26;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i17;
+import 'package:mockito/src/dummies.dart' as _i19;
 import 'package:purchases_flutter/models/entitlement_info_wrapper.dart' as _i7;
 import 'package:purchases_flutter/models/entitlement_infos_wrapper.dart' as _i4;
-import 'package:purchases_flutter/models/period_unit.dart' as _i29;
-import 'package:purchases_flutter/models/store.dart' as _i21;
-import 'package:purchases_flutter/models/store_transaction.dart' as _i19;
-import 'package:purchases_flutter/models/verification_result.dart' as _i22;
+import 'package:purchases_flutter/models/period_unit.dart' as _i31;
+import 'package:purchases_flutter/models/store.dart' as _i23;
+import 'package:purchases_flutter/models/store_transaction.dart' as _i21;
+import 'package:purchases_flutter/models/verification_result.dart' as _i24;
 import 'package:purchases_flutter/object_wrappers.dart' as _i5;
 import 'package:purchases_flutter/purchases_flutter.dart' as _i11;
 import 'package:timezone/timezone.dart' as _i12;
@@ -238,37 +242,55 @@ class _FakeUserCredential_30 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeUserMetadata_31 extends _i1.SmartFake implements _i14.UserMetadata {
-  _FakeUserMetadata_31(Object parent, Invocation parentInvocation)
+class _FakeHttpsCallable_31 extends _i1.SmartFake
+    implements _i15.HttpsCallable {
+  _FakeHttpsCallable_31(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeMultiFactor_32 extends _i1.SmartFake implements _i14.MultiFactor {
-  _FakeMultiFactor_32(Object parent, Invocation parentInvocation)
+class _FakeHttpsCallablePlatform_32 extends _i1.SmartFake
+    implements _i16.HttpsCallablePlatform {
+  _FakeHttpsCallablePlatform_32(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeIdTokenResult_33 extends _i1.SmartFake
+class _FakeHttpsCallableResult_33<T1> extends _i1.SmartFake
+    implements _i15.HttpsCallableResult<T1> {
+  _FakeHttpsCallableResult_33(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeUserMetadata_34 extends _i1.SmartFake implements _i14.UserMetadata {
+  _FakeUserMetadata_34(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeMultiFactor_35 extends _i1.SmartFake implements _i14.MultiFactor {
+  _FakeMultiFactor_35(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeIdTokenResult_36 extends _i1.SmartFake
     implements _i14.IdTokenResult {
-  _FakeIdTokenResult_33(Object parent, Invocation parentInvocation)
+  _FakeIdTokenResult_36(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeConfirmationResult_34 extends _i1.SmartFake
+class _FakeConfirmationResult_37 extends _i1.SmartFake
     implements _i14.ConfirmationResult {
-  _FakeConfirmationResult_34(Object parent, Invocation parentInvocation)
+  _FakeConfirmationResult_37(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUser_35 extends _i1.SmartFake implements _i14.User {
-  _FakeUser_35(Object parent, Invocation parentInvocation)
+class _FakeUser_38 extends _i1.SmartFake implements _i14.User {
+  _FakeUser_38(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
 /// A class which mocks [AdairFlutterLib].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdairFlutterLib extends _i1.Mock implements _i15.AdairFlutterLib {
+class MockAdairFlutterLib extends _i1.Mock implements _i17.AdairFlutterLib {
   MockAdairFlutterLib() {
     _i1.throwOnMissingStub(this);
   }
@@ -286,7 +308,7 @@ class MockAdairFlutterLib extends _i1.Mock implements _i15.AdairFlutterLib {
 /// A class which mocks [AppConfig].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
+class MockAppConfig extends _i1.Mock implements _i18.AppConfig {
   MockAppConfig() {
     _i1.throwOnMissingStub(this);
   }
@@ -296,7 +318,7 @@ class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
       (super.noSuchMethod(
             Invocation.getter(#appName),
             returnValue: () =>
-                _i17.dummyValue<String>(this, Invocation.getter(#appName)),
+                _i19.dummyValue<String>(this, Invocation.getter(#appName)),
           )
           as String Function());
 
@@ -397,7 +419,7 @@ class MockAppConfig extends _i1.Mock implements _i16.AppConfig {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCrashlyticsWrapper extends _i1.Mock
-    implements _i18.CrashlyticsWrapper {
+    implements _i20.CrashlyticsWrapper {
   MockCrashlyticsWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -499,18 +521,18 @@ class MockCustomerInfo extends _i1.Mock implements _i5.CustomerInfo {
           as List<String>);
 
   @override
-  List<_i19.StoreTransaction> get nonSubscriptionTransactions =>
+  List<_i21.StoreTransaction> get nonSubscriptionTransactions =>
       (super.noSuchMethod(
             Invocation.getter(#nonSubscriptionTransactions),
-            returnValue: <_i19.StoreTransaction>[],
+            returnValue: <_i21.StoreTransaction>[],
           )
-          as List<_i19.StoreTransaction>);
+          as List<_i21.StoreTransaction>);
 
   @override
   String get firstSeen =>
       (super.noSuchMethod(
             Invocation.getter(#firstSeen),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#firstSeen),
             ),
@@ -521,7 +543,7 @@ class MockCustomerInfo extends _i1.Mock implements _i5.CustomerInfo {
   String get originalAppUserId =>
       (super.noSuchMethod(
             Invocation.getter(#originalAppUserId),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#originalAppUserId),
             ),
@@ -540,7 +562,7 @@ class MockCustomerInfo extends _i1.Mock implements _i5.CustomerInfo {
   String get requestDate =>
       (super.noSuchMethod(
             Invocation.getter(#requestDate),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#requestDate),
             ),
@@ -570,7 +592,7 @@ class MockCustomerInfo extends _i1.Mock implements _i5.CustomerInfo {
 /// A class which mocks [DeviceInfoWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDeviceInfoWrapper extends _i1.Mock implements _i20.DeviceInfoWrapper {
+class MockDeviceInfoWrapper extends _i1.Mock implements _i22.DeviceInfoWrapper {
   MockDeviceInfoWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -608,7 +630,7 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
   String get identifier =>
       (super.noSuchMethod(
             Invocation.getter(#identifier),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#identifier),
             ),
@@ -629,7 +651,7 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
   String get latestPurchaseDate =>
       (super.noSuchMethod(
             Invocation.getter(#latestPurchaseDate),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#latestPurchaseDate),
             ),
@@ -640,7 +662,7 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
   String get originalPurchaseDate =>
       (super.noSuchMethod(
             Invocation.getter(#originalPurchaseDate),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#originalPurchaseDate),
             ),
@@ -651,7 +673,7 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
   String get productIdentifier =>
       (super.noSuchMethod(
             Invocation.getter(#productIdentifier),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#productIdentifier),
             ),
@@ -672,12 +694,12 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
           as _i7.OwnershipType);
 
   @override
-  _i21.Store get store =>
+  _i23.Store get store =>
       (super.noSuchMethod(
             Invocation.getter(#store),
-            returnValue: _i21.Store.appStore,
+            returnValue: _i23.Store.appStore,
           )
-          as _i21.Store);
+          as _i23.Store);
 
   @override
   _i7.PeriodType get periodType =>
@@ -688,12 +710,12 @@ class MockEntitlementInfo extends _i1.Mock implements _i7.EntitlementInfo {
           as _i7.PeriodType);
 
   @override
-  _i22.VerificationResult get verification =>
+  _i24.VerificationResult get verification =>
       (super.noSuchMethod(
             Invocation.getter(#verification),
-            returnValue: _i22.VerificationResult.notRequested,
+            returnValue: _i24.VerificationResult.notRequested,
           )
-          as _i22.VerificationResult);
+          as _i24.VerificationResult);
 
   @override
   _i7.$EntitlementInfoCopyWith<_i7.EntitlementInfo> get copyWith =>
@@ -740,12 +762,12 @@ class MockEntitlementInfos extends _i1.Mock implements _i4.EntitlementInfos {
           as Map<String, _i7.EntitlementInfo>);
 
   @override
-  _i22.VerificationResult get verification =>
+  _i24.VerificationResult get verification =>
       (super.noSuchMethod(
             Invocation.getter(#verification),
-            returnValue: _i22.VerificationResult.notRequested,
+            returnValue: _i24.VerificationResult.notRequested,
           )
-          as _i22.VerificationResult);
+          as _i24.VerificationResult);
 
   @override
   _i4.$EntitlementInfosCopyWith<_i4.EntitlementInfos> get copyWith =>
@@ -778,10 +800,10 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
 
   @override
   _i10.Future<bool?> initialize(
-    _i23.InitializationSettings? initializationSettings, {
-    _i24.DidReceiveNotificationResponseCallback?
+    _i25.InitializationSettings? initializationSettings, {
+    _i26.DidReceiveNotificationResponseCallback?
     onDidReceiveNotificationResponse,
-    _i24.DidReceiveBackgroundNotificationResponseCallback?
+    _i26.DidReceiveBackgroundNotificationResponseCallback?
     onDidReceiveBackgroundNotificationResponse,
   }) =>
       (super.noSuchMethod(
@@ -800,21 +822,21 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           as _i10.Future<bool?>);
 
   @override
-  _i10.Future<_i24.NotificationAppLaunchDetails?>
+  _i10.Future<_i26.NotificationAppLaunchDetails?>
   getNotificationAppLaunchDetails() =>
       (super.noSuchMethod(
             Invocation.method(#getNotificationAppLaunchDetails, []),
             returnValue:
-                _i10.Future<_i24.NotificationAppLaunchDetails?>.value(),
+                _i10.Future<_i26.NotificationAppLaunchDetails?>.value(),
           )
-          as _i10.Future<_i24.NotificationAppLaunchDetails?>);
+          as _i10.Future<_i26.NotificationAppLaunchDetails?>);
 
   @override
   _i10.Future<void> show(
     int? id,
     String? title,
     String? body,
-    _i25.NotificationDetails? notificationDetails, {
+    _i27.NotificationDetails? notificationDetails, {
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -861,10 +883,10 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     String? title,
     String? body,
     _i12.TZDateTime? scheduledDate,
-    _i25.NotificationDetails? notificationDetails, {
-    required _i26.AndroidScheduleMode? androidScheduleMode,
+    _i27.NotificationDetails? notificationDetails, {
+    required _i28.AndroidScheduleMode? androidScheduleMode,
     String? payload,
-    _i27.DateTimeComponents? matchDateTimeComponents,
+    _i29.DateTimeComponents? matchDateTimeComponents,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -886,9 +908,9 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     int? id,
     String? title,
     String? body,
-    _i24.RepeatInterval? repeatInterval,
-    _i25.NotificationDetails? notificationDetails, {
-    required _i26.AndroidScheduleMode? androidScheduleMode,
+    _i26.RepeatInterval? repeatInterval,
+    _i27.NotificationDetails? notificationDetails, {
+    required _i28.AndroidScheduleMode? androidScheduleMode,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -908,9 +930,9 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     String? title,
     String? body,
     Duration? repeatDurationInterval,
-    _i25.NotificationDetails? notificationDetails, {
-    _i26.AndroidScheduleMode? androidScheduleMode =
-        _i26.AndroidScheduleMode.exact,
+    _i27.NotificationDetails? notificationDetails, {
+    _i28.AndroidScheduleMode? androidScheduleMode =
+        _i28.AndroidScheduleMode.exact,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -925,32 +947,32 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           as _i10.Future<void>);
 
   @override
-  _i10.Future<List<_i24.PendingNotificationRequest>>
+  _i10.Future<List<_i26.PendingNotificationRequest>>
   pendingNotificationRequests() =>
       (super.noSuchMethod(
             Invocation.method(#pendingNotificationRequests, []),
             returnValue:
-                _i10.Future<List<_i24.PendingNotificationRequest>>.value(
-                  <_i24.PendingNotificationRequest>[],
+                _i10.Future<List<_i26.PendingNotificationRequest>>.value(
+                  <_i26.PendingNotificationRequest>[],
                 ),
           )
-          as _i10.Future<List<_i24.PendingNotificationRequest>>);
+          as _i10.Future<List<_i26.PendingNotificationRequest>>);
 
   @override
-  _i10.Future<List<_i24.ActiveNotification>> getActiveNotifications() =>
+  _i10.Future<List<_i26.ActiveNotification>> getActiveNotifications() =>
       (super.noSuchMethod(
             Invocation.method(#getActiveNotifications, []),
-            returnValue: _i10.Future<List<_i24.ActiveNotification>>.value(
-              <_i24.ActiveNotification>[],
+            returnValue: _i10.Future<List<_i26.ActiveNotification>>.value(
+              <_i26.ActiveNotification>[],
             ),
           )
-          as _i10.Future<List<_i24.ActiveNotification>>);
+          as _i10.Future<List<_i26.ActiveNotification>>);
 }
 
 /// A class which mocks [IoWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIoWrapper extends _i1.Mock implements _i28.IoWrapper {
+class MockIoWrapper extends _i1.Mock implements _i30.IoWrapper {
   MockIoWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1035,7 +1057,7 @@ class MockIntroductoryPrice extends _i1.Mock implements _i5.IntroductoryPrice {
   String get priceString =>
       (super.noSuchMethod(
             Invocation.getter(#priceString),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#priceString),
             ),
@@ -1046,7 +1068,7 @@ class MockIntroductoryPrice extends _i1.Mock implements _i5.IntroductoryPrice {
   String get period =>
       (super.noSuchMethod(
             Invocation.getter(#period),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#period),
             ),
@@ -1058,12 +1080,12 @@ class MockIntroductoryPrice extends _i1.Mock implements _i5.IntroductoryPrice {
       (super.noSuchMethod(Invocation.getter(#cycles), returnValue: 0) as int);
 
   @override
-  _i29.PeriodUnit get periodUnit =>
+  _i31.PeriodUnit get periodUnit =>
       (super.noSuchMethod(
             Invocation.getter(#periodUnit),
-            returnValue: _i29.PeriodUnit.day,
+            returnValue: _i31.PeriodUnit.day,
           )
-          as _i29.PeriodUnit);
+          as _i31.PeriodUnit);
 
   @override
   int get periodNumberOfUnits =>
@@ -1098,7 +1120,7 @@ class MockIntroductoryPrice extends _i1.Mock implements _i5.IntroductoryPrice {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocalNotificationsWrapper extends _i1.Mock
-    implements _i30.LocalNotificationsWrapper {
+    implements _i32.LocalNotificationsWrapper {
   MockLocalNotificationsWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1118,7 +1140,7 @@ class MockLocalNotificationsWrapper extends _i1.Mock
 /// A class which mocks [Log].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLog extends _i1.Mock implements _i31.Log {
+class MockLog extends _i1.Mock implements _i33.Log {
   MockLog() {
     _i1.throwOnMissingStub(this);
   }
@@ -1154,7 +1176,7 @@ class MockLog extends _i1.Mock implements _i31.Log {
   T sync<T>(String? tag, int? msThreshold, T Function()? work) =>
       (super.noSuchMethod(
             Invocation.method(#sync, [tag, msThreshold, work]),
-            returnValue: _i17.dummyValue<T>(
+            returnValue: _i19.dummyValue<T>(
               this,
               Invocation.method(#sync, [tag, msThreshold, work]),
             ),
@@ -1170,8 +1192,8 @@ class MockLog extends _i1.Mock implements _i31.Log {
       (super.noSuchMethod(
             Invocation.method(#async, [tag, msThreshold, work]),
             returnValue:
-                _i17.ifNotNull(
-                  _i17.dummyValueOrNull<T>(
+                _i19.ifNotNull(
+                  _i19.dummyValueOrNull<T>(
                     this,
                     Invocation.method(#async, [tag, msThreshold, work]),
                   ),
@@ -1214,7 +1236,7 @@ class MockLogInResult extends _i1.Mock implements _i11.LogInResult {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNativeTimeZoneWrapper extends _i1.Mock
-    implements _i32.NativeTimeZoneWrapper {
+    implements _i34.NativeTimeZoneWrapper {
   MockNativeTimeZoneWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1232,7 +1254,7 @@ class MockNativeTimeZoneWrapper extends _i1.Mock
       (super.noSuchMethod(
             Invocation.method(#getLocalTimeZone, []),
             returnValue: _i10.Future<String>.value(
-              _i17.dummyValue<String>(
+              _i19.dummyValue<String>(
                 this,
                 Invocation.method(#getLocalTimeZone, []),
               ),
@@ -1253,7 +1275,7 @@ class MockOffering extends _i1.Mock implements _i5.Offering {
   String get identifier =>
       (super.noSuchMethod(
             Invocation.getter(#identifier),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#identifier),
             ),
@@ -1264,7 +1286,7 @@ class MockOffering extends _i1.Mock implements _i5.Offering {
   String get serverDescription =>
       (super.noSuchMethod(
             Invocation.getter(#serverDescription),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#serverDescription),
             ),
@@ -1365,7 +1387,7 @@ class MockPackage extends _i1.Mock implements _i5.Package {
   String get identifier =>
       (super.noSuchMethod(
             Invocation.getter(#identifier),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#identifier),
             ),
@@ -1426,7 +1448,7 @@ class MockPackage extends _i1.Mock implements _i5.Package {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPermissionHandlerWrapper extends _i1.Mock
-    implements _i33.PermissionHandlerWrapper {
+    implements _i35.PermissionHandlerWrapper {
   MockPermissionHandlerWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1507,7 +1529,7 @@ class MockPermissionHandlerWrapper extends _i1.Mock
 /// A class which mocks [PlatformException].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlatformException extends _i1.Mock implements _i34.PlatformException {
+class MockPlatformException extends _i1.Mock implements _i36.PlatformException {
   MockPlatformException() {
     _i1.throwOnMissingStub(this);
   }
@@ -1516,7 +1538,7 @@ class MockPlatformException extends _i1.Mock implements _i34.PlatformException {
   String get code =>
       (super.noSuchMethod(
             Invocation.getter(#code),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#code),
             ),
@@ -1527,7 +1549,7 @@ class MockPlatformException extends _i1.Mock implements _i34.PlatformException {
 /// A class which mocks [PropertiesManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
+class MockPropertiesManager extends _i1.Mock implements _i37.PropertiesManager {
   MockPropertiesManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -1536,7 +1558,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get clientSenderEmail =>
       (super.noSuchMethod(
             Invocation.getter(#clientSenderEmail),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#clientSenderEmail),
             ),
@@ -1547,7 +1569,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get revenueCatGoogleApiKey =>
       (super.noSuchMethod(
             Invocation.getter(#revenueCatGoogleApiKey),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#revenueCatGoogleApiKey),
             ),
@@ -1558,7 +1580,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get revenueCatAppleApiKey =>
       (super.noSuchMethod(
             Invocation.getter(#revenueCatAppleApiKey),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#revenueCatAppleApiKey),
             ),
@@ -1569,7 +1591,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get supportEmail =>
       (super.noSuchMethod(
             Invocation.getter(#supportEmail),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#supportEmail),
             ),
@@ -1580,7 +1602,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get sendGridApiKey =>
       (super.noSuchMethod(
             Invocation.getter(#sendGridApiKey),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#sendGridApiKey),
             ),
@@ -1591,7 +1613,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String get feedbackTemplate =>
       (super.noSuchMethod(
             Invocation.getter(#feedbackTemplate),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#feedbackTemplate),
             ),
@@ -1611,7 +1633,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
   String stringForKey(String? key) =>
       (super.noSuchMethod(
             Invocation.method(#stringForKey, [key]),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.method(#stringForKey, [key]),
             ),
@@ -1622,7 +1644,7 @@ class MockPropertiesManager extends _i1.Mock implements _i35.PropertiesManager {
 /// A class which mocks [PurchasesWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPurchasesWrapper extends _i1.Mock implements _i36.PurchasesWrapper {
+class MockPurchasesWrapper extends _i1.Mock implements _i38.PurchasesWrapper {
   MockPurchasesWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1740,7 +1762,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
   String get identifier =>
       (super.noSuchMethod(
             Invocation.getter(#identifier),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#identifier),
             ),
@@ -1751,7 +1773,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
   String get description =>
       (super.noSuchMethod(
             Invocation.getter(#description),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#description),
             ),
@@ -1762,7 +1784,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
   String get title =>
       (super.noSuchMethod(
             Invocation.getter(#title),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#title),
             ),
@@ -1778,7 +1800,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
   String get priceString =>
       (super.noSuchMethod(
             Invocation.getter(#priceString),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#priceString),
             ),
@@ -1789,7 +1811,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
   String get currencyCode =>
       (super.noSuchMethod(
             Invocation.getter(#currencyCode),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#currencyCode),
             ),
@@ -1820,7 +1842,7 @@ class MockStoreProduct extends _i1.Mock implements _i5.StoreProduct {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionManager extends _i1.Mock
-    implements _i37.SubscriptionManager {
+    implements _i39.SubscriptionManager {
   MockSubscriptionManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -1848,7 +1870,7 @@ class MockSubscriptionManager extends _i1.Mock
       (super.noSuchMethod(
             Invocation.getter(#userId),
             returnValue: _i10.Future<String>.value(
-              _i17.dummyValue<String>(this, Invocation.getter(#userId)),
+              _i19.dummyValue<String>(this, Invocation.getter(#userId)),
             ),
           )
           as _i10.Future<String>);
@@ -1863,7 +1885,7 @@ class MockSubscriptionManager extends _i1.Mock
           as _i10.Future<void>);
 
   @override
-  _i10.Future<void> purchaseSubscription(_i37.Subscription? sub) =>
+  _i10.Future<void> purchaseSubscription(_i39.Subscription? sub) =>
       (super.noSuchMethod(
             Invocation.method(#purchaseSubscription, [sub]),
             returnValue: _i10.Future<void>.value(),
@@ -1872,22 +1894,22 @@ class MockSubscriptionManager extends _i1.Mock
           as _i10.Future<void>);
 
   @override
-  _i10.Future<_i37.RestoreSubscriptionResult> restoreSubscription() =>
+  _i10.Future<_i39.RestoreSubscriptionResult> restoreSubscription() =>
       (super.noSuchMethod(
             Invocation.method(#restoreSubscription, []),
-            returnValue: _i10.Future<_i37.RestoreSubscriptionResult>.value(
-              _i37.RestoreSubscriptionResult.noSubscriptionsFound,
+            returnValue: _i10.Future<_i39.RestoreSubscriptionResult>.value(
+              _i39.RestoreSubscriptionResult.noSubscriptionsFound,
             ),
           )
-          as _i10.Future<_i37.RestoreSubscriptionResult>);
+          as _i10.Future<_i39.RestoreSubscriptionResult>);
 
   @override
-  _i10.Future<_i37.Subscriptions?> subscriptions() =>
+  _i10.Future<_i39.Subscriptions?> subscriptions() =>
       (super.noSuchMethod(
             Invocation.method(#subscriptions, []),
-            returnValue: _i10.Future<_i37.Subscriptions?>.value(),
+            returnValue: _i10.Future<_i39.Subscriptions?>.value(),
           )
-          as _i10.Future<_i37.Subscriptions?>);
+          as _i10.Future<_i39.Subscriptions?>);
 }
 
 /// A class which mocks [TimeManager].
@@ -1940,7 +1962,7 @@ class MockTimeManager extends _i1.Mock implements _i13.TimeManager {
   String get currentTimeZone =>
       (super.noSuchMethod(
             Invocation.getter(#currentTimeZone),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#currentTimeZone),
             ),
@@ -2086,7 +2108,7 @@ class MockTimeZoneLocation extends _i1.Mock implements _i13.TimeZoneLocation {
   String get name =>
       (super.noSuchMethod(
             Invocation.getter(#name),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#name),
             ),
@@ -2097,7 +2119,7 @@ class MockTimeZoneLocation extends _i1.Mock implements _i13.TimeZoneLocation {
   String get displayName =>
       (super.noSuchMethod(
             Invocation.getter(#displayName),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#displayName),
             ),
@@ -2108,7 +2130,7 @@ class MockTimeZoneLocation extends _i1.Mock implements _i13.TimeZoneLocation {
   String get displayNameUtc =>
       (super.noSuchMethod(
             Invocation.getter(#displayNameUtc),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#displayNameUtc),
             ),
@@ -2119,7 +2141,7 @@ class MockTimeZoneLocation extends _i1.Mock implements _i13.TimeZoneLocation {
   String get displayUtc =>
       (super.noSuchMethod(
             Invocation.getter(#displayUtc),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#displayUtc),
             ),
@@ -2156,7 +2178,7 @@ class MockAndroidBuildVersion extends _i1.Mock
   String get codename =>
       (super.noSuchMethod(
             Invocation.getter(#codename),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#codename),
             ),
@@ -2167,7 +2189,7 @@ class MockAndroidBuildVersion extends _i1.Mock
   String get incremental =>
       (super.noSuchMethod(
             Invocation.getter(#incremental),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#incremental),
             ),
@@ -2178,7 +2200,7 @@ class MockAndroidBuildVersion extends _i1.Mock
   String get release =>
       (super.noSuchMethod(
             Invocation.getter(#release),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#release),
             ),
@@ -2221,7 +2243,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get board =>
       (super.noSuchMethod(
             Invocation.getter(#board),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#board),
             ),
@@ -2232,7 +2254,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get bootloader =>
       (super.noSuchMethod(
             Invocation.getter(#bootloader),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#bootloader),
             ),
@@ -2243,7 +2265,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get brand =>
       (super.noSuchMethod(
             Invocation.getter(#brand),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#brand),
             ),
@@ -2254,7 +2276,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get device =>
       (super.noSuchMethod(
             Invocation.getter(#device),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#device),
             ),
@@ -2265,7 +2287,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get display =>
       (super.noSuchMethod(
             Invocation.getter(#display),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#display),
             ),
@@ -2276,7 +2298,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get fingerprint =>
       (super.noSuchMethod(
             Invocation.getter(#fingerprint),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#fingerprint),
             ),
@@ -2287,7 +2309,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get hardware =>
       (super.noSuchMethod(
             Invocation.getter(#hardware),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#hardware),
             ),
@@ -2298,7 +2320,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get host =>
       (super.noSuchMethod(
             Invocation.getter(#host),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#host),
             ),
@@ -2309,7 +2331,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get id =>
       (super.noSuchMethod(
             Invocation.getter(#id),
-            returnValue: _i17.dummyValue<String>(this, Invocation.getter(#id)),
+            returnValue: _i19.dummyValue<String>(this, Invocation.getter(#id)),
           )
           as String);
 
@@ -2317,7 +2339,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get manufacturer =>
       (super.noSuchMethod(
             Invocation.getter(#manufacturer),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#manufacturer),
             ),
@@ -2328,7 +2350,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get model =>
       (super.noSuchMethod(
             Invocation.getter(#model),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#model),
             ),
@@ -2339,7 +2361,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get product =>
       (super.noSuchMethod(
             Invocation.getter(#product),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#product),
             ),
@@ -2350,7 +2372,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get name =>
       (super.noSuchMethod(
             Invocation.getter(#name),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#name),
             ),
@@ -2385,7 +2407,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get tags =>
       (super.noSuchMethod(
             Invocation.getter(#tags),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#tags),
             ),
@@ -2396,7 +2418,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get type =>
       (super.noSuchMethod(
             Invocation.getter(#type),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#type),
             ),
@@ -2433,7 +2455,7 @@ class MockAndroidDeviceInfo extends _i1.Mock implements _i6.AndroidDeviceInfo {
   String get serialNumber =>
       (super.noSuchMethod(
             Invocation.getter(#serialNumber),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#serialNumber),
             ),
@@ -2487,7 +2509,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get name =>
       (super.noSuchMethod(
             Invocation.getter(#name),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#name),
             ),
@@ -2498,7 +2520,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get systemName =>
       (super.noSuchMethod(
             Invocation.getter(#systemName),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#systemName),
             ),
@@ -2509,7 +2531,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get systemVersion =>
       (super.noSuchMethod(
             Invocation.getter(#systemVersion),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#systemVersion),
             ),
@@ -2520,7 +2542,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get model =>
       (super.noSuchMethod(
             Invocation.getter(#model),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#model),
             ),
@@ -2531,7 +2553,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get modelName =>
       (super.noSuchMethod(
             Invocation.getter(#modelName),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#modelName),
             ),
@@ -2542,7 +2564,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
   String get localizedModel =>
       (super.noSuchMethod(
             Invocation.getter(#localizedModel),
-            returnValue: _i17.dummyValue<String>(
+            returnValue: _i19.dummyValue<String>(
               this,
               Invocation.getter(#localizedModel),
             ),
@@ -2611,7 +2633,7 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseAuthWrapper extends _i1.Mock
-    implements _i38.FirebaseAuthWrapper {
+    implements _i40.FirebaseAuthWrapper {
   MockFirebaseAuthWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -2664,6 +2686,70 @@ class MockFirebaseAuthWrapper extends _i1.Mock
           as _i10.Future<void>);
 }
 
+/// A class which mocks [FunctionsWrapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFunctionsWrapper extends _i1.Mock implements _i41.FunctionsWrapper {
+  MockFunctionsWrapper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i15.HttpsCallable httpCallable(
+    String? name, {
+    _i15.HttpsCallableOptions? options,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#httpCallable, [name], {#options: options}),
+            returnValue: _FakeHttpsCallable_31(
+              this,
+              Invocation.method(#httpCallable, [name], {#options: options}),
+            ),
+          )
+          as _i15.HttpsCallable);
+}
+
+/// A class which mocks [HttpsCallable].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHttpsCallable extends _i1.Mock implements _i15.HttpsCallable {
+  MockHttpsCallable() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i16.HttpsCallablePlatform get delegate =>
+      (super.noSuchMethod(
+            Invocation.getter(#delegate),
+            returnValue: _FakeHttpsCallablePlatform_32(
+              this,
+              Invocation.getter(#delegate),
+            ),
+          )
+          as _i16.HttpsCallablePlatform);
+
+  @override
+  _i10.Future<_i15.HttpsCallableResult<T>> call<T>([dynamic parameters]) =>
+      (super.noSuchMethod(
+            Invocation.method(#call, [parameters]),
+            returnValue: _i10.Future<_i15.HttpsCallableResult<T>>.value(
+              _FakeHttpsCallableResult_33<T>(
+                this,
+                Invocation.method(#call, [parameters]),
+              ),
+            ),
+          )
+          as _i10.Future<_i15.HttpsCallableResult<T>>);
+
+  @override
+  _i10.Stream<_i15.StreamResponse<T, R>> stream<T, R>([Object? input]) =>
+      (super.noSuchMethod(
+            Invocation.method(#stream, [input]),
+            returnValue: _i10.Stream<_i15.StreamResponse<T, R>>.empty(),
+          )
+          as _i10.Stream<_i15.StreamResponse<T, R>>);
+}
+
 /// A class which mocks [User].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -2686,7 +2772,7 @@ class MockUser extends _i1.Mock implements _i14.User {
   _i14.UserMetadata get metadata =>
       (super.noSuchMethod(
             Invocation.getter(#metadata),
-            returnValue: _FakeUserMetadata_31(
+            returnValue: _FakeUserMetadata_34(
               this,
               Invocation.getter(#metadata),
             ),
@@ -2705,7 +2791,7 @@ class MockUser extends _i1.Mock implements _i14.User {
   String get uid =>
       (super.noSuchMethod(
             Invocation.getter(#uid),
-            returnValue: _i17.dummyValue<String>(this, Invocation.getter(#uid)),
+            returnValue: _i19.dummyValue<String>(this, Invocation.getter(#uid)),
           )
           as String);
 
@@ -2713,7 +2799,7 @@ class MockUser extends _i1.Mock implements _i14.User {
   _i14.MultiFactor get multiFactor =>
       (super.noSuchMethod(
             Invocation.getter(#multiFactor),
-            returnValue: _FakeMultiFactor_32(
+            returnValue: _FakeMultiFactor_35(
               this,
               Invocation.getter(#multiFactor),
             ),
@@ -2744,7 +2830,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#getIdTokenResult, [forceRefresh]),
             returnValue: _i10.Future<_i14.IdTokenResult>.value(
-              _FakeIdTokenResult_33(
+              _FakeIdTokenResult_36(
                 this,
                 Invocation.method(#getIdTokenResult, [forceRefresh]),
               ),
@@ -2851,7 +2937,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#linkWithPhoneNumber, [phoneNumber, verifier]),
             returnValue: _i10.Future<_i14.ConfirmationResult>.value(
-              _FakeConfirmationResult_34(
+              _FakeConfirmationResult_37(
                 this,
                 Invocation.method(#linkWithPhoneNumber, [
                   phoneNumber,
@@ -2902,7 +2988,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#unlink, [providerId]),
             returnValue: _i10.Future<_i14.User>.value(
-              _FakeUser_35(this, Invocation.method(#unlink, [providerId])),
+              _FakeUser_38(this, Invocation.method(#unlink, [providerId])),
             ),
           )
           as _i10.Future<_i14.User>);

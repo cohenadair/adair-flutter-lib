@@ -157,19 +157,19 @@ class _SignInPageState extends State<SignInPage> {
         password: _passwordController.editingController.text,
       );
     } on FirebaseAuthException catch (e) {
-      error = errorMessage(e.code);
-    } catch (e) {
-      _log.e(e, reason: "Sign in with email");
-      error = errorMessage(e.toString());
+      error = _errorMessage(e.code);
     }
 
-    try {
-      if ((await widget.info.postSignInVerification?.call() ?? "").isNotEmpty) {
-        error = await widget.info.postSignInVerification?.call() ?? "";
+    if (error.isEmpty) {
+      try {
+        if ((await widget.info.postSignInVerification?.call() ?? "")
+            .isNotEmpty) {
+          error = await widget.info.postSignInVerification?.call() ?? "";
+        }
+      } catch (e, stackTrace) {
+        _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
+        error = e.toString();
       }
-    } catch (e) {
-      _log.e(e, reason: "Post-sign in verification");
-      error = e.toString();
     }
 
     // Something bad happened. Make sure we're signed out.
@@ -189,7 +189,9 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-  String errorMessage(String code) {
+  // TODO: Should probably only handle common errors here, and the generic
+  //  "unknown" text is enough for uncommon ones.
+  String _errorMessage(String code) {
     // Possible codes: https://pub.dev/documentation/firebase_auth/latest/firebase_auth/FirebaseAuth/signInWithEmailAndPassword.html
     switch (code) {
       case "invalid-email":
