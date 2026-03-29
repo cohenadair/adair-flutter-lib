@@ -151,7 +151,7 @@ class DialogButton extends StatelessWidget {
               }
             }
           : null,
-      child: Text(label.toUpperCase()),
+      child: Text(Theme.of(context).useMaterial3 ? label : label.toUpperCase()),
     );
   }
 }

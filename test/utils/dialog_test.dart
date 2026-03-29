@@ -46,4 +46,16 @@ void main() {
     );
     expect(findFirstWithText<TextButton>(tester, "TEST").onPressed, isNull);
   });
+
+  testWidgets("DialogButton uses original label casing in Material3", (
+    tester,
+  ) async {
+    await pumpContext(
+      tester,
+      (_) => const DialogButton(label: "Test", isEnabled: true),
+      useMaterial3: true,
+    );
+    expect(find.text("Test"), findsOneWidget);
+    expect(find.text("TEST"), findsNothing);
+  });
 }

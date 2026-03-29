@@ -2,6 +2,7 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
+import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
@@ -84,6 +85,7 @@ class _SignInPageState extends State<SignInPage> {
         _buildLogo(),
         _buildEmailField(context),
         _buildPasswordField(context),
+        _buildResetPassword(context),
         _buildError(context),
         _buildSignInButton(context),
       ],
@@ -118,6 +120,19 @@ class _SignInPageState extends State<SignInPage> {
       textInputAction: TextInputAction.done,
       onChanged: (_) => setState(() {}),
       onSubmitted: _isInputValid() ? _signIn : null,
+    );
+  }
+
+  Widget _buildResetPassword(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (_) => const _ResetPasswordDialog(),
+        ),
+        child: Text(L10n.get.lib.signInPageResetPasswordButton),
+      ),
     );
   }
 
@@ -213,7 +228,7 @@ class _SignInPageState extends State<SignInPage> {
       case "operation-not-allowed":
         return L10n.get.lib.signInPageErrorOperationNotAllowed;
       default:
-        return L10n.get.lib.signInPageErrorUnknown(code);
+        return L10n.get.lib.inputUnknownError(code);
     }
   }
 }
@@ -228,4 +243,124 @@ class SignInPageInfo {
   final Future<String?> Function()? postSignInVerification;
 
   SignInPageInfo({this.logo, this.postSignInVerification});
+}
+
+class _ResetPasswordDialog extends StatefulWidget {
+  const _ResetPasswordDialog();
+
+  @override
+  State<_ResetPasswordDialog> createState() => _ResetPasswordDialogState();
+}
+
+class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
+  static const double _maxWidth = 400;
+
+  final _emailController = EmailInputController(required: true);
+
+  var _isSent = false;
+  var _isSending = false;
+  var _error = "";
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      constraints: const BoxConstraints(maxWidth: _maxWidth),
+      title: Text(L10n.get.lib.signInPageResetPasswordDialogTitle),
+      content: _isSent ? _buildConfirmation() : _buildInput(context),
+      actions: _isSent ? _buildSentActions() : _buildInputActions(context),
+    );
+  }
+
+  Widget _buildConfirmation() {
+    return Text(L10n.get.lib.signInPageResetPasswordConfirmation);
+  }
+
+  Widget _buildInput(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildDialogMessage(context),
+        _buildEmailField(context),
+        _buildError(context),
+      ],
+    );
+  }
+
+  Widget _buildDialogMessage(BuildContext context) {
+    return Padding(
+      padding: insetsBottomDefault,
+      child: Text(L10n.get.lib.signInPageResetPasswordDialogMessage),
+    );
+  }
+
+  Widget _buildEmailField(BuildContext context) {
+    return TextInput.email(
+      context,
+      controller: _emailController,
+      hideMaxLength: true,
+      onChanged: (_) => setState(() {}),
+    );
+  }
+
+  Widget _buildError(BuildContext context) {
+    if (_error.isEmpty) {
+      return const SizedBox();
+    }
+    return Padding(
+      padding: insetsTopSmall,
+      child: Text(_error, style: context.styleError),
+    );
+  }
+
+  List<Widget> _buildSentActions() {
+    return [DialogButton(label: L10n.get.lib.ok)];
+  }
+
+  List<Widget> _buildInputActions(BuildContext context) {
+    return [
+      _isSending ? Loading.minimized() : const SizedBox(),
+      DialogButton(label: L10n.get.lib.cancel),
+      DialogButton(
+        label: L10n.get.lib.signInPageResetPasswordDialogAction,
+        popOnTap: false,
+        isEnabled: _emailController.isValid(context) && !_isSending,
+        onTap: _sendReset,
+      ),
+    ];
+  }
+
+  Future<void> _sendReset() async {
+    setState(() {
+      _isSending = true;
+      _error = "";
+    });
+
+    bool isSent = _isSent;
+    bool isSending = _isSending;
+    var error = "";
+
+    try {
+      await FirebaseAuthWrapper.get.sendPasswordResetEmail(
+        email: _emailController.editingController.text,
+      );
+      isSent = true;
+      isSending = false;
+    } on FirebaseAuthException catch (e) {
+      error = L10n.get.lib.inputUnknownError(e.code);
+      isSending = false;
+    }
+
+    setState(() {
+      _isSent = isSent;
+      _isSending = isSending;
+      _error = error;
+    });
+  }
 }

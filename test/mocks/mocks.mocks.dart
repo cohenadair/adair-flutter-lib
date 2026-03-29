@@ -2684,6 +2684,15 @@ class MockFirebaseAuthWrapper extends _i1.Mock
             returnValueForMissingStub: _i10.Future<void>.value(),
           )
           as _i10.Future<void>);
+
+  @override
+  _i10.Future<void> sendPasswordResetEmail({required String? email}) =>
+      (super.noSuchMethod(
+            Invocation.method(#sendPasswordResetEmail, [], {#email: email}),
+            returnValue: _i10.Future<void>.value(),
+            returnValueForMissingStub: _i10.Future<void>.value(),
+          )
+          as _i10.Future<void>);
 }
 
 /// A class which mocks [FunctionsWrapper].

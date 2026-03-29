@@ -261,11 +261,6 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
       'Sign in has been throttled. Please try again later.';
 
   @override
-  String signInPageErrorUnknown(Object code) {
-    return 'Unknown sign in error ($code).';
-  }
-
-  @override
   String get signInPageErrorUserDisabled => 'User has been disabled.';
 
   @override
@@ -293,6 +288,28 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get inputInvalidEmail => 'Invalid email format';
+
+  @override
+  String inputUnknownError(Object code) {
+    return 'Unknown error ($code).';
+  }
+
+  @override
+  String get signInPageResetPasswordButton => 'Reset Password';
+
+  @override
+  String get signInPageResetPasswordDialogTitle => 'Reset Password';
+
+  @override
+  String get signInPageResetPasswordDialogMessage =>
+      'Enter your email address and we\'ll send you instructions to reset your password.';
+
+  @override
+  String get signInPageResetPasswordDialogAction => 'Reset';
+
+  @override
+  String get signInPageResetPasswordConfirmation =>
+      'If an account exists for that email address, youll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesnt arrive.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).

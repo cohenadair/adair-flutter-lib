@@ -1,5 +1,6 @@
 {
   "cancel": "Cancelar",
+  "save": "Guardar",
   "delete": "Eliminar",
   "ok": "Está bien",
   "error": "Error",
@@ -159,7 +160,6 @@
   "signInPageErrorNetworkFailed": "Comprueba tu conexión a Internet y vuelve a intentarlo.",
   "signInPageErrorTokenExpired": "La autenticación ha expirado. Inténtalo de nuevo.",
   "signInPageErrorTooManyRequests": "Se han realizado demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.",
-  "signInPageErrorUnknown": "Error de inicio de sesión desconocido ({code}).",
   "signInPageErrorUserDisabled": "La cuenta de usuario ha sido deshabilitada.",
   "signInPageErrorUserNotFound": "No existe ningún usuario con la dirección de correo electrónico proporcionada.",
   "signInPageErrorOperationNotAllowed": "El inicio de sesión con correo electrónico y contraseña está deshabilitado para esta aplicación.",
@@ -169,5 +169,11 @@
   "inputEmailLabel": "Correo electrónico",
   "inputGenericRequired": "Requerido",
   "inputInvalidNumber": "Entrada de número inválida",
-  "inputInvalidEmail": "Formato de correo electrónico inválido"
+  "inputInvalidEmail": "Formato de correo electrónico inválido",
+  "inputUnknownError": "Error desconocido ({code}).",
+  "signInPageResetPasswordButton": "¿Olvidaste tu contraseña?",
+  "signInPageResetPasswordDialogTitle": "Restablecer contraseña",
+  "signInPageResetPasswordDialogMessage": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",
+  "signInPageResetPasswordDialogAction": "Restablecer contraseña",
+  "signInPageResetPasswordConfirmation": "Se han enviado las instrucciones para restablecer tu contraseña a tu correo electrónico. Asegúrate de revisar tu carpeta de correo no deseado."
 }

@@ -161,7 +161,6 @@
   "signInPageErrorOperationNotAllowed": "Email and password sign in is disabled for this app.",
   "signInPageErrorTokenExpired": "Authentication has expired. Please try again.",
   "signInPageErrorTooManyRequests": "Sign in has been throttled. Please try again later.",
-  "signInPageErrorUnknown": "Unknown sign in error ({code}).",
   "signInPageErrorUserDisabled": "User has been disabled.",
   "signInPageErrorUserNotFound": "No user exists with the given email address.",
   "signInPageErrorInvalidCredentials": "Incorrect email and password combination.",
@@ -170,5 +169,11 @@
   "inputEmailLabel": "Email",
   "inputGenericRequired": "Required",
   "inputInvalidNumber": "Invalid number input",
-  "inputInvalidEmail": "Invalid email format"
+  "inputInvalidEmail": "Invalid email format",
+  "inputUnknownError": "Unknown error ({code}).",
+  "signInPageResetPasswordButton": "Reset Password",
+  "signInPageResetPasswordDialogTitle": "Reset Password",
+  "signInPageResetPasswordDialogMessage": "Enter your email address and we''ll send you instructions to reset your password.",
+  "signInPageResetPasswordDialogAction": "Reset",
+  "signInPageResetPasswordConfirmation": "If an account exists for that email address, you'll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesn't arrive."
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/pages/sign_in_page.dart';
+import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +52,21 @@ void main() {
     ).thenAnswer(answer);
   }
 
+  openResetPasswordDialog(WidgetTester tester) async {
+    await tapAndSettle(
+      tester,
+      find.widgetWithText(TextButton, "Reset Password"),
+    );
+  }
+
+  stubSendReset(Future<void> Function(Invocation) answer) {
+    when(
+      managers.firebaseAuthWrapper.sendPasswordResetEmail(
+        email: anyNamed("email"),
+      ),
+    ).thenAnswer(answer);
+  }
+
   Future<void> pumpNotSignedIn(
     WidgetTester tester, [
     SignInPageInfo? info,
@@ -58,6 +74,7 @@ void main() {
   ]) async {
     await pumpContext(
       tester,
+      useMaterial3: true,
       (_) => SignInPage(
         info: info ?? SignInPageInfo(),
         homeBuilder: (_) => Text(homeText ?? ""),
@@ -293,7 +310,7 @@ void main() {
 
     expect(findFirst<Button>(tester).onPressed, isNotNull);
     expect(find.byType(Loading), findsNothing);
-    expect(find.text("Unknown sign in error (unknown-error)."), findsOneWidget);
+    expect(find.text("Unknown error (unknown-error)."), findsOneWidget);
   });
 
   testWidgets("Firebase auth state error", (tester) async {
@@ -412,6 +429,121 @@ void main() {
 
     expect(find.text("HOME"), findsNothing);
     verifyNever(managers.firebaseAuthWrapper.signOut());
+  });
+
+  testWidgets("Reset password button is visible", (tester) async {
+    await pumpNotSignedIn(tester);
+    expect(find.widgetWithText(TextButton, "Reset Password"), findsOneWidget);
+  });
+
+  testWidgets("Tapping reset password button opens dialog", (tester) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    expect(find.byType(AlertDialog), findsOneWidget);
+  });
+
+  testWidgets("Reset password dialog send button disabled with empty email", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    expect(findFirstWithText<DialogButton>(tester, "Reset").isEnabled, isFalse);
+  });
+
+  testWidgets("Reset password dialog send button enabled with valid email", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    await enterTextAndSettle(
+      tester,
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextField, "Email"),
+      ),
+      "test@test.com",
+    );
+    expect(findFirstWithText<DialogButton>(tester, "Reset").isEnabled, isTrue);
+  });
+
+  testWidgets("Reset password dialog shows loading while sending", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    await enterTextAndSettle(
+      tester,
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextField, "Email"),
+      ),
+      "test@test.com",
+    );
+
+    stubSendReset((_) => Future.delayed(const Duration(seconds: 1), () {}));
+
+    await tester.tap(find.widgetWithText(TextButton, "Reset"));
+    await tester.pump();
+
+    expect(find.byType(Loading), findsOneWidget);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+  });
+
+  testWidgets("Reset password dialog shows confirmation after success", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    await enterTextAndSettle(
+      tester,
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextField, "Email"),
+      ),
+      "test@test.com",
+    );
+
+    stubSendReset((_) async {});
+
+    await tapAndSettle(tester, find.widgetWithText(TextButton, "Reset"));
+
+    expect(find.byType(AlertDialog), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(TextField),
+      ),
+      findsNothing,
+    );
+    expect(find.widgetWithText(TextButton, "Ok"), findsOneWidget);
+  });
+
+  testWidgets("Reset password dialog shows error after failure", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    await enterTextAndSettle(
+      tester,
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextField, "Email"),
+      ),
+      "test@test.com",
+    );
+
+    stubSendReset((_) => throw FirebaseAuthException(code: "unknown-error"));
+
+    await tapAndSettle(tester, find.widgetWithText(TextButton, "Reset"));
+    expect(find.byType(Loading), findsNothing);
+    expect(find.text("Unknown error (unknown-error)."), findsOneWidget);
+  });
+
+  testWidgets("Reset password dialog cancel closes dialog", (tester) async {
+    await pumpNotSignedIn(tester);
+    await openResetPasswordDialog(tester);
+    await tapAndSettle(tester, find.widgetWithText(TextButton, "Cancel"));
+    expect(find.byType(AlertDialog), findsNothing);
   });
 
   testWidgets("Post sign in verification is not called when sign in fails", (

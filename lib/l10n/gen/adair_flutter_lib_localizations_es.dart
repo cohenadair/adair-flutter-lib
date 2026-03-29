@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'adair_flutter_lib_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -13,7 +12,7 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
   String get cancel => 'Cancelar';
 
   @override
-  String get save => 'Guardar';
+  String get save => 'Save';
 
   @override
   String get delete => 'Eliminar';
@@ -263,11 +262,6 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
       'Se han realizado demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.';
 
   @override
-  String signInPageErrorUnknown(Object code) {
-    return 'Error de inicio de sesión desconocido ($code).';
-  }
-
-  @override
   String get signInPageErrorUserDisabled =>
       'La cuenta de usuario ha sido deshabilitada.';
 
@@ -296,4 +290,26 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
 
   @override
   String get inputInvalidEmail => 'Formato de correo electrónico inválido';
+
+  @override
+  String inputUnknownError(Object code) {
+    return 'Error desconocido ($code).';
+  }
+
+  @override
+  String get signInPageResetPasswordButton => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get signInPageResetPasswordDialogTitle => 'Restablecer contraseña';
+
+  @override
+  String get signInPageResetPasswordDialogMessage =>
+      'Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.';
+
+  @override
+  String get signInPageResetPasswordDialogAction => 'Restablecer contraseña';
+
+  @override
+  String get signInPageResetPasswordConfirmation =>
+      'Se han enviado las instrucciones para restablecer tu contraseña a tu correo electrónico. Asegúrate de revisar tu carpeta de correo no deseado.';
 }

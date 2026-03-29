@@ -534,12 +534,6 @@ abstract class AdairFlutterLibLocalizations {
   /// **'Sign in has been throttled. Please try again later.'**
   String get signInPageErrorTooManyRequests;
 
-  /// No description provided for @signInPageErrorUnknown.
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown sign in error ({code}).'**
-  String signInPageErrorUnknown(Object code);
-
   /// No description provided for @signInPageErrorUserDisabled.
   ///
   /// In en, this message translates to:
@@ -593,6 +587,42 @@ abstract class AdairFlutterLibLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email format'**
   String get inputInvalidEmail;
+
+  /// No description provided for @inputUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error ({code}).'**
+  String inputUnknownError(Object code);
+
+  /// No description provided for @signInPageResetPasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get signInPageResetPasswordButton;
+
+  /// No description provided for @signInPageResetPasswordDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get signInPageResetPasswordDialogTitle;
+
+  /// No description provided for @signInPageResetPasswordDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address and we\'\'ll send you instructions to reset your password.'**
+  String get signInPageResetPasswordDialogMessage;
+
+  /// No description provided for @signInPageResetPasswordDialogAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get signInPageResetPasswordDialogAction;
+
+  /// No description provided for @signInPageResetPasswordConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'If an account exists for that email address, you\'ll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesn\'t arrive.'**
+  String get signInPageResetPasswordConfirmation;
 }
 
 class _AdairFlutterLibLocalizationsDelegate

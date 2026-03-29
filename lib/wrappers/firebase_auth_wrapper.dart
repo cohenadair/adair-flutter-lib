@@ -31,4 +31,7 @@ class FirebaseAuthWrapper {
   }
 
   Future<void> signOut() => FirebaseAuth.instance.signOut();
+
+  Future<void> sendPasswordResetEmail({required String email}) =>
+      FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 }
