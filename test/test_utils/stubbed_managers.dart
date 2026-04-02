@@ -5,6 +5,7 @@ import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
@@ -12,6 +13,7 @@ import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
@@ -30,6 +32,7 @@ class StubbedManagers {
 
   late final MockCrashlyticsWrapper crashlyticsWrapper;
   late final MockDeviceInfoWrapper deviceInfoWrapper;
+  late final MockFilePickerWrapper filePickerWrapper;
   late final MockFirebaseAuthWrapper firebaseAuthWrapper;
   late final MockFunctionsWrapper functionsWrapper;
   late final MockIoWrapper ioWrapper;
@@ -37,6 +40,7 @@ class StubbedManagers {
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
   late final MockPermissionHandlerWrapper permissionHandlerWrapper;
   late final MockPurchasesWrapper purchasesWrapper;
+  late final MockStorageWrapper storageWrapper;
 
   // TODO: Remove the Future return type.
   static Future<StubbedManagers> create() async {
@@ -85,6 +89,9 @@ class StubbedManagers {
     deviceInfoWrapper = MockDeviceInfoWrapper();
     DeviceInfoWrapper.set(deviceInfoWrapper);
 
+    filePickerWrapper = MockFilePickerWrapper();
+    FilePickerWrapper.set(filePickerWrapper);
+
     firebaseAuthWrapper = MockFirebaseAuthWrapper();
     FirebaseAuthWrapper.set(firebaseAuthWrapper);
 
@@ -96,6 +103,9 @@ class StubbedManagers {
 
     permissionHandlerWrapper = MockPermissionHandlerWrapper();
     PermissionHandlerWrapper.set(permissionHandlerWrapper);
+
+    storageWrapper = MockStorageWrapper();
+    StorageWrapper.set(storageWrapper);
   }
 
   void stubCurrentTime(DateTime now, {String timeZone = "America/New_York"}) {

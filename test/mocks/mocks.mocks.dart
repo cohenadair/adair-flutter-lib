@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i10;
 import 'dart:io' as _i8;
+import 'dart:typed_data' as _i43;
 import 'dart:ui' as _i3;
 
 import 'package:adair_flutter_lib/adair_flutter_lib.dart' as _i17;
@@ -15,8 +16,9 @@ import 'package:adair_flutter_lib/managers/time_manager.dart' as _i13;
 import 'package:adair_flutter_lib/utils/log.dart' as _i33;
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i20;
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart' as _i22;
-import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i40;
-import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart' as _i41;
+import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart' as _i40;
+import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i44;
+import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart' as _i45;
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i30;
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart'
     as _i32;
@@ -25,10 +27,12 @@ import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart'
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart'
     as _i35;
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i38;
+import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart' as _i42;
 import 'package:cloud_functions/cloud_functions.dart' as _i15;
 import 'package:cloud_functions_platform_interface/cloud_functions_platform_interface.dart'
     as _i16;
 import 'package:device_info_plus/device_info_plus.dart' as _i6;
+import 'package:file_picker/file_picker.dart' as _i41;
 import 'package:firebase_auth/firebase_auth.dart' as _i14;
 import 'package:flutter/material.dart' as _i2;
 import 'package:flutter/services.dart' as _i36;
@@ -2629,11 +2633,69 @@ class MockIosDeviceInfo extends _i1.Mock implements _i6.IosDeviceInfo {
           as Map<String, dynamic>);
 }
 
+/// A class which mocks [FilePickerWrapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFilePickerWrapper extends _i1.Mock implements _i40.FilePickerWrapper {
+  MockFilePickerWrapper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i10.Future<_i41.FilePickerResult?> pickFiles({
+    _i41.FileType? type = _i41.FileType.any,
+    List<String>? allowedExtensions,
+    bool? allowMultiple = false,
+    bool? withData = false,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#pickFiles, [], {
+              #type: type,
+              #allowedExtensions: allowedExtensions,
+              #allowMultiple: allowMultiple,
+              #withData: withData,
+            }),
+            returnValue: _i10.Future<_i41.FilePickerResult?>.value(),
+          )
+          as _i10.Future<_i41.FilePickerResult?>);
+}
+
+/// A class which mocks [StorageWrapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockStorageWrapper extends _i1.Mock implements _i42.StorageWrapper {
+  MockStorageWrapper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i10.Future<void> putData(String? path, _i43.Uint8List? bytes) =>
+      (super.noSuchMethod(
+            Invocation.method(#putData, [path, bytes]),
+            returnValue: _i10.Future<void>.value(),
+            returnValueForMissingStub: _i10.Future<void>.value(),
+          )
+          as _i10.Future<void>);
+
+  @override
+  _i10.Future<String> getDownloadURL(String? path) =>
+      (super.noSuchMethod(
+            Invocation.method(#getDownloadURL, [path]),
+            returnValue: _i10.Future<String>.value(
+              _i19.dummyValue<String>(
+                this,
+                Invocation.method(#getDownloadURL, [path]),
+              ),
+            ),
+          )
+          as _i10.Future<String>);
+}
+
 /// A class which mocks [FirebaseAuthWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseAuthWrapper extends _i1.Mock
-    implements _i40.FirebaseAuthWrapper {
+    implements _i44.FirebaseAuthWrapper {
   MockFirebaseAuthWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -2698,7 +2760,7 @@ class MockFirebaseAuthWrapper extends _i1.Mock
 /// A class which mocks [FunctionsWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFunctionsWrapper extends _i1.Mock implements _i41.FunctionsWrapper {
+class MockFunctionsWrapper extends _i1.Mock implements _i45.FunctionsWrapper {
   MockFunctionsWrapper() {
     _i1.throwOnMissingStub(this);
   }
