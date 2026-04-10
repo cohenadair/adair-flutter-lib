@@ -112,17 +112,23 @@ class ScrollPage extends StatelessWidget {
     }
 
     if (isNavRailContent) {
-      child = Container(
-        color:
-            Theme.of(context).navigationRailTheme.backgroundColor ??
-            Theme.of(context).colorScheme.surface,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(context.radiusNavigationRailContent),
-          ),
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: child,
+      // Absorb scroll notifications so they don't reach the Scaffold's
+      // ScrollNotificationObserver, which would otherwise trigger the AppBar's
+      // scroll-under colour change.
+      child = NotificationListener<ScrollNotification>(
+        onNotification: (_) => true,
+        child: Container(
+          color:
+              Theme.of(context).navigationRailTheme.backgroundColor ??
+              Theme.of(context).colorScheme.surface,
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(context.radiusNavigationRailContent),
+            ),
+            child: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: child,
+            ),
           ),
         ),
       );
