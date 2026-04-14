@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/res/dimen.dart';
+import 'package:adair_flutter_lib/widgets/dropdown_options_view.dart';
 import 'package:flutter/material.dart';
 
 /// A text field that wraps Flutter's [Autocomplete] widget with a consistent
@@ -47,11 +47,13 @@ class _AutocompleteTextInputState<T extends Object>
       optionsBuilder: widget.optionsBuilder,
       displayStringForOption: widget.displayStringForOption,
       optionsViewBuilder: (_, onSelected, options) {
-        return _AutocompleteOptionsView<T>(
-          onSelected: onSelected,
-          options: options,
-          displayStringForOption: widget.displayStringForOption,
-          itemBuilder: widget.itemBuilder,
+        return Align(
+          alignment: Alignment.topLeft,
+          child: DropdownOptionsView(
+            children: options
+                .map((option) => _buildOptionItem(context, option, onSelected))
+                .toList(),
+          ),
         );
       },
       fieldViewBuilder: _buildField,
@@ -59,6 +61,19 @@ class _AutocompleteTextInputState<T extends Object>
         _selectedOption = option;
         widget.onSelected(option);
       },
+    );
+  }
+
+  Widget _buildOptionItem(
+    BuildContext context,
+    T option,
+    AutocompleteOnSelected<T> onSelected,
+  ) {
+    return DropdownOptionItem(
+      onTap: () => onSelected(option),
+      child:
+          widget.itemBuilder?.call(context, option) ??
+          Text(widget.displayStringForOption(option)),
     );
   }
 
@@ -80,66 +95,5 @@ class _AutocompleteTextInputState<T extends Object>
         }
       },
     );
-  }
-}
-
-class _AutocompleteOptionsView<T extends Object> extends StatelessWidget {
-  static const _maxHeight = 250.0;
-  static const _elevation = 2.0;
-  static const _outerBorderRadius = 16.0;
-  static const _innerBorderRadius = 12.0;
-
-  final AutocompleteOnSelected<T> onSelected;
-  final Iterable<T> options;
-  final AutocompleteOptionToString<T> displayStringForOption;
-  final Widget Function(BuildContext context, T option)? itemBuilder;
-
-  const _AutocompleteOptionsView({
-    required this.onSelected,
-    required this.options,
-    required this.displayStringForOption,
-    this.itemBuilder,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: Material(
-        elevation: _elevation,
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(_outerBorderRadius)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: _maxHeight),
-          child: ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemCount: options.length,
-            itemBuilder: (context, index) {
-              final option = options.elementAt(index);
-              return Padding(
-                padding: insetsTiny,
-                child: InkWell(
-                  onTap: () => onSelected(option),
-                  borderRadius: BorderRadius.circular(_innerBorderRadius),
-                  child: _buildItem(context, option),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildItem(BuildContext context, T option) {
-    return itemBuilder?.call(context, option) ??
-        Padding(
-          padding: insetsDefault,
-          child: Text(displayStringForOption(option)),
-        );
   }
 }
