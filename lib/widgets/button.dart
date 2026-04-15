@@ -31,11 +31,11 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     if (_isSecondary) {
       return icon == null
-          ? TextButton(onPressed: onPressed, child: Text(text))
+          ? TextButton(onPressed: onPressed, child: _buildTextWidget(context))
           : TextButton.icon(
               onPressed: onPressed,
               icon: icon!,
-              label: Text(text),
+              label: _buildTextWidget(context),
             );
     }
 
