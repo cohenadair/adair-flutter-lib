@@ -7,6 +7,7 @@ class Button extends StatelessWidget {
   final VoidCallback? onPressed;
   final Icon? icon;
   final Color? color;
+  final bool _isSecondary;
 
   const Button({
     super.key,
@@ -14,10 +15,30 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.color,
-  });
+  }) : _isSecondary = false;
+
+  /// A secondary (text-style) button. Use for cancel or low-emphasis actions.
+  /// Set [onPressed] to `null` to disable.
+  const Button.secondary({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.icon,
+  }) : _isSecondary = true,
+       color = null;
 
   @override
   Widget build(BuildContext context) {
+    if (_isSecondary) {
+      return icon == null
+          ? TextButton(onPressed: onPressed, child: Text(text))
+          : TextButton.icon(
+              onPressed: onPressed,
+              icon: icon!,
+              label: Text(text),
+            );
+    }
+
     return icon == null
         ? ElevatedButton(
             onPressed: onPressed,
