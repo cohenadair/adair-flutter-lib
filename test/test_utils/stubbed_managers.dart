@@ -7,6 +7,7 @@ import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
@@ -34,6 +35,7 @@ class StubbedManagers {
   late final MockDeviceInfoWrapper deviceInfoWrapper;
   late final MockFilePickerWrapper filePickerWrapper;
   late final MockFirebaseAuthWrapper firebaseAuthWrapper;
+  late final MockFirestoreWrapper firestoreWrapper;
   late final MockFunctionsWrapper functionsWrapper;
   late final MockIoWrapper ioWrapper;
   late final MockLocalNotificationsWrapper localNotificationsWrapper;
@@ -94,6 +96,9 @@ class StubbedManagers {
 
     firebaseAuthWrapper = MockFirebaseAuthWrapper();
     FirebaseAuthWrapper.set(firebaseAuthWrapper);
+
+    firestoreWrapper = MockFirestoreWrapper();
+    FirestoreWrapper.set(firestoreWrapper);
 
     functionsWrapper = MockFunctionsWrapper();
     FunctionsWrapper.set(functionsWrapper);

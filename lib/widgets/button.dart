@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// TODO: This widget is probably no longer needed, since with M3 we'll no longer
+//  be using uppercase text buttons. This should be removed and replaced with
+//  direct uses of the Flutter button widgets.
+@Deprecated(
+  "Use Flutter's built-in button widgets (ElevatedButton, TextButton, etc.) directly.",
+)
 class Button extends StatelessWidget {
   final String text;
 
