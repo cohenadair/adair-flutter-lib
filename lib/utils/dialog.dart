@@ -116,7 +116,7 @@ void showDestructiveDialog({
         DialogButton(label: cancelText ?? L10n.get.lib.cancel),
         DialogButton(
           label: destroyText,
-          textColor: warning ? null : Colors.red,
+          textColor: warning ? null : Theme.of(context).colorScheme.error,
           onTap: onTapDestroy,
         ),
       ],

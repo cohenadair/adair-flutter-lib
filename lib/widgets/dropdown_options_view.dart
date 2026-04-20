@@ -9,7 +9,6 @@ import '../res/dimen.dart';
 /// Used by [AutocompleteTextInput] (via its options view builder) and
 /// [DropdownAnchor] (via its overlay).
 class DropdownOptionsView extends StatelessWidget {
-  static const maxHeight = 250.0;
   static const elevation = 2.0;
   static const outerBorderRadius = 16.0;
 
@@ -30,14 +29,11 @@ class DropdownOptionsView extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(outerBorderRadius)),
       ),
       clipBehavior: Clip.antiAlias,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: maxHeight),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: children,
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: children,
         ),
       ),
     );
@@ -107,17 +103,17 @@ class DropdownAnchor extends StatefulWidget {
 
 class _DropdownAnchorState extends State<DropdownAnchor> {
   final _controller = OverlayPortalController();
-  final _layerLink = LayerLink();
+  final _triggerKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return TapRegion(
       groupId: this,
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: OverlayPortal(
-          controller: _controller,
-          overlayChildBuilder: _buildOverlay,
+      child: OverlayPortal(
+        controller: _controller,
+        overlayChildBuilder: _buildOverlay,
+        child: Container(
+          key: _triggerKey,
           child: widget.triggerBuilder(context, _controller.toggle),
         ),
       ),
@@ -125,31 +121,34 @@ class _DropdownAnchorState extends State<DropdownAnchor> {
   }
 
   Widget _buildOverlay(BuildContext context) {
-    final targetAnchor = widget.alignRight
-        ? Alignment.bottomRight
-        : Alignment.bottomLeft;
-    final followerAnchor = widget.alignRight
-        ? Alignment.topRight
-        : Alignment.topLeft;
-    final boxAlignment = widget.alignRight
-        ? Alignment.topRight
-        : Alignment.topLeft;
+    final triggerBox =
+        _triggerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (triggerBox == null) {
+      return const SizedBox();
+    }
+    final triggerGlobal = triggerBox.localToGlobal(Offset.zero);
+    final triggerSize = triggerBox.size;
+    final dropdownTop = triggerGlobal.dy + triggerSize.height;
 
-    return TapRegion(
-      groupId: this,
-      onTapOutside: (_) => _controller.hide(),
-      child: CompositedTransformFollower(
-        link: _layerLink,
-        targetAnchor: targetAnchor,
-        followerAnchor: followerAnchor,
-        child: Padding(
-          padding: widget.alignRight ? insetsRightDefault : EdgeInsets.zero,
-          child: UnconstrainedBox(
-            alignment: boxAlignment,
-            child: IntrinsicWidth(
-              child: DropdownOptionsView(
-                children: widget.childrenBuilder(_controller.hide),
-              ),
+    final view = View.of(context);
+    final screenSize = view.physicalSize / view.devicePixelRatio;
+    final screenWidth = screenSize.width;
+    final maxHeight = screenSize.height - dropdownTop;
+
+    return Positioned(
+      top: dropdownTop,
+      right: widget.alignRight
+          ? screenWidth - triggerGlobal.dx - triggerSize.width
+          : null,
+      left: widget.alignRight ? null : triggerGlobal.dx,
+      child: TapRegion(
+        groupId: this,
+        onTapOutside: (_) => _controller.hide(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: maxHeight),
+          child: IntrinsicWidth(
+            child: DropdownOptionsView(
+              children: widget.childrenBuilder(_controller.hide),
             ),
           ),
         ),

@@ -111,6 +111,7 @@ class ScrollPage extends StatelessWidget {
       child = RestrictedWidth(child: child);
     }
 
+    // TODO: Probably move this as part of #23 to a custom AppBar.
     if (isNavRailContent) {
       child = Container(
         color:
