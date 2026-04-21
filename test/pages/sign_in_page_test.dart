@@ -127,6 +127,31 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 1));
   });
 
+  testWidgets("Sign in form is shown when auth emits a user while signing in", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester, SignInPageInfo(), "HOME");
+    await enterEmailAndPassword(tester);
+
+    stubSignIn(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
+        () => MockUserCredential(),
+      ),
+    );
+    await tester.tap(find.byType(Button));
+    await tester.pump();
+
+    // Firebase emits user mid-sign-in. Form should stay visible, not home.
+    authController.add(MockUser());
+    await tester.pump();
+
+    expect(find.byType(TextField), findsWidgets);
+    expect(find.text("HOME"), findsNothing);
+
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+  });
+
   testWidgets("Custom logo", (tester) async {
     await pumpNotSignedIn(tester, SignInPageInfo(logo: Text("TEST LOGO")));
     expect(find.text("TEST LOGO"), findsOneWidget);
@@ -353,10 +378,192 @@ void main() {
     await tester.pump();
 
     authController.add(MockUser());
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     expect(find.byType(TextField), findsNothing);
     expect(find.text(""), findsOneWidget);
+  });
+
+  testWidgets(
+    "LandingPage is shown while auto-initializing when user is already signed in",
+    (tester) async {
+      await pumpContext(
+        tester,
+        (_) => SignInPage(
+          info: SignInPageInfo(
+            postSignInVerification: () =>
+                Future.delayed(const Duration(seconds: 1), () => null),
+          ),
+          homeBuilder: (_) => Text("HOME"),
+        ),
+      );
+      await tester.pump();
+
+      authController.add(MockUser());
+      await tester.pump();
+
+      expect(find.byType(LandingPage), findsOneWidget);
+      expect(find.text("HOME"), findsNothing);
+
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+    },
+  );
+
+  testWidgets("postSignInVerification is called during auto-init", (
+    tester,
+  ) async {
+    var verificationCalled = false;
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: SignInPageInfo(
+          postSignInVerification: () {
+            verificationCalled = true;
+            return Future.value(null);
+          },
+        ),
+        homeBuilder: (_) => Text("HOME"),
+      ),
+    );
+    await tester.pump();
+
+    authController.add(MockUser());
+    await tester.pumpAndSettle();
+
+    expect(verificationCalled, isTrue);
+  });
+
+  testWidgets(
+    "Home page is shown when auto-init postSignInVerification succeeds",
+    (tester) async {
+      await pumpContext(
+        tester,
+        (_) => SignInPage(
+          info: SignInPageInfo(
+            postSignInVerification: () => Future.value(null),
+          ),
+          homeBuilder: (_) => Text("HOME"),
+        ),
+      );
+      await tester.pump();
+
+      authController.add(MockUser());
+      await tester.pumpAndSettle();
+
+      expect(find.text("HOME"), findsOneWidget);
+      verifyNever(managers.firebaseAuthWrapper.signOut());
+    },
+  );
+
+  testWidgets("Auto-init signs out when postSignInVerification fails", (
+    tester,
+  ) async {
+    when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+      authController.add(null);
+      return Future.value();
+    });
+
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: SignInPageInfo(
+          postSignInVerification: () => Future.value("auto-init-error"),
+        ),
+        homeBuilder: (_) => Text("HOME"),
+      ),
+    );
+    await tester.pump();
+
+    authController.add(MockUser());
+    await tester.pumpAndSettle();
+
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    expect(find.text("HOME"), findsNothing);
+  });
+
+  testWidgets(
+    "Auto-init signs out when postSignInVerification throws an exception",
+    (tester) async {
+      when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+        authController.add(null);
+        return Future.value();
+      });
+
+      await pumpContext(
+        tester,
+        (_) => SignInPage(
+          info: SignInPageInfo(
+            postSignInVerification: () =>
+                throw Exception("auto-init-exception"),
+          ),
+          homeBuilder: (_) => Text("HOME"),
+        ),
+      );
+      await tester.pump();
+
+      authController.add(MockUser());
+      await tester.pumpAndSettle();
+
+      verify(managers.firebaseAuthWrapper.signOut()).called(1);
+      expect(find.text("HOME"), findsNothing);
+    },
+  );
+
+  testWidgets("Auto-init does not call postSignInVerification twice", (
+    tester,
+  ) async {
+    var callCount = 0;
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: SignInPageInfo(
+          postSignInVerification: () {
+            callCount++;
+            return Future.delayed(const Duration(seconds: 1), () => null);
+          },
+        ),
+        homeBuilder: (_) => Text("HOME"),
+      ),
+    );
+    await tester.pump();
+
+    authController.add(MockUser());
+    await tester.pump();
+    await tester.pump();
+
+    expect(callCount, 1);
+    await tester.pumpAndSettle(const Duration(seconds: 1));
+  });
+
+  testWidgets("Auto-init is re-triggered after sign out and re-auth", (
+    tester,
+  ) async {
+    var callCount = 0;
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: SignInPageInfo(
+          postSignInVerification: () {
+            callCount++;
+            return Future.value(null);
+          },
+        ),
+        homeBuilder: (_) => Text("HOME"),
+      ),
+    );
+    await tester.pump();
+
+    authController.add(MockUser());
+    await tester.pumpAndSettle();
+    expect(callCount, 1);
+
+    authController.add(null);
+    await tester.pumpAndSettle();
+
+    authController.add(MockUser());
+    await tester.pumpAndSettle();
+    expect(callCount, 2);
+    expect(find.text("HOME"), findsOneWidget);
   });
 
   testWidgets("Post sign in verification fails", (tester) async {

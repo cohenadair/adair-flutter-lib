@@ -39,6 +39,8 @@ class _SignInPageState extends State<SignInPage> {
   final _log = Log("SignInPage");
 
   var _error = "";
+  var _isInitialized = false;
+  var _isInitializing = false;
   var _isSigningIn = false;
 
   @override
@@ -68,9 +70,37 @@ class _SignInPageState extends State<SignInPage> {
           return LandingPage(hasError: false);
         }
 
-        return snapshot.hasData && !_isSigningIn
-            ? widget.homeBuilder(context)
-            : _buildPage(context);
+        // Not signed in.
+        if (!snapshot.hasData) {
+          if (_isInitialized || _isInitializing) {
+            // Reset so subsequent logins trigger post-sign in verification.
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!mounted) {
+                return;
+              }
+              setState(() {
+                _isInitialized = false;
+                _isInitializing = false;
+              });
+            });
+          }
+          return _buildPage(context);
+        }
+
+        if (_isSigningIn) {
+          return _buildPage(context);
+        }
+
+        if (!_isInitialized) {
+          if (!_isInitializing) {
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => _initForCurrentUser(),
+            );
+          }
+          return LandingPage(hasError: false);
+        }
+
+        return widget.homeBuilder(context);
       },
     );
   }
@@ -162,6 +192,35 @@ class _SignInPageState extends State<SignInPage> {
       _emailController.editingController.text.isNotEmpty &&
       _passwordController.editingController.text.isNotEmpty;
 
+  Future<void> _initForCurrentUser() async {
+    if (_isInitializing || _isInitialized) {
+      return;
+    }
+
+    setState(() => _isInitializing = true);
+
+    var error = "";
+    try {
+      error = await widget.info.postSignInVerification?.call() ?? "";
+    } catch (e, stackTrace) {
+      _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
+      error = e.toString();
+    }
+
+    if (error.isNotEmpty) {
+      await FirebaseAuthWrapper.get.signOut();
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isInitializing = false;
+      _isInitialized = error.isEmpty;
+    });
+  }
+
   Future<void> _signIn() async {
     setState(() => _isSigningIn = true);
 
@@ -177,10 +236,7 @@ class _SignInPageState extends State<SignInPage> {
 
     if (error.isEmpty) {
       try {
-        if ((await widget.info.postSignInVerification?.call() ?? "")
-            .isNotEmpty) {
-          error = await widget.info.postSignInVerification?.call() ?? "";
-        }
+        error = await widget.info.postSignInVerification?.call() ?? "";
       } catch (e, stackTrace) {
         _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
         error = e.toString();
@@ -194,6 +250,7 @@ class _SignInPageState extends State<SignInPage> {
 
     setState(() {
       _isSigningIn = false;
+      _isInitialized = error.isEmpty;
       _error = error;
 
       // Clear password field on successful sign in so it must be re-entered
