@@ -139,4 +139,7 @@ const iconSizeLarge = 32.0;
 const chartBarHeightDefault = 75.0;
 const chartBarHeightSingle = 100.0;
 
-const checkboxSizeDefault = 24.0;
+/// Note that 20 is the actual size of the icon, with zero padding. Using it
+/// ensures [PaddedCheckbox] is horiztonally aligned perfectly with other UI
+/// elements.
+const checkboxSizeDefault = 20.0;
