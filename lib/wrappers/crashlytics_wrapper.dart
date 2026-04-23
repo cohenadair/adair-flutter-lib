@@ -14,6 +14,16 @@ class CrashlyticsWrapper {
 
   CrashlyticsWrapper._();
 
+  Future<void> setCrashlyticsCollectionEnabled(bool enabled) {
+    return FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
+      enabled,
+    );
+  }
+
+  Future<void> recordFlutterFatalError(FlutterErrorDetails details) {
+    return FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  }
+
   Future<void> log(String message) {
     return FirebaseCrashlytics.instance.log(message);
   }

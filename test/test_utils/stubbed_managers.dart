@@ -3,10 +3,12 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
+import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
@@ -31,6 +33,8 @@ class StubbedManagers {
   late final MockSubscriptionManager subscriptionManager;
   late final MockTimeManager timeManager;
 
+  late final MockFirebaseWrapper firebaseWrapper;
+  late final MockAnalyticsWrapper analyticsWrapper;
   late final MockCrashlyticsWrapper crashlyticsWrapper;
   late final MockDeviceInfoWrapper deviceInfoWrapper;
   late final MockFilePickerWrapper filePickerWrapper;
@@ -71,6 +75,12 @@ class StubbedManagers {
     subscriptionManager = MockSubscriptionManager();
     when(subscriptionManager.init()).thenAnswer((_) => Future.value());
     SubscriptionManager.set(subscriptionManager);
+
+    firebaseWrapper = MockFirebaseWrapper();
+    FirebaseWrapper.set(firebaseWrapper);
+
+    analyticsWrapper = MockAnalyticsWrapper();
+    AnalyticsWrapper.set(analyticsWrapper);
 
     crashlyticsWrapper = MockCrashlyticsWrapper();
     CrashlyticsWrapper.set(crashlyticsWrapper);

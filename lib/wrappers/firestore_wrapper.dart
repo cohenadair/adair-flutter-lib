@@ -19,4 +19,6 @@ class FirestoreWrapper {
 
   CollectionReference<Map<String, dynamic>> collection(String path) =>
       FirebaseFirestore.instance.collection(path);
+
+  WriteBatch batch() => FirebaseFirestore.instance.batch();
 }

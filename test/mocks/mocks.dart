@@ -4,10 +4,12 @@ import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
+import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
@@ -27,6 +29,7 @@ import 'package:mockito/annotations.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 @GenerateMocks([AdairFlutterLib])
+@GenerateMocks([AnalyticsWrapper])
 @GenerateMocks([AppConfig])
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])
@@ -62,6 +65,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([FilePickerWrapper])
 @GenerateMocks([StorageWrapper])
 @GenerateMocks([FirebaseAuthWrapper])
+@GenerateMocks([FirebaseWrapper])
 @GenerateMocks([FirestoreWrapper])
 @GenerateMocks([FunctionsWrapper])
 @GenerateMocks([HttpsCallable])
@@ -80,6 +84,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
     MockSpec<QueryDocumentSnapshot<Map<String, dynamic>>>(
       as: #MockQueryDocumentSnapshot,
     ),
+    MockSpec<WriteBatch>(as: #MockWriteBatch),
   ],
 )
 void main() {}
