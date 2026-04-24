@@ -65,6 +65,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([FilePickerWrapper])
 @GenerateMocks([StorageWrapper])
 @GenerateMocks([FirebaseAuthWrapper])
+@GenerateMocks([IdTokenResult])
 @GenerateMocks([FirebaseWrapper])
 @GenerateMocks([FirestoreWrapper])
 @GenerateMocks([FunctionsWrapper])

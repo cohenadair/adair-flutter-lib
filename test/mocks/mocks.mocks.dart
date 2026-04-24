@@ -2854,6 +2854,15 @@ class MockFirebaseAuthWrapper extends _i1.Mock
           as _i10.Future<void>);
 }
 
+/// A class which mocks [IdTokenResult].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIdTokenResult extends _i1.Mock implements _i14.IdTokenResult {
+  MockIdTokenResult() {
+    _i1.throwOnMissingStub(this);
+  }
+}
+
 /// A class which mocks [FirebaseWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
