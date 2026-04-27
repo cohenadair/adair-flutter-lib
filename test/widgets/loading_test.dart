@@ -58,4 +58,18 @@ void main() {
     await tester.pumpWidget(Testable((_) => const Loading(isAppBar: false)));
     expect(findFirst<CircularProgressIndicator>(tester).color, isNull);
   });
+
+  testWidgets("isShowing false hides the widget", (tester) async {
+    await tester.pumpWidget(Testable((_) => const Loading(isShowing: false)));
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets("Loading.minimized with isShowing false hides the widget", (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      Testable((_) => const Loading.minimized(isShowing: false)),
+    );
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
 import '../res/dimen.dart';
+import 'empty_or.dart';
 
 class Loading extends StatelessWidget {
   static const _size = 20.0;
@@ -13,12 +14,14 @@ class Loading extends StatelessWidget {
   final String? label;
   final bool isCentered;
   final bool isAppBar;
+  final bool isShowing;
 
   const Loading({
     this.padding = insetsZero,
     this.label,
     this.isCentered = true,
     this.isAppBar = false,
+    this.isShowing = true,
   });
 
   /// A [Loading] widget to be used in an [AppBar].
@@ -32,10 +35,15 @@ class Loading extends StatelessWidget {
         isAppBar: true,
       );
 
-  const Loading.minimized() : this(isCentered: false, isAppBar: false);
+  const Loading.minimized({bool isShowing = true})
+    : this(isCentered: false, isAppBar: false, isShowing: isShowing);
 
   @override
   Widget build(BuildContext context) {
+    return EmptyOr(isShowing: isShowing, builder: _buildContent);
+  }
+
+  Widget _buildContent(BuildContext context) {
     final indicator = SizedBox.fromSize(
       size: const Size(_size, _size),
       child: CircularProgressIndicator(
