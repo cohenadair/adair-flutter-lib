@@ -309,7 +309,7 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
 
   @override
   String get signInPageResetPasswordConfirmation =>
-      'If an account exists for that email address, youll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesnt arrive.';
+      'If an account exists for that email address, you\'ll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesn\'t arrive.';
 }
 
 /// The translations for English, as used in the United States (`en_US`).
