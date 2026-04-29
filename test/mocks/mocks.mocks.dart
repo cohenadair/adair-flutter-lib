@@ -1603,6 +1603,22 @@ class MockPermissionHandlerWrapper extends _i1.Mock
           as _i10.Future<bool>);
 
   @override
+  _i10.Future<bool> requestAccessMediaLocation() =>
+      (super.noSuchMethod(
+            Invocation.method(#requestAccessMediaLocation, []),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
+
+  @override
+  _i10.Future<bool> requestStorage() =>
+      (super.noSuchMethod(
+            Invocation.method(#requestStorage, []),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
+
+  @override
   _i10.Future<bool> requestPhotos() =>
       (super.noSuchMethod(
             Invocation.method(#requestPhotos, []),

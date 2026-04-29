@@ -88,13 +88,13 @@ class DropdownAnchor extends StatefulWidget {
 
   /// When true, the dropdown expands to the left, anchored to the bottom-right
   /// of the trigger. Defaults to false (expands to the right).
-  final bool alignRight;
+  final bool alignsRight;
 
   const DropdownAnchor({
     super.key,
     required this.triggerBuilder,
     required this.childrenBuilder,
-    this.alignRight = false,
+    this.alignsRight = false,
   });
 
   @override
@@ -137,10 +137,10 @@ class _DropdownAnchorState extends State<DropdownAnchor> {
 
     return Positioned(
       top: dropdownTop,
-      right: widget.alignRight
+      right: widget.alignsRight
           ? screenWidth - triggerGlobal.dx - triggerSize.width
           : null,
-      left: widget.alignRight ? null : triggerGlobal.dx,
+      left: widget.alignsRight ? null : triggerGlobal.dx,
       child: TapRegion(
         groupId: this,
         onTapOutside: (_) => _controller.hide(),

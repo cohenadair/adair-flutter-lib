@@ -6,8 +6,8 @@ import '../res/style.dart';
 
 /// An [ActionChip] wrapper.
 class ChipButton extends StatelessWidget {
-  final double _iconSize = 20.0;
-  final double _fontSize = 13.0;
+  static const double _iconSize = 20.0;
+  static const double _fontSize = 13.0;
 
   final String label;
   final IconData? icon;

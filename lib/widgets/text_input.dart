@@ -22,9 +22,9 @@ class TextInput extends StatefulWidget {
   /// controller's [validate] property automatically.
   final TextInputController? controller;
 
-  final bool enabled;
-  final bool autofocus;
-  final bool obscureText;
+  final bool isEnabled;
+  final bool isAutofocused;
+  final bool obscuresText;
   final int? maxLength;
   final int? maxLines;
   final TextInputType? keyboardType;
@@ -49,10 +49,10 @@ class TextInput extends StatefulWidget {
     this.capitalization = TextCapitalization.none,
     this.textInputAction,
     required this.controller,
-    this.enabled = true,
-    this.autofocus = false,
+    this.isEnabled = true,
+    this.isAutofocused = false,
     this.focusNode,
-    this.obscureText = false,
+    this.obscuresText = false,
     this.maxLength = _inputLimitDefault,
     this.maxLines,
     this.keyboardType,
@@ -65,8 +65,8 @@ class TextInput extends StatefulWidget {
     String? label,
     String? initialValue,
     required TextInputController controller,
-    bool enabled = true,
-    bool autofocus = false,
+    bool isEnabled = true,
+    bool isAutofocused = false,
     ValueChanged<String>? onChanged,
     TextInputAction? textInputAction,
   }) : this(
@@ -76,8 +76,8 @@ class TextInput extends StatefulWidget {
          controller: controller,
          maxLength: _inputLimitName,
          maxLines: 1,
-         enabled: enabled,
-         autofocus: autofocus,
+         isEnabled: isEnabled,
+         isAutofocused: isAutofocused,
          onChanged: onChanged,
          textInputAction: textInputAction,
        );
@@ -88,8 +88,8 @@ class TextInput extends StatefulWidget {
     String? initialValue,
     String? hintText,
     required TextInputController controller,
-    bool enabled = true,
-    bool autofocus = false,
+    bool isEnabled = true,
+    bool isAutofocused = false,
     ValueChanged<String>? onChanged,
   }) : this(
          initialValue: initialValue,
@@ -97,8 +97,8 @@ class TextInput extends StatefulWidget {
          capitalization: TextCapitalization.sentences,
          controller: controller,
          maxLength: null, // No limit.
-         enabled: enabled,
-         autofocus: autofocus,
+         isEnabled: isEnabled,
+         isAutofocused: isAutofocused,
          onChanged: onChanged,
          hintText: hintText,
        );
@@ -111,8 +111,8 @@ class TextInput extends StatefulWidget {
     String? requiredText,
     String? hintText,
     required NumberInputController? controller,
-    bool enabled = true,
-    bool autofocus = false,
+    bool isEnabled = true,
+    bool isAutofocused = false,
     bool required = false,
     bool signed = true,
     bool decimal = true,
@@ -129,8 +129,8 @@ class TextInput extends StatefulWidget {
            signed: signed,
            decimal: decimal,
          ),
-         enabled: enabled,
-         autofocus: autofocus,
+         isEnabled: isEnabled,
+         isAutofocused: isAutofocused,
          maxLength: showMaxLength ? _inputLimitNumber : null,
          maxLines: 1,
          textInputAction: textInputAction,
@@ -141,8 +141,8 @@ class TextInput extends StatefulWidget {
     BuildContext context, {
     String? initialValue,
     required EmailInputController controller,
-    bool enabled = true,
-    bool autofocus = false,
+    bool isEnabled = true,
+    bool isAutofocused = false,
     bool hideMaxLength = false,
     ValueChanged<String>? onChanged,
     TextInputAction? textInputAction,
@@ -154,8 +154,8 @@ class TextInput extends StatefulWidget {
          controller: controller,
          maxLength: hideMaxLength ? null : _inputLimitEmail,
          maxLines: 1,
-         enabled: enabled,
-         autofocus: autofocus,
+         isEnabled: isEnabled,
+         isAutofocused: isAutofocused,
          onChanged: onChanged,
          textInputAction: textInputAction,
          onSubmitted: onSubmitted,
@@ -194,10 +194,10 @@ class TextInputState extends State<TextInput> {
           hintText: widget.hintText,
           hintMaxLines: _maxErrorHintLines,
         ),
-        style: widget.enabled ? null : styleDisabled(context),
+        style: widget.isEnabled ? null : styleDisabled(context),
         textCapitalization: widget.capitalization,
         textInputAction: widget.textInputAction,
-        enabled: widget.enabled,
+        enabled: widget.isEnabled,
         maxLength: widget.maxLength,
         maxLines: widget.maxLines,
         keyboardType: widget.keyboardType,
@@ -206,8 +206,8 @@ class TextInputState extends State<TextInput> {
           setState(_updateError);
         },
         onFieldSubmitted: (_) => widget.onSubmitted?.call(),
-        autofocus: widget.autofocus,
-        obscureText: widget.obscureText,
+        autofocus: widget.isAutofocused,
+        obscureText: widget.obscuresText,
         focusNode: widget.focusNode,
       ),
     );

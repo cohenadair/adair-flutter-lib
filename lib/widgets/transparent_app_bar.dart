@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import '../app_config.dart';
 
 class TransparentAppBar extends AppBar {
+  static const double _elevation = 0.0;
+
   TransparentAppBar(
     BuildContext context, {
     Widget? leading,
     VoidCallback? onCloseOverride,
   }) : super(
          backgroundColor: Colors.transparent,
-         elevation: 0.0,
+         elevation: _elevation,
          leading:
              leading ??
              CloseButton(

@@ -128,14 +128,14 @@ class DialogButton extends StatelessWidget {
   final String label;
   final Color? textColor;
   final VoidCallback? onTap;
-  final bool popOnTap;
+  final bool popsOnTap;
   final bool isEnabled;
 
   const DialogButton({
     required this.label,
     this.textColor,
     this.onTap,
-    this.popOnTap = true,
+    this.popsOnTap = true,
     this.isEnabled = true,
   });
 
@@ -146,7 +146,7 @@ class DialogButton extends StatelessWidget {
       onPressed: isEnabled
           ? () {
               onTap?.call();
-              if (popOnTap) {
+              if (popsOnTap) {
                 Navigator.pop(context);
               }
             }

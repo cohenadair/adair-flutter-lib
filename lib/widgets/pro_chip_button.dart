@@ -20,7 +20,7 @@ class ProChipButton extends StatelessWidget {
       stream: SubscriptionManager.get.stream,
       builder: (context, _) {
         if (SubscriptionManager.get.isPro) {
-          return SizedBox();
+          return const SizedBox();
         }
 
         return ChipButton(

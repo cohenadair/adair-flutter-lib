@@ -122,18 +122,18 @@ void main() {
 
     testWidgets("null if empty and not required", (tester) async {
       var context = await buildContext(tester);
-      expect(EmailValidator(required: false).run(context, ""), isNull);
-      expect(EmailValidator(required: false).run(context, null), isNull);
+      expect(EmailValidator(isRequired: false).run(context, ""), isNull);
+      expect(EmailValidator(isRequired: false).run(context, null), isNull);
     });
 
     testWidgets("Error if empty and required", (tester) async {
       var context = await buildContext(tester);
       expect(
-        EmailValidator(required: true).run(context, "")!(context),
+        EmailValidator(isRequired: true).run(context, "")!(context),
         "Required",
       );
       expect(
-        EmailValidator(required: true).run(context, null)!(context),
+        EmailValidator(isRequired: true).run(context, null)!(context),
         "Required",
       );
     });
@@ -152,23 +152,23 @@ void main() {
     });
   });
 
-  group("RangeValidator", () {
+  group("CustomDoubleValidator", () {
     testWidgets("Error if empty", (tester) async {
       var context = await buildContext(tester);
-      expect(RangeValidator().run(context, ""), isNotNull);
-      expect(RangeValidator().run(context, null), isNotNull);
+      expect(CustomDoubleValidator().run(context, ""), isNotNull);
+      expect(CustomDoubleValidator().run(context, null), isNotNull);
     });
 
     testWidgets("Error if bad double", (tester) async {
       var context = await buildContext(tester);
-      expect(RangeValidator().run(context, "Not a number"), isNotNull);
+      expect(CustomDoubleValidator().run(context, "Not a number"), isNotNull);
     });
 
     testWidgets("Runner called", (tester) async {
       var context = await buildContext(tester);
       var called = false;
       expect(
-        RangeValidator(
+        CustomDoubleValidator(
           runner: (context, newValue) {
             called = true;
             return (context) {
@@ -183,7 +183,7 @@ void main() {
 
     testWidgets("Null runner", (tester) async {
       var context = await buildContext(tester);
-      expect(RangeValidator().run(context, "2.0"), isNull);
+      expect(CustomDoubleValidator().run(context, "2.0"), isNull);
     });
   });
 }

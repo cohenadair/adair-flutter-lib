@@ -336,7 +336,7 @@ void main() {
 
   testWidgets("Embedded in scroll view", (tester) async {
     await tester.pumpWidget(
-      Testable((_) => const ProPage(embedInScrollPage: true)),
+      Testable((_) => const ProPage(embedsInScrollPage: true)),
     );
 
     expect(find.byType(ScrollPage), findsOneWidget);
@@ -345,7 +345,7 @@ void main() {
   testWidgets("Not embedded in scroll view", (tester) async {
     await tester.pumpWidget(
       Testable(
-        (_) => ListView(children: const [ProPage(embedInScrollPage: false)]),
+        (_) => ListView(children: const [ProPage(embedsInScrollPage: false)]),
       ),
     );
 

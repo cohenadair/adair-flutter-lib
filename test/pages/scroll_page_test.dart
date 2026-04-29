@@ -9,7 +9,7 @@ void main() {
   testWidgets("Centered content", (tester) async {
     await pumpContext(
       tester,
-      (_) => const ScrollPage(centerContent: true, children: [Text("Test")]),
+      (_) => const ScrollPage(centersContent: true, children: [Text("Test")]),
     );
 
     expect(find.byType(Center), findsOneWidget);
@@ -125,7 +125,7 @@ void main() {
   testWidgets("Page width is restricted for web apps", (tester) async {
     await pumpContext(
       tester,
-      (_) => ScrollPage(restrictWidth: true, children: const [Text("Test")]),
+      (_) => ScrollPage(restrictsWidth: true, children: const [Text("Test")]),
     );
     expect(find.byType(RestrictedWidth), findsOneWidget);
   });
@@ -133,7 +133,7 @@ void main() {
   testWidgets("Page width is unrestricted for non-web apps", (tester) async {
     await pumpContext(
       tester,
-      (_) => ScrollPage(restrictWidth: false, children: const [Text("Test")]),
+      (_) => ScrollPage(restrictsWidth: false, children: const [Text("Test")]),
     );
     expect(find.byType(RestrictedWidth), findsNothing);
   });
@@ -143,7 +143,7 @@ void main() {
       tester,
       (_) => const ScrollPage(
         isNavRailContent: true,
-        extendBodyBehindAppBar: false,
+        extendsBodyBehindAppBar: false,
         children: [Text("Test")],
       ),
     );
@@ -162,7 +162,7 @@ void main() {
     "Assert fires when isNavRailContent and extendBodyBehindAppBar are both true",
     () {
       expect(
-        () => ScrollPage(isNavRailContent: true, extendBodyBehindAppBar: true),
+        () => ScrollPage(isNavRailContent: true, extendsBodyBehindAppBar: true),
         throwsAssertionError,
       );
     },

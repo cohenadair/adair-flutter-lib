@@ -68,12 +68,12 @@ class DoubleValidator implements Validator {
   }
 }
 
-// TODO: Rename to something meaningful. The functionality of this has nothing
-//  to do with a range of anything.
-class RangeValidator extends DoubleValidator {
+/// A [DoubleValidator] that also checks for non-empty input and supports an
+/// optional custom validation callback for additional constraints.
+class CustomDoubleValidator extends DoubleValidator {
   final ValidationCallback? Function(BuildContext, String)? runner;
 
-  RangeValidator({this.runner});
+  CustomDoubleValidator({this.runner});
 
   @override
   ValidationCallback? run(BuildContext context, String? newValue) {
@@ -92,17 +92,17 @@ class RangeValidator extends DoubleValidator {
 }
 
 class EmailValidator implements Validator {
-  final bool required;
+  final bool isRequired;
 
-  EmailValidator({this.required = false});
+  EmailValidator({this.isRequired = false});
 
   @override
   ValidationCallback? run(BuildContext context, String? newValue) {
-    if (!required && isEmpty(newValue)) {
+    if (!isRequired && isEmpty(newValue)) {
       return null;
     }
 
-    if (required && isEmpty(newValue)) {
+    if (isRequired && isEmpty(newValue)) {
       return (_) => L10n.get.lib.inputGenericRequired;
     }
 

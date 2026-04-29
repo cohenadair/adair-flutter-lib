@@ -17,11 +17,11 @@ class ScrollPage extends StatelessWidget {
   final CrossAxisAlignment crossAxisAlignment;
 
   /// See [Scaffold.extendBodyBehindAppBar].
-  final bool extendBodyBehindAppBar;
+  final bool extendsBodyBehindAppBar;
 
-  final bool enableHorizontalSafeArea;
-  final bool centerContent;
-  final bool restrictWidth;
+  final bool enablesHorizontalSafeArea;
+  final bool centersContent;
+  final bool restrictsWidth;
   final bool isNavRailContent;
 
   /// When non-null, material swipe-to-refresh feature is enabled. See
@@ -44,16 +44,16 @@ class ScrollPage extends StatelessWidget {
     this.padding = insetsZero,
     this.spacing = 0.0,
     this.crossAxisAlignment = CrossAxisAlignment.center,
-    this.extendBodyBehindAppBar = true,
-    this.enableHorizontalSafeArea = true,
-    this.centerContent = false,
-    this.restrictWidth = false,
+    this.extendsBodyBehindAppBar = true,
+    this.enablesHorizontalSafeArea = true,
+    this.centersContent = false,
+    this.restrictsWidth = false,
     this.isNavRailContent = false,
     this.onRefresh,
     this.refreshIndicatorKey,
     this.floatingActionButton,
   }) : assert(
-         isNavRailContent && !extendBodyBehindAppBar || !isNavRailContent,
+         isNavRailContent && !extendsBodyBehindAppBar || !isNavRailContent,
          "Rounded corner will not show if rail content extends beneath the app bar.",
        );
 
@@ -62,7 +62,7 @@ class ScrollPage extends StatelessWidget {
     // TODO: Scrollable area should take up entire screen/parent, or drag
     //  effect (when not scrollable) on Android should be disabled if content
     //  doesn't actually require scrolling.
-    // TODO: When centerContent is true, the content needs to be centered
+    // TODO: When centersContent is true, the content needs to be centered
     //  within the scroll view, rather than the scroll view itself being
     //  centered within the parent (for the same reason as above). Should test
     //  what happens on a native Android app and mimic that behaviour.
@@ -80,8 +80,8 @@ class ScrollPage extends StatelessWidget {
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       controller: controller,
       child: SafeArea(
-        left: enableHorizontalSafeArea,
-        right: enableHorizontalSafeArea,
+        left: enablesHorizontalSafeArea,
+        right: enablesHorizontalSafeArea,
         child: Column(
           crossAxisAlignment: crossAxisAlignment,
           spacing: spacing,
@@ -94,7 +94,7 @@ class ScrollPage extends StatelessWidget {
       ),
     );
 
-    if (centerContent) {
+    if (centersContent) {
       scrollView = Center(child: scrollView);
     }
 
@@ -107,7 +107,7 @@ class ScrollPage extends StatelessWidget {
       );
     }
 
-    if (restrictWidth) {
+    if (restrictsWidth) {
       child = RestrictedWidth(child: child);
     }
 
@@ -130,7 +130,7 @@ class ScrollPage extends StatelessWidget {
 
     return Scaffold(
       appBar: appBar,
-      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      extendBodyBehindAppBar: extendsBodyBehindAppBar,
       persistentFooterButtons: footer.isEmpty ? null : footer,
       floatingActionButton: floatingActionButton,
       body: child,

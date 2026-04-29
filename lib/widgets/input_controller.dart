@@ -102,6 +102,6 @@ class EmailInputController extends TextInputController {
     bool required = false,
   }) : super(
          editingController: editingController ?? TextEditingController(),
-         validator: EmailValidator(required: required),
+         validator: EmailValidator(isRequired: required),
        );
 }

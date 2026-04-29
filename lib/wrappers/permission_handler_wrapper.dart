@@ -1,8 +1,5 @@
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'device_info_wrapper.dart';
 
 class PermissionHandlerWrapper {
   static var _instance = PermissionHandlerWrapper._();
@@ -28,26 +25,14 @@ class PermissionHandlerWrapper {
   Future<bool> get isLocationAlwaysGranted async =>
       Permission.locationAlways.isGranted;
 
-  Future<bool> requestPhotos() async {
-    var result = true;
-    var isAndroid = IoWrapper.get.isAndroid;
-    if (isAndroid) {
-      result &= (await Permission.accessMediaLocation.request()).isGranted;
-    }
+  Future<bool> requestAccessMediaLocation() async =>
+      (await Permission.accessMediaLocation.request()).isGranted;
 
-    // TODO: Necessary until
-    //  https://github.com/Baseflow/flutter-permission-handler/issues/944 is
-    //  fixed. Permission.photos.request() always returns denied on Android 12
-    //  and below.
-    if (isAndroid &&
-        (await DeviceInfoWrapper.get.androidInfo).version.sdkInt <= 32) {
-      result &= (await Permission.storage.request()).isGranted;
-    } else {
-      result &= (await Permission.photos.request()).isGranted;
-    }
+  Future<bool> requestStorage() async =>
+      (await Permission.storage.request()).isGranted;
 
-    return result;
-  }
+  Future<bool> requestPhotos() async =>
+      (await Permission.photos.request()).isGranted;
 
   /// Observed behaviour:
   ///   - On an iOS fresh install, returns [PermissionStatus.denied]

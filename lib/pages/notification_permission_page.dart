@@ -3,12 +3,12 @@ import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/anim.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
+import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import '../res/style.dart';
-import '../widgets/button.dart';
 import '../widgets/transparent_app_bar.dart';
 import '../widgets/watermark_logo.dart';
 
@@ -76,11 +76,11 @@ class _NotificationPermissionPageState
         setState(() => _isPendingPermission = true);
         var isGranted = await PermissionHandlerWrapper.get
             .requestNotification();
-        setState(() => _isPendingPermission = false);
-
-        if (mounted) {
-          Navigator.pop(context, isGranted);
+        if (!mounted) {
+          return;
         }
+        setState(() => _isPendingPermission = false);
+        Navigator.pop(context, isGranted);
       },
     );
   }

@@ -20,7 +20,7 @@ void main() {
     await tester.pumpWidget(
       Testable(
         (_) =>
-            const DialogButton(label: "Test", isEnabled: true, popOnTap: true),
+            const DialogButton(label: "Test", isEnabled: true, popsOnTap: true),
       ),
     );
 
@@ -31,8 +31,11 @@ void main() {
   testWidgets("DialogButton popsOnTap=false", (tester) async {
     await tester.pumpWidget(
       Testable(
-        (_) =>
-            const DialogButton(label: "Test", isEnabled: true, popOnTap: false),
+        (_) => const DialogButton(
+          label: "Test",
+          isEnabled: true,
+          popsOnTap: false,
+        ),
       ),
     );
 

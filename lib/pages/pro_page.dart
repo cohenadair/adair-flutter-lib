@@ -11,7 +11,7 @@ import '../res/anim.dart';
 import '../res/dimen.dart';
 import '../res/style.dart';
 import '../utils/dialog.dart';
-import '../utils/widget.dart';
+import '../utils/log.dart';
 import '../widgets/loading.dart';
 import '../widgets/question_answer_link.dart';
 import '../widgets/title_text.dart';
@@ -21,13 +21,13 @@ import '../wrappers/io_wrapper.dart';
 class ProPage extends StatefulWidget {
   final List<ProPageFeatureRow> features;
   final Widget? footnote;
-  final bool embedInScrollPage;
+  final bool embedsInScrollPage;
   final EdgeInsets logoPadding;
 
   const ProPage({
     this.features = const [],
     this.footnote,
-    this.embedInScrollPage = true,
+    this.embedsInScrollPage = true,
     this.logoPadding = insetsVerticalDefault,
   });
 
@@ -39,6 +39,7 @@ class ProPageState extends State<ProPage> {
   static const _logoHeight = 150.0;
   static const _maxButtonsContainerWidth = 350.0;
 
+  final _log = Log("ProPage");
   late Future<Subscriptions?> _subscriptionsFuture;
   var _isPendingTransaction = false;
 
@@ -76,7 +77,7 @@ class ProPageState extends State<ProPage> {
       _buildFootnote(),
     ];
 
-    if (widget.embedInScrollPage) {
+    if (widget.embedsInScrollPage) {
       return ScrollPage(
         children: [
           Stack(
@@ -231,6 +232,10 @@ class ProPageState extends State<ProPage> {
     _setIsPendingTransaction(true);
     var result = await SubscriptionManager.get.restoreSubscription();
 
+    if (!mounted) {
+      return;
+    }
+
     _setIsPendingTransaction(false);
 
     String? dialogMessage;
@@ -248,30 +253,29 @@ class ProPageState extends State<ProPage> {
         break;
     }
 
-    // Something went wrong, tell the user to make sure they're signed in to
-    // the correct storefront account.
     if (isNotEmpty(dialogMessage)) {
-      safeUseContext(
-        this,
-        () => showErrorDialog(
-          context: context,
-          description: Text(dialogMessage!),
-        ),
-      );
+      showErrorDialog(context: context, description: Text(dialogMessage!));
     }
   }
 
-  void _purchaseSubscription(Subscription sub) {
+  Future<void> _purchaseSubscription(Subscription sub) async {
     _setIsPendingTransaction(true);
-    SubscriptionManager.get
-        .purchaseSubscription(sub)
-        .then((_) => _setIsPendingTransaction(false));
+
+    try {
+      await SubscriptionManager.get.purchaseSubscription(sub);
+    } catch (e, stackTrace) {
+      _log.e(e, stackTrace: stackTrace, reason: "Purchasing subscription");
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    _setIsPendingTransaction(false);
   }
 
   void _setIsPendingTransaction(bool pending) {
-    // ProPage can be dismissed before purchaseSubscription has completed,
-    // requiring safeUseContext here.
-    safeUseContext(this, () => setState(() => _isPendingTransaction = pending));
+    setState(() => _isPendingTransaction = pending);
   }
 }
 

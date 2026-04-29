@@ -59,7 +59,7 @@ void main() {
   });
 
   testWidgets(
-    "DropdownAnchor shows children in overlay when trigger is tapped (alignRight false)",
+    "DropdownAnchor shows children in overlay when trigger is tapped (alignsRight false)",
     (tester) async {
       await pumpContext(
         tester,
@@ -77,12 +77,12 @@ void main() {
   );
 
   testWidgets(
-    "DropdownAnchor shows children in overlay when trigger is tapped (alignRight true)",
+    "DropdownAnchor shows children in overlay when trigger is tapped (alignsRight true)",
     (tester) async {
       await pumpContext(
         tester,
         (_) => DropdownAnchor(
-          alignRight: true,
+          alignsRight: true,
           triggerBuilder: (_, open) =>
               TextButton(onPressed: open, child: const Text("Open")),
           childrenBuilder: (_) => [const Text("Item")],

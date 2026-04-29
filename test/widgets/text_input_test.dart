@@ -30,7 +30,7 @@ void main() {
         context,
         controller: TextInputController()..value = "Input",
         onChanged: (_) => {},
-        enabled: false,
+        isEnabled: false,
       ),
     );
 

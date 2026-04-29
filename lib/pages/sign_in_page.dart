@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
+import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
@@ -15,7 +16,6 @@ import 'package:quiver/strings.dart';
 
 import '../res/theme.dart';
 import '../utils/log.dart';
-import '../widgets/button.dart';
 import 'landing_page.dart';
 
 // TODO: Support other providers (Apple, Google at a minimum).
@@ -107,10 +107,10 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget _buildPage(BuildContext context) {
     return ScrollPage(
-      restrictWidth: true,
+      restrictsWidth: true,
       padding: insetsDefault,
       spacing: paddingDefault,
-      centerContent: true,
+      centersContent: true,
       children: [
         _buildLogo(),
         _buildEmailField(context),
@@ -144,7 +144,7 @@ class _SignInPageState extends State<SignInPage> {
     return TextInput(
       label: L10n.get.lib.signInPagePasswordLabel,
       controller: _passwordController,
-      obscureText: true,
+      obscuresText: true,
       maxLines: 1,
       maxLength: null,
       textInputAction: TextInputAction.done,
@@ -181,8 +181,8 @@ class _SignInPageState extends State<SignInPage> {
         _isSigningIn ? Loading.minimized() : const SizedBox(),
         const SizedBox(width: paddingDefault),
         Button(
-          onPressed: _isInputValid() && !_isSigningIn ? _signIn : null,
           text: L10n.get.lib.signInPageSignInButton,
+          onPressed: _isInputValid() && !_isSigningIn ? _signIn : null,
         ),
       ],
     );
@@ -222,7 +222,10 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Future<void> _signIn() async {
-    setState(() => _isSigningIn = true);
+    setState(() {
+      _isSigningIn = true;
+      _error = "";
+    });
 
     var error = "";
     try {
@@ -246,6 +249,10 @@ class _SignInPageState extends State<SignInPage> {
     // Something bad happened. Make sure we're signed out.
     if (error.isNotEmpty) {
       await FirebaseAuthWrapper.get.signOut();
+    }
+
+    if (!mounted) {
+      return;
     }
 
     setState(() {
@@ -386,7 +393,7 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
       DialogButton(label: L10n.get.lib.cancel),
       DialogButton(
         label: L10n.get.lib.signInPageResetPasswordDialogAction,
-        popOnTap: false,
+        popsOnTap: false,
         isEnabled: _emailController.isValid(context) && !_isSending,
         onTap: _sendReset,
       ),
@@ -399,8 +406,7 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
       _error = "";
     });
 
-    bool isSent = _isSent;
-    bool isSending = _isSending;
+    var isSent = false;
     var error = "";
 
     try {
@@ -408,15 +414,17 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
         email: _emailController.editingController.text,
       );
       isSent = true;
-      isSending = false;
     } on FirebaseAuthException catch (e) {
       error = L10n.get.lib.inputUnknownError(e.code);
-      isSending = false;
+    }
+
+    if (!mounted) {
+      return;
     }
 
     setState(() {
       _isSent = isSent;
-      _isSending = isSending;
+      _isSending = false;
       _error = error;
     });
   }

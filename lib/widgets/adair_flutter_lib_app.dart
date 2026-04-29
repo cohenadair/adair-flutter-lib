@@ -93,8 +93,8 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
         ...widget.localizationsDelegates,
       ],
       supportedLocales: [
-        Locale('en', 'US'),
-        Locale('en', 'CA'),
+        Locale("en", "US"),
+        Locale("en", "CA"),
         ...widget.supportedLocales,
       ],
     );
