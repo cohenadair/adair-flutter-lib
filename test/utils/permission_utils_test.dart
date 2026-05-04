@@ -37,43 +37,41 @@ void main() {
   );
 
   test(
-    "requestPhotosPermission on Android SDK > 32 calls requestAccessMediaLocation and requestPhotos",
+    "requestPhotosPermission returns false when a permission is denied",
     () async {
-      managers.stubAndroidDeviceInfo(sdkInt: 33);
+      managers.stubIosDeviceInfo();
+      when(
+        managers.permissionHandlerWrapper.requestPhotos(),
+      ).thenAnswer((_) async => false);
+
+      final result = await requestPhotosPermission();
+
+      expect(result, isFalse);
+    },
+  );
+
+  test(
+    "requestPhotosPermission on Android calls only requestAccessMediaLocation",
+    () async {
+      managers.stubAndroidDeviceInfo();
 
       final result = await requestPhotosPermission();
 
       verify(
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       ).called(1);
-      verify(managers.permissionHandlerWrapper.requestPhotos()).called(1);
+      verifyNever(managers.permissionHandlerWrapper.requestPhotos());
       verifyNever(managers.permissionHandlerWrapper.requestStorage());
       expect(result, isTrue);
     },
   );
 
   test(
-    "requestPhotosPermission on Android SDK <= 32 calls requestAccessMediaLocation and requestStorage",
+    "requestPhotosPermission on Android returns false when permission denied",
     () async {
-      managers.stubAndroidDeviceInfo(sdkInt: 32);
-
-      final result = await requestPhotosPermission();
-
-      verify(
-        managers.permissionHandlerWrapper.requestAccessMediaLocation(),
-      ).called(1);
-      verify(managers.permissionHandlerWrapper.requestStorage()).called(1);
-      verifyNever(managers.permissionHandlerWrapper.requestPhotos());
-      expect(result, isTrue);
-    },
-  );
-
-  test(
-    "requestPhotosPermission returns false when a permission is denied",
-    () async {
-      managers.stubIosDeviceInfo();
+      managers.stubAndroidDeviceInfo();
       when(
-        managers.permissionHandlerWrapper.requestPhotos(),
+        managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       ).thenAnswer((_) async => false);
 
       final result = await requestPhotosPermission();
