@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +19,9 @@ class StorageWrapper {
 
   Future<void> putData(String path, Uint8List bytes) async =>
       FirebaseStorage.instance.ref(path).putData(bytes);
+
+  UploadTask putFile(String path, File file) =>
+      FirebaseStorage.instance.ref(path).putFile(file);
 
   Future<String> getDownloadURL(String path) =>
       FirebaseStorage.instance.ref(path).getDownloadURL();

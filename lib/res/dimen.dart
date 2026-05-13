@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const m3CardRadius = BorderRadius.all(Radius.circular(12.0));
+
 const paddingTiny = 4.0;
 const paddingSmall = 8.0;
 const paddingMedium = 12.0;
@@ -12,6 +14,7 @@ const insetsTiny = EdgeInsets.all(paddingTiny);
 const insetsSmall = EdgeInsets.all(paddingSmall);
 const insetsMedium = EdgeInsets.all(paddingMedium);
 const insetsDefault = EdgeInsets.all(paddingDefault);
+const insetsLarge = EdgeInsets.all(paddingLarge);
 const insetsXL = EdgeInsets.all(paddingXL);
 
 const insetsRowDefault = EdgeInsets.only(

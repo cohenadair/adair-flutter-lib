@@ -155,6 +155,11 @@ class StubbedManagers {
         defaultLocation,
       ),
     );
+    when(timeManager.isoToTz(any)).thenAnswer(
+      (invocation) => timeManager.dateTimeToTz(
+        DateTime.parse(invocation.positionalArguments.first).toLocal(),
+      ),
+    );
     when(
       timeManager.dateTimeFromValues(any, any, any, any, any, any, any, any),
     ).thenAnswer(

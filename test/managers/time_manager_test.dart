@@ -150,4 +150,74 @@ void main() {
       isTrue,
     );
   });
+
+  test(
+    "dateTimeFromSeconds converts seconds to a TZDateTime in the current time zone",
+    () {
+      final result = TimeManager.get.dateTimeFromSeconds(5);
+      expect(result.location.name, "America/New_York");
+      expect(result.millisecondsSinceEpoch, 5 * Duration.millisecondsPerSecond);
+    },
+  );
+
+  test("dateTimeFromSeconds uses the specified time zone", () {
+    final result = TimeManager.get.dateTimeFromSeconds(5, "America/Chicago");
+    expect(result.location.name, "America/Chicago");
+  });
+
+  test(
+    "dateTimeFromValues builds a TZDateTime using the current time zone when timeZone is null",
+    () {
+      final result = TimeManager.get.dateTimeFromValues(2024, 3, 15);
+      expect(result.location.name, "America/New_York");
+      expect(result.year, 2024);
+      expect(result.month, 3);
+      expect(result.day, 15);
+    },
+  );
+
+  test("dateTimeFromValues uses the specified time zone", () {
+    final result = TimeManager.get.dateTimeFromValues(
+      2024,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      "America/Chicago",
+    );
+    expect(result.location.name, "America/Chicago");
+  });
+
+  test(
+    "dateTimeToTz converts a DateTime to TZDateTime preserving the instant",
+    () {
+      final now = DateTime.now();
+      final result = TimeManager.get.dateTimeToTz(now);
+      expect(result.millisecondsSinceEpoch, now.millisecondsSinceEpoch);
+      expect(result.location.name, "America/New_York");
+    },
+  );
+
+  test("isoToTz parses a valid ISO string and returns a TZDateTime", () {
+    final iso = "2024-06-15T12:00:00.000";
+    final result = TimeManager.get.isoToTz(iso);
+    expect(result.year, 2024);
+    expect(result.month, 6);
+    expect(result.day, 15);
+  });
+
+  test(
+    "isoToTz parses a valid ISO string with offset and returns a TZDateTime",
+    () {
+      final iso = "2024-06-15T12:00:00.000-0400";
+      final result = TimeManager.get.isoToTz(iso);
+      expect(result.year, 2024);
+      expect(result.month, 6);
+      expect(result.day, 15);
+      expect(result.location.name, "America/New_York");
+    },
+  );
 }

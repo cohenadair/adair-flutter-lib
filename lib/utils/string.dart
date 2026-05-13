@@ -43,6 +43,32 @@ bool parseBoolFromInt(String str) {
 
 String newLineOrEmpty(String input) => input.isEmpty ? "" : "\n";
 
+/// Formats a byte count as a human-readable string with one decimal place
+/// using powers of 1000 (matching macOS Finder).
+///
+/// Examples:
+///   - 512               → "512 B"
+///   - 1_500             → "1.5 KB"
+///   - 115_868_672       → "115.9 MB"
+///   - 2_147_483_648     → "2.1 GB"
+String formatBytes(int bytes) {
+  // Note that 1000 is used here instead of 1024 to match the macOS Finder
+  // result. This may need to change in the future.
+  const kb = 1000;
+  const mb = kb * 1000;
+  const gb = mb * 1000;
+  if (bytes >= gb) {
+    return "${(bytes / gb).toStringAsFixed(1)} GB";
+  }
+  if (bytes >= mb) {
+    return "${(bytes / mb).toStringAsFixed(1)} MB";
+  }
+  if (bytes >= kb) {
+    return "${(bytes / kb).toStringAsFixed(1)} KB";
+  }
+  return "$bytes B";
+}
+
 extension StringExt on String {
   /// Returns the string with the first character uppercased and the rest
   /// unchanged. Returns the original string if it is empty.

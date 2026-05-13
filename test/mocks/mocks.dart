@@ -21,8 +21,8 @@ import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mockito/annotations.dart';
@@ -70,6 +70,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([FirestoreWrapper])
 @GenerateMocks([FunctionsWrapper])
 @GenerateMocks([HttpsCallable])
+@GenerateMocks([UploadTask])
 @GenerateMocks([User])
 @GenerateMocks([UserCredential])
 @GenerateMocks(

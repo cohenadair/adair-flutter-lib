@@ -123,6 +123,10 @@ class TimeManager implements Manager {
     return TZDateTime.from(dateTime, currentLocation.value);
   }
 
+  TZDateTime isoToTz(String isoString) {
+    return dateTimeToTz(DateTime.parse(isoString).toLocal());
+  }
+
   /// Returns the current [TZDateTime] at the given time zone, or the
   /// current time zone if [timeZone] is invalid.
   TZDateTime now([String? timeZone]) {
