@@ -1,8 +1,8 @@
+import 'package:adair_flutter_lib/widgets/nav_rail_content.dart';
 import 'package:adair_flutter_lib/widgets/restricted_width.dart';
 import 'package:flutter/material.dart';
 
 import '../res/dimen.dart';
-import '../res/theme.dart';
 
 class ScrollPage extends StatelessWidget {
   final ScrollController? controller;
@@ -112,20 +112,7 @@ class ScrollPage extends StatelessWidget {
     }
 
     if (isNavRailContent) {
-      child = Container(
-        color:
-            Theme.of(context).navigationRailTheme.backgroundColor ??
-            Theme.of(context).colorScheme.surface,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(context.radiusNavigationRailContent),
-          ),
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: child,
-          ),
-        ),
-      );
+      child = NavRailContent(child: child);
     }
 
     return Scaffold(

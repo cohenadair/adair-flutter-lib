@@ -1,4 +1,5 @@
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
+import 'package:adair_flutter_lib/widgets/nav_rail_content.dart';
 import 'package:adair_flutter_lib/widgets/restricted_width.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -138,7 +139,7 @@ void main() {
     expect(find.byType(RestrictedWidth), findsNothing);
   });
 
-  testWidgets("Nav rail content wraps in ClipRRect", (tester) async {
+  testWidgets("Nav rail content wraps in NavRailContent", (tester) async {
     await pumpContext(
       tester,
       (_) => const ScrollPage(
@@ -147,15 +148,15 @@ void main() {
         children: [Text("Test")],
       ),
     );
-    expect(find.byType(ClipRRect), findsOneWidget);
+    expect(find.byType(NavRailContent), findsOneWidget);
   });
 
-  testWidgets("Non-nav rail content has no ClipRRect", (tester) async {
+  testWidgets("Non-nav rail content has no NavRailContent", (tester) async {
     await pumpContext(
       tester,
       (_) => const ScrollPage(children: [Text("Test")]),
     );
-    expect(find.byType(ClipRRect), findsNothing);
+    expect(find.byType(NavRailContent), findsNothing);
   });
 
   test(
