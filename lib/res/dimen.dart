@@ -38,10 +38,24 @@ const insetsVerticalSmall = EdgeInsets.only(
   bottom: paddingSmall,
 );
 
+const insetsHorizontalMedium = EdgeInsets.only(
+  left: paddingMedium,
+  top: 0,
+  right: paddingMedium,
+  bottom: 0,
+);
+
 const insetsHorizontalDefault = EdgeInsets.only(
   left: paddingDefault,
   top: 0,
   right: paddingDefault,
+  bottom: 0,
+);
+
+const insetsHorizontalLarge = EdgeInsets.only(
+  left: paddingLarge,
+  top: 0,
+  right: paddingLarge,
   bottom: 0,
 );
 
@@ -136,6 +150,7 @@ const insetsRightTiny = EdgeInsets.only(right: paddingTiny);
 const insetsRightSmall = EdgeInsets.only(right: paddingSmall);
 const insetsRightDefault = EdgeInsets.only(right: paddingDefault);
 
+const iconSizeMedium = 16.0;
 const iconSizeDefault = 24.0;
 const iconSizeLarge = 32.0;
 
