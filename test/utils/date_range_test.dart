@@ -464,4 +464,57 @@ void main() {
       expectedStart: TimeManager.get.dateTimeFromValues(2018, 3, 13, 15, 30),
     );
   });
+
+  // Bug from Anglers' Log: The catch timestamp for a 1:00 PM MDT catch on May
+  // 16, logged by an MDT (UTC-6) user. At 6:55 PM MDT the UTC clock has rolled
+  // to May 17, so a UTC-based "today" would exclude this catch even though it
+  // is still local-today.
+  test("contains returns true when local today crosses UTC midnight", () {
+    var denverLocation = getLocation("America/Denver");
+    var nowMdt = TZDateTime(denverLocation, 2024, 5, 16, 18, 55);
+    when(managers.timeManager.now(any)).thenReturn(nowMdt);
+
+    var catchTimestamp = TZDateTime(
+      denverLocation,
+      2024,
+      5,
+      16,
+      13,
+      0,
+    ).millisecondsSinceEpoch;
+    var dateRange = DateRange(
+      period: DateRange_Period.today,
+      timeZone: "America/Denver",
+    );
+
+    expect(dateRange.contains(catchTimestamp), isTrue);
+  });
+
+  // Bug from Anglers' Log: A catch logged at 9:00 PM MDT on May 15 is
+  // local-yesterday, but falls inside UTC "today" (May 16 UTC) because UTC
+  // midnight = 6:00 PM MDT. A UTC-based "today" would incorrectly include it
+  // in Today's list.
+  test(
+    "contains returns false for a catch that is local yesterday even though it is UTC today",
+    () {
+      var denverLocation = getLocation("America/Denver");
+      var nowMdt = TZDateTime(denverLocation, 2024, 5, 16, 14, 0);
+      when(managers.timeManager.now(any)).thenReturn(nowMdt);
+
+      var catchTimestamp = TZDateTime(
+        denverLocation,
+        2024,
+        5,
+        15,
+        21,
+        0,
+      ).millisecondsSinceEpoch;
+      var dateRange = DateRange(
+        period: DateRange_Period.today,
+        timeZone: "America/Denver",
+      );
+
+      expect(dateRange.contains(catchTimestamp), isFalse);
+    },
+  );
 }

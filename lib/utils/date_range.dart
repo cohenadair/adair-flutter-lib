@@ -162,8 +162,7 @@ extension DateRanges on DateRange {
   }
 
   bool contains(int timestamp) {
-    var utcDateRange = deepCopy()..timeZone = "UTC";
-    return timestamp >= utcDateRange.startMs && timestamp <= utcDateRange.endMs;
+    return timestamp >= startMs && timestamp <= endMs;
   }
 
   bool get containsNow {
