@@ -119,4 +119,54 @@ void main() {
     await tapAndSettle(tester, find.text("Close"));
     expect(find.text("Close"), findsNothing);
   });
+
+  testWidgets("onOpenChanged is called with true when dropdown opens", (
+    tester,
+  ) async {
+    bool? lastValue;
+
+    await pumpContext(
+      tester,
+      (_) => Align(
+        alignment: Alignment.topLeft,
+        child: DropdownAnchor(
+          onOpenChanged: (v) => lastValue = v,
+          triggerBuilder: (_, open) =>
+              TextButton(onPressed: open, child: const Text("Open")),
+          childrenBuilder: (_) => [const Text("Item")],
+        ),
+      ),
+    );
+
+    await tapAndSettle(tester, find.text("Open"));
+
+    expect(lastValue, isTrue);
+  });
+
+  testWidgets(
+    "onOpenChanged is called with false when dropdown closes via close callback",
+    (tester) async {
+      final values = <bool>[];
+
+      await pumpContext(
+        tester,
+        (_) => Align(
+          alignment: Alignment.topLeft,
+          child: DropdownAnchor(
+            onOpenChanged: values.add,
+            triggerBuilder: (_, open) =>
+                TextButton(onPressed: open, child: const Text("Open")),
+            childrenBuilder: (close) => [
+              TextButton(onPressed: close, child: const Text("Close")),
+            ],
+          ),
+        ),
+      );
+
+      await tapAndSettle(tester, find.text("Open"));
+      await tapAndSettle(tester, find.text("Close"));
+
+      expect(values, [true, false]);
+    },
+  );
 }

@@ -21,6 +21,7 @@ class AutocompleteTextInput<T extends Object> extends StatefulWidget {
 
   final String? label;
   final FocusNode? focusNode;
+  final String? initialValue;
 
   const AutocompleteTextInput({
     super.key,
@@ -30,6 +31,7 @@ class AutocompleteTextInput<T extends Object> extends StatefulWidget {
     this.itemBuilder,
     this.label,
     this.focusNode,
+    this.initialValue,
   });
 
   @override
@@ -44,6 +46,9 @@ class _AutocompleteTextInputState<T extends Object>
   @override
   Widget build(BuildContext context) {
     return Autocomplete<T>(
+      initialValue: widget.initialValue != null
+          ? TextEditingValue(text: widget.initialValue!)
+          : null,
       optionsBuilder: widget.optionsBuilder,
       displayStringForOption: widget.displayStringForOption,
       optionsViewBuilder: (_, onSelected, options) {

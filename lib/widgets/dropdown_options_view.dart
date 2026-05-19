@@ -90,11 +90,15 @@ class DropdownAnchor extends StatefulWidget {
   /// of the trigger. Defaults to false (expands to the right).
   final bool alignsRight;
 
+  /// Called when the dropdown opens (`true`) or closes (`false`).
+  final void Function(bool isOpen)? onOpenChanged;
+
   const DropdownAnchor({
     super.key,
     required this.triggerBuilder,
     required this.childrenBuilder,
     this.alignsRight = false,
+    this.onOpenChanged,
   });
 
   @override
@@ -114,7 +118,7 @@ class _DropdownAnchorState extends State<DropdownAnchor> {
         overlayChildBuilder: _buildOverlay,
         child: Container(
           key: _triggerKey,
-          child: widget.triggerBuilder(context, _controller.toggle),
+          child: widget.triggerBuilder(context, _toggle),
         ),
       ),
     );
@@ -143,16 +147,32 @@ class _DropdownAnchorState extends State<DropdownAnchor> {
       left: widget.alignsRight ? null : triggerGlobal.dx,
       child: TapRegion(
         groupId: this,
-        onTapOutside: (_) => _controller.hide(),
+        onTapOutside: (_) => _close(),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: maxHeight),
+          constraints: BoxConstraints(
+            minWidth: triggerSize.width,
+            maxHeight: maxHeight,
+          ),
           child: IntrinsicWidth(
             child: DropdownOptionsView(
-              children: widget.childrenBuilder(_controller.hide),
+              children: widget.childrenBuilder(_close),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _toggle() {
+    final willOpen = !_controller.isShowing;
+    _controller.toggle();
+    if (willOpen) {
+      widget.onOpenChanged?.call(true);
+    }
+  }
+
+  void _close() {
+    _controller.hide();
+    widget.onOpenChanged?.call(false);
   }
 }

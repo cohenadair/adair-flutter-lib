@@ -23,7 +23,7 @@ void fade(BuildContext context, Widget page, {bool opaque = false}) {
   Navigator.of(context, rootNavigator: true).push(
     PageRouteBuilder(
       opaque: opaque,
-      pageBuilder: (_, __, ___) => page,
+      pageBuilder: (_, _, _) => page,
       transitionDuration: animDurationDefault,
       transitionsBuilder: (context, animation, _, child) {
         return FadeTransition(opacity: animation, child: child);

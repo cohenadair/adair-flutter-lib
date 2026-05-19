@@ -1,4 +1,4 @@
-import "package:flutter/widgets.dart";
+import 'package:flutter/widgets.dart';
 
 class RestrictedWidth extends StatelessWidget {
   static const _defaultMaxWidth = 500.0;

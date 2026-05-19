@@ -28,8 +28,14 @@ class DottedVersion {
   DottedVersion(this.major, this.minor, this.patch);
 
   int compareTo(DottedVersion other) {
-    if (this < other) return -1;
-    if (this > other) return 1;
+    if (this < other) {
+      return -1;
+    }
+
+    if (this > other) {
+      return 1;
+    }
+
     return 0;
   }
 
@@ -38,8 +44,14 @@ class DottedVersion {
   }
 
   bool operator <(DottedVersion other) {
-    if (major != other.major) return major < other.major;
-    if (minor != other.minor) return minor < other.minor;
+    if (major != other.major) {
+      return major < other.major;
+    }
+
+    if (minor != other.minor) {
+      return minor < other.minor;
+    }
+
     return patch < other.patch;
   }
 

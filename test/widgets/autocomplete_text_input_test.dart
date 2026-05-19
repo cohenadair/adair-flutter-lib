@@ -153,4 +153,18 @@ void main() {
 
     expect(find.text("Display: Apple"), findsOneWidget);
   });
+
+  testWidgets("initialValue pre-fills the text field", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => AutocompleteTextInput<String>(
+        optionsBuilder: (_) => const Iterable.empty(),
+        displayStringForOption: (s) => s,
+        onSelected: (_) {},
+        initialValue: "pre-filled",
+      ),
+    );
+
+    expect(find.widgetWithText(TextFormField, "pre-filled"), findsOneWidget);
+  });
 }

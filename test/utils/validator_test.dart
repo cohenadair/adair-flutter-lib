@@ -9,7 +9,7 @@ void main() {
       var context = await buildContext(tester);
       var ran = false;
       GenericValidator(
-        (_, __) => (___) {
+        (_, _) => (_) {
           ran = true;
           return null;
         },
