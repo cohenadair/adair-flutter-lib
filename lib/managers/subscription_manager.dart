@@ -101,7 +101,7 @@ class SubscriptionManager implements Manager {
     // purchase errors are shown by the underlying storefront UI.
     try {
       _setStateFromPurchaserInfo(
-        await PurchasesWrapper.get.purchasePackage(sub.package),
+        (await PurchasesWrapper.get.purchasePackage(sub.package)).customerInfo,
       );
     } on PlatformException catch (e) {
       var code = PurchasesErrorHelper.getErrorCode(e);

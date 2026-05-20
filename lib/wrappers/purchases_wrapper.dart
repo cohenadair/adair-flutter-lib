@@ -28,7 +28,7 @@ class PurchasesWrapper {
 
   Future<LogInResult> logIn(String appUserId) => Purchases.logIn(appUserId);
 
-  Future<CustomerInfo> purchasePackage(Package package) =>
+  Future<PurchaseResult> purchasePackage(Package package) =>
       Purchases.purchasePackage(package);
 
   Future<bool> get isAnonymous => Purchases.isAnonymous;
