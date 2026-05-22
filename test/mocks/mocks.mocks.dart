@@ -257,71 +257,76 @@ class _FakeFirebaseStorage_31 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeTaskSnapshot_32 extends _i1.SmartFake implements _i13.TaskSnapshot {
-  _FakeTaskSnapshot_32(Object parent, Invocation parentInvocation)
+class _FakeReference_32 extends _i1.SmartFake implements _i13.Reference {
+  _FakeReference_32(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUserMetadata_33 extends _i1.SmartFake implements _i14.UserMetadata {
-  _FakeUserMetadata_33(Object parent, Invocation parentInvocation)
+class _FakeTaskSnapshot_33 extends _i1.SmartFake implements _i13.TaskSnapshot {
+  _FakeTaskSnapshot_33(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeMultiFactor_34 extends _i1.SmartFake implements _i14.MultiFactor {
-  _FakeMultiFactor_34(Object parent, Invocation parentInvocation)
+class _FakeUserMetadata_34 extends _i1.SmartFake implements _i14.UserMetadata {
+  _FakeUserMetadata_34(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeIdTokenResult_35 extends _i1.SmartFake
+class _FakeMultiFactor_35 extends _i1.SmartFake implements _i14.MultiFactor {
+  _FakeMultiFactor_35(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeIdTokenResult_36 extends _i1.SmartFake
     implements _i14.IdTokenResult {
-  _FakeIdTokenResult_35(Object parent, Invocation parentInvocation)
+  _FakeIdTokenResult_36(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeConfirmationResult_36 extends _i1.SmartFake
+class _FakeConfirmationResult_37 extends _i1.SmartFake
     implements _i14.ConfirmationResult {
-  _FakeConfirmationResult_36(Object parent, Invocation parentInvocation)
+  _FakeConfirmationResult_37(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeUser_37 extends _i1.SmartFake implements _i14.User {
-  _FakeUser_37(Object parent, Invocation parentInvocation)
+class _FakeUser_38 extends _i1.SmartFake implements _i14.User {
+  _FakeUser_38(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeFirebaseFirestore_38 extends _i1.SmartFake
-    implements _i15.FirebaseFirestore {
-  _FakeFirebaseFirestore_38(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeQuery_39<T extends Object?> extends _i1.SmartFake
-    implements _i15.Query<T> {
-  _FakeQuery_39(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeQuerySnapshot_40<T extends Object?> extends _i1.SmartFake
-    implements _i15.QuerySnapshot<T> {
-  _FakeQuerySnapshot_40(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeAggregateQuery_41 extends _i1.SmartFake
-    implements _i15.AggregateQuery {
-  _FakeAggregateQuery_41(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeDocumentSnapshot_42<T extends Object?> extends _i1.SmartFake
-    implements _i15.DocumentSnapshot<T> {
-  _FakeDocumentSnapshot_42(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeSnapshotMetadata_43 extends _i1.SmartFake
+class _FakeSnapshotMetadata_39 extends _i1.SmartFake
     implements _i15.SnapshotMetadata {
-  _FakeSnapshotMetadata_43(Object parent, Invocation parentInvocation)
+  _FakeSnapshotMetadata_39(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeFirebaseFirestore_40 extends _i1.SmartFake
+    implements _i15.FirebaseFirestore {
+  _FakeFirebaseFirestore_40(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeQuery_41<T extends Object?> extends _i1.SmartFake
+    implements _i15.Query<T> {
+  _FakeQuery_41(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeQuerySnapshot_42<T extends Object?> extends _i1.SmartFake
+    implements _i15.QuerySnapshot<T> {
+  _FakeQuerySnapshot_42(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeAggregateQuery_43 extends _i1.SmartFake
+    implements _i15.AggregateQuery {
+  _FakeAggregateQuery_43(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeDocumentSnapshot_44<T extends Object?> extends _i1.SmartFake
+    implements _i15.DocumentSnapshot<T> {
+  _FakeDocumentSnapshot_44(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -2880,6 +2885,52 @@ class MockHttpsCallable extends _i1.Mock implements _i16.HttpsCallable {
           as _i8.Stream<_i16.StreamResponse<T, R>>);
 }
 
+/// A class which mocks [TaskSnapshot].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTaskSnapshot extends _i1.Mock implements _i13.TaskSnapshot {
+  MockTaskSnapshot() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i13.FirebaseStorage get storage =>
+      (super.noSuchMethod(
+            Invocation.getter(#storage),
+            returnValue: _FakeFirebaseStorage_31(
+              this,
+              Invocation.getter(#storage),
+            ),
+          )
+          as _i13.FirebaseStorage);
+
+  @override
+  int get bytesTransferred =>
+      (super.noSuchMethod(Invocation.getter(#bytesTransferred), returnValue: 0)
+          as int);
+
+  @override
+  _i13.Reference get ref =>
+      (super.noSuchMethod(
+            Invocation.getter(#ref),
+            returnValue: _FakeReference_32(this, Invocation.getter(#ref)),
+          )
+          as _i13.Reference);
+
+  @override
+  _i13.TaskState get state =>
+      (super.noSuchMethod(
+            Invocation.getter(#state),
+            returnValue: _i13.TaskState.paused,
+          )
+          as _i13.TaskState);
+
+  @override
+  int get totalBytes =>
+      (super.noSuchMethod(Invocation.getter(#totalBytes), returnValue: 0)
+          as int);
+}
+
 /// A class which mocks [UploadTask].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -2911,7 +2962,7 @@ class MockUploadTask extends _i1.Mock implements _i13.UploadTask {
   _i13.TaskSnapshot get snapshot =>
       (super.noSuchMethod(
             Invocation.getter(#snapshot),
-            returnValue: _FakeTaskSnapshot_32(
+            returnValue: _FakeTaskSnapshot_33(
               this,
               Invocation.getter(#snapshot),
             ),
@@ -2958,7 +3009,7 @@ class MockUploadTask extends _i1.Mock implements _i13.UploadTask {
       (super.noSuchMethod(
             Invocation.method(#catchError, [onError], {#test: test}),
             returnValue: _i8.Future<_i13.TaskSnapshot>.value(
-              _FakeTaskSnapshot_32(
+              _FakeTaskSnapshot_33(
                 this,
                 Invocation.method(#catchError, [onError], {#test: test}),
               ),
@@ -2995,7 +3046,7 @@ class MockUploadTask extends _i1.Mock implements _i13.UploadTask {
       (super.noSuchMethod(
             Invocation.method(#whenComplete, [action]),
             returnValue: _i8.Future<_i13.TaskSnapshot>.value(
-              _FakeTaskSnapshot_32(
+              _FakeTaskSnapshot_33(
                 this,
                 Invocation.method(#whenComplete, [action]),
               ),
@@ -3011,7 +3062,7 @@ class MockUploadTask extends _i1.Mock implements _i13.UploadTask {
       (super.noSuchMethod(
             Invocation.method(#timeout, [timeLimit], {#onTimeout: onTimeout}),
             returnValue: _i8.Future<_i13.TaskSnapshot>.value(
-              _FakeTaskSnapshot_32(
+              _FakeTaskSnapshot_33(
                 this,
                 Invocation.method(
                   #timeout,
@@ -3046,7 +3097,7 @@ class MockUser extends _i1.Mock implements _i14.User {
   _i14.UserMetadata get metadata =>
       (super.noSuchMethod(
             Invocation.getter(#metadata),
-            returnValue: _FakeUserMetadata_33(
+            returnValue: _FakeUserMetadata_34(
               this,
               Invocation.getter(#metadata),
             ),
@@ -3073,7 +3124,7 @@ class MockUser extends _i1.Mock implements _i14.User {
   _i14.MultiFactor get multiFactor =>
       (super.noSuchMethod(
             Invocation.getter(#multiFactor),
-            returnValue: _FakeMultiFactor_34(
+            returnValue: _FakeMultiFactor_35(
               this,
               Invocation.getter(#multiFactor),
             ),
@@ -3104,7 +3155,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#getIdTokenResult, [forceRefresh]),
             returnValue: _i8.Future<_i14.IdTokenResult>.value(
-              _FakeIdTokenResult_35(
+              _FakeIdTokenResult_36(
                 this,
                 Invocation.method(#getIdTokenResult, [forceRefresh]),
               ),
@@ -3211,7 +3262,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#linkWithPhoneNumber, [phoneNumber, verifier]),
             returnValue: _i8.Future<_i14.ConfirmationResult>.value(
-              _FakeConfirmationResult_36(
+              _FakeConfirmationResult_37(
                 this,
                 Invocation.method(#linkWithPhoneNumber, [
                   phoneNumber,
@@ -3262,7 +3313,7 @@ class MockUser extends _i1.Mock implements _i14.User {
       (super.noSuchMethod(
             Invocation.method(#unlink, [providerId]),
             returnValue: _i8.Future<_i14.User>.value(
-              _FakeUser_37(this, Invocation.method(#unlink, [providerId])),
+              _FakeUser_38(this, Invocation.method(#unlink, [providerId])),
             ),
           )
           as _i8.Future<_i14.User>);
@@ -3342,6 +3393,59 @@ class MockUserCredential extends _i1.Mock implements _i14.UserCredential {
   }
 }
 
+/// A class which mocks [DocumentSnapshot].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDocumentSnapshot extends _i1.Mock
+    implements _i15.DocumentSnapshot<Map<String, dynamic>> {
+  MockDocumentSnapshot() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get id =>
+      (super.noSuchMethod(
+            Invocation.getter(#id),
+            returnValue: _i21.dummyValue<String>(this, Invocation.getter(#id)),
+          )
+          as String);
+
+  @override
+  _i15.DocumentReference<Map<String, dynamic>> get reference =>
+      (super.noSuchMethod(
+            Invocation.getter(#reference),
+            returnValue: _FakeDocumentReference_25<Map<String, dynamic>>(
+              this,
+              Invocation.getter(#reference),
+            ),
+          )
+          as _i15.DocumentReference<Map<String, dynamic>>);
+
+  @override
+  _i15.SnapshotMetadata get metadata =>
+      (super.noSuchMethod(
+            Invocation.getter(#metadata),
+            returnValue: _FakeSnapshotMetadata_39(
+              this,
+              Invocation.getter(#metadata),
+            ),
+          )
+          as _i15.SnapshotMetadata);
+
+  @override
+  bool get exists =>
+      (super.noSuchMethod(Invocation.getter(#exists), returnValue: false)
+          as bool);
+
+  @override
+  dynamic get(Object? field) =>
+      super.noSuchMethod(Invocation.method(#get, [field]));
+
+  @override
+  dynamic operator [](Object? field) =>
+      super.noSuchMethod(Invocation.method(#[], [field]));
+}
+
 /// A class which mocks [CollectionReference].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -3375,7 +3479,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.FirebaseFirestore get firestore =>
       (super.noSuchMethod(
             Invocation.getter(#firestore),
-            returnValue: _FakeFirebaseFirestore_38(
+            returnValue: _FakeFirebaseFirestore_40(
               this,
               Invocation.getter(#firestore),
             ),
@@ -3443,7 +3547,7 @@ class MockCollectionReference extends _i1.Mock
   ) =>
       (super.noSuchMethod(
             Invocation.method(#endAtDocument, [documentSnapshot]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#endAtDocument, [documentSnapshot]),
             ),
@@ -3454,7 +3558,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> endAt(Iterable<Object?>? values) =>
       (super.noSuchMethod(
             Invocation.method(#endAt, [values]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#endAt, [values]),
             ),
@@ -3467,7 +3571,7 @@ class MockCollectionReference extends _i1.Mock
   ) =>
       (super.noSuchMethod(
             Invocation.method(#endBeforeDocument, [documentSnapshot]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#endBeforeDocument, [documentSnapshot]),
             ),
@@ -3478,7 +3582,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> endBefore(Iterable<Object?>? values) =>
       (super.noSuchMethod(
             Invocation.method(#endBefore, [values]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#endBefore, [values]),
             ),
@@ -3493,7 +3597,7 @@ class MockCollectionReference extends _i1.Mock
             Invocation.method(#get, [options]),
             returnValue:
                 _i8.Future<_i15.QuerySnapshot<Map<String, dynamic>>>.value(
-                  _FakeQuerySnapshot_40<Map<String, dynamic>>(
+                  _FakeQuerySnapshot_42<Map<String, dynamic>>(
                     this,
                     Invocation.method(#get, [options]),
                   ),
@@ -3505,7 +3609,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> limit(int? limit) =>
       (super.noSuchMethod(
             Invocation.method(#limit, [limit]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#limit, [limit]),
             ),
@@ -3516,7 +3620,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> limitToLast(int? limit) =>
       (super.noSuchMethod(
             Invocation.method(#limitToLast, [limit]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#limitToLast, [limit]),
             ),
@@ -3545,7 +3649,7 @@ class MockCollectionReference extends _i1.Mock
   }) =>
       (super.noSuchMethod(
             Invocation.method(#orderBy, [field], {#descending: descending}),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#orderBy, [field], {#descending: descending}),
             ),
@@ -3558,7 +3662,7 @@ class MockCollectionReference extends _i1.Mock
   ) =>
       (super.noSuchMethod(
             Invocation.method(#startAfterDocument, [documentSnapshot]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#startAfterDocument, [documentSnapshot]),
             ),
@@ -3569,7 +3673,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> startAfter(Iterable<Object?>? values) =>
       (super.noSuchMethod(
             Invocation.method(#startAfter, [values]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#startAfter, [values]),
             ),
@@ -3582,7 +3686,7 @@ class MockCollectionReference extends _i1.Mock
   ) =>
       (super.noSuchMethod(
             Invocation.method(#startAtDocument, [documentSnapshot]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#startAtDocument, [documentSnapshot]),
             ),
@@ -3593,7 +3697,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.Query<Map<String, dynamic>> startAt(Iterable<Object?>? values) =>
       (super.noSuchMethod(
             Invocation.method(#startAt, [values]),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(#startAt, [values]),
             ),
@@ -3633,7 +3737,7 @@ class MockCollectionReference extends _i1.Mock
                 #isNull: isNull,
               },
             ),
-            returnValue: _FakeQuery_39<Map<String, dynamic>>(
+            returnValue: _FakeQuery_41<Map<String, dynamic>>(
               this,
               Invocation.method(
                 #where,
@@ -3660,7 +3764,7 @@ class MockCollectionReference extends _i1.Mock
   _i15.AggregateQuery count() =>
       (super.noSuchMethod(
             Invocation.method(#count, []),
-            returnValue: _FakeAggregateQuery_41(
+            returnValue: _FakeAggregateQuery_43(
               this,
               Invocation.method(#count, []),
             ),
@@ -3733,7 +3837,7 @@ class MockCollectionReference extends _i1.Mock
               aggregateField29,
               aggregateField30,
             ]),
-            returnValue: _FakeAggregateQuery_41(
+            returnValue: _FakeAggregateQuery_43(
               this,
               Invocation.method(#aggregate, [
                 aggregateField1,
@@ -3786,7 +3890,7 @@ class MockDocumentReference extends _i1.Mock
   _i15.FirebaseFirestore get firestore =>
       (super.noSuchMethod(
             Invocation.getter(#firestore),
-            returnValue: _FakeFirebaseFirestore_38(
+            returnValue: _FakeFirebaseFirestore_40(
               this,
               Invocation.getter(#firestore),
             ),
@@ -3862,7 +3966,7 @@ class MockDocumentReference extends _i1.Mock
             Invocation.method(#get, [options]),
             returnValue:
                 _i8.Future<_i15.DocumentSnapshot<Map<String, dynamic>>>.value(
-                  _FakeDocumentSnapshot_42<Map<String, dynamic>>(
+                  _FakeDocumentSnapshot_44<Map<String, dynamic>>(
                     this,
                     Invocation.method(#get, [options]),
                   ),
@@ -3947,7 +4051,7 @@ class MockQuerySnapshot extends _i1.Mock
   _i15.SnapshotMetadata get metadata =>
       (super.noSuchMethod(
             Invocation.getter(#metadata),
-            returnValue: _FakeSnapshotMetadata_43(
+            returnValue: _FakeSnapshotMetadata_39(
               this,
               Invocation.getter(#metadata),
             ),
@@ -3991,7 +4095,7 @@ class MockQueryDocumentSnapshot extends _i1.Mock
   _i15.SnapshotMetadata get metadata =>
       (super.noSuchMethod(
             Invocation.getter(#metadata),
-            returnValue: _FakeSnapshotMetadata_43(
+            returnValue: _FakeSnapshotMetadata_39(
               this,
               Invocation.getter(#metadata),
             ),

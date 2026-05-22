@@ -70,12 +70,14 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([FirestoreWrapper])
 @GenerateMocks([FunctionsWrapper])
 @GenerateMocks([HttpsCallable])
+@GenerateMocks([TaskSnapshot])
 @GenerateMocks([UploadTask])
 @GenerateMocks([User])
 @GenerateMocks([UserCredential])
 @GenerateMocks(
   [],
   customMocks: [
+    MockSpec<DocumentSnapshot<Map<String, dynamic>>>(as: #MockDocumentSnapshot),
     MockSpec<CollectionReference<Map<String, dynamic>>>(
       as: #MockCollectionReference,
     ),
