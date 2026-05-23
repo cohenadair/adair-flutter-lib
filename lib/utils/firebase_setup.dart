@@ -34,16 +34,18 @@ Future<void> setupFirebase({
     return true;
   };
 
-  // Catches uncaught errors at the root isolate level. Not exercised in unit
-  // tests because spawning a second isolate that throws and reaching this
-  // listener is not reliable in the test harness.
+  // Catches uncaught errors at the root isolate level.
   Isolate.current.addErrorListener(
     RawReceivePort((pair) async {
-      await CrashlyticsWrapper.get.recordError(
-        pair.first,
-        pair.last,
-        fatal: true,
-      );
+      await handleIsolateError(pair);
     }).sendPort,
   );
+}
+
+@visibleForTesting
+Future<void> handleIsolateError(dynamic pair) async {
+  final stackTrace = pair.last == null
+      ? null
+      : StackTrace.fromString(pair.last as String);
+  await CrashlyticsWrapper.get.recordError(pair.first, stackTrace, fatal: true);
 }

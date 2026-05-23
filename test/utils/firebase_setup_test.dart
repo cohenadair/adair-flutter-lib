@@ -121,4 +121,34 @@ void main() {
     );
     expect(result, isTrue);
   });
+
+  test(
+    "handleIsolateError converts string stack trace to StackTrace before forwarding",
+    () async {
+      const stackString = "some stack trace string";
+      await handleIsolateError(["test error", stackString]);
+      final captured = verify(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          captureAny,
+          fatal: anyNamed("fatal"),
+        ),
+      ).captured.single;
+      expect(captured.toString(), stackString);
+    },
+  );
+
+  test(
+    "handleIsolateError passes null stack trace when pair.last is null",
+    () async {
+      await handleIsolateError(["test error", null]);
+      verify(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          null,
+          fatal: anyNamed("fatal"),
+        ),
+      ).called(1);
+    },
+  );
 }
