@@ -23,6 +23,9 @@ class AutocompleteTextInput<T extends Object> extends StatefulWidget {
   final FocusNode? focusNode;
   final String? initialValue;
 
+  /// Called on every keystroke with the current field text.
+  final ValueChanged<String>? onTextChanged;
+
   const AutocompleteTextInput({
     super.key,
     required this.optionsBuilder,
@@ -32,6 +35,7 @@ class AutocompleteTextInput<T extends Object> extends StatefulWidget {
     this.label,
     this.focusNode,
     this.initialValue,
+    this.onTextChanged,
   });
 
   @override
@@ -98,6 +102,7 @@ class _AutocompleteTextInputState<T extends Object>
           _selectedOption = null;
           widget.onSelected(null);
         }
+        widget.onTextChanged?.call(value);
       },
     );
   }

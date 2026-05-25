@@ -22,10 +22,10 @@ dependencies:
   device_info_plus: ^11.4.0                 # https://pub.dev/packages/device_info_plus
   file_picker: ^10.3.10                     # https://pub.dev/packages/file_picker
   firebase_analytics: ^12.3.0               # https://pub.dev/packages/firebase_analytics
-  firebase_auth: ^6.2.0                     # https://pub.dev/packages/firebase_auth
-  firebase_core: ^4.5.0                     # https://pub.dev/packages/firebase_core
-  firebase_crashlytics: ^5.0.6              # https://pub.dev/packages/firebase_crashlytics
-  firebase_storage: ^13.2.0                 # https://pub.dev/packages/firebase_storage
+  firebase_auth: ^6.5.1                     # https://pub.dev/packages/firebase_auth
+  firebase_core: ^4.9.0                     # https://pub.dev/packages/firebase_core
+  firebase_crashlytics: ^5.2.2              # https://pub.dev/packages/firebase_crashlytics
+  firebase_storage: ^13.4.1                 # https://pub.dev/packages/firebase_storage
   flutter_local_notifications: ^19.4.1      # https://pub.dev/packages/flutter_local_notifications
   intl: ^0.20.2                             # https://pub.dev/packages/intl
   fixnum: ^1.1.1                            # https://pub.dev/packages/fixnum

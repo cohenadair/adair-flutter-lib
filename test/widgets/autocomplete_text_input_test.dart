@@ -167,4 +167,45 @@ void main() {
 
     expect(find.widgetWithText(TextFormField, "pre-filled"), findsOneWidget);
   });
+
+  testWidgets(
+    "onTextChanged is called on every keystroke with the current text",
+    (tester) async {
+      final values = <String>[];
+      await pumpContext(
+        tester,
+        (_) => AutocompleteTextInput<String>(
+          optionsBuilder: (_) => const Iterable.empty(),
+          displayStringForOption: (s) => s,
+          onSelected: (_) {},
+          onTextChanged: values.add,
+        ),
+      );
+
+      await tester.enterText(find.byType(TextFormField), "ab");
+      await tester.pumpAndSettle();
+      await tester.enterText(find.byType(TextFormField), "cd");
+      await tester.pumpAndSettle();
+
+      expect(values, ["ab", "cd"]);
+    },
+  );
+
+  testWidgets(
+    "onTextChanged is not called on initial pump before any keystroke",
+    (tester) async {
+      var callCount = 0;
+      await pumpContext(
+        tester,
+        (_) => AutocompleteTextInput<String>(
+          optionsBuilder: (_) => const Iterable.empty(),
+          displayStringForOption: (s) => s,
+          onSelected: (_) {},
+          onTextChanged: (_) => callCount++,
+        ),
+      );
+
+      expect(callCount, 0);
+    },
+  );
 }

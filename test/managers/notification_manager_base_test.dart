@@ -44,8 +44,7 @@ void main() {
 
     expect(
       await notificationManager.requestPermissionIfNeeded(
-        await buildContext(tester),
-        "",
+        context: await buildContext(tester),
       ),
       isTrue,
     );
@@ -87,15 +86,50 @@ void main() {
     expect(find.byType(NotificationPermissionPage), findsOneWidget);
     expect(find.text("Test description."), findsOneWidget);
   });
+
+  test(
+    "requestPermissionIfNeeded with showPermissionPage false calls requestNotification directly when denied",
+    () async {
+      when(
+        managers.permissionHandlerWrapper.isNotificationDenied,
+      ).thenAnswer((_) => Future.value(true));
+      when(
+        managers.permissionHandlerWrapper.requestNotification(),
+      ).thenAnswer((_) => Future.value(true));
+
+      final result = await notificationManager.requestPermissionIfNeeded(
+        showPermissionPage: false,
+      );
+
+      expect(result, isTrue);
+      verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
+    },
+  );
+
+  test(
+    "requestPermissionIfNeeded returns false when context is null and showPermissionPage is true",
+    () async {
+      when(
+        managers.permissionHandlerWrapper.isNotificationDenied,
+      ).thenAnswer((_) => Future.value(true));
+
+      expect(await notificationManager.requestPermissionIfNeeded(), isFalse);
+    },
+  );
 }
 
 class _NotificationManager extends NotificationManagerBase {
   @override
-  Future<bool> requestPermissionIfNeeded(
-    BuildContext context,
-    String userDescription,
-  ) async {
-    return super.requestPermissionIfNeeded(context, userDescription);
+  Future<bool> requestPermissionIfNeeded({
+    BuildContext? context,
+    String userDescription = "",
+    bool showPermissionPage = true,
+  }) async {
+    return super.requestPermissionIfNeeded(
+      context: context,
+      userDescription: userDescription,
+      showPermissionPage: showPermissionPage,
+    );
   }
 }
 
@@ -117,8 +151,8 @@ class __PermissionRequestTesterState extends State<_PermissionRequestTester> {
       text: "TEST",
       onPressed: () {
         widget.notificationManager.requestPermissionIfNeeded(
-          context,
-          widget.description,
+          context: context,
+          userDescription: widget.description,
         );
       },
     );
