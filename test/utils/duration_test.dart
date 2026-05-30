@@ -4,6 +4,29 @@ import 'package:flutter_test/flutter_test.dart';
 import '../test_utils/testable.dart';
 
 void main() {
+  test("DisplayDuration formatMinutesSeconds", () {
+    expect(
+      DisplayDuration(
+        const Duration(
+          milliseconds:
+              5 * Duration.millisecondsPerMinute +
+              5 * Duration.millisecondsPerSecond,
+        ),
+      ).formatMinutesSeconds(),
+      "05:05",
+    );
+    expect(
+      DisplayDuration(
+        const Duration(
+          milliseconds:
+              15 * Duration.millisecondsPerMinute +
+              15 * Duration.millisecondsPerSecond,
+        ),
+      ).formatMinutesSeconds(),
+      "15:15",
+    );
+  });
+
   test("DisplayDuration formatHoursMinutes", () {
     expect(
       DisplayDuration(

@@ -14,6 +14,7 @@ class Testable extends StatelessWidget {
   final WidgetBuilder builder;
   final MediaQueryData mediaQueryData;
   final TargetPlatform? platform;
+  final ThemeData? theme;
   final ThemeMode? themeMode;
   final Iterable<LocalizationsDelegate> localizations;
   final Iterable<Locale>? locales;
@@ -24,6 +25,7 @@ class Testable extends StatelessWidget {
     this.builder, {
     this.mediaQueryData = const MediaQueryData(),
     this.platform,
+    this.theme,
     this.themeMode,
     this.localizations = const [],
     this.locales,
@@ -35,11 +37,13 @@ class Testable extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: themeMode,
-      theme: ThemeData(
-        useMaterial3: useMaterial3,
-        primarySwatch: Colors.lightBlue,
-        platform: platform,
-      ),
+      theme:
+          theme ??
+          ThemeData(
+            useMaterial3: useMaterial3,
+            primarySwatch: Colors.lightBlue,
+            platform: platform,
+          ),
       localizationsDelegates: [
         AdairFlutterLibLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -91,6 +95,7 @@ Future<BuildContext> pumpContext(
   WidgetTester tester,
   Widget Function(BuildContext) builder, {
   MediaQueryData mediaQueryData = const MediaQueryData(),
+  ThemeData? theme,
   ThemeMode? themeMode,
   Locale? locale,
   bool useMaterial3 = false,
@@ -104,6 +109,7 @@ Future<BuildContext> pumpContext(
         return builder(context);
       },
       mediaQueryData: mediaQueryData,
+      theme: theme,
       themeMode: themeMode,
       locale: locale,
       useMaterial3: useMaterial3,

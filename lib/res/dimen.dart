@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-const m3CardRadius = BorderRadius.all(Radius.circular(12.0));
+/// Default Material 3 dimensions that don't have accessible constants.
+const m3DialogRadius = Radius.circular(28);
+const m3DialogBorderRadius = BorderRadius.all(m3DialogRadius);
+const m3CardRadius = Radius.circular(12.0);
+const m3CardBorderRadius = BorderRadius.all(m3CardRadius);
 
 const paddingTiny = 4.0;
 const paddingSmall = 8.0;

@@ -60,10 +60,13 @@ class DisplayDuration {
     }
   }
 
-  /// Formats the hours and minutes of the [DisplayDuration]. For example,
-  /// 05:30.
-  String formatHoursMinutes() =>
-      "${hours.toString().padLeft(2, "0")}:${minutes.toString().padLeft(2, "0")}";
+  String formatHoursMinutes() => _formatComponents(hours, minutes);
+
+  String formatMinutesSeconds() => _formatComponents(minutes, seconds);
+
+  /// Formats the [left] and [right] as a compact duration. For example, 05:30.
+  String _formatComponents(int left, int right) =>
+      "${left.toString().padLeft(2, "0")}:${right.toString().padLeft(2, "0")}";
 }
 
 extension Durations on Duration {
