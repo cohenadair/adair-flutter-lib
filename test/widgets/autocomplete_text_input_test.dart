@@ -208,4 +208,48 @@ void main() {
       expect(callCount, 0);
     },
   );
+
+  test(
+    "filterOptionsBuilder returns all options when input is empty",
+    () async {
+      final builder = AutocompleteTextInput.filterOptionsBuilder<String>([
+        "Apple",
+        "Banana",
+      ], (s) => s);
+      final result = await builder(const TextEditingValue(text: ""));
+      expect(result.toList(), ["Apple", "Banana"]);
+    },
+  );
+
+  test("filterOptionsBuilder filters options by searchString", () async {
+    final builder = AutocompleteTextInput.filterOptionsBuilder<String>([
+      "Apple",
+      "Banana",
+    ], (s) => s);
+    final result = await builder(const TextEditingValue(text: "app"));
+    expect(result.toList(), ["Apple"]);
+  });
+
+  test("filterOptionsBuilder returns empty when no options match", () async {
+    final builder = AutocompleteTextInput.filterOptionsBuilder<String>([
+      "Apple",
+      "Banana",
+    ], (s) => s);
+    final result = await builder(const TextEditingValue(text: "xyz"));
+    expect(result.toList(), isEmpty);
+  });
+
+  test(
+    "filterOptionsBuilder uses searchString to match, not the option itself",
+    () async {
+      final options = [MapEntry("1", "Red"), MapEntry("2", "Blue")];
+      final builder =
+          AutocompleteTextInput.filterOptionsBuilder<MapEntry<String, String>>(
+            options,
+            (e) => e.value,
+          );
+      final result = await builder(const TextEditingValue(text: "blu"));
+      expect(result.map((e) => e.value).toList(), ["Blue"]);
+    },
+  );
 }

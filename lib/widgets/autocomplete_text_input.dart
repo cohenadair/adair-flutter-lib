@@ -1,9 +1,22 @@
+import 'package:adair_flutter_lib/utils/string.dart';
 import 'package:adair_flutter_lib/widgets/dropdown_options_view.dart';
 import 'package:flutter/material.dart';
 
 /// A text field that wraps Flutter's [Autocomplete] widget with a consistent
 /// M3-styled dropdown container.
 class AutocompleteTextInput<T extends Object> extends StatefulWidget {
+  static AutocompleteOptionsBuilder<T> filterOptionsBuilder<T extends Object>(
+    Iterable<T> options,
+    String Function(T) searchString,
+  ) => (textEditingValue) {
+    final input = textEditingValue.text;
+    return input.isEmpty
+        ? options
+        : options.where(
+            (o) => containsTrimmedLowerCase(searchString(o), input),
+          );
+  };
+
   /// Called on every keystroke; returns the matching options.
   final AutocompleteOptionsBuilder<T> optionsBuilder;
 
