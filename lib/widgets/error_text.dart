@@ -5,14 +5,16 @@ import 'empty_or.dart';
 
 class ErrorText extends StatelessWidget {
   final String error;
+  final TextAlign? textAlign;
 
-  const ErrorText({super.key, required this.error});
+  const ErrorText({super.key, required this.error, this.textAlign});
 
   @override
   Widget build(BuildContext context) {
     return EmptyOr(
       isShowing: error.isNotEmpty,
-      builder: (context) => Text(error, style: context.styleError),
+      builder: (context) =>
+          Text(error, style: context.styleError, textAlign: textAlign),
     );
   }
 }

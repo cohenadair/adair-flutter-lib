@@ -5,16 +5,14 @@ import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
-import 'package:adair_flutter_lib/widgets/empty_or.dart';
+import 'package:adair_flutter_lib/widgets/error_text.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/widgets/text_input.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:quiver/strings.dart';
 
-import '../res/theme.dart';
 import '../utils/log.dart';
 import 'landing_page.dart';
 
@@ -167,10 +165,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   Widget _buildError(BuildContext context) {
-    return EmptyOr(
-      isShowing: isNotEmpty(_error),
-      builder: (context) => Text(_error, style: context.styleError),
-    );
+    return ErrorText(error: _error);
   }
 
   Widget _buildSignInButton(BuildContext context) {
@@ -374,12 +369,9 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
   }
 
   Widget _buildError(BuildContext context) {
-    if (_error.isEmpty) {
-      return const SizedBox();
-    }
     return Padding(
       padding: insetsTopSmall,
-      child: Text(_error, style: context.styleError),
+      child: ErrorText(error: _error),
     );
   }
 
