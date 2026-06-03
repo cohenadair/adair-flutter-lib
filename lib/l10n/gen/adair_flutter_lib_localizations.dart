@@ -102,6 +102,12 @@ abstract class AdairFlutterLibLocalizations {
     Locale('es'),
   ];
 
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

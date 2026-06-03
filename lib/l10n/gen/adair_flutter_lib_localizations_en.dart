@@ -9,6 +9,9 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
   AdairFlutterLibLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get add => 'Add';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
