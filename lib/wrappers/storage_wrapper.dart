@@ -25,4 +25,7 @@ class StorageWrapper {
 
   Future<String> getDownloadURL(String path) =>
       FirebaseStorage.instance.ref(path).getDownloadURL();
+
+  Future<void> delete(String path) =>
+      FirebaseStorage.instance.ref(path).delete();
 }

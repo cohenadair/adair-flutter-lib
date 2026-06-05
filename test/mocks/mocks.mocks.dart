@@ -2684,6 +2684,15 @@ class MockStorageWrapper extends _i1.Mock implements _i46.StorageWrapper {
             ),
           )
           as _i8.Future<String>);
+
+  @override
+  _i8.Future<void> delete(String? path) =>
+      (super.noSuchMethod(
+            Invocation.method(#delete, [path]),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
 }
 
 /// A class which mocks [FirebaseAuthWrapper].
