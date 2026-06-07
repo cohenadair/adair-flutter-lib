@@ -26,7 +26,7 @@ dependencies:
   firebase_auth: ^6.5.1                     # https://pub.dev/packages/firebase_auth
   firebase_core: ^4.9.0                     # https://pub.dev/packages/firebase_core
   firebase_crashlytics: ^5.2.2              # https://pub.dev/packages/firebase_crashlytics
-  firebase_storage: ^13.4.1                 # https://pub.dev/packages/firebase_storage
+  firebase_storage: ^13.4.2                 # https://pub.dev/packages/firebase_storage
   flutter_local_notifications: ^19.4.1      # https://pub.dev/packages/flutter_local_notifications
   intl: ^0.20.2                             # https://pub.dev/packages/intl
   fixnum: ^1.1.1                            # https://pub.dev/packages/fixnum
