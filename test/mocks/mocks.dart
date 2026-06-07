@@ -14,6 +14,7 @@ import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
@@ -48,6 +49,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 )
 @GenerateMocks([LogInResult])
 @GenerateMocks([NativeTimeZoneWrapper])
+@GenerateMocks([PackageInfoWrapper])
 @GenerateMocks([Offering])
 @GenerateMocks([Offerings])
 @GenerateMocks([Package])

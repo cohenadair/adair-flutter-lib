@@ -9,6 +9,9 @@ import '../app_config.dart';
 //  possible (i.e. remove most of what's in this file in favour of proper
 //  Flutter theming + extensions (if needed).
 
+// TODO: All color variables should fetch from a custom theme
+//  (see BuildContexts.colorApp).
+
 const useMaterial3 = false;
 
 class AdairFlutterLibTheme {

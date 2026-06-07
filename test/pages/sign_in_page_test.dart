@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../mocks/mocks.mocks.dart';
 import '../test_utils/finder.dart';
@@ -27,6 +28,17 @@ void main() {
     when(
       managers.firebaseAuthWrapper.authStateChanges(),
     ).thenAnswer((_) => authController.stream);
+
+    when(managers.packageInfoWrapper.fromPlatform()).thenAnswer(
+      (_) => Future.value(
+        PackageInfo(
+          appName: "Test",
+          packageName: "com.test",
+          version: "1.0.0",
+          buildNumber: "1",
+        ),
+      ),
+    );
   });
 
   enterEmailAndPassword(WidgetTester tester) async {

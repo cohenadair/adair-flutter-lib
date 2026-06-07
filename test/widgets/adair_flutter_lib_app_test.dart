@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
@@ -18,6 +19,17 @@ void main() {
   setUp(() async {
     managers = await StubbedManagers.create();
     when(managers.ioWrapper.isWeb).thenReturn(false);
+
+    when(managers.packageInfoWrapper.fromPlatform()).thenAnswer(
+      (_) => Future.value(
+        PackageInfo(
+          appName: "Test",
+          packageName: "com.test",
+          version: "1.0.0",
+          buildNumber: "1",
+        ),
+      ),
+    );
   });
 
   testWidgets("Root.get.buildContext is set", (tester) async {

@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/utils/widget.dart';
+import 'package:adair_flutter_lib/widgets/app_version.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/error_text.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
@@ -109,6 +110,8 @@ class _SignInPageState extends State<SignInPage> {
       padding: insetsDefault,
       spacing: paddingDefault,
       centersContent: true,
+      footer: [const Center(child: AppVersion())],
+      persistentFooterDecoration: const BoxDecoration(),
       children: [
         _buildLogo(),
         _buildEmailField(context),

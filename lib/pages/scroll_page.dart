@@ -36,6 +36,9 @@ class ScrollPage extends StatelessWidget {
   /// See [Scaffold.floatingActionButton].
   final Widget? floatingActionButton;
 
+  /// See [Scaffold.persistentFooterDecoration].
+  final BoxDecoration? persistentFooterDecoration;
+
   const ScrollPage({
     this.controller,
     this.appBar,
@@ -52,6 +55,7 @@ class ScrollPage extends StatelessWidget {
     this.onRefresh,
     this.refreshIndicatorKey,
     this.floatingActionButton,
+    this.persistentFooterDecoration,
   }) : assert(
          isNavRailContent && !extendsBodyBehindAppBar || !isNavRailContent,
          "Rounded corner will not show if rail content extends beneath the app bar.",
@@ -119,6 +123,7 @@ class ScrollPage extends StatelessWidget {
       appBar: appBar,
       extendBodyBehindAppBar: extendsBodyBehindAppBar,
       persistentFooterButtons: footer.isEmpty ? null : footer,
+      persistentFooterDecoration: persistentFooterDecoration,
       floatingActionButton: floatingActionButton,
       body: child,
     );
