@@ -315,4 +315,7 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
   @override
   String get signInPageResetPasswordConfirmation =>
       'Se han enviado las instrucciones para restablecer tu contraseña a tu correo electrónico. Asegúrate de revisar tu carpeta de correo no deseado.';
+
+  @override
+  String get version => 'Versión';
 }

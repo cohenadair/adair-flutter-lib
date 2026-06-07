@@ -41,23 +41,12 @@ void main() {
     expect(find.text("2.3.4 (99)"), findsOneWidget);
   });
 
-  testWidgets("Label appears in ListTile title when provided", (tester) async {
-    await pumpContext(
-      tester,
-      (_) => const AppVersion(inListTile: true, label: "Version"),
-    );
+  testWidgets("Version label appears in ListTile title", (tester) async {
+    await pumpContext(tester, (_) => const AppVersion(inListTile: true));
     await tester.pumpAndSettle();
 
     expect(find.text("Version"), findsOneWidget);
     expect(find.byType(ListTile), findsOneWidget);
-  });
-
-  testWidgets("Label is absent from ListTile when null", (tester) async {
-    await pumpContext(tester, (_) => const AppVersion(inListTile: true));
-    await tester.pumpAndSettle();
-
-    final tile = tester.widget<ListTile>(find.byType(ListTile));
-    expect(tile.title, isNull);
   });
 
   testWidgets("Custom style is applied to version text", (tester) async {
