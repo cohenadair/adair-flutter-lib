@@ -101,7 +101,101 @@ void main() {
   });
 
   test(
+    "Flutter error handler calls recordError as non-fatal when matcher returns true",
+    () async {
+      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => true);
+      final details = FlutterErrorDetails(exception: Exception("test"));
+      FlutterError.onError!(details);
+      verify(
+        managers.crashlyticsWrapper.recordError(
+          details.exception,
+          details.stack,
+          fatal: false,
+        ),
+      ).called(1);
+      verifyNever(managers.crashlyticsWrapper.recordFlutterFatalError(any));
+    },
+  );
+
+  test(
+    "Flutter error handler calls recordFlutterFatalError when matcher returns false",
+    () async {
+      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => false);
+      final details = FlutterErrorDetails(exception: Exception("test"));
+      FlutterError.onError!(details);
+      verify(
+        managers.crashlyticsWrapper.recordFlutterFatalError(details),
+      ).called(1);
+      verifyNever(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          any,
+          fatal: anyNamed("fatal"),
+        ),
+      );
+    },
+  );
+
+  test(
+    "Flutter error handler calls recordFlutterFatalError when no matcher is provided",
+    () async {
+      await setupFirebase(isRelease: false);
+      final details = FlutterErrorDetails(exception: Exception("test"));
+      FlutterError.onError!(details);
+      verify(
+        managers.crashlyticsWrapper.recordFlutterFatalError(details),
+      ).called(1);
+      verifyNever(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          any,
+          fatal: anyNamed("fatal"),
+        ),
+      );
+    },
+  );
+
+  test(
     "Platform error handler forwards to CrashlyticsWrapper with fatal true",
+    () async {
+      await setupFirebase(isRelease: false);
+      final error = Exception("platform test");
+      final stack = StackTrace.current;
+      PlatformDispatcher.instance.onError!(error, stack);
+      verify(
+        managers.crashlyticsWrapper.recordError(error, stack, fatal: true),
+      ).called(1);
+    },
+  );
+
+  test(
+    "Platform error handler calls recordError as non-fatal when matcher returns true",
+    () async {
+      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => true);
+      final error = Exception("platform test");
+      final stack = StackTrace.current;
+      PlatformDispatcher.instance.onError!(error, stack);
+      verify(
+        managers.crashlyticsWrapper.recordError(error, stack, fatal: false),
+      ).called(1);
+    },
+  );
+
+  test(
+    "Platform error handler calls recordError as fatal when matcher returns false",
+    () async {
+      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => false);
+      final error = Exception("platform test");
+      final stack = StackTrace.current;
+      PlatformDispatcher.instance.onError!(error, stack);
+      verify(
+        managers.crashlyticsWrapper.recordError(error, stack, fatal: true),
+      ).called(1);
+    },
+  );
+
+  test(
+    "Platform error handler calls recordError as fatal when no matcher is provided",
     () async {
       await setupFirebase(isRelease: false);
       final error = Exception("platform test");
