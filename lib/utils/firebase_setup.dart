@@ -51,7 +51,7 @@ Future<void> setupFirebase({
     CrashlyticsWrapper.get.recordError(
       error,
       stack,
-      fatal: nonFatalMatcher?.call(error, stack) == false,
+      fatal: nonFatalMatcher == null || nonFatalMatcher(error, stack) == false,
     );
     return true;
   };
