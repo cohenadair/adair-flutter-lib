@@ -16,8 +16,8 @@ dependencies:
     sdk: flutter
 
   collection: ^1.19.1                       # https://pub.dev/packages/collection
-  cloud_firestore: ^6.2.0                   # https://pub.dev/packages/cloud_firestore
-  cloud_functions: ^6.0.7                   # https://pub.dev/packages/cloud_functions
+  cloud_firestore: ^6.5.0                   # https://pub.dev/packages/cloud_firestore
+  cloud_functions: ^6.3.2                   # https://pub.dev/packages/cloud_functions
   crypto: ^3.0.6                            # https://pub.dev/packages/crypto
   device_info_plus: ^11.4.0                 # https://pub.dev/packages/device_info_plus
   package_info_plus: ^9.0.1                 # https://pub.dev/packages/package_info_plus
