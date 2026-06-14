@@ -112,7 +112,7 @@ class Log {
     } else {
       CrashlyticsWrapper.get.recordError(
         exception,
-        stackTrace,
+        stackTrace ?? StackTrace.current,
         reason: msg,
         fatal: fatal,
       );
