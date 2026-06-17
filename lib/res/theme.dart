@@ -40,6 +40,8 @@ class AdairFlutterLibTheme {
       );
 }
 
+/// Should be used for an app's theme colors, not default styles or dimensions.
+/// The latter should be declared in the [BuildContexts] extension.
 @immutable
 class AdairFlutterLibThemeExtension
     extends ThemeExtension<AdairFlutterLibThemeExtension> {
@@ -52,6 +54,13 @@ class AdairFlutterLibThemeExtension
   /// The secondary (less emphasis) color of widgets rendered on top of [app].
   final Color? onAppSecondary;
 
+  /// The app's success color (e.g. success snack bars).
+  final Color? success;
+
+  /// The primary color of widgets rendered on top of [success].
+  final Color? onSuccess;
+
+  // TODO: Move to BuildContext extension below.
   /// The radius of the top-left of a NavigationRail content widget, as shown
   /// in https://m3.material.io/components/navigation-rail/overview.
   final double navigationRailContentRadius;
@@ -60,6 +69,8 @@ class AdairFlutterLibThemeExtension
     this.app,
     this.onApp,
     this.onAppSecondary,
+    this.success,
+    this.onSuccess,
     this.navigationRailContentRadius = 36.0,
   });
 
@@ -68,11 +79,15 @@ class AdairFlutterLibThemeExtension
     Color? app,
     Color? onApp,
     Color? onAppSecondary,
+    Color? success,
+    Color? onSuccess,
   }) {
     return AdairFlutterLibThemeExtension(
       app: app ?? this.app,
       onApp: onApp ?? this.onApp,
       onAppSecondary: onAppSecondary ?? this.onAppSecondary,
+      success: success ?? this.success,
+      onSuccess: onSuccess ?? this.onSuccess,
     );
   }
 
@@ -88,6 +103,8 @@ class AdairFlutterLibThemeExtension
       app: Color.lerp(app, other.app, t),
       onApp: Color.lerp(onApp, other.onApp, t),
       onAppSecondary: Color.lerp(onAppSecondary, other.onAppSecondary, t),
+      success: Color.lerp(success, other.success, t),
+      onSuccess: Color.lerp(onSuccess, other.onSuccess, t),
     );
   }
 }
@@ -126,6 +143,14 @@ extension BuildContexts on BuildContext {
 
   Color get colorError => Theme.of(this).colorScheme.error;
 
+  Color get colorSuccess =>
+      Theme.of(this).extension<AdairFlutterLibThemeExtension>()?.success ??
+      Colors.green;
+
+  Color get colorOnSuccess =>
+      Theme.of(this).extension<AdairFlutterLibThemeExtension>()?.onSuccess ??
+      Colors.white;
+
   Color get colorApp =>
       Theme.of(this).extension<AdairFlutterLibThemeExtension>()?.app ??
       Colors.pink;
@@ -156,6 +181,13 @@ extension BuildContexts on BuildContext {
           .extension<AdairFlutterLibThemeExtension>()
           ?.navigationRailContentRadius ??
       0;
+
+  TextStyle? get styleAppBarTitle =>
+      Theme.of(this).appBarTheme.titleTextStyle ??
+      Theme.of(this).textTheme.titleLarge;
+
+  Color get colorOnAppBar =>
+      isDarkTheme ? Theme.of(this).colorScheme.onSurface : colorOnApp;
 
   SystemUiOverlayStyle get appBarSystemStyle =>
       isDarkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;

@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:flutter/material.dart';
 
 const int snackBarDurationDefault = 5;
@@ -21,6 +22,16 @@ void showNoticeSnackBar(BuildContext context, String message) {
     SnackBar(
       content: Text(message),
       duration: const Duration(seconds: snackBarDurationDefault),
+    ),
+  );
+}
+
+void showSuccessSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message, style: TextStyle(color: context.colorOnSuccess)),
+      duration: const Duration(seconds: snackBarDurationDefault),
+      backgroundColor: context.colorSuccess,
     ),
   );
 }
