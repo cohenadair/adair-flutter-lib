@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
+import '../test_utils/finder.dart';
 import '../test_utils/stubbed_managers.dart';
 import '../test_utils/testable.dart';
 
@@ -31,5 +32,30 @@ void main() {
     await pumpContext(tester, (_) => ProChipButton(SizedBox()));
 
     expect(find.byType(ChipButton), findsOneWidget);
+  });
+
+  testWidgets("isOnAppColor false uses white text and default background", (
+    tester,
+  ) async {
+    when(managers.subscriptionManager.isPro).thenReturn(false);
+    await pumpContext(tester, (_) => ProChipButton(SizedBox()));
+
+    final chip = findFirst<ActionChip>(tester);
+    expect((chip.label as Text).style?.color, Colors.white);
+    expect(chip.backgroundColor, managers.appConfig.colorAppTheme);
+  });
+
+  testWidgets("isOnAppColor true uses app colors for text and background", (
+    tester,
+  ) async {
+    when(managers.subscriptionManager.isPro).thenReturn(false);
+    await pumpContext(
+      tester,
+      (context) => ProChipButton(SizedBox(), isOnAppColor: true),
+    );
+
+    final chip = findFirst<ActionChip>(tester);
+    expect((chip.label as Text).style?.color, Colors.pink);
+    expect(chip.backgroundColor, Colors.white);
   });
 }

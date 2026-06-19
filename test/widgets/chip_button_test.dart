@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/widgets/chip_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,5 +39,29 @@ void main() {
     );
     var chip = findFirst<ActionChip>(tester);
     expect(chip.avatar, isNotNull);
+  });
+
+  testWidgets("Uses default app theme color when backgroundColor is null", (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      Testable((_) => ChipButton(label: "Test", onPressed: () => {})),
+    );
+    expect(
+      findFirst<ActionChip>(tester).backgroundColor,
+      AppConfig.get.colorAppTheme,
+    );
+  });
+
+  testWidgets("Uses provided backgroundColor", (tester) async {
+    await pumpContext(
+      tester,
+      (_) => ChipButton(
+        label: "Test",
+        backgroundColor: Colors.red,
+        onPressed: () => {},
+      ),
+    );
+    expect(findFirst<ActionChip>(tester).backgroundColor, Colors.red);
   });
 }

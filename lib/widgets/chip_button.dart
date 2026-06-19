@@ -11,11 +11,17 @@ class ChipButton extends StatelessWidget {
 
   final String label;
   final IconData? icon;
+  final Color? backgroundColor;
   final Color? textColor;
   final VoidCallback? onPressed;
 
-  ChipButton({required this.label, this.icon, this.textColor, this.onPressed})
-    : assert(isNotEmpty(label));
+  ChipButton({
+    required this.label,
+    this.icon,
+    this.backgroundColor,
+    this.textColor,
+    this.onPressed,
+  }) : assert(isNotEmpty(label));
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +37,8 @@ class ChipButton extends StatelessWidget {
           fontWeight: fontWeightBold,
         ),
       ),
-      backgroundColor: AppConfig.get.colorAppTheme,
-      disabledColor: AppConfig.get.colorAppTheme,
+      backgroundColor: backgroundColor ?? AppConfig.get.colorAppTheme,
+      disabledColor: backgroundColor ?? AppConfig.get.colorAppTheme,
       pressElevation: 1,
       onPressed: onPressed,
     );

@@ -1,5 +1,6 @@
 import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/widgets/chip_button.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,9 @@ import '../utils/page.dart';
 /// button is tapped, the given pro page widget is shown.
 class ProChipButton extends StatelessWidget {
   final Widget proPage;
+  final bool isOnAppColor;
 
-  const ProChipButton(this.proPage);
+  const ProChipButton(this.proPage, {this.isOnAppColor = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,8 @@ class ProChipButton extends StatelessWidget {
         return ChipButton(
           label: L10n.get.lib.proChipButtonLabel,
           icon: Icons.stars,
-          textColor: Colors.white,
+          backgroundColor: isOnAppColor ? context.colorOnApp : null,
+          textColor: isOnAppColor ? context.colorApp : Colors.white,
           onPressed: () => present(context, proPage),
         );
       },
