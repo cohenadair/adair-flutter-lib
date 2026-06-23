@@ -46,7 +46,7 @@ class SubscriptionManager implements Manager {
 
   var _state = SubscriptionState.free;
 
-  bool get isFree => _state == SubscriptionState.free;
+  bool get isFree => !isPro;
 
   bool get isPro => _state == SubscriptionState.pro;
 
