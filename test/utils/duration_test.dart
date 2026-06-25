@@ -27,6 +27,31 @@ void main() {
     );
   });
 
+  test("DisplayDuration formatHoursMinutesSeconds", () {
+    expect(
+      DisplayDuration(
+        const Duration(
+          milliseconds:
+              5 * Duration.millisecondsPerHour +
+              5 * Duration.millisecondsPerMinute +
+              5 * Duration.millisecondsPerSecond,
+        ),
+      ).formatHoursMinutesSeconds(),
+      "5:05:05",
+    );
+    expect(
+      DisplayDuration(
+        const Duration(
+          milliseconds:
+              15 * Duration.millisecondsPerHour +
+              15 * Duration.millisecondsPerMinute +
+              15 * Duration.millisecondsPerSecond,
+        ),
+      ).formatHoursMinutesSeconds(),
+      "15:15:15",
+    );
+  });
+
   test("DisplayDuration formatHoursMinutes", () {
     expect(
       DisplayDuration(

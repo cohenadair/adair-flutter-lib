@@ -35,6 +35,7 @@ dependencies:
   permission_handler: ^11.3.0               # https://pub.dev/packages/permission_handler
   protobuf: ^4.1.0                          # https://pub.dev/packages/protobuf
   purchases_flutter: ^10.1.0                # https://pub.dev/packages/purchases_flutter
+  path_provider: ^2.0.11                    # https://pub.dev/packages/path_provider
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
 

@@ -15,6 +15,7 @@ import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
@@ -48,6 +49,7 @@ class StubbedManagers {
   late final MockPackageInfoWrapper packageInfoWrapper;
   late final MockPermissionHandlerWrapper permissionHandlerWrapper;
   late final MockPurchasesWrapper purchasesWrapper;
+  late final MockPathProviderWrapper pathProviderWrapper;
   late final MockStorageWrapper storageWrapper;
 
   // TODO: Remove the Future return type.
@@ -123,6 +125,9 @@ class StubbedManagers {
 
     permissionHandlerWrapper = MockPermissionHandlerWrapper();
     PermissionHandlerWrapper.set(permissionHandlerWrapper);
+
+    pathProviderWrapper = MockPathProviderWrapper();
+    PathProviderWrapper.set(pathProviderWrapper);
 
     storageWrapper = MockStorageWrapper();
     StorageWrapper.set(storageWrapper);

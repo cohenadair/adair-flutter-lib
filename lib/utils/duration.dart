@@ -64,6 +64,9 @@ class DisplayDuration {
 
   String formatMinutesSeconds() => _formatComponents(minutes, seconds);
 
+  String formatHoursMinutesSeconds() =>
+      "$hours:${_formatComponents(minutes, seconds)}";
+
   /// Formats the [left] and [right] as a compact duration. For example, 05:30.
   String _formatComponents(int left, int right) =>
       "${left.toString().padLeft(2, "0")}:${right.toString().padLeft(2, "0")}";
