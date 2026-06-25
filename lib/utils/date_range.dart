@@ -14,24 +14,23 @@ extension DateRanges on DateRange {
 
   int get durationMs => endMs - startMs;
 
-  /// The number of days spanned by the [DateRange]. This is calculated by
-  /// taking the total [Duration] of the [DateRange] and dividing it by
-  /// [Duration.millisecondsPerDay].
-  num get days => durationMs / Duration.millisecondsPerDay;
+  /// The number of whole days spanned by the [DateRange]. Partial days count
+  /// as 1 (i.e. the value is always rounded up).
+  int get days => (durationMs / Duration.millisecondsPerDay).ceil();
 
-  /// The number of weeks spanned by the [DateRange]. This is calculated by
-  /// taking the total [Duration] of the [DateRange] and dividing it by
-  /// the number of milliseconds in a week. A week length is defined by
-  /// [DateTime.daysPerWeek].
-  num get weeks =>
-      durationMs / (Duration.millisecondsPerDay * DateTime.daysPerWeek);
+  /// The number of whole weeks spanned by the [DateRange]. Partial weeks count
+  /// as 1 (i.e. the value is always rounded up). A week is defined as
+  /// [DateTime.daysPerWeek] days.
+  int get weeks =>
+      (durationMs / (Duration.millisecondsPerDay * DateTime.daysPerWeek))
+          .ceil();
 
-  /// The number of months spanned by the [DateRange]. This is calculated by
-  /// taking the total [Duration] of the [DateRange] and dividing it by
-  /// the number of milliseconds in a month. A month length is defined as 30
-  /// days.
-  num get months =>
-      durationMs / (Duration.millisecondsPerDay * Durations.daysPerMonth);
+  /// The number of whole months spanned by the [DateRange]. Partial months
+  /// count as 1 (i.e. the value is always rounded up). A month is defined as
+  /// [Durations.daysPerMonth] days.
+  int get months =>
+      (durationMs / (Duration.millisecondsPerDay * Durations.daysPerMonth))
+          .ceil();
 
   TZDateTime get startDate {
     if (hasStartTimestamp()) {

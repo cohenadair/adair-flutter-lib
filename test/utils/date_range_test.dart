@@ -74,7 +74,18 @@ void main() {
       endTimestamp: msSinceEpoch(2019, 1, 1, 15, 30),
     );
 
-    expect(range.days, equals(0.6458333333333334));
+    expect(range.days, equals(1));
+  });
+
+  test("Days returns 1 for a partial day (bug #128 regression)", () {
+    // Mid-Tuesday on a Monday-start week: only ~1.71 days elapsed, but the
+    // user is in their 2nd calendar day so the divisor must be 2, not 1.71.
+    final range = DateRange(
+      startTimestamp: msSinceEpoch(2019, 1, 7),
+      endTimestamp: msSinceEpoch(2019, 1, 8, 17, 0),
+    );
+
+    expect(range.days, equals(2));
   });
 
   test("Weeks calculated correctly", () {
@@ -83,14 +94,14 @@ void main() {
       endTimestamp: msSinceEpoch(2019, 2, 1),
     );
 
-    expect(range.weeks, equals(4.428571428571429));
+    expect(range.weeks, equals(5));
 
     range = DateRange(
       startTimestamp: msSinceEpoch(2019, 1, 1),
       endTimestamp: msSinceEpoch(2019, 3, 10),
     );
 
-    expect(range.weeks, equals(9.714285714285714));
+    expect(range.weeks, equals(10));
 
     range = DateRange(
       startTimestamp: msSinceEpoch(2019, 1, 1),
@@ -104,7 +115,7 @@ void main() {
       endTimestamp: msSinceEpoch(2019, 1, 4),
     );
 
-    expect(range.weeks, equals(0.42857142857142855));
+    expect(range.weeks, equals(1));
   });
 
   test("Months calculated correctly", () {
@@ -113,14 +124,14 @@ void main() {
       endTimestamp: msSinceEpoch(2019, 2, 1),
     );
 
-    expect(range.months, equals(1.0333333333333334));
+    expect(range.months, equals(2));
 
     range = DateRange(
       startTimestamp: msSinceEpoch(2019, 1, 1),
       endTimestamp: msSinceEpoch(2019, 3, 10),
     );
 
-    expect(range.months, equals(2.2666666666666666));
+    expect(range.months, equals(3));
 
     range = DateRange(
       startTimestamp: msSinceEpoch(2019, 1, 1),
@@ -134,7 +145,7 @@ void main() {
       endTimestamp: msSinceEpoch(2019, 1, 20),
     );
 
-    expect(range.months, equals(0.6333333333333333));
+    expect(range.months, equals(1));
   });
 
   testWidgets("Today", (tester) async {
