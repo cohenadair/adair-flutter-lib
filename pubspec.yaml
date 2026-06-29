@@ -36,6 +36,7 @@ dependencies:
   protobuf: ^4.1.0                          # https://pub.dev/packages/protobuf
   purchases_flutter: ^10.1.0                # https://pub.dev/packages/purchases_flutter
   path_provider: ^2.0.11                    # https://pub.dev/packages/path_provider
+  flutter_native_splash: ^2.4.8             # https://pub.dev/packages/flutter_native_splash
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
 

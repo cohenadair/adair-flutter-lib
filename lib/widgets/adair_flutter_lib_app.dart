@@ -1,7 +1,9 @@
 import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
+import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../app_config.dart';
@@ -56,13 +58,43 @@ class AdairFlutterLibApp extends StatefulWidget {
   State<AdairFlutterLibApp> createState() => _AdairFlutterLibAppState();
 }
 
-class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
+class _AdairFlutterLibAppState extends State<AdairFlutterLibApp>
+    with WidgetsBindingObserver {
   late final Future<void> _initAppFuture;
+  var _isInBackground = false;
 
   @override
   void initState() {
     super.initState();
+
     _initAppFuture = _initApp();
+    _initAppFuture
+        .whenComplete(
+          () => WidgetsBinding.instance.addPostFrameCallback((_) {
+            SystemChrome.setEnabledSystemUIMode(
+              SystemUiMode.manual,
+              overlays: SystemUiOverlay.values,
+            );
+          }),
+        )
+        .ignore();
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      setState(() => _isInBackground = true);
+    } else if (state == AppLifecycleState.resumed) {
+      setState(() => _isInBackground = false);
+    }
   }
 
   @override
@@ -77,12 +109,17 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       theme: widget.theme,
       darkTheme: widget.darkTheme,
       themeMode: widget.themeMode,
-      home: AsyncBuilder.future(
-        future: _initAppFuture,
-        errorReason: "Initializing app",
-        loadingBuilder: (_) => LandingPage(hasError: false),
-        errorBuilder: (_) => LandingPage(hasError: true),
-        builder: (context, _) => _buildStartPage(context),
+      home: Stack(
+        children: [
+          AsyncBuilder.future(
+            future: _initAppFuture,
+            errorReason: "Initializing app",
+            loadingBuilder: (_) => const PlainSplashScreen(),
+            errorBuilder: (_) => LandingPage(hasError: true),
+            builder: (context, _) => _buildStartPage(context),
+          ),
+          if (_isInBackground) const PlainSplashScreen(),
+        ],
       ),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [

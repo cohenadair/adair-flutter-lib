@@ -58,6 +58,8 @@ class StubbedManagers {
   }
 
   StubbedManagers._() {
+    provideDummy<IconData>(const IconData(0));
+
     adairFlutterLib = MockAdairFlutterLib();
     when(adairFlutterLib.init()).thenAnswer((_) => Future.value());
     AdairFlutterLib.set(adairFlutterLib);

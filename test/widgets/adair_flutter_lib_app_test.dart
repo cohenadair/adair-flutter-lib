@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/pages/sign_in_page.dart';
 import 'package:adair_flutter_lib/utils/root.dart';
 import 'package:adair_flutter_lib/widgets/adair_flutter_lib_app.dart';
+import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -52,7 +53,7 @@ void main() {
         homeBuilder: (_) => Text("Home"),
       ),
     );
-    expect(find.byType(LandingPage), findsOneWidget);
+    expect(find.byType(PlainSplashScreen), findsOneWidget);
 
     await tester.pumpAndSettle();
     expect(find.text("Home"), findsOneWidget);
@@ -65,7 +66,7 @@ void main() {
   ) async {
     when(
       managers.subscriptionManager.init(),
-    ).thenAnswer((_) => throw Exception("test-error"));
+    ).thenAnswer((_) async => throw Exception("test-error"));
 
     await tester.pumpWidget(
       AdairFlutterLibApp(
@@ -73,8 +74,8 @@ void main() {
         homeBuilder: (_) => Text("Home"),
       ),
     );
-    expect(find.byType(LandingPage), findsOneWidget);
-    expect(findFirst<LandingPage>(tester).hasError, isFalse);
+    expect(find.byType(PlainSplashScreen), findsOneWidget);
+    expect(find.byType(LandingPage), findsNothing);
 
     await tester.pumpAndSettle();
     expect(findFirst<LandingPage>(tester).hasError, isTrue);
@@ -115,5 +116,49 @@ void main() {
     expect(find.text("Email"), findsOneWidget);
     expect(find.text("Password"), findsOneWidget);
     expect(find.text("Home"), findsNothing);
+  });
+
+  testWidgets("LandingPage is shown when app is paused", (tester) async {
+    await tester.pumpWidget(
+      AdairFlutterLibApp(homeBuilder: (_) => Text("Home")),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(LandingPage), findsNothing);
+
+    // Paused state disables Flutter's frame scheduler; scheduleWarmUpFrame
+    // bypasses that and forces a synchronous rebuild.
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding.scheduleWarmUpFrame();
+    expect(find.byType(PlainSplashScreen), findsOneWidget);
+  });
+
+  testWidgets("LandingPage is hidden when app is resumed", (tester) async {
+    await tester.pumpWidget(
+      AdairFlutterLibApp(homeBuilder: (_) => Text("Home")),
+    );
+    await tester.pumpAndSettle();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding.scheduleWarmUpFrame();
+    expect(find.byType(PlainSplashScreen), findsOneWidget);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    tester.binding.scheduleWarmUpFrame();
+    expect(find.byType(PlainSplashScreen), findsNothing);
+  });
+
+  testWidgets("Other lifecycle states do not show LandingPage", (tester) async {
+    await tester.pumpWidget(
+      AdairFlutterLibApp(homeBuilder: (_) => Text("Home")),
+    );
+    await tester.pumpAndSettle();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.scheduleWarmUpFrame();
+    expect(find.byType(LandingPage), findsNothing);
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.detached);
+    tester.binding.scheduleWarmUpFrame();
+    expect(find.byType(LandingPage), findsNothing);
   });
 }
