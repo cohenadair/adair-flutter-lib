@@ -58,10 +58,8 @@ class AdairFlutterLibApp extends StatefulWidget {
   State<AdairFlutterLibApp> createState() => _AdairFlutterLibAppState();
 }
 
-class _AdairFlutterLibAppState extends State<AdairFlutterLibApp>
-    with WidgetsBindingObserver {
+class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   late final Future<void> _initAppFuture;
-  var _isInBackground = false;
 
   @override
   void initState() {
@@ -78,23 +76,6 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp>
           }),
         )
         .ignore();
-
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      setState(() => _isInBackground = true);
-    } else if (state == AppLifecycleState.resumed) {
-      setState(() => _isInBackground = false);
-    }
   }
 
   @override
@@ -118,7 +99,6 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp>
             errorBuilder: (_) => LandingPage(hasError: true),
             builder: (context, _) => _buildStartPage(context),
           ),
-          if (_isInBackground) const PlainSplashScreen(),
         ],
       ),
       debugShowCheckedModeBanner: false,
