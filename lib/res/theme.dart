@@ -54,6 +54,9 @@ class AdairFlutterLibThemeExtension
   /// The secondary (less emphasis) color of widgets rendered on top of [app].
   final Color? onAppSecondary;
 
+  /// The disabled color of widgets rendered on top of [app].
+  final Color? onAppDisabled;
+
   /// The app's success color (e.g. success snack bars).
   final Color? success;
 
@@ -69,6 +72,7 @@ class AdairFlutterLibThemeExtension
     this.app,
     this.onApp,
     this.onAppSecondary,
+    this.onAppDisabled,
     this.success,
     this.onSuccess,
     this.navigationRailContentRadius = 36.0,
@@ -79,6 +83,7 @@ class AdairFlutterLibThemeExtension
     Color? app,
     Color? onApp,
     Color? onAppSecondary,
+    Color? onAppDisabled,
     Color? success,
     Color? onSuccess,
   }) {
@@ -86,6 +91,7 @@ class AdairFlutterLibThemeExtension
       app: app ?? this.app,
       onApp: onApp ?? this.onApp,
       onAppSecondary: onAppSecondary ?? this.onAppSecondary,
+      onAppDisabled: onAppDisabled ?? this.onAppDisabled,
       success: success ?? this.success,
       onSuccess: onSuccess ?? this.onSuccess,
     );
@@ -103,6 +109,7 @@ class AdairFlutterLibThemeExtension
       app: Color.lerp(app, other.app, t),
       onApp: Color.lerp(onApp, other.onApp, t),
       onAppSecondary: Color.lerp(onAppSecondary, other.onAppSecondary, t),
+      onAppDisabled: Color.lerp(onAppDisabled, other.onAppDisabled, t),
       success: Color.lerp(success, other.success, t),
       onSuccess: Color.lerp(onSuccess, other.onSuccess, t),
     );
@@ -165,6 +172,12 @@ extension BuildContexts on BuildContext {
       ).extension<AdairFlutterLibThemeExtension>()?.onAppSecondary ??
       Colors.white54;
 
+  Color get colorOnAppDisabled =>
+      Theme.of(
+        this,
+      ).extension<AdairFlutterLibThemeExtension>()?.onAppDisabled ??
+      Colors.white38;
+
   Color get colorText => isDarkTheme ? Colors.white : Colors.black;
 
   Color get colorBarChartLines => isDarkTheme ? Colors.white12 : Colors.black12;
@@ -183,11 +196,15 @@ extension BuildContexts on BuildContext {
       0;
 
   TextStyle? get styleAppBarTitle =>
-      Theme.of(this).appBarTheme.titleTextStyle ??
-      Theme.of(this).textTheme.titleLarge;
+      (Theme.of(this).appBarTheme.titleTextStyle ??
+              Theme.of(this).textTheme.titleLarge)
+          ?.copyWith(color: colorOnAppBar);
 
   Color get colorOnAppBar =>
       isDarkTheme ? Theme.of(this).colorScheme.onSurface : colorOnApp;
+
+  Color get colorOnAppBarDisabled =>
+      isDarkTheme ? Colors.white38 : colorOnAppDisabled;
 
   SystemUiOverlayStyle get appBarSystemStyle =>
       isDarkTheme ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
