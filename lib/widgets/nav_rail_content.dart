@@ -7,7 +7,7 @@ class NavRailContent extends StatelessWidget {
   const NavRailContent({required this.child});
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Material(
       color:
           Theme.of(context).navigationRailTheme.backgroundColor ??
           Theme.of(context).colorScheme.surface,
@@ -15,7 +15,7 @@ class NavRailContent extends StatelessWidget {
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(context.radiusNavigationRailContent),
         ),
-        child: Container(
+        child: Material(
           color: Theme.of(context).scaffoldBackgroundColor,
           child: child,
         ),
