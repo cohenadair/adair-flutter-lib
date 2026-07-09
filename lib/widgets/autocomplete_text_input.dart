@@ -58,7 +58,13 @@ class AutocompleteTextInput<T extends Object> extends StatefulWidget {
 
 class _AutocompleteTextInputState<T extends Object>
     extends State<AutocompleteTextInput<T>> {
-  T? _selectedOption;
+  String? _displayValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _displayValue = widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +86,7 @@ class _AutocompleteTextInputState<T extends Object>
       },
       fieldViewBuilder: _buildField,
       onSelected: (option) {
-        _selectedOption = option;
+        _displayValue = widget.displayStringForOption(option);
         widget.onSelected(option);
       },
     );
@@ -110,9 +116,8 @@ class _AutocompleteTextInputState<T extends Object>
       focusNode: widget.focusNode ?? autocompleteFocusNode,
       decoration: InputDecoration(labelText: widget.label),
       onChanged: (value) {
-        if (_selectedOption != null &&
-            value != widget.displayStringForOption(_selectedOption as T)) {
-          _selectedOption = null;
+        if (_displayValue != null && value != _displayValue) {
+          _displayValue = null;
           widget.onSelected(null);
         }
         widget.onTextChanged?.call(value);

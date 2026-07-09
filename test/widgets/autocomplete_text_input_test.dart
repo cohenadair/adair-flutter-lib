@@ -168,6 +168,27 @@ void main() {
     expect(find.widgetWithText(TextFormField, "pre-filled"), findsOneWidget);
   });
 
+  testWidgets("Editing field after initialValue fires onSelected with null", (
+    tester,
+  ) async {
+    String? selected = "not yet called";
+
+    await pumpContext(
+      tester,
+      (_) => AutocompleteTextInput<String>(
+        optionsBuilder: (_) => const ["Apple"],
+        displayStringForOption: (s) => s,
+        onSelected: (s) => selected = s,
+        initialValue: "Apple",
+      ),
+    );
+
+    await tester.enterText(find.byType(TextFormField), "something else");
+    await tester.pumpAndSettle();
+
+    expect(selected, isNull);
+  });
+
   testWidgets(
     "onTextChanged is called on every keystroke with the current text",
     (tester) async {

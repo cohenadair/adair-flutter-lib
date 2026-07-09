@@ -2,10 +2,19 @@ import 'package:adair_flutter_lib/widgets/nav_rail_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../test_utils/finder.dart';
 import '../test_utils/testable.dart';
 
 void main() {
+  // NavRailContent wraps its ClipRRect in a Material that carries the
+  // themed background color; Testable itself also wraps everything in an
+  // outer Material, so this must be scoped to the one that's an ancestor
+  // of the ClipRRect rather than matched by type alone.
+  Material outerMaterial(WidgetTester tester) => tester.widget<Material>(
+    find
+        .ancestor(of: find.byType(ClipRRect), matching: find.byType(Material))
+        .first,
+  );
+
   testWidgets("Renders child widget", (tester) async {
     await pumpContext(
       tester,
@@ -40,7 +49,7 @@ void main() {
           child: const NavRailContent(child: Text("hello")),
         ),
       );
-      expect(findFirst<Container>(tester).color, surfaceColor);
+      expect(outerMaterial(tester).color, surfaceColor);
     },
   );
 
@@ -59,6 +68,6 @@ void main() {
         child: const NavRailContent(child: Text("hello")),
       ),
     );
-    expect(findFirst<Container>(tester).color, bgColor);
+    expect(outerMaterial(tester).color, bgColor);
   });
 }
