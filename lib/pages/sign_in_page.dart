@@ -9,6 +9,7 @@ import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/error_text.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
+import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:adair_flutter_lib/widgets/text_input.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,7 +67,7 @@ class _SignInPageState extends State<SignInPage> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return LandingPage(hasError: false);
+          return PlainSplashScreen();
         }
 
         // Not signed in.
@@ -96,7 +97,7 @@ class _SignInPageState extends State<SignInPage> {
               (_) => _initForCurrentUser(),
             );
           }
-          return LandingPage(hasError: false);
+          return PlainSplashScreen();
         }
 
         return widget.homeBuilder(context);
