@@ -1,4 +1,5 @@
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
+import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/widgets/padded_checkbox.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class CheckboxInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: padding,
+      contentPadding: padding ?? insetsHorizontalDefaultVerticalSmall,
       leading: leading,
       title: _buildTitle(context),
       subtitle: _buildSubtitle(context),
@@ -145,7 +146,8 @@ class CheckboxInput extends StatelessWidget {
     return Text(
       description!,
       style: Theme.of(context).textTheme.titleSmall!.copyWith(
-        color: enabled == false ? Theme.of(context).disabledColor : null,
+        color: enabled ? Colors.grey : Theme.of(context).disabledColor,
+        fontWeight: FontWeight.normal,
       ),
       overflow: TextOverflow.visible,
     );

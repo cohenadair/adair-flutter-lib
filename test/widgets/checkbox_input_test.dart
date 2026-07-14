@@ -56,6 +56,38 @@ void main() {
     expect(find.text("Description"), findsOneWidget);
   });
 
+  testWidgets("Shows description in grey, normal weight when enabled", (
+    tester,
+  ) async {
+    await pumpContext(
+      tester,
+      (_) => CheckboxInput(label: "Test", description: "Description"),
+    );
+
+    final style = tester.widget<Text>(find.text("Description")).style!;
+    expect(style.color, Colors.grey);
+    expect(style.fontWeight, FontWeight.normal);
+  });
+
+  testWidgets("Shows description in disabled color when disabled", (
+    tester,
+  ) async {
+    await pumpContext(
+      tester,
+      (_) => CheckboxInput(
+        label: "Test",
+        description: "Description",
+        enabled: false,
+      ),
+    );
+
+    final element = tester.element(find.text("Description"));
+    expect(
+      tester.widget<Text>(find.text("Description")).style!.color,
+      Theme.of(element).disabledColor,
+    );
+  });
+
   testWidgets("Shows help button when helpText is provided", (tester) async {
     await pumpContext(
       tester,
