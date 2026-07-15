@@ -8,12 +8,9 @@ class MinDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resolvedColor = color ?? Theme.of(context).dividerColor;
     return width == null
-        ? Divider(height: 1, color: color)
-        : Container(
-            width: width,
-            height: 1,
-            color: color ?? Theme.of(context).dividerColor,
-          );
+        ? Divider(height: 1, color: resolvedColor)
+        : Container(width: width, height: 1, color: resolvedColor);
   }
 }

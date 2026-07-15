@@ -5,6 +5,7 @@ import 'package:adair_flutter_lib/pages/sign_in_page.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
+import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -365,8 +366,7 @@ void main() {
       (_) => SignInPage(info: SignInPageInfo(), homeBuilder: (_) => Text("")),
     );
 
-    expect(find.byType(LandingPage), findsOneWidget);
-    expect(findFirst<LandingPage>(tester).hasError, isFalse);
+    expect(find.byType(PlainSplashScreen), findsOneWidget);
   });
 
   testWidgets("Firebase auth state not authorized", (tester) async {
@@ -397,7 +397,7 @@ void main() {
   });
 
   testWidgets(
-    "LandingPage is shown while auto-initializing when user is already signed in",
+    "PlainSplashScreen is shown while auto-initializing when user is already signed in",
     (tester) async {
       await pumpContext(
         tester,
@@ -414,7 +414,7 @@ void main() {
       authController.add(MockUser());
       await tester.pump();
 
-      expect(find.byType(LandingPage), findsOneWidget);
+      expect(find.byType(PlainSplashScreen), findsOneWidget);
       expect(find.text("HOME"), findsNothing);
 
       await tester.pumpAndSettle(const Duration(seconds: 1));

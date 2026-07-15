@@ -11,6 +11,28 @@ void main() {
     expect(find.byType(Divider), findsOneWidget);
   });
 
+  testWidgets(
+    "width is null and color is provided uses that color on the Divider",
+    (tester) async {
+      await pumpContext(tester, (_) => const MinDivider(color: Colors.red));
+      expect(findFirst<Divider>(tester).color, Colors.red);
+    },
+  );
+
+  testWidgets(
+    "width and color are null renders a Divider using theme divider color",
+    (tester) async {
+      await pumpContext(
+        tester,
+        (_) => Theme(
+          data: ThemeData(dividerColor: Colors.blue),
+          child: const MinDivider(),
+        ),
+      );
+      expect(findFirst<Divider>(tester).color, Colors.blue);
+    },
+  );
+
   testWidgets("width is not null renders no Divider widget", (tester) async {
     await pumpContext(
       tester,
