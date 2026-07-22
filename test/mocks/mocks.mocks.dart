@@ -2109,17 +2109,6 @@ class MockTimeManager extends _i1.Mock implements _i13.TimeManager {
           as _i12.TZDateTime);
 
   @override
-  _i12.TZDateTime isoToTz(String? isoString) =>
-      (super.noSuchMethod(
-            Invocation.method(#isoToTz, [isoString]),
-            returnValue: _FakeTZDateTime_16(
-              this,
-              Invocation.method(#isoToTz, [isoString]),
-            ),
-          )
-          as _i12.TZDateTime);
-
-  @override
   _i12.TZDateTime now([String? timeZone]) =>
       (super.noSuchMethod(
             Invocation.method(#now, [timeZone]),

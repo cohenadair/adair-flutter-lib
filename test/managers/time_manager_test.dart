@@ -200,24 +200,4 @@ void main() {
       expect(result.location.name, "America/New_York");
     },
   );
-
-  test("isoToTz parses a valid ISO string and returns a TZDateTime", () {
-    final iso = "2024-06-15T12:00:00.000";
-    final result = TimeManager.get.isoToTz(iso);
-    expect(result.year, 2024);
-    expect(result.month, 6);
-    expect(result.day, 15);
-  });
-
-  test(
-    "isoToTz parses a valid ISO string with offset and returns a TZDateTime",
-    () {
-      final iso = "2024-06-15T12:00:00.000-0400";
-      final result = TimeManager.get.isoToTz(iso);
-      expect(result.year, 2024);
-      expect(result.month, 6);
-      expect(result.day, 15);
-      expect(result.location.name, "America/New_York");
-    },
-  );
 }
