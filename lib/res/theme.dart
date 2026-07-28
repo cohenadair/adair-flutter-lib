@@ -186,6 +186,8 @@ extension BuildContexts on BuildContext {
 
   Color get colorSecondaryText => isDarkTheme ? Colors.white54 : Colors.black54;
 
+  Color get colorTertiaryText => isDarkTheme ? Colors.white30 : Colors.black38;
+
   Color get colorGreyAccentLight =>
       isDarkTheme ? Colors.grey.shade800 : Colors.grey.shade200;
 

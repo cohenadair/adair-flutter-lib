@@ -10,6 +10,7 @@ class TextInput extends StatefulWidget {
   static const int _inputLimitName = _inputLimitDefault;
   static const int _inputLimitNumber = 10;
   static const int _inputLimitEmail = 64;
+  static const int _inputLimitDescription = 500;
 
   final String? initialValue;
   final String? label;
@@ -28,6 +29,11 @@ class TextInput extends StatefulWidget {
   final int? maxLength;
   final int? maxLines;
   final TextInputType? keyboardType;
+
+  /// When true, the field's border stretches to fill the height of its
+  /// parent instead of sizing to its content. Requires [maxLines] to be
+  /// null.
+  final bool expands;
 
   /// Invoked when the [TextInput] text changes, _after_ [Validator.run] is
   /// invoked. Implement this property to update the state of the parent
@@ -55,6 +61,7 @@ class TextInput extends StatefulWidget {
     this.obscuresText = false,
     this.maxLength = _inputLimitDefault,
     this.maxLines,
+    this.expands = false,
     this.keyboardType,
     this.onChanged,
     this.onSubmitted,
@@ -90,15 +97,18 @@ class TextInput extends StatefulWidget {
     required TextInputController controller,
     bool isEnabled = true,
     bool isAutofocused = false,
+    bool expands = false,
+    bool hasMaxLength = false,
     ValueChanged<String>? onChanged,
   }) : this(
          initialValue: initialValue,
          label: title ?? L10n.get.lib.inputDescriptionLabel,
          capitalization: TextCapitalization.sentences,
          controller: controller,
-         maxLength: null, // No limit.
+         maxLength: hasMaxLength ? _inputLimitDescription : null,
          isEnabled: isEnabled,
          isAutofocused: isAutofocused,
+         expands: expands,
          onChanged: onChanged,
          hintText: hintText,
        );
@@ -193,13 +203,16 @@ class TextInputState extends State<TextInput> {
           suffixStyle: styleSecondary(context),
           hintText: widget.hintText,
           hintMaxLines: _maxErrorHintLines,
+          alignLabelWithHint: widget.expands,
         ),
         style: widget.isEnabled ? null : styleDisabled(context),
         textCapitalization: widget.capitalization,
         textInputAction: widget.textInputAction,
         enabled: widget.isEnabled,
         maxLength: widget.maxLength,
-        maxLines: widget.maxLines,
+        maxLines: widget.expands ? null : widget.maxLines,
+        expands: widget.expands,
+        textAlignVertical: widget.expands ? TextAlignVertical.top : null,
         keyboardType: widget.keyboardType,
         onChanged: (value) {
           widget.onChanged?.call(value);
