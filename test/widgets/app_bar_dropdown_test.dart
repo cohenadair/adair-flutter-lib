@@ -36,6 +36,13 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets("Row fills available width to allow self-centering", (
+    tester,
+  ) async {
+    await pumpContext(tester, (_) => const AppBarDropdown(title: "My Report"));
+    expect(tester.widget<Row>(find.byType(Row)).mainAxisSize, MainAxisSize.max);
+  });
+
   testWidgets("textAlignment parameter is applied to Row", (tester) async {
     await pumpContext(
       tester,

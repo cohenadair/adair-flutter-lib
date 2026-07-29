@@ -22,7 +22,6 @@ class AppBarDropdown extends StatelessWidget {
       child: Padding(
         padding: padding,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: textAlignment,
           children: [
             Text(title, style: context.styleAppBarTitle),
