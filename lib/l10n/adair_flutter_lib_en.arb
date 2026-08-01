@@ -165,6 +165,7 @@
   "signInPageErrorUserDisabled": "User has been disabled.",
   "signInPageErrorUserNotFound": "No user exists with the given email address.",
   "signInPageErrorInvalidCredentials": "Incorrect email and password combination.",
+  "signInPageErrorGeneric": "An error occurred while signing in. Please try again.",
   "inputNameLabel": "Name",
   "inputDescriptionLabel": "Description",
   "inputEmailLabel": "Email",

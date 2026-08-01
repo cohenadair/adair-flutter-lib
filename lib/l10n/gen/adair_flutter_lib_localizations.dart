@@ -558,6 +558,12 @@ abstract class AdairFlutterLibLocalizations {
   /// **'Incorrect email and password combination.'**
   String get signInPageErrorInvalidCredentials;
 
+  /// No description provided for @signInPageErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred while signing in. Please try again.'**
+  String get signInPageErrorGeneric;
+
   /// No description provided for @inputNameLabel.
   ///
   /// In en, this message translates to:

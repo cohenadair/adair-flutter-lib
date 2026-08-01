@@ -277,6 +277,10 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
       'El correo electrónico o la contraseña son incorrectos.';
 
   @override
+  String get signInPageErrorGeneric =>
+      'Se produjo un error al iniciar sesión. Inténtalo de nuevo.';
+
+  @override
   String get inputNameLabel => 'Nombre';
 
   @override

@@ -165,6 +165,7 @@
   "signInPageErrorUserNotFound": "No existe ningún usuario con la dirección de correo electrónico proporcionada.",
   "signInPageErrorOperationNotAllowed": "El inicio de sesión con correo electrónico y contraseña está deshabilitado para esta aplicación.",
   "signInPageErrorInvalidCredentials": "El correo electrónico o la contraseña son incorrectos.",
+  "signInPageErrorGeneric": "Se produjo un error al iniciar sesión. Inténtalo de nuevo.",
   "inputNameLabel": "Nombre",
   "inputDescriptionLabel": "Descripción",
   "inputEmailLabel": "Correo electrónico",

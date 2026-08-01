@@ -203,7 +203,7 @@ class _SignInPageState extends State<SignInPage> {
       error = await widget.info.postSignInVerification?.call() ?? "";
     } catch (e, stackTrace) {
       _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
-      error = e.toString();
+      error = L10n.get.lib.signInPageErrorGeneric;
     }
 
     if (error.isNotEmpty) {
@@ -241,7 +241,7 @@ class _SignInPageState extends State<SignInPage> {
         error = await widget.info.postSignInVerification?.call() ?? "";
       } catch (e, stackTrace) {
         _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
-        error = e.toString();
+        error = L10n.get.lib.signInPageErrorGeneric;
       }
     }
 
