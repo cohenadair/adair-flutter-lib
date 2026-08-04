@@ -93,4 +93,29 @@ void main() {
       );
     },
   );
+
+  test("accentColors excludes brown and blueGrey", () {
+    var colors = accentColors();
+    expect(colors, isNot(contains(flattenedAccentColor(Colors.brown))));
+    expect(colors, isNot(contains(flattenedAccentColor(Colors.blueGrey))));
+  });
+
+  test(
+    "accentColors returns one color per remaining primary, all flattened",
+    () {
+      var expectedCount = Colors.primaries.length - 2;
+      var colors = accentColors();
+      expect(colors, hasLength(expectedCount));
+      expect(
+        colors,
+        everyElement(
+          predicate<Color>((color) => (color.a - 0.65).abs() < 0.001),
+        ),
+      );
+    },
+  );
+
+  test("flattenedAccentColor applies partial opacity", () {
+    expect(flattenedAccentColor(Colors.red).a, closeTo(0.65, 0.001));
+  });
 }

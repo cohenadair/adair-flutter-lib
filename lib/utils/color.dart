@@ -47,6 +47,17 @@ double _relativeLuminance(Color color) {
       0.0722 * linearize(color.clampedBlue);
 }
 
+List<Color> accentColors() {
+  var primaries = List.of(Colors.primaries)
+    ..remove(Colors.brown)
+    ..remove(Colors.blueGrey);
+
+  // Use opacity to flatten the color a little bit.
+  return primaries.map((e) => flattenedAccentColor(e)).toList();
+}
+
+Color flattenedAccentColor(Color color) => color.withValues(alpha: 0.65);
+
 extension ColorExt on Color {
   int get clampedRed => (r * 255.0).round().clamp(0, 255);
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:adair_flutter_lib/l10n/l10n.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/pages/sign_in_page.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
@@ -623,7 +624,7 @@ void main() {
     await tester.tap(find.byType(Button));
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
-    expect(find.text("Exception: post-sign-in-exception"), findsOneWidget);
+    expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
     expect(find.text("H"), findsNothing);
     verify(managers.firebaseAuthWrapper.signOut()).called(1);
   });

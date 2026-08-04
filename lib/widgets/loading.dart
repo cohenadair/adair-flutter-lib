@@ -15,6 +15,7 @@ class Loading extends StatelessWidget {
   final bool isCentered;
   final bool isAppBar;
   final bool isShowing;
+  final double size;
 
   const Loading({
     this.padding = insetsZero,
@@ -22,6 +23,7 @@ class Loading extends StatelessWidget {
     this.isCentered = true,
     this.isAppBar = false,
     this.isShowing = true,
+    this.size = _size,
   });
 
   /// A [Loading] widget to be used in an [AppBar].
@@ -35,8 +37,13 @@ class Loading extends StatelessWidget {
         isAppBar: true,
       );
 
-  const Loading.minimized({bool isShowing = true})
-    : this(isCentered: false, isAppBar: false, isShowing: isShowing);
+  const Loading.minimized({bool isShowing = true, double size = _size})
+    : this(
+        isCentered: false,
+        isAppBar: false,
+        isShowing: isShowing,
+        size: size,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +52,7 @@ class Loading extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     final indicator = SizedBox.fromSize(
-      size: const Size(_size, _size),
+      size: Size(size, size),
       child: CircularProgressIndicator(
         strokeWidth: _strokeWidth,
         color: isAppBar

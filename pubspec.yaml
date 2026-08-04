@@ -38,6 +38,7 @@ dependencies:
   path_provider: ^2.0.11                    # https://pub.dev/packages/path_provider
   flutter_native_splash: ^2.4.8             # https://pub.dev/packages/flutter_native_splash
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
+  syncfusion_flutter_core: ^28.2.5          # https://pub.dev/packages/syncfusion_flutter_core
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
 
 dev_dependencies:
