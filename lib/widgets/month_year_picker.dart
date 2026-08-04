@@ -11,14 +11,21 @@ import 'package:adair_flutter_lib/widgets/min_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart';
 
-Future<TZDateTime?> showMonthYearPicker(BuildContext context) {
+Future<TZDateTime?> showMonthYearPicker(
+  BuildContext context, {
+  DateTime? initialDate,
+}) {
   return showDialog<TZDateTime>(
     context: context,
-    builder: (context) => _MonthYearPicker(),
+    builder: (context) => _MonthYearPicker(initialDate: initialDate),
   );
 }
 
 class _MonthYearPicker extends StatefulWidget {
+  final DateTime? initialDate;
+
+  const _MonthYearPicker({this.initialDate});
+
   @override
   State<_MonthYearPicker> createState() => _MonthYearPickerState();
 }
@@ -34,8 +41,9 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
   @override
   void initState() {
     super.initState();
-    _year = TimeManager.get.currentDateTime.year;
-    _month = TimeManager.get.currentDateTime.month;
+    var initialDate = widget.initialDate ?? TimeManager.get.currentDateTime;
+    _year = initialDate.year;
+    _month = initialDate.month;
   }
 
   @override

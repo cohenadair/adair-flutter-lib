@@ -73,6 +73,23 @@ void main() {
     verifyMonth(tester, "Mar", AppConfig.get.colorAppTheme);
   });
 
+  testWidgets("Opens to initialDate instead of today", (tester) async {
+    await pumpContext(
+      tester,
+      (context) => Scaffold(
+        body: Button(
+          text: "Test",
+          onPressed: () =>
+              showMonthYearPicker(context, initialDate: DateTime(2019, 6)),
+        ),
+      ),
+    );
+
+    await tapAndSettle(tester, find.text("TEST"));
+    expect(find.text("2019"), findsOneWidget);
+    verifyMonth(tester, "Jun", AppConfig.get.colorAppTheme);
+  });
+
   testWidgets("Non-null result", (tester) async {
     TZDateTime? result;
     await pumpContext(
