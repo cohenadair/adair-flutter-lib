@@ -3,8 +3,9 @@ import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class AppVersion extends StatelessWidget {
+class AppVersion extends StatefulWidget {
   /// When true, wraps the version string in a [ListTile] with a "Version"
   /// title.
   final bool inListTile;
@@ -16,27 +17,47 @@ class AppVersion extends StatelessWidget {
   const AppVersion({super.key, this.inListTile = false, this.style});
 
   @override
+  State<AppVersion> createState() => _AppVersionState();
+}
+
+class _AppVersionState extends State<AppVersion> {
+  // The package info never changes while the app is running, but an
+  // ancestor can rebuild this widget many times (e.g. via setState). Fetch
+  // it once per State instance so repeated builds don't cause the version
+  // to flicker while AsyncBuilder awaits a fresh future.
+  late final Future<PackageInfo> _packageInfoFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _packageInfoFuture = PackageInfoWrapper.get.fromPlatform();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AsyncBuilder.future(
-      future: PackageInfoWrapper.get.fromPlatform(),
+      future: _packageInfoFuture,
       errorReason: "Failed to load package info",
       builder: (context, packageInfo) {
         final version = "${packageInfo.version} (${packageInfo.buildNumber})";
-        return inListTile
-            ? _buildListTile(context, version)
-            : _buildVersionText(context, version);
+        return widget.inListTile
+            ? _buildListTile(version)
+            : _buildVersionText(version);
       },
     );
   }
 
-  Widget _buildVersionText(BuildContext context, String version) {
-    return Text(version, style: style ?? context.styleLabelMediumSecondary);
+  Widget _buildVersionText(String version) {
+    return Text(
+      version,
+      style: widget.style ?? context.styleLabelMediumSecondary,
+    );
   }
 
-  Widget _buildListTile(BuildContext context, String version) {
+  Widget _buildListTile(String version) {
     return ListTile(
       title: Text(L10n.get.lib.version),
-      trailing: _buildVersionText(context, version),
+      trailing: _buildVersionText(version),
     );
   }
 }

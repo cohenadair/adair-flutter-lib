@@ -58,4 +58,18 @@ void main() {
     final text = tester.widget<Text>(find.text("2.3.4 (99)"));
     expect(text.style, customStyle);
   });
+
+  testWidgets("Package info is fetched once and not on every rebuild", (
+    tester,
+  ) async {
+    await pumpContext(tester, (_) => const AppVersion());
+    await tester.pumpAndSettle();
+
+    // Rebuilds the same element tree (same State, since AppVersion's type
+    // and position don't change) without recreating the widget from scratch.
+    await pumpContext(tester, (_) => const AppVersion());
+    await tester.pumpAndSettle();
+
+    verify(managers.packageInfoWrapper.fromPlatform()).called(1);
+  });
 }
