@@ -1,5 +1,6 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
+import 'package:adair_flutter_lib/managers/app_review_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -12,6 +13,7 @@ import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
@@ -19,6 +21,7 @@ import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -29,16 +32,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mockito/annotations.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @GenerateMocks([AdairFlutterLib])
 @GenerateMocks([AnalyticsWrapper])
 @GenerateMocks([AppConfig])
+@GenerateMocks([AppReviewManager])
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])
 @GenerateMocks([DeviceInfoWrapper])
 @GenerateMocks([EntitlementInfo])
 @GenerateMocks([EntitlementInfos])
 @GenerateMocks([FlutterLocalNotificationsPlugin])
+@GenerateMocks([InAppReviewWrapper])
 @GenerateMocks([IoWrapper])
 @GenerateMocks([IntroductoryPrice])
 @GenerateMocks([LocalNotificationsWrapper])
@@ -59,6 +65,8 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 @GenerateMocks([PlatformException])
 @GenerateMocks([PropertiesManager])
 @GenerateMocks([PurchasesWrapper])
+@GenerateMocks([SharedPreferencesAsync])
+@GenerateMocks([SharedPreferencesWrapper])
 @GenerateMocks([StoreProduct])
 @GenerateMocks([SubscriptionManager])
 @GenerateMocks([TimeManager])

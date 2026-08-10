@@ -28,6 +28,7 @@ dependencies:
   firebase_crashlytics: ^5.2.2              # https://pub.dev/packages/firebase_crashlytics
   firebase_storage: ^13.4.2                 # https://pub.dev/packages/firebase_storage
   flutter_local_notifications: ^19.4.1      # https://pub.dev/packages/flutter_local_notifications
+  in_app_review: ^2.0.6                     # https://pub.dev/packages/in_app_review
   intl: ^0.20.2                             # https://pub.dev/packages/intl
   fixnum: ^1.1.1                            # https://pub.dev/packages/fixnum
   flutter_timezone: ^4.1.0                  # https://pub.dev/packages/flutter_timezone
@@ -38,6 +39,7 @@ dependencies:
   path_provider: ^2.0.11                    # https://pub.dev/packages/path_provider
   flutter_native_splash: ^2.4.8             # https://pub.dev/packages/flutter_native_splash
   quiver: ^3.2.2                            # https://pub.dev/packages/quiver
+  shared_preferences: ^2.5.3                # https://pub.dev/packages/shared_preferences
   syncfusion_flutter_core: ^28.2.5          # https://pub.dev/packages/syncfusion_flutter_core
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
 

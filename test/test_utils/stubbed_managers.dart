@@ -1,5 +1,6 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
+import 'package:adair_flutter_lib/managers/app_review_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -11,6 +12,7 @@ import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
@@ -18,6 +20,7 @@ import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +34,7 @@ import '../mocks/mocks.mocks.dart';
 class StubbedManagers {
   late final MockAdairFlutterLib adairFlutterLib;
   late final MockAppConfig appConfig;
+  late final MockAppReviewManager appReviewManager;
   late final MockPropertiesManager propertiesManager;
   late final MockSubscriptionManager subscriptionManager;
   late final MockTimeManager timeManager;
@@ -43,6 +47,7 @@ class StubbedManagers {
   late final MockFirebaseAuthWrapper firebaseAuthWrapper;
   late final MockFirestoreWrapper firestoreWrapper;
   late final MockFunctionsWrapper functionsWrapper;
+  late final MockInAppReviewWrapper inAppReviewWrapper;
   late final MockIoWrapper ioWrapper;
   late final MockLocalNotificationsWrapper localNotificationsWrapper;
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
@@ -50,6 +55,7 @@ class StubbedManagers {
   late final MockPermissionHandlerWrapper permissionHandlerWrapper;
   late final MockPurchasesWrapper purchasesWrapper;
   late final MockPathProviderWrapper pathProviderWrapper;
+  late final MockSharedPreferencesWrapper sharedPreferencesWrapper;
   late final MockStorageWrapper storageWrapper;
 
   // TODO: Remove the Future return type.
@@ -82,6 +88,10 @@ class StubbedManagers {
     when(subscriptionManager.init()).thenAnswer((_) => Future.value());
     SubscriptionManager.set(subscriptionManager);
 
+    appReviewManager = MockAppReviewManager();
+    when(appReviewManager.init()).thenAnswer((_) => Future.value());
+    AppReviewManager.set(appReviewManager);
+
     firebaseWrapper = MockFirebaseWrapper();
     FirebaseWrapper.set(firebaseWrapper);
 
@@ -102,6 +112,12 @@ class StubbedManagers {
 
     purchasesWrapper = MockPurchasesWrapper();
     PurchasesWrapper.set(purchasesWrapper);
+
+    inAppReviewWrapper = MockInAppReviewWrapper();
+    InAppReviewWrapper.set(inAppReviewWrapper);
+
+    sharedPreferencesWrapper = MockSharedPreferencesWrapper();
+    SharedPreferencesWrapper.set(sharedPreferencesWrapper);
 
     timeManager = MockTimeManager();
     stubCurrentTime(DateTime.now());
