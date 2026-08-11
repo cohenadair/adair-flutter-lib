@@ -15,22 +15,41 @@ extension DateRanges on DateRange {
   int get durationMs => endMs - startMs;
 
   /// The number of whole days spanned by the [DateRange]. Partial days count
-  /// as 1 (i.e. the value is always rounded up).
-  int get days => (durationMs / Duration.millisecondsPerDay).ceil();
+  /// as 1 (i.e. the value is always rounded up). Calendar dates are compared
+  /// directly, rather than dividing [durationMs] by a fixed 24-hour day, so a
+  /// DST transition day (23 or 25 real hours) doesn't throw off the count.
+  int get days {
+    var wholeDays = _calendarDaysBetween(startDate, endDate);
+    if (_msSinceMidnight(endDate) > _msSinceMidnight(startDate)) {
+      wholeDays++;
+    }
+    return wholeDays;
+  }
 
   /// The number of whole weeks spanned by the [DateRange]. Partial weeks count
   /// as 1 (i.e. the value is always rounded up). A week is defined as
   /// [DateTime.daysPerWeek] days.
-  int get weeks =>
-      (durationMs / (Duration.millisecondsPerDay * DateTime.daysPerWeek))
-          .ceil();
+  int get weeks => (days / DateTime.daysPerWeek).ceil();
 
   /// The number of whole months spanned by the [DateRange]. Partial months
   /// count as 1 (i.e. the value is always rounded up). A month is defined as
   /// [Durations.daysPerMonth] days.
-  int get months =>
-      (durationMs / (Duration.millisecondsPerDay * Durations.daysPerMonth))
-          .ceil();
+  int get months => (days / Durations.daysPerMonth).ceil();
+
+  /// The number of calendar days between [start] and [end], ignoring
+  /// time-of-day. Compares UTC-normalized dates so DST never distorts the
+  /// count, since UTC has no DST transitions.
+  int _calendarDaysBetween(TZDateTime start, TZDateTime end) {
+    final startCalendarDate = DateTime.utc(start.year, start.month, start.day);
+    final endCalendarDate = DateTime.utc(end.year, end.month, end.day);
+    return endCalendarDate.difference(startCalendarDate).inDays;
+  }
+
+  int _msSinceMidnight(TZDateTime dateTime) =>
+      dateTime.hour * Duration.millisecondsPerHour +
+      dateTime.minute * Duration.millisecondsPerMinute +
+      dateTime.second * Duration.millisecondsPerSecond +
+      dateTime.millisecond;
 
   TZDateTime get startDate {
     if (hasStartTimestamp()) {

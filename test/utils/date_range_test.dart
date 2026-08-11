@@ -88,6 +88,20 @@ void main() {
     expect(range.days, equals(2));
   });
 
+  test("Days is not inflated by a DST fall-back day (issue #141)", () {
+    // Nov 3, 2019 is the fall-back DST transition in America/New_York, so
+    // that calendar day is 25 real hours long. There are 7 calendar-day
+    // boundaries between Oct 28 and Nov 4, but the extra hour pushes the
+    // raw millisecond division past 7, so `.ceil()` incorrectly rounds up
+    // to 8.
+    final range = DateRange(
+      startTimestamp: msSinceEpoch(2019, 10, 28),
+      endTimestamp: msSinceEpoch(2019, 11, 4),
+    );
+
+    expect(range.days, equals(7));
+  });
+
   test("Weeks calculated correctly", () {
     DateRange range = DateRange(
       startTimestamp: msSinceEpoch(2019, 1, 1),
