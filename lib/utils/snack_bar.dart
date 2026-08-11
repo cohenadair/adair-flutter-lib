@@ -5,7 +5,7 @@ const int snackBarDurationDefault = 5;
 
 SnackBar errorSnackBar(String message, ThemeData themeData) {
   return SnackBar(
-    content: Text(message),
+    content: Text(message, style: const TextStyle(color: Colors.white)),
     duration: const Duration(seconds: snackBarDurationDefault),
     backgroundColor: themeData.colorScheme.error,
   );

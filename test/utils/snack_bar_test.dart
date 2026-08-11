@@ -27,6 +27,13 @@ void main() {
     expect(snackBar.duration, const Duration(seconds: snackBarDurationDefault));
   });
 
+  test("errorSnackBar uses white text", () {
+    final themeData = ThemeData();
+    final snackBar = errorSnackBar("Error message", themeData);
+    final text = snackBar.content as Text;
+    expect(text.style?.color, Colors.white);
+  });
+
   testWidgets("showSuccessSnackBar shows a SnackBar with the message", (
     tester,
   ) async {
