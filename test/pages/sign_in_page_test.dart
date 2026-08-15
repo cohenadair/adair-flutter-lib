@@ -759,6 +759,28 @@ void main() {
     expect(find.text("Unknown error (unknown-error)."), findsOneWidget);
   });
 
+  testWidgets(
+    "Reset password dialog shows generic error for unknown exception",
+    (tester) async {
+      await pumpNotSignedIn(tester);
+      await openResetPasswordDialog(tester);
+      await enterTextAndSettle(
+        tester,
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.widgetWithText(TextField, "Email"),
+        ),
+        "test@test.com",
+      );
+
+      stubSendReset((_) => throw Exception("unexpected error"));
+
+      await tapAndSettle(tester, find.widgetWithText(TextButton, "Reset"));
+      expect(find.byType(Loading), findsNothing);
+      expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
+    },
+  );
+
   testWidgets("Reset password dialog cancel closes dialog", (tester) async {
     await pumpNotSignedIn(tester);
     await openResetPasswordDialog(tester);

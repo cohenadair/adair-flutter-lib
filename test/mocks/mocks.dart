@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/app_review_manager.dart';
+import 'package:adair_flutter_lib/managers/email_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -13,6 +14,7 @@ import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/http_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
@@ -41,6 +43,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])
 @GenerateMocks([DeviceInfoWrapper])
+@GenerateMocks([EmailManager])
 @GenerateMocks([EntitlementInfo])
 @GenerateMocks([EntitlementInfos])
 @GenerateMocks([FlutterLocalNotificationsPlugin])
@@ -81,6 +84,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([FirebaseWrapper])
 @GenerateMocks([FirestoreWrapper])
 @GenerateMocks([FunctionsWrapper])
+@GenerateMocks([HttpWrapper])
 @GenerateMocks([HttpsCallable])
 @GenerateMocks([TaskSnapshot])
 @GenerateMocks([UploadTask])

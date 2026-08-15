@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/app_review_manager.dart';
+import 'package:adair_flutter_lib/managers/email_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -12,6 +13,7 @@ import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/http_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
@@ -35,6 +37,7 @@ class StubbedManagers {
   late final MockAdairFlutterLib adairFlutterLib;
   late final MockAppConfig appConfig;
   late final MockAppReviewManager appReviewManager;
+  late final MockEmailManager emailManager;
   late final MockPropertiesManager propertiesManager;
   late final MockSubscriptionManager subscriptionManager;
   late final MockTimeManager timeManager;
@@ -47,6 +50,7 @@ class StubbedManagers {
   late final MockFirebaseAuthWrapper firebaseAuthWrapper;
   late final MockFirestoreWrapper firestoreWrapper;
   late final MockFunctionsWrapper functionsWrapper;
+  late final MockHttpWrapper httpWrapper;
   late final MockInAppReviewWrapper inAppReviewWrapper;
   late final MockIoWrapper ioWrapper;
   late final MockLocalNotificationsWrapper localNotificationsWrapper;
@@ -91,6 +95,9 @@ class StubbedManagers {
     appReviewManager = MockAppReviewManager();
     when(appReviewManager.init()).thenAnswer((_) => Future.value());
     AppReviewManager.set(appReviewManager);
+
+    emailManager = MockEmailManager();
+    EmailManager.set(emailManager);
 
     firebaseWrapper = MockFirebaseWrapper();
     FirebaseWrapper.set(firebaseWrapper);
@@ -137,6 +144,9 @@ class StubbedManagers {
 
     functionsWrapper = MockFunctionsWrapper();
     FunctionsWrapper.set(functionsWrapper);
+
+    httpWrapper = MockHttpWrapper();
+    HttpWrapper.set(httpWrapper);
 
     localNotificationsWrapper = MockLocalNotificationsWrapper();
     LocalNotificationsWrapper.set(localNotificationsWrapper);

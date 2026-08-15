@@ -12,6 +12,7 @@ import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:adair_flutter_lib/widgets/text_input.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -161,7 +162,9 @@ class _SignInPageState extends State<SignInPage> {
       child: TextButton(
         onPressed: () => showDialog(
           context: context,
-          builder: (_) => const _ResetPasswordDialog(),
+          builder: (_) => _ResetPasswordDialog(
+            sendPasswordResetEmail: widget.info.sendPasswordResetEmail,
+          ),
         ),
         child: Text(L10n.get.lib.signInPageResetPasswordButton),
       ),
@@ -305,11 +308,22 @@ class SignInPageInfo {
   /// successful verification.
   final Future<String?> Function()? postSignInVerification;
 
-  SignInPageInfo({this.logo, this.postSignInVerification});
+  /// Called instead of [FirebaseAuthWrapper.sendPasswordResetEmail] when
+  /// set, allowing apps to route the reset-password flow through custom
+  /// backend logic (e.g. a tenant-aware Cloud Function).
+  final Future<void> Function(String email)? sendPasswordResetEmail;
+
+  SignInPageInfo({
+    this.logo,
+    this.postSignInVerification,
+    this.sendPasswordResetEmail,
+  });
 }
 
 class _ResetPasswordDialog extends StatefulWidget {
-  const _ResetPasswordDialog();
+  final Future<void> Function(String email)? sendPasswordResetEmail;
+
+  const _ResetPasswordDialog({this.sendPasswordResetEmail});
 
   @override
   State<_ResetPasswordDialog> createState() => _ResetPasswordDialogState();
@@ -319,6 +333,7 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
   static const double _maxWidth = 400;
 
   final _emailController = EmailInputController(required: true);
+  final _log = Log("ResetPasswordDialog");
 
   var _isSent = false;
   var _isSending = false;
@@ -406,12 +421,17 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
     var error = "";
 
     try {
-      await FirebaseAuthWrapper.get.sendPasswordResetEmail(
-        email: _emailController.editingController.text,
-      );
+      final email = _emailController.editingController.text;
+      await (widget.sendPasswordResetEmail?.call(email) ??
+          FirebaseAuthWrapper.get.sendPasswordResetEmail(email: email));
       isSent = true;
     } on FirebaseAuthException catch (e) {
       error = L10n.get.lib.inputUnknownError(e.code);
+    } on FirebaseFunctionsException catch (e) {
+      error = L10n.get.lib.inputUnknownError(e.code);
+    } catch (e, stackTrace) {
+      _log.e(e, stackTrace: stackTrace, reason: "Sending password reset email");
+      error = L10n.get.lib.signInPageErrorGeneric;
     }
 
     if (!mounted) {

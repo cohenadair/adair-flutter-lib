@@ -18,14 +18,15 @@ class PropertiesManager implements Manager {
 
   PropertiesManager._();
 
-  final String _keyClientSenderEmail = "clientSender.email";
-  final String _keyRevenueCatGoogleApiKey = "revenueCat.googleApiKey";
-  final String _keyRevenueCatAppleApiKey = "revenueCat.appleApiKey";
-  final String _keySupportEmail = "support.email";
-  final String _keySendGridApiKey = "sendGrid.apikey";
+  static const String _keyClientSenderEmail = "clientSender.email";
+  static const String _keyRevenueCatGoogleApiKey = "revenueCat.googleApiKey";
+  static const String _keyRevenueCatAppleApiKey = "revenueCat.appleApiKey";
+  static const String _keySupportEmail = "support.email";
+  static const String _keyMailjetApiKey = "mailjet.apiKey";
+  static const String _keyMailjetSecretKey = "mailjet.secretKey";
 
-  final String _path = "assets/sensitive.properties";
-  final String _feedbackTemplatePath = "assets/feedback_template";
+  static const String _path = "assets/sensitive.properties";
+  static const String _feedbackTemplatePath = "assets/feedback_template";
 
   late PropertiesFile _properties;
   late String _feedbackTemplate;
@@ -44,7 +45,9 @@ class PropertiesManager implements Manager {
 
   String get supportEmail => stringForKey(_keySupportEmail);
 
-  String get sendGridApiKey => stringForKey(_keySendGridApiKey);
+  String get mailjetApiKey => stringForKey(_keyMailjetApiKey);
+
+  String get mailjetSecretKey => stringForKey(_keyMailjetSecretKey);
 
   String get feedbackTemplate => _feedbackTemplate;
 
