@@ -34,7 +34,7 @@ void main() {
 
     expect(find.byType(Loading), findsOneWidget);
 
-    // Finish requestNotification() call.
+    // Finish requestNotificationPermission() call.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
     expect(find.byType(NotificationPermissionPage), findsNothing);
   });
