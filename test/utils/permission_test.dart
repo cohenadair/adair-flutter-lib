@@ -1,4 +1,4 @@
-import 'package:adair_flutter_lib/utils/permission_utils.dart';
+import 'package:adair_flutter_lib/utils/permission.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -18,6 +18,15 @@ void main() {
     when(
       managers.permissionHandlerWrapper.requestStorage(),
     ).thenAnswer((_) async => true);
+    when(
+      managers.permissionHandlerWrapper.requestNotification(),
+    ).thenAnswer((_) async => true);
+    when(
+      managers.permissionHandlerWrapper.requestLocation(),
+    ).thenAnswer((_) async => true);
+    when(
+      managers.permissionHandlerWrapper.requestLocationAlways(),
+    ).thenAnswer((_) async => true);
   });
 
   test(
@@ -30,7 +39,6 @@ void main() {
       verifyNever(
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       );
-      verifyNever(managers.permissionHandlerWrapper.requestStorage());
       verify(managers.permissionHandlerWrapper.requestPhotos()).called(1);
       expect(result, isTrue);
     },
@@ -61,7 +69,6 @@ void main() {
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       ).called(1);
       verifyNever(managers.permissionHandlerWrapper.requestPhotos());
-      verifyNever(managers.permissionHandlerWrapper.requestStorage());
       expect(result, isTrue);
     },
   );
@@ -75,6 +82,47 @@ void main() {
       ).thenAnswer((_) async => false);
 
       final result = await requestPhotosPermission();
+
+      expect(result, isFalse);
+    },
+  );
+
+  test("requestNotificationPermission calls requestNotification", () async {
+    final result = await requestNotificationPermission();
+
+    verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
+    expect(result, isTrue);
+  });
+
+  test("requestLocationPermission calls requestLocation", () async {
+    final result = await requestLocationPermission();
+
+    verify(managers.permissionHandlerWrapper.requestLocation()).called(1);
+    expect(result, isTrue);
+  });
+
+  test("requestLocationAlwaysPermission calls requestLocationAlways", () async {
+    final result = await requestLocationAlwaysPermission();
+
+    verify(managers.permissionHandlerWrapper.requestLocationAlways()).called(1);
+    expect(result, isTrue);
+  });
+
+  test("requestStoragePermission calls requestStorage", () async {
+    final result = await requestStoragePermission();
+
+    verify(managers.permissionHandlerWrapper.requestStorage()).called(1);
+    expect(result, isTrue);
+  });
+
+  test(
+    "requestNotificationPermission returns false when the wrapper throws",
+    () async {
+      when(
+        managers.permissionHandlerWrapper.requestNotification(),
+      ).thenThrow(Exception("already running"));
+
+      final result = await requestNotificationPermission();
 
       expect(result, isFalse);
     },

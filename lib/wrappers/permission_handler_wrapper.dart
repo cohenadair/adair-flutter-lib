@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../utils/log.dart';
-
-final _log = Log("PermissionHandlerWrapper");
-
 class PermissionHandlerWrapper {
   static var _instance = PermissionHandlerWrapper._();
 
@@ -18,28 +14,31 @@ class PermissionHandlerWrapper {
 
   PermissionHandlerWrapper._();
 
-  Future<bool> requestLocation() => _requestGranted(Permission.location);
+  Future<bool> requestLocation() async =>
+      (await Permission.location.request()).isGranted;
 
   Future<bool> get isLocationGranted async => Permission.location.isGranted;
 
-  Future<bool> requestLocationAlways() =>
-      _requestGranted(Permission.locationAlways);
+  Future<bool> requestLocationAlways() async =>
+      (await Permission.locationAlways.request()).isGranted;
 
   Future<bool> get isLocationAlwaysGranted async =>
       Permission.locationAlways.isGranted;
 
   // TODO: Make private to adair-flutter-lib, if possible.
-  /// Don't call directly. Call `permission_utils.dart`'s
+  /// Don't call directly. Call `permission.dart`'s
   /// `requestPhotosPermission()` instead.
-  Future<bool> requestAccessMediaLocation() =>
-      _requestGranted(Permission.accessMediaLocation);
+  Future<bool> requestAccessMediaLocation() async =>
+      (await Permission.accessMediaLocation.request()).isGranted;
 
-  Future<bool> requestStorage() => _requestGranted(Permission.storage);
+  Future<bool> requestStorage() async =>
+      (await Permission.storage.request()).isGranted;
 
   // TODO: Make private to adair-flutter-lib, if possible.
-  /// Don't call directly. Call `permission_utils.dart`'s
+  /// Don't call directly. Call `permission.dart`'s
   /// `requestPhotosPermission()` instead.
-  Future<bool> requestPhotos() => _requestGranted(Permission.photos);
+  Future<bool> requestPhotos() async =>
+      (await Permission.photos.request()).isGranted;
 
   /// Observed behaviour:
   ///   - On an iOS fresh install, returns [PermissionStatus.denied]
@@ -49,7 +48,11 @@ class PermissionHandlerWrapper {
   ///   - User selects "Don't Allow", returns
   ///     [PermissionStatus.permanentlyDenied].
   ///   - User selects "Allow", returns [PermissionStatus.granted].
-  Future<bool> requestNotification() => _requestGranted(_notification);
+  // TODO: Make private to adair-flutter-lib, if possible.
+  /// Don't call directly. Call `permission.dart`'s
+  /// `requestNotificationPermission()` instead.
+  Future<bool> requestNotification() async =>
+      (await _notification.request()).isGranted;
 
   Future<bool> get isNotificationDenied => _notification.isDenied;
 
@@ -58,18 +61,4 @@ class PermissionHandlerWrapper {
   Permission get _notification => Permission.notification;
 
   Future<bool> openSettings() => openAppSettings();
-
-  /// The underlying plugin throws a [PlatformException] if a request for
-  /// any permission is already in progress when this is called (e.g. from
-  /// overlapping calls to different request* methods above). Treat that,
-  /// and any other unexpected failure, as "not granted" rather than
-  /// crashing.
-  Future<bool> _requestGranted(Permission permission) async {
-    try {
-      return (await permission.request()).isGranted;
-    } catch (e) {
-      _log.e(e, reason: "Failed to request permission: $permission");
-      return false;
-    }
-  }
 }
