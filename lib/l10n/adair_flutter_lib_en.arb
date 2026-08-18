@@ -173,6 +173,7 @@
   "inputInvalidNumber": "Invalid number input",
   "inputInvalidEmail": "Invalid email format",
   "inputUnknownError": "Unknown error ({code}).",
+  "inputErrorWithDetails": "{details}",
   "signInPageResetPasswordButton": "Reset Password",
   "signInPageResetPasswordDialogTitle": "Reset Password",
   "signInPageResetPasswordDialogMessage": "Enter your email address and we''ll send you instructions to reset your password.",

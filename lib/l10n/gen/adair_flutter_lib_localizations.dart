@@ -606,6 +606,12 @@ abstract class AdairFlutterLibLocalizations {
   /// **'Unknown error ({code}).'**
   String inputUnknownError(Object code);
 
+  /// No description provided for @inputErrorWithDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{details}'**
+  String inputErrorWithDetails(Object details);
+
   /// No description provided for @signInPageResetPasswordButton.
   ///
   /// In en, this message translates to:

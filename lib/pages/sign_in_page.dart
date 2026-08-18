@@ -428,7 +428,9 @@ class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
     } on FirebaseAuthException catch (e) {
       error = L10n.get.lib.inputUnknownError(e.code);
     } on FirebaseFunctionsException catch (e) {
-      error = L10n.get.lib.inputUnknownError(e.code);
+      error = L10n.get.lib.inputErrorWithDetails(
+        e.message == null ? e.code : e.message!,
+      );
     } catch (e, stackTrace) {
       _log.e(e, stackTrace: stackTrace, reason: "Sending password reset email");
       error = L10n.get.lib.signInPageErrorGeneric;

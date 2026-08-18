@@ -302,6 +302,11 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
   }
 
   @override
+  String inputErrorWithDetails(Object details) {
+    return '$details';
+  }
+
+  @override
   String get signInPageResetPasswordButton => 'Reset Password';
 
   @override

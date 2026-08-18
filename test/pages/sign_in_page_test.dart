@@ -7,6 +7,7 @@ import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -758,6 +759,37 @@ void main() {
     expect(find.byType(Loading), findsNothing);
     expect(find.text("Unknown error (unknown-error)."), findsOneWidget);
   });
+
+  testWidgets(
+    "Reset password dialog shows FirebaseFunctionsException message details",
+    (tester) async {
+      await pumpNotSignedIn(tester);
+      await openResetPasswordDialog(tester);
+      await enterTextAndSettle(
+        tester,
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.widgetWithText(TextField, "Email"),
+        ),
+        "test@test.com",
+      );
+
+      stubSendReset(
+        // ignore: invalid_use_of_protected_member
+        (_) => throw FirebaseFunctionsException(
+          code: "failed-precondition",
+          message: "Tenant is not configured for password reset emails.",
+        ),
+      );
+
+      await tapAndSettle(tester, find.widgetWithText(TextButton, "Reset"));
+      expect(find.byType(Loading), findsNothing);
+      expect(
+        find.text("Tenant is not configured for password reset emails."),
+        findsOneWidget,
+      );
+    },
+  );
 
   testWidgets(
     "Reset password dialog shows generic error for unknown exception",

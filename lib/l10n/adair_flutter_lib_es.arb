@@ -173,6 +173,7 @@
   "inputInvalidNumber": "Entrada de número inválida",
   "inputInvalidEmail": "Formato de correo electrónico inválido",
   "inputUnknownError": "Error desconocido ({code}).",
+  "inputErrorWithDetails": "{details}",
   "signInPageResetPasswordButton": "¿Olvidaste tu contraseña?",
   "signInPageResetPasswordDialogTitle": "Restablecer contraseña",
   "signInPageResetPasswordDialogMessage": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",
