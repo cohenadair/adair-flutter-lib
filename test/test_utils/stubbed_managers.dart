@@ -6,6 +6,7 @@ import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
@@ -43,6 +44,7 @@ class StubbedManagers {
   late final MockTimeManager timeManager;
 
   late final MockFirebaseWrapper firebaseWrapper;
+  late final MockAppCheckWrapper appCheckWrapper;
   late final MockAnalyticsWrapper analyticsWrapper;
   late final MockCrashlyticsWrapper crashlyticsWrapper;
   late final MockDeviceInfoWrapper deviceInfoWrapper;
@@ -101,6 +103,9 @@ class StubbedManagers {
 
     firebaseWrapper = MockFirebaseWrapper();
     FirebaseWrapper.set(firebaseWrapper);
+
+    appCheckWrapper = MockAppCheckWrapper();
+    AppCheckWrapper.set(appCheckWrapper);
 
     analyticsWrapper = MockAnalyticsWrapper();
     AnalyticsWrapper.set(analyticsWrapper);

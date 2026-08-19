@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:adair_flutter_lib/utils/firebase_setup.dart';
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../test_utils/stubbed_managers.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late StubbedManagers managers;
 
   FlutterExceptionHandler? savedFlutterOnError;
@@ -19,6 +26,13 @@ void main() {
 
     when(
       managers.firebaseWrapper.initializeApp(options: anyNamed("options")),
+    ).thenAnswer((_) async {});
+
+    when(
+      managers.appCheckWrapper.activate(
+        providerAndroid: anyNamed("providerAndroid"),
+        providerApple: anyNamed("providerApple"),
+      ),
     ).thenAnswer((_) async {});
 
     when(
@@ -50,8 +64,12 @@ void main() {
     FlutterError.onError = savedFlutterOnError;
     PlatformDispatcher.instance.onError = savedPlatformOnError;
     FirebaseWrapper.reset();
+    AppCheckWrapper.reset();
     AnalyticsWrapper.reset();
     CrashlyticsWrapper.reset();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler("flutter/assets", null);
+    rootBundle.evict("assets/sensitive.properties");
   });
 
   test("setupFirebase sets FlutterError.onError", () async {
@@ -90,6 +108,77 @@ void main() {
     await setupFirebase(isRelease: false);
     verify(managers.crashlyticsWrapper.setCustomKey("Locale", any)).called(1);
   });
+
+  test("setupFirebase does not activate App Check when disabled", () async {
+    await setupFirebase(isRelease: false);
+    verifyNever(
+      managers.appCheckWrapper.activate(
+        providerAndroid: anyNamed("providerAndroid"),
+        providerApple: anyNamed("providerApple"),
+      ),
+    );
+  });
+
+  test(
+    "setupFirebase activates App Check with production providers in release mode",
+    () async {
+      await setupFirebase(isRelease: true, enableAppCheck: true);
+      final captured = verify(
+        managers.appCheckWrapper.activate(
+          providerAndroid: captureAnyNamed("providerAndroid"),
+          providerApple: captureAnyNamed("providerApple"),
+        ),
+      ).captured;
+      expect(captured[0], isA<AndroidPlayIntegrityProvider>());
+      expect(captured[1], isA<AppleAppAttestWithDeviceCheckFallbackProvider>());
+    },
+  );
+
+  test(
+    "setupFirebase activates App Check with a debug token in debug mode",
+    () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMessageHandler("flutter/assets", (message) async {
+            final key = utf8.decode(message!.buffer.asUint8List());
+            if (key != "assets/sensitive.properties") {
+              return null;
+            }
+            return ByteData.sublistView(
+              Uint8List.fromList(utf8.encode("appCheck.debugToken=test-token")),
+            );
+          });
+
+      await setupFirebase(isRelease: false, enableAppCheck: true);
+
+      final captured = verify(
+        managers.appCheckWrapper.activate(
+          providerAndroid: captureAnyNamed("providerAndroid"),
+          providerApple: captureAnyNamed("providerApple"),
+        ),
+      ).captured;
+      expect((captured[0] as AndroidDebugProvider).debugToken, "test-token");
+      expect((captured[1] as AppleDebugProvider).debugToken, "test-token");
+    },
+  );
+
+  test(
+    "setupFirebase activates App Check with a null debug token when the properties file fails to load",
+    () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMessageHandler("flutter/assets", (message) async => null);
+
+      await setupFirebase(isRelease: false, enableAppCheck: true);
+
+      final captured = verify(
+        managers.appCheckWrapper.activate(
+          providerAndroid: captureAnyNamed("providerAndroid"),
+          providerApple: captureAnyNamed("providerApple"),
+        ),
+      ).captured;
+      expect((captured[0] as AndroidDebugProvider).debugToken, isNull);
+      expect((captured[1] as AppleDebugProvider).debugToken, isNull);
+    },
+  );
 
   test("Flutter error handler forwards to CrashlyticsWrapper", () async {
     await setupFirebase(isRelease: false);

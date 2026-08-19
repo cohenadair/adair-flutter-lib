@@ -1,12 +1,22 @@
 import 'dart:isolate';
 
+import 'package:adair_flutter_lib/utils/log.dart';
+import 'package:adair_flutter_lib/utils/properties_file.dart';
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 typedef NonFatalMatcher = bool Function(Object error, StackTrace? stack);
+
+const _sensitivePropertiesPath = "assets/sensitive.properties";
+const _keyAppCheckDebugToken = "appCheck.debugToken";
+
+const _log = Log("firebase_setup");
 
 /// Sets up Firebase Analytics, Crashlytics, and all unhandled error handlers.
 /// Must be called after [Firebase.initializeApp] and before [runApp].
@@ -14,16 +24,41 @@ typedef NonFatalMatcher = bool Function(Object error, StackTrace? stack);
 /// The [isRelease] parameter controls whether collection is enabled. Defaults
 /// to [kReleaseMode] so collection is off in debug builds.
 ///
+/// The [enableAppCheck] parameter controls whether Firebase App Check is
+/// activated. Defaults to false; only apps whose Firebase project has
+/// attestation providers (Play Integrity / App Attest) configured should
+/// opt in. When enabled, release builds use the platform-native provider
+/// and debug builds use the debug provider.
+///
+/// When [enableAppCheck] is true and this is a debug build, the debug
+/// provider is pinned to the `appCheck.debugToken` value in the app's
+/// `assets/sensitive.properties` file (registered once in the Firebase
+/// console) instead of each device auto-generating and needing its own
+/// token registered.
+///
 /// The [nonFatalMatcher] callback, if provided, is called for every unhandled
 /// error. When it returns true the error is recorded as non-fatal, allowing
 /// the app to survive. When it returns false (or is omitted) the error is
 /// recorded as fatal, preserving existing behaviour.
 Future<void> setupFirebase({
   bool isRelease = kReleaseMode,
+  bool enableAppCheck = false,
   FirebaseOptions? options,
   NonFatalMatcher? nonFatalMatcher,
 }) async {
   await FirebaseWrapper.get.initializeApp(options: options);
+
+  if (enableAppCheck) {
+    final debugToken = isRelease ? null : await _appCheckDebugToken();
+    await AppCheckWrapper.get.activate(
+      providerAndroid: isRelease
+          ? const AndroidPlayIntegrityProvider()
+          : AndroidDebugProvider(debugToken: debugToken),
+      providerApple: isRelease
+          ? const AppleAppAttestWithDeviceCheckFallbackProvider()
+          : AppleDebugProvider(debugToken: debugToken),
+    );
+  }
 
   await AnalyticsWrapper.get.setAnalyticsCollectionEnabled(isRelease);
 
@@ -62,6 +97,17 @@ Future<void> setupFirebase({
       await handleIsolateError(pair);
     }).sendPort,
   );
+}
+
+Future<String?> _appCheckDebugToken() async {
+  String? propertiesString;
+  try {
+    propertiesString = await rootBundle.loadString(_sensitivePropertiesPath);
+  } catch (e) {
+    _log.e(e, reason: "Failed to load $_sensitivePropertiesPath");
+    return null;
+  }
+  return PropertiesFile(propertiesString).stringForKey(_keyAppCheckDebugToken);
 }
 
 @visibleForTesting

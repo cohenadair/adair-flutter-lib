@@ -23,6 +23,7 @@ dependencies:
   package_info_plus: ^9.0.1                 # https://pub.dev/packages/package_info_plus
   file_picker: ^10.3.10                     # https://pub.dev/packages/file_picker
   firebase_analytics: ^12.3.0               # https://pub.dev/packages/firebase_analytics
+  firebase_app_check: ^0.4.1                # https://pub.dev/packages/firebase_app_check
   firebase_auth: ^6.5.1                     # https://pub.dev/packages/firebase_auth
   firebase_core: ^4.9.0                     # https://pub.dev/packages/firebase_core
   firebase_crashlytics: ^5.2.2              # https://pub.dev/packages/firebase_crashlytics
