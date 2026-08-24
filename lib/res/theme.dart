@@ -63,6 +63,11 @@ class AdairFlutterLibThemeExtension
   /// The primary color of widgets rendered on top of [success].
   final Color? onSuccess;
 
+  /// The background color of dialogs and popup panels (e.g.
+  /// [DropdownOptionsView]). Falls back to
+  /// `Theme.of(context).colorScheme.surfaceContainerHighest` when unset.
+  final Color? popupBackground;
+
   // TODO: Move to BuildContext extension below.
   /// The radius of the top-left of a NavigationRail content widget, as shown
   /// in https://m3.material.io/components/navigation-rail/overview.
@@ -75,6 +80,7 @@ class AdairFlutterLibThemeExtension
     this.onAppDisabled,
     this.success,
     this.onSuccess,
+    this.popupBackground,
     this.navigationRailContentRadius = 36.0,
   });
 
@@ -86,6 +92,7 @@ class AdairFlutterLibThemeExtension
     Color? onAppDisabled,
     Color? success,
     Color? onSuccess,
+    Color? popupBackground,
   }) {
     return AdairFlutterLibThemeExtension(
       app: app ?? this.app,
@@ -94,6 +101,7 @@ class AdairFlutterLibThemeExtension
       onAppDisabled: onAppDisabled ?? this.onAppDisabled,
       success: success ?? this.success,
       onSuccess: onSuccess ?? this.onSuccess,
+      popupBackground: popupBackground ?? this.popupBackground,
     );
   }
 
@@ -112,6 +120,7 @@ class AdairFlutterLibThemeExtension
       onAppDisabled: Color.lerp(onAppDisabled, other.onAppDisabled, t),
       success: Color.lerp(success, other.success, t),
       onSuccess: Color.lerp(onSuccess, other.onSuccess, t),
+      popupBackground: Color.lerp(popupBackground, other.popupBackground, t),
     );
   }
 }
@@ -179,6 +188,21 @@ extension BuildContexts on BuildContext {
       Colors.white38;
 
   Color get colorText => isDarkTheme ? Colors.white : Colors.black;
+
+  /// The app's `Card` background color, for widgets that need to visually
+  /// match a [Card] without being one (e.g. placeholders, Hero transition
+  /// scrims).
+  Color get colorCard =>
+      Theme.of(this).cardTheme.color ?? Theme.of(this).colorScheme.surface;
+
+  /// The background color of dialogs and popup panels (e.g.
+  /// [DropdownOptionsView]). See
+  /// [AdairFlutterLibThemeExtension.popupBackground].
+  Color get colorPopupBackground =>
+      Theme.of(
+        this,
+      ).extension<AdairFlutterLibThemeExtension>()?.popupBackground ??
+      Theme.of(this).colorScheme.surfaceContainerHighest;
 
   Color get colorBarChartLines => isDarkTheme ? Colors.white12 : Colors.black12;
 

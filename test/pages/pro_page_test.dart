@@ -387,7 +387,7 @@ void main() {
     await tester.pumpWidget(Testable((_) => const ProPage(footnote: null)));
     // Wait for subscriptions future to finish.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
-    expect(find.byType(SizedBox), findsNWidgets(5)); // +1 for no footnote.
+    expect(find.byType(SizedBox), findsNWidgets(6)); // +1 for no footnote.
   });
 
   testWidgets("Features are rendered", (tester) async {

@@ -19,7 +19,15 @@ class AppConfig {
   //  therefore, should not need Root.buildContext.
   late final String Function() appName;
   late final String Function()? companyName;
-  late final IconData appIcon;
+
+  // Per-context logo asset paths (SVGs), rendered via TintedSvgPicture. Null
+  // when an app has no use for that context (e.g. pro-iq has no pro page).
+  // Exposed as asserting getters below rather than directly, so a call site
+  // that reaches a context the app never configured fails fast with a clear
+  // message instead of a bare null-check-operator crash.
+  late final String? _signInLogo;
+  late final String? _landingLogo;
+  late final String? _proLogo;
 
   // TODO: All theme-related properties should be handled in the app's theme.
   //  Remove them from here.
@@ -37,16 +45,35 @@ class AppConfig {
   void init({
     required String Function() appName,
     String Function()? companyName,
-    IconData? appIcon,
+    String? signInLogo,
+    String? landingLogo,
+    String? proLogo,
     MaterialColor? colorAppTheme,
     Color Function(bool)? colorAppBarContent,
     ThemeMode Function()? themeMode,
   }) {
     this.appName = appName;
     this.companyName = companyName;
-    this.appIcon = appIcon ?? Icons.not_interested;
+    _signInLogo = signInLogo;
+    _landingLogo = landingLogo;
+    _proLogo = proLogo;
     this.colorAppTheme = colorAppTheme ?? Colors.pink;
     this.colorAppBarContent = colorAppBarContent ?? (_) => Colors.white;
     this.themeMode = themeMode ?? () => ThemeMode.system;
+  }
+
+  String get signInLogo {
+    assert(_signInLogo != null, "signInLogo was not provided to init()");
+    return _signInLogo!;
+  }
+
+  String get landingLogo {
+    assert(_landingLogo != null, "landingLogo was not provided to init()");
+    return _landingLogo!;
+  }
+
+  String get proLogo {
+    assert(_proLogo != null, "proLogo was not provided to init()");
+    return _proLogo!;
   }
 }

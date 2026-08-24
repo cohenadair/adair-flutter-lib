@@ -436,15 +436,37 @@ class MockAppConfig extends _i1.Mock implements _i25.AppConfig {
           as String Function());
 
   @override
-  _i2.IconData get appIcon =>
+  String get signInLogo =>
       (super.noSuchMethod(
-            Invocation.getter(#appIcon),
-            returnValue: _i26.dummyValue<_i2.IconData>(
+            Invocation.getter(#signInLogo),
+            returnValue: _i26.dummyValue<String>(
               this,
-              Invocation.getter(#appIcon),
+              Invocation.getter(#signInLogo),
             ),
           )
-          as _i2.IconData);
+          as String);
+
+  @override
+  String get landingLogo =>
+      (super.noSuchMethod(
+            Invocation.getter(#landingLogo),
+            returnValue: _i26.dummyValue<String>(
+              this,
+              Invocation.getter(#landingLogo),
+            ),
+          )
+          as String);
+
+  @override
+  String get proLogo =>
+      (super.noSuchMethod(
+            Invocation.getter(#proLogo),
+            returnValue: _i26.dummyValue<String>(
+              this,
+              Invocation.getter(#proLogo),
+            ),
+          )
+          as String);
 
   @override
   _i2.MaterialColor get colorAppTheme =>
@@ -487,12 +509,6 @@ class MockAppConfig extends _i1.Mock implements _i25.AppConfig {
   );
 
   @override
-  set appIcon(_i2.IconData? value) => super.noSuchMethod(
-    Invocation.setter(#appIcon, value),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   set colorAppTheme(_i2.MaterialColor? value) => super.noSuchMethod(
     Invocation.setter(#colorAppTheme, value),
     returnValueForMissingStub: null,
@@ -514,7 +530,9 @@ class MockAppConfig extends _i1.Mock implements _i25.AppConfig {
   void init({
     required String Function()? appName,
     String Function()? companyName,
-    _i2.IconData? appIcon,
+    String? signInLogo,
+    String? landingLogo,
+    String? proLogo,
     _i2.MaterialColor? colorAppTheme,
     _i3.Color Function(bool)? colorAppBarContent,
     _i2.ThemeMode Function()? themeMode,
@@ -522,7 +540,9 @@ class MockAppConfig extends _i1.Mock implements _i25.AppConfig {
     Invocation.method(#init, [], {
       #appName: appName,
       #companyName: companyName,
-      #appIcon: appIcon,
+      #signInLogo: signInLogo,
+      #landingLogo: landingLogo,
+      #proLogo: proLogo,
       #colorAppTheme: colorAppTheme,
       #colorAppBarContent: colorAppBarContent,
       #themeMode: themeMode,

@@ -7,6 +7,7 @@ import 'package:adair_flutter_lib/utils/dialog.dart';
 import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
+import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -174,9 +175,12 @@ void main() {
   });
 
   testWidgets("Default logo", (tester) async {
-    when(managers.appConfig.appIcon).thenReturn(Icons.onetwothree);
+    when(managers.appConfig.signInLogo).thenReturn("assets/logo.svg");
     await pumpNotSignedIn(tester, SignInPageInfo(logo: null));
-    expect(findFirst<Icon>(tester).icon, Icons.onetwothree);
+    expect(
+      tester.widget<TintedSvgPicture>(find.byType(TintedSvgPicture)).asset,
+      "assets/logo.svg",
+    );
   });
 
   testWidgets("Firebase throws invalid-email", (tester) async {

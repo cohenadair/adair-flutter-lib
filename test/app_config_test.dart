@@ -25,14 +25,40 @@ void main() {
     expect(AppConfig.get.companyName!(), "Test Corp");
   });
 
-  test("appIcon defaults to Icons.not_interested when not provided", () {
+  test("signInLogo throws when not provided", () {
     AppConfig.get.init(appName: () => "Test App");
-    expect(AppConfig.get.appIcon, Icons.not_interested);
+    expect(() => AppConfig.get.signInLogo, throwsA(isA<AssertionError>()));
   });
 
-  test("appIcon is set when provided", () {
-    AppConfig.get.init(appName: () => "Test App", appIcon: Icons.home);
-    expect(AppConfig.get.appIcon, Icons.home);
+  test("signInLogo is set when provided", () {
+    AppConfig.get.init(
+      appName: () => "Test App",
+      signInLogo: "assets/sign_in.svg",
+    );
+    expect(AppConfig.get.signInLogo, "assets/sign_in.svg");
+  });
+
+  test("landingLogo throws when not provided", () {
+    AppConfig.get.init(appName: () => "Test App");
+    expect(() => AppConfig.get.landingLogo, throwsA(isA<AssertionError>()));
+  });
+
+  test("landingLogo is set when provided", () {
+    AppConfig.get.init(
+      appName: () => "Test App",
+      landingLogo: "assets/landing.svg",
+    );
+    expect(AppConfig.get.landingLogo, "assets/landing.svg");
+  });
+
+  test("proLogo throws when not provided", () {
+    AppConfig.get.init(appName: () => "Test App");
+    expect(() => AppConfig.get.proLogo, throwsA(isA<AssertionError>()));
+  });
+
+  test("proLogo is set when provided", () {
+    AppConfig.get.init(appName: () => "Test App", proLogo: "assets/pro.svg");
+    expect(AppConfig.get.proLogo, "assets/pro.svg");
   });
 
   test("colorAppTheme defaults to Colors.pink when not provided", () {

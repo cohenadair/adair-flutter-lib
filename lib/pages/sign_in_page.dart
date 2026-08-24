@@ -11,6 +11,7 @@ import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/loading.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:adair_flutter_lib/widgets/text_input.dart';
+import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
 import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  static const _logoSize = 200.0;
+  static const _logoMaxWidth = 300.0;
+  static const _logoMaxHeight = 200.0;
 
   late final Stream<User?> _authStateStream;
 
@@ -128,7 +130,13 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buildLogo() {
     return Padding(
       padding: insetsDefault,
-      child: widget.info.logo ?? Icon(AppConfig.get.appIcon, size: _logoSize),
+      child:
+          widget.info.logo ??
+          TintedSvgPicture(
+            AppConfig.get.signInLogo,
+            maxWidth: _logoMaxWidth,
+            maxHeight: _logoMaxHeight,
+          ),
     );
   }
 
@@ -300,7 +308,7 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 class SignInPageInfo {
-  /// If null, defaults to [AppConfig.appIcon].
+  /// If null, defaults to [AppConfig.signInLogo].
   final Widget? logo;
 
   /// Called after sign in, if not null. Return an error string to stop the

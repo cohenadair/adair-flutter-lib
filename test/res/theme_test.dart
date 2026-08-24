@@ -27,4 +27,29 @@ void main() {
     var context = await buildContext(tester);
     expect(context.colorTertiaryText, Colors.black38);
   });
+
+  testWidgets("colorCard uses cardTheme.color when set", (tester) async {
+    AppConfig.get.init(appName: () => "Test App");
+    var context = await pumpContext(
+      tester,
+      (_) => const SizedBox(),
+      theme: ThemeData(cardTheme: const CardThemeData(color: Colors.teal)),
+    );
+    expect(context.colorCard, Colors.teal);
+  });
+
+  testWidgets(
+    "colorCard falls back to colorScheme.surface when cardTheme.color is unset",
+    (tester) async {
+      AppConfig.get.init(appName: () => "Test App");
+      var context = await pumpContext(
+        tester,
+        (_) => const SizedBox(),
+        theme: ThemeData(
+          colorScheme: const ColorScheme.light(surface: Colors.orange),
+        ),
+      );
+      expect(context.colorCard, Colors.orange);
+    },
+  );
 }

@@ -2,6 +2,7 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/widgets/app_color_icon.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
+import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
 
@@ -53,14 +54,7 @@ class ProPageState extends State<ProPage> {
   Widget build(BuildContext context) {
     var children = [
       Container(height: paddingDefault),
-      Padding(
-        padding: widget.logoPadding,
-        child: Icon(
-          AppConfig.get.appIcon,
-          size: _logoHeight,
-          color: AppConfig.get.colorAppTheme,
-        ),
-      ),
+      _buildLogo(),
       Text(
         L10n.get.lib.proPageUpgradeTitle(AppConfig.get.appName()),
         style: styleTitle2(context),
@@ -100,6 +94,13 @@ class ProPageState extends State<ProPage> {
     } else {
       return Column(children: children);
     }
+  }
+
+  Widget _buildLogo() {
+    return Padding(
+      padding: widget.logoPadding,
+      child: TintedSvgPicture(AppConfig.get.proLogo, maxHeight: _logoHeight),
+    );
   }
 
   Widget _buildSubscriptionState() {

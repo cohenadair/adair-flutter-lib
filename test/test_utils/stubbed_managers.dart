@@ -70,8 +70,6 @@ class StubbedManagers {
   }
 
   StubbedManagers._() {
-    provideDummy<IconData>(const IconData(0));
-
     adairFlutterLib = MockAdairFlutterLib();
     when(adairFlutterLib.init()).thenAnswer((_) => Future.value());
     AdairFlutterLib.set(adairFlutterLib);
@@ -79,7 +77,9 @@ class StubbedManagers {
     appConfig = MockAppConfig();
     when(appConfig.colorAppTheme).thenReturn(Colors.pink);
     when(appConfig.colorAppBarContent).thenReturn((_) => Colors.white);
-    when(appConfig.appIcon).thenReturn(Icons.add); // Random icon.
+    when(appConfig.signInLogo).thenReturn("assets/sign_in_logo.svg");
+    when(appConfig.landingLogo).thenReturn("assets/landing_logo.svg");
+    when(appConfig.proLogo).thenReturn("assets/pro_logo.svg");
     when(appConfig.appName).thenReturn(() => "Test App");
     when(appConfig.companyName).thenReturn(() => "Test, Inc.");
     when(appConfig.themeMode).thenReturn(() => ThemeMode.system);

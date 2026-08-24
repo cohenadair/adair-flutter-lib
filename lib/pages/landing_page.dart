@@ -4,8 +4,13 @@ import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/widgets/empty_or.dart';
 import 'package:adair_flutter_lib/widgets/error_text.dart';
+import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:quiver/strings.dart';
+
+// TODO: Move to a "plain" (single colour matching home page) landing/splash
+//  page. Convert this to an "error page" to be used exclusively for startup
+//  errors.
 
 /// The page shown while initialization futures are completing.
 class LandingPage extends StatelessWidget {
@@ -20,21 +25,16 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colorApp,
       body: Stack(
-        children: [_buildLogo(context), _buildInitError(), _buildCompanyName()],
+        children: [_buildLogo(), _buildInitError(), _buildCompanyName()],
       ),
     );
   }
 
-  Widget _buildLogo(BuildContext context) {
+  Widget _buildLogo() {
     return Align(
       alignment: Alignment(_iconHorizontalAlignment, _iconVerticalAlignment),
-      child: Icon(
-        AppConfig.get.appIcon,
-        size: _iconSize,
-        color: context.colorOnApp,
-      ),
+      child: TintedSvgPicture(AppConfig.get.landingLogo, maxHeight: _iconSize),
     );
   }
 
@@ -67,8 +67,18 @@ class LandingPage extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(L10n.get.lib.by, style: context.styleOnAppSecondary),
-                Text(name!, style: context.styleOnApp),
+                Text(
+                  L10n.get.lib.by,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: context.colorSecondaryText,
+                  ),
+                ),
+                Text(
+                  name!,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: context.colorText),
+                ),
               ],
             ),
           ),

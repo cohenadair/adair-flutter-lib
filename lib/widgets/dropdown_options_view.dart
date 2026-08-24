@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../res/dimen.dart';
+import '../res/theme.dart';
 
 /// A styled dropdown panel for displaying a list of options, consistent with
 /// M3 design. Handles the [Material] container, elevation, rounded corners,
@@ -24,7 +25,7 @@ class DropdownOptionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: elevation,
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      color: context.colorPopupBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(outerBorderRadius)),
       ),
