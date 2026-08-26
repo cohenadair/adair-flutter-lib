@@ -40,11 +40,18 @@ const _log = Log("firebase_setup");
 /// error. When it returns true the error is recorded as non-fatal, allowing
 /// the app to survive. When it returns false (or is omitted) the error is
 /// recorded as fatal, preserving existing behaviour.
+///
+/// The [ignoreMatcher] callback, if provided, is checked before
+/// [nonFatalMatcher] for every unhandled error. When it returns true, the
+/// error is not recorded to Crashlytics at all (and the app still survives,
+/// same as a matched [nonFatalMatcher]). Use this for known, unactionable
+/// third-party errors that would otherwise be pure noise in Crashlytics.
 Future<void> setupFirebase({
   bool isRelease = kReleaseMode,
   bool enableAppCheck = false,
   FirebaseOptions? options,
   NonFatalMatcher? nonFatalMatcher,
+  NonFatalMatcher? ignoreMatcher,
 }) async {
   await FirebaseWrapper.get.initializeApp(options: options);
 
@@ -70,6 +77,10 @@ Future<void> setupFirebase({
 
   // Catches widget build errors and other Flutter framework errors.
   FlutterError.onError = (details) {
+    if (ignoreMatcher?.call(details.exception, details.stack) == true) {
+      return;
+    }
+
     if (nonFatalMatcher?.call(details.exception, details.stack) == true) {
       CrashlyticsWrapper.get.recordError(
         details.exception,
@@ -83,6 +94,10 @@ Future<void> setupFirebase({
 
   // Catches async Dart errors not caught by the Flutter framework.
   PlatformDispatcher.instance.onError = (error, stack) {
+    if (ignoreMatcher?.call(error, stack) == true) {
+      return true;
+    }
+
     CrashlyticsWrapper.get.recordError(
       error,
       stack,

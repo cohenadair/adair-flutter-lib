@@ -245,6 +245,43 @@ void main() {
   );
 
   test(
+    "Flutter error handler records nothing when ignoreMatcher returns true",
+    () async {
+      await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => true);
+      final details = FlutterErrorDetails(exception: Exception("test"));
+      FlutterError.onError!(details);
+      verifyNever(managers.crashlyticsWrapper.recordFlutterFatalError(any));
+      verifyNever(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          any,
+          fatal: anyNamed("fatal"),
+        ),
+      );
+    },
+  );
+
+  test(
+    "Flutter error handler falls back to nonFatalMatcher when ignoreMatcher returns false",
+    () async {
+      await setupFirebase(
+        isRelease: false,
+        ignoreMatcher: (_, _) => false,
+        nonFatalMatcher: (_, _) => true,
+      );
+      final details = FlutterErrorDetails(exception: Exception("test"));
+      FlutterError.onError!(details);
+      verify(
+        managers.crashlyticsWrapper.recordError(
+          details.exception,
+          details.stack,
+          fatal: false,
+        ),
+      ).called(1);
+    },
+  );
+
+  test(
     "Platform error handler forwards to CrashlyticsWrapper with fatal true",
     () async {
       await setupFirebase(isRelease: false);
@@ -304,6 +341,41 @@ void main() {
     );
     expect(result, isTrue);
   });
+
+  test(
+    "Platform error handler records nothing when ignoreMatcher returns true",
+    () async {
+      await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => true);
+      final error = Exception("platform test");
+      final stack = StackTrace.current;
+      final result = PlatformDispatcher.instance.onError!(error, stack);
+      verifyNever(
+        managers.crashlyticsWrapper.recordError(
+          any,
+          any,
+          fatal: anyNamed("fatal"),
+        ),
+      );
+      expect(result, isTrue);
+    },
+  );
+
+  test(
+    "Platform error handler falls back to nonFatalMatcher when ignoreMatcher returns false",
+    () async {
+      await setupFirebase(
+        isRelease: false,
+        ignoreMatcher: (_, _) => false,
+        nonFatalMatcher: (_, _) => true,
+      );
+      final error = Exception("platform test");
+      final stack = StackTrace.current;
+      PlatformDispatcher.instance.onError!(error, stack);
+      verify(
+        managers.crashlyticsWrapper.recordError(error, stack, fatal: false),
+      ).called(1);
+    },
+  );
 
   test(
     "handleIsolateError converts string stack trace to StackTrace before forwarding",
