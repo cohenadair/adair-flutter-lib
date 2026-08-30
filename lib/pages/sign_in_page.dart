@@ -171,6 +171,7 @@ class _SignInPageState extends State<SignInPage> {
         onPressed: () => showDialog(
           context: context,
           builder: (_) => _ResetPasswordDialog(
+            initialEmail: _emailController.editingController.text,
             sendPasswordResetEmail: widget.info.sendPasswordResetEmail,
           ),
         ),
@@ -329,9 +330,13 @@ class SignInPageInfo {
 }
 
 class _ResetPasswordDialog extends StatefulWidget {
+  final String initialEmail;
   final Future<void> Function(String email)? sendPasswordResetEmail;
 
-  const _ResetPasswordDialog({this.sendPasswordResetEmail});
+  const _ResetPasswordDialog({
+    required this.initialEmail,
+    this.sendPasswordResetEmail,
+  });
 
   @override
   State<_ResetPasswordDialog> createState() => _ResetPasswordDialogState();
@@ -340,7 +345,10 @@ class _ResetPasswordDialog extends StatefulWidget {
 class _ResetPasswordDialogState extends State<_ResetPasswordDialog> {
   static const double _maxWidth = 400;
 
-  final _emailController = EmailInputController(required: true);
+  late final _emailController = EmailInputController(
+    editingController: TextEditingController(text: widget.initialEmail),
+    required: true,
+  );
   final _log = Log("ResetPasswordDialog");
 
   var _isSent = false;

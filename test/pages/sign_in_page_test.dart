@@ -675,6 +675,26 @@ void main() {
     expect(findFirstWithText<DialogButton>(tester, "Reset").isEnabled, isFalse);
   });
 
+  testWidgets("Reset password dialog is pre-filled with sign-in email", (
+    tester,
+  ) async {
+    await pumpNotSignedIn(tester);
+    await enterTextAndSettle(
+      tester,
+      find.widgetWithText(TextField, "Email"),
+      "test@test.com",
+    );
+    await openResetPasswordDialog(tester);
+
+    final dialogEmailField = tester.widget<TextField>(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.widgetWithText(TextField, "Email"),
+      ),
+    );
+    expect(dialogEmailField.controller!.text, "test@test.com");
+  });
+
   testWidgets("Reset password dialog send button enabled with valid email", (
     tester,
   ) async {
