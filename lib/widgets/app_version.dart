@@ -38,6 +38,8 @@ class _AppVersionState extends State<AppVersion> {
     return AsyncBuilder.future(
       future: _packageInfoFuture,
       errorReason: "Failed to load package info",
+      loadingBuilder: (context) =>
+          widget.inListTile ? _buildListTile("") : _buildVersionText(""),
       builder: (context, packageInfo) {
         final version = "${packageInfo.version} (${packageInfo.buildNumber})";
         return widget.inListTile

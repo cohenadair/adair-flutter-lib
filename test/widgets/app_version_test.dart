@@ -25,6 +25,26 @@ void main() {
     );
   });
 
+  testWidgets("Empty version text renders while loading and not inListTile", (
+    tester,
+  ) async {
+    await pumpContext(tester, (_) => const AppVersion());
+
+    expect(find.text(""), findsOneWidget);
+    expect(find.text("2.3.4 (99)"), findsNothing);
+    expect(find.byType(ListTile), findsNothing);
+  });
+
+  testWidgets("Empty ListTile renders while loading and inListTile is true", (
+    tester,
+  ) async {
+    await pumpContext(tester, (_) => const AppVersion(inListTile: true));
+
+    final listTile = tester.widget<ListTile>(find.byType(ListTile));
+    expect((listTile.trailing as Text).data, "");
+    expect(find.text("2.3.4 (99)"), findsNothing);
+  });
+
   testWidgets("Version text renders when inListTile is false", (tester) async {
     await pumpContext(tester, (_) => const AppVersion());
     await tester.pumpAndSettle();
