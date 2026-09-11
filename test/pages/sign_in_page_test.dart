@@ -32,6 +32,7 @@ void main() {
     when(
       managers.firebaseAuthWrapper.authStateChanges(),
     ).thenAnswer((_) => authController.stream);
+    when(managers.firebaseAuthWrapper.currentUser).thenReturn(MockUser());
 
     when(managers.packageInfoWrapper.fromPlatform()).thenAnswer(
       (_) => Future.value(
@@ -582,6 +583,32 @@ void main() {
     await tester.pumpAndSettle();
     expect(callCount, 2);
     expect(find.text("HOME"), findsOneWidget);
+  });
+
+  testWidgets("Auto-init does not run when currentUser is already null", (
+    tester,
+  ) async {
+    var verificationCalled = false;
+    await pumpContext(
+      tester,
+      (_) => SignInPage(
+        info: SignInPageInfo(
+          postSignInVerification: () {
+            verificationCalled = true;
+            return Future.value(null);
+          },
+        ),
+        homeBuilder: (_) => Text("HOME"),
+      ),
+    );
+    await tester.pump();
+
+    when(managers.firebaseAuthWrapper.currentUser).thenReturn(null);
+    authController.add(MockUser());
+    await tester.pumpAndSettle();
+
+    expect(verificationCalled, isFalse);
+    expect(find.text("HOME"), findsNothing);
   });
 
   testWidgets("Post sign in verification fails", (tester) async {

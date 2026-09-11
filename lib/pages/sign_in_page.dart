@@ -208,7 +208,19 @@ class _SignInPageState extends State<SignInPage> {
       return;
     }
 
-    setState(() => _isInitializing = true);
+    // The auth state stream can deliver a stale "signed in" snapshot after
+    // the user has already been signed out (e.g. by a failed
+    // postSignInVerification in _signIn). There's nothing to verify in that
+    // case, so bail out rather than re-running verification against a user
+    // who is no longer signed in.
+    if (FirebaseAuthWrapper.get.currentUser == null) {
+      return;
+    }
+
+    setState(() {
+      _isInitializing = true;
+      _error = "";
+    });
 
     var error = "";
     try {
@@ -229,6 +241,7 @@ class _SignInPageState extends State<SignInPage> {
     setState(() {
       _isInitializing = false;
       _isInitialized = error.isEmpty;
+      _error = error;
     });
   }
 
