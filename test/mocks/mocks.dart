@@ -19,6 +19,7 @@ import 'package:adair_flutter_lib/wrappers/http_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/method_channel_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
@@ -60,6 +61,8 @@ import 'package:shared_preferences/shared_preferences.dart';
   ],
 )
 @GenerateMocks([LogInResult])
+@GenerateMocks([MethodChannel])
+@GenerateMocks([MethodChannelWrapper])
 @GenerateMocks([NativeTimeZoneWrapper])
 @GenerateMocks([PackageInfoWrapper])
 @GenerateMocks([PathProviderWrapper])
@@ -106,6 +109,7 @@ import 'package:shared_preferences/shared_preferences.dart';
     MockSpec<QueryDocumentSnapshot<Map<String, dynamic>>>(
       as: #MockQueryDocumentSnapshot,
     ),
+    MockSpec<DocumentChange<Map<String, dynamic>>>(as: #MockDocumentChange),
     MockSpec<WriteBatch>(as: #MockWriteBatch),
   ],
 )

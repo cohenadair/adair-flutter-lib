@@ -18,6 +18,7 @@ import 'package:adair_flutter_lib/wrappers/http_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/io_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/method_channel_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart';
@@ -27,6 +28,7 @@ import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mockito/mockito.dart';
 import 'package:quiver/strings.dart';
 import 'package:timezone/data/latest_all.dart';
@@ -56,6 +58,7 @@ class StubbedManagers {
   late final MockInAppReviewWrapper inAppReviewWrapper;
   late final MockIoWrapper ioWrapper;
   late final MockLocalNotificationsWrapper localNotificationsWrapper;
+  late final MockMethodChannelWrapper methodChannelWrapper;
   late final MockNativeTimeZoneWrapper nativeTimeZoneWrapper;
   late final MockPackageInfoWrapper packageInfoWrapper;
   late final MockPermissionHandlerWrapper permissionHandlerWrapper;
@@ -155,6 +158,19 @@ class StubbedManagers {
 
     localNotificationsWrapper = MockLocalNotificationsWrapper();
     LocalNotificationsWrapper.set(localNotificationsWrapper);
+
+    methodChannelWrapper = MockMethodChannelWrapper();
+    MethodChannelWrapper.set(methodChannelWrapper);
+    // Default: return a real (inert) MethodChannel for whatever name is
+    // requested, echoing it back for fidelity. Stubbed here rather than
+    // left to each downstream test, since any manager that constructs a
+    // MethodChannel via this wrapper as part of its own construction (e.g.
+    // a field initializer) would otherwise throw MissingStubError in every
+    // widget test that builds it, whether or not that test cares about
+    // platform channels at all.
+    when(
+      methodChannelWrapper.channel(any),
+    ).thenAnswer((i) => MethodChannel(i.positionalArguments.first as String));
 
     permissionHandlerWrapper = MockPermissionHandlerWrapper();
     PermissionHandlerWrapper.set(permissionHandlerWrapper);
