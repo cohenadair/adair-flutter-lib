@@ -203,6 +203,26 @@ class _SignInPageState extends State<SignInPage> {
       _emailController.editingController.text.isNotEmpty &&
       _passwordController.editingController.text.isNotEmpty;
 
+  /// Runs [SignInPageInfo.postSignInVerification] and returns the error to
+  /// show the user, or an empty string on success.
+  Future<String> _runPostSignInVerification() async {
+    try {
+      return await widget.info.postSignInVerification?.call() ?? "";
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "internal-error") {
+        // A generic SDK-level catch-all that clears itself on retry and
+        // carries no diagnostic value beyond what the code already says, so
+        // there's nothing useful to log.
+        return L10n.get.lib.signInPageErrorGeneric;
+      }
+      _log.e(e, reason: "Post-sign in verification");
+      return L10n.get.lib.signInPageErrorGeneric;
+    } catch (e, stackTrace) {
+      _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
+      return L10n.get.lib.signInPageErrorGeneric;
+    }
+  }
+
   Future<void> _initForCurrentUser() async {
     if (_isInitializing || _isInitialized) {
       return;
@@ -222,13 +242,7 @@ class _SignInPageState extends State<SignInPage> {
       _error = "";
     });
 
-    var error = "";
-    try {
-      error = await widget.info.postSignInVerification?.call() ?? "";
-    } catch (e, stackTrace) {
-      _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
-      error = L10n.get.lib.signInPageErrorGeneric;
-    }
+    final error = await _runPostSignInVerification();
 
     if (error.isNotEmpty) {
       await FirebaseAuthWrapper.get.signOut();
@@ -262,12 +276,7 @@ class _SignInPageState extends State<SignInPage> {
     }
 
     if (error.isEmpty) {
-      try {
-        error = await widget.info.postSignInVerification?.call() ?? "";
-      } catch (e, stackTrace) {
-        _log.e(e, stackTrace: stackTrace, reason: "Post-sign in verification");
-        error = L10n.get.lib.signInPageErrorGeneric;
-      }
+      error = await _runPostSignInVerification();
     }
 
     // Something bad happened. Make sure we're signed out.

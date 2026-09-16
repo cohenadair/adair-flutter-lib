@@ -84,6 +84,20 @@ void main() {
     ).thenAnswer(answer);
   }
 
+  /// Runs [action] and returns everything it printed. [Log.e] falls back to
+  /// `print` in debug mode (tests never reach Crashlytics), so this is the
+  /// only way to verify whether an error was logged.
+  Future<List<String>> capturePrints(Future<void> Function() action) async {
+    final prints = <String>[];
+    await runZoned(
+      action,
+      zoneSpecification: ZoneSpecification(
+        print: (self, parent, zone, line) => prints.add(line),
+      ),
+    );
+    return prints;
+  }
+
   Future<void> pumpNotSignedIn(
     WidgetTester tester, [
     SignInPageInfo? info,
@@ -528,6 +542,39 @@ void main() {
     },
   );
 
+  testWidgets(
+    "Auto-init signs out and swallows a FirebaseAuthException internal-error"
+    " from postSignInVerification",
+    (tester) async {
+      when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+        authController.add(null);
+        return Future.value();
+      });
+
+      await pumpContext(
+        tester,
+        (_) => SignInPage(
+          info: SignInPageInfo(
+            postSignInVerification: () =>
+                throw FirebaseAuthException(code: "internal-error"),
+          ),
+          homeBuilder: (_) => Text("HOME"),
+        ),
+      );
+      await tester.pump();
+
+      final prints = await capturePrints(() async {
+        authController.add(MockUser());
+        await tester.pumpAndSettle();
+      });
+
+      expect(prints, isEmpty);
+      expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
+      verify(managers.firebaseAuthWrapper.signOut()).called(1);
+      expect(find.text("HOME"), findsNothing);
+    },
+  );
+
   testWidgets("Auto-init does not call postSignInVerification twice", (
     tester,
   ) async {
@@ -656,6 +703,36 @@ void main() {
     await tester.tap(find.byType(Button));
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
+    expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
+    expect(find.text("H"), findsNothing);
+    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+  });
+
+  testWidgets("Post sign in verification swallows a FirebaseAuthException"
+      " internal-error", (tester) async {
+    await pumpNotSignedIn(
+      tester,
+      SignInPageInfo(
+        postSignInVerification: () =>
+            throw FirebaseAuthException(code: "internal-error"),
+      ),
+      "H",
+    );
+    await enterEmailAndPassword(tester);
+
+    // Sign in.
+    stubSignIn(
+      (_) => Future.delayed(
+        const Duration(seconds: 1),
+        () => MockUserCredential(),
+      ),
+    );
+    final prints = await capturePrints(() async {
+      await tester.tap(find.byType(Button));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+    });
+
+    expect(prints, isEmpty);
     expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
     expect(find.text("H"), findsNothing);
     verify(managers.firebaseAuthWrapper.signOut()).called(1);
