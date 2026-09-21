@@ -42,6 +42,13 @@ const insetsVerticalSmall = EdgeInsets.only(
   bottom: paddingSmall,
 );
 
+const insetsVerticalXL = EdgeInsets.only(
+  left: 0,
+  top: paddingXL,
+  right: 0,
+  bottom: paddingXL,
+);
+
 const insetsHorizontalMedium = EdgeInsets.only(
   left: paddingMedium,
   top: 0,
