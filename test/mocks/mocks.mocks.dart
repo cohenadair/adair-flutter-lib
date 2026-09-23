@@ -1399,31 +1399,85 @@ class MockLog extends _i1.Mock implements _i46.Log {
   );
 
   @override
-  T sync<T>(String? tag, int? msThreshold, T Function()? work) =>
+  T sync<T>(
+    String? tag,
+    int? msThreshold,
+    T Function()? work, {
+    double? msPerItem = 0.0,
+    int Function(T)? countItems,
+    String Function(T)? describe,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#sync, [tag, msThreshold, work]),
+            Invocation.method(
+              #sync,
+              [tag, msThreshold, work],
+              {
+                #msPerItem: msPerItem,
+                #countItems: countItems,
+                #describe: describe,
+              },
+            ),
             returnValue: _i27.dummyValue<T>(
               this,
-              Invocation.method(#sync, [tag, msThreshold, work]),
+              Invocation.method(
+                #sync,
+                [tag, msThreshold, work],
+                {
+                  #msPerItem: msPerItem,
+                  #countItems: countItems,
+                  #describe: describe,
+                },
+              ),
             ),
           )
           as T);
 
   @override
-  _i8.Future<T> async<T>(String? tag, int? msThreshold, _i8.Future<T>? work) =>
+  _i8.Future<T> async<T>(
+    String? tag,
+    int? msThreshold,
+    _i8.Future<T>? work, {
+    double? msPerItem = 0.0,
+    int Function(T)? countItems,
+    String Function(T)? describe,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#async, [tag, msThreshold, work]),
+            Invocation.method(
+              #async,
+              [tag, msThreshold, work],
+              {
+                #msPerItem: msPerItem,
+                #countItems: countItems,
+                #describe: describe,
+              },
+            ),
             returnValue:
                 _i27.ifNotNull(
                   _i27.dummyValueOrNull<T>(
                     this,
-                    Invocation.method(#async, [tag, msThreshold, work]),
+                    Invocation.method(
+                      #async,
+                      [tag, msThreshold, work],
+                      {
+                        #msPerItem: msPerItem,
+                        #countItems: countItems,
+                        #describe: describe,
+                      },
+                    ),
                   ),
                   (T v) => _i8.Future<T>.value(v),
                 ) ??
                 _FakeFuture_8<T>(
                   this,
-                  Invocation.method(#async, [tag, msThreshold, work]),
+                  Invocation.method(
+                    #async,
+                    [tag, msThreshold, work],
+                    {
+                      #msPerItem: msPerItem,
+                      #countItems: countItems,
+                      #describe: describe,
+                    },
+                  ),
                 ),
           )
           as _i8.Future<T>);

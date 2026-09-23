@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:adair_flutter_lib/utils/log.dart';
@@ -235,4 +236,86 @@ void main() {
       expect(printed.first.contains("E/AL-Test: Reason"), isTrue);
     },
   );
+
+  test("sync threshold scales with item count", () {
+    log.sync(
+      "TAG",
+      20,
+      () => sleep(const Duration(milliseconds: 60)),
+      msPerItem: 20,
+      countItems: (_) => 5,
+    );
+    verifyNever(
+      crashlytics.recordError(
+        any,
+        any,
+        reason: anyNamed("reason"),
+        fatal: anyNamed("fatal"),
+      ),
+    );
+    verify(crashlytics.log(any)).called(1);
+  });
+
+  test("sync error includes item count and description", () {
+    log.sync(
+      "TAG",
+      10,
+      () {
+        sleep(const Duration(milliseconds: 60));
+        return 3;
+      },
+      msPerItem: 1,
+      countItems: (result) => result,
+      describe: (result) => "$result things",
+    );
+
+    final exception =
+        verify(
+              crashlytics.recordError(
+                captureAny,
+                any,
+                reason: anyNamed("reason"),
+                fatal: anyNamed("fatal"),
+              ),
+            ).captured.single
+            as TimeoutException;
+    expect(exception.message, contains("threshold 13ms, 3 items, 3 things"));
+    expect(exception.duration, const Duration(milliseconds: 13));
+  });
+
+  test("sync error excludes item count and description when not set", () {
+    log.sync("TAG", 10, () => sleep(const Duration(milliseconds: 60)));
+
+    final exception =
+        verify(
+              crashlytics.recordError(
+                captureAny,
+                any,
+                reason: anyNamed("reason"),
+                fatal: anyNamed("fatal"),
+              ),
+            ).captured.single
+            as TimeoutException;
+    expect(exception.message, contains("threshold 10ms)"));
+    expect(exception.message, isNot(contains("items")));
+  });
+
+  test("async threshold scales with item count", () async {
+    await log.async(
+      "TAG",
+      20,
+      Future.delayed(const Duration(milliseconds: 60)),
+      msPerItem: 20,
+      countItems: (_) => 5,
+    );
+    verifyNever(
+      crashlytics.recordError(
+        any,
+        any,
+        reason: anyNamed("reason"),
+        fatal: anyNamed("fatal"),
+      ),
+    );
+    verify(crashlytics.log(any)).called(1);
+  });
 }
