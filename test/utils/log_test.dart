@@ -168,4 +168,71 @@ void main() {
     expect(result.captured.first, "E/AL-Test: Test message");
     expect(result.captured.last, true);
   });
+
+  test("e without stack trace sends the caller's stack trace", () {
+    log.e(Exception());
+
+    final stackTrace =
+        verify(
+              crashlytics.recordError(
+                any,
+                captureAny,
+                reason: anyNamed("reason"),
+                fatal: anyNamed("fatal"),
+              ),
+            ).captured.single
+            as StackTrace;
+    final lines = stackTrace.toString().split("\n");
+    expect(lines.first.contains("log_test.dart"), isTrue);
+    expect(lines.any((line) => line.contains("utils/log.dart")), isFalse);
+  });
+
+  test("e with stack trace sends it unchanged", () {
+    final stackTrace = StackTrace.fromString("Test stack trace");
+    log.e(Exception(), stackTrace: stackTrace);
+
+    verify(
+      crashlytics.recordError(
+        any,
+        stackTrace,
+        reason: anyNamed("reason"),
+        fatal: anyNamed("fatal"),
+      ),
+    ).called(1);
+  });
+
+  test("Crashlytics log failure is printed instead of thrown", () async {
+    when(crashlytics.log(any)).thenThrow(Exception("No Firebase app"));
+
+    final printed = await capturePrintStatements(() => log.w("Message"));
+
+    expect(printed.length, 1);
+    expect(printed.first.contains("Failed to send log to Crashlytics"), isTrue);
+    expect(printed.first.contains("W/AL-Test: Message"), isTrue);
+  });
+
+  test(
+    "Crashlytics recordError failure is printed instead of thrown",
+    () async {
+      when(
+        crashlytics.recordError(
+          any,
+          any,
+          reason: anyNamed("reason"),
+          fatal: anyNamed("fatal"),
+        ),
+      ).thenThrow(Exception("No Firebase app"));
+
+      final printed = await capturePrintStatements(
+        () => log.e(Exception(), reason: "Reason"),
+      );
+
+      expect(printed.length, 1);
+      expect(
+        printed.first.contains("Failed to send log to Crashlytics"),
+        isTrue,
+      );
+      expect(printed.first.contains("E/AL-Test: Reason"), isTrue);
+    },
+  );
 }
