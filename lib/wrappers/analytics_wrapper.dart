@@ -16,4 +16,9 @@ class AnalyticsWrapper {
 
   Future<void> setAnalyticsCollectionEnabled(bool enabled) =>
       FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(enabled);
+
+  Future<void> logEvent({
+    required String name,
+    Map<String, Object>? parameters,
+  }) => FirebaseAnalytics.instance.logEvent(name: name, parameters: parameters);
 }

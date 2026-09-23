@@ -408,6 +408,21 @@ class MockAnalyticsWrapper extends _i1.Mock implements _i23.AnalyticsWrapper {
             returnValueForMissingStub: _i8.Future<void>.value(),
           )
           as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> logEvent({
+    required String? name,
+    Map<String, Object>? parameters,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#logEvent, [], {
+              #name: name,
+              #parameters: parameters,
+            }),
+            returnValue: _i8.Future<void>.value(),
+            returnValueForMissingStub: _i8.Future<void>.value(),
+          )
+          as _i8.Future<void>);
 }
 
 /// A class which mocks [AppCheckWrapper].
@@ -818,13 +833,15 @@ class MockEmailManager extends _i1.Mock implements _i33.EmailManager {
   }
 
   @override
-  _i8.Future<bool> send({
+  _i8.Future<_i33.EmailSendResult> send({
     required String? appName,
     required String? replyToEmail,
     required String? replyToName,
     required String? subject,
     required String? text,
+    required String? userMessage,
     List<_i33.EmailAttachment>? attachments = const [],
+    bool? isSpamFilterEnabled = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#send, [], {
@@ -833,11 +850,15 @@ class MockEmailManager extends _i1.Mock implements _i33.EmailManager {
               #replyToName: replyToName,
               #subject: subject,
               #text: text,
+              #userMessage: userMessage,
               #attachments: attachments,
+              #isSpamFilterEnabled: isSpamFilterEnabled,
             }),
-            returnValue: _i8.Future<bool>.value(false),
+            returnValue: _i8.Future<_i33.EmailSendResult>.value(
+              _i33.EmailSendResult.sent,
+            ),
           )
-          as _i8.Future<bool>);
+          as _i8.Future<_i33.EmailSendResult>);
 }
 
 /// A class which mocks [EntitlementInfo].

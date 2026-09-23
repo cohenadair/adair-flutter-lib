@@ -174,6 +174,8 @@
   "inputInvalidEmail": "Formato de correo electrónico inválido",
   "inputUnknownError": "Error desconocido ({code}).",
   "inputErrorWithDetails": "{details}",
+  "emailRateLimitedTitle": "Por favor, espera",
+  "emailRateLimitedMessage": "Nos enviaste un mensaje recientemente. Por favor, espera unos minutos antes de enviar otro.",
   "signInPageResetPasswordButton": "¿Olvidaste tu contraseña?",
   "signInPageResetPasswordDialogTitle": "Restablecer contraseña",
   "signInPageResetPasswordDialogMessage": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",

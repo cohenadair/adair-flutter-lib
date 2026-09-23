@@ -307,6 +307,13 @@ class AdairFlutterLibLocalizationsEn extends AdairFlutterLibLocalizations {
   }
 
   @override
+  String get emailRateLimitedTitle => 'Please Wait';
+
+  @override
+  String get emailRateLimitedMessage =>
+      'You\'ve recently sent us a message. Please wait a few minutes before sending another.';
+
+  @override
   String get signInPageResetPasswordButton => 'Reset Password';
 
   @override

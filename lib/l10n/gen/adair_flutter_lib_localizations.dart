@@ -612,6 +612,18 @@ abstract class AdairFlutterLibLocalizations {
   /// **'{details}'**
   String inputErrorWithDetails(Object details);
 
+  /// No description provided for @emailRateLimitedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Wait'**
+  String get emailRateLimitedTitle;
+
+  /// No description provided for @emailRateLimitedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'\'ve recently sent us a message. Please wait a few minutes before sending another.'**
+  String get emailRateLimitedMessage;
+
   /// No description provided for @signInPageResetPasswordButton.
   ///
   /// In en, this message translates to:
