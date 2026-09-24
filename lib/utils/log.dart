@@ -42,9 +42,9 @@ class Log {
   /// longer than [msThreshold] to finish, an error is logged, otherwise only
   /// a debug message is logged.
   ///
-  /// If set, the result of [describe] is included in the error to provide
-  /// context, such as the amount of data processed. [describe] is passed the
-  /// result of [work], and is not included in the measured time.
+  /// If set, the result of [describe] is included in the logged message to
+  /// provide context, such as the amount of data processed. [describe] is
+  /// passed the result of [work], and is not included in the measured time.
   ///
   /// The value of [work] is returned. See [async] to measure asynchronous work.
   T sync<T>(
@@ -85,13 +85,13 @@ class Log {
     required String Function(T result)? describe,
   }) {
     var elapsed = watch.elapsed.inMilliseconds;
+    var details = [
+      "${elapsed}ms",
+      "threshold ${msThreshold}ms",
+      if (describe != null) describe(result),
+    ].join(", ");
 
     if (elapsed > msThreshold) {
-      var details = [
-        "${elapsed}ms",
-        "threshold ${msThreshold}ms",
-        if (describe != null) describe(result),
-      ].join(", ");
       e(
         TimeoutException(
           "$tag ($details) exceeded run threshold",
@@ -99,7 +99,7 @@ class Log {
         ),
       );
     } else {
-      d("$tag took ${elapsed}ms");
+      d("$tag ($details) within run threshold");
     }
   }
 

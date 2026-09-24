@@ -272,4 +272,22 @@ void main() {
             as TimeoutException;
     expect(exception.message, contains("threshold 10ms)"));
   });
+
+  test("sync debug includes description", () {
+    log.sync("TAG", 1000, () => 3, describe: (result) => "$result things");
+
+    expect(
+      verify(crashlytics.log(captureAny)).captured.single,
+      contains("threshold 1000ms, 3 things) within run threshold"),
+    );
+  });
+
+  test("sync debug excludes description when not set", () {
+    log.sync("TAG", 1000, () => 3);
+
+    expect(
+      verify(crashlytics.log(captureAny)).captured.single,
+      contains("threshold 1000ms) within run threshold"),
+    );
+  });
 }
