@@ -6,6 +6,8 @@ import 'package:quiver/strings.dart';
 import '../wrappers/crashlytics_wrapper.dart';
 
 class Log {
+  static const _logFileUri = "package:adair_flutter_lib/utils/log.dart";
+
   final String _className;
   final bool _isDebug;
 
@@ -106,16 +108,40 @@ class Log {
       return;
     }
 
-    if (exception == null) {
-      assert(msg != null);
-      CrashlyticsWrapper.get.log(msg!);
-    } else {
-      CrashlyticsWrapper.get.recordError(
-        exception,
-        stackTrace ?? StackTrace.current,
-        reason: msg,
-        fatal: fatal,
-      );
+    try {
+      if (exception == null) {
+        assert(msg != null);
+        CrashlyticsWrapper.get.log(msg!);
+      } else {
+        CrashlyticsWrapper.get.recordError(
+          exception,
+          stackTrace ?? _callerStackTrace(),
+          reason: msg,
+          fatal: fatal,
+        );
+      }
+    } catch (error) {
+      // Logging must never break the caller. This happens, for example, when
+      // logging from a background isolate, where Firebase isn't initialized.
+      // Crashlytics isn't available, so printing is the only option.
+      // ignore: avoid_print
+      print("E/${_prefix}Failed to send log to Crashlytics: $error; msg=$msg");
     }
+  }
+
+  /// Returns the current stack trace, without [Log]'s own frames. Crashlytics
+  /// groups issues by the top app frame, so without trimming, every error
+  /// logged without a stack trace would be grouped into a single issue.
+  ///
+  /// The VM stack trace format is preserved, since that's what Crashlytics
+  /// parses.
+  StackTrace _callerStackTrace() {
+    return StackTrace.fromString(
+      StackTrace.current
+          .toString()
+          .split("\n")
+          .skipWhile((line) => line.contains(_logFileUri))
+          .join("\n"),
+    );
   }
 }
