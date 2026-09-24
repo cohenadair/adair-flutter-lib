@@ -1403,30 +1403,20 @@ class MockLog extends _i1.Mock implements _i46.Log {
     String? tag,
     int? msThreshold,
     T Function()? work, {
-    double? msPerItem = 0.0,
-    int Function(T)? countItems,
     String Function(T)? describe,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #sync,
               [tag, msThreshold, work],
-              {
-                #msPerItem: msPerItem,
-                #countItems: countItems,
-                #describe: describe,
-              },
+              {#describe: describe},
             ),
             returnValue: _i27.dummyValue<T>(
               this,
               Invocation.method(
                 #sync,
                 [tag, msThreshold, work],
-                {
-                  #msPerItem: msPerItem,
-                  #countItems: countItems,
-                  #describe: describe,
-                },
+                {#describe: describe},
               ),
             ),
           )
@@ -1437,19 +1427,13 @@ class MockLog extends _i1.Mock implements _i46.Log {
     String? tag,
     int? msThreshold,
     _i8.Future<T>? work, {
-    double? msPerItem = 0.0,
-    int Function(T)? countItems,
     String Function(T)? describe,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
               #async,
               [tag, msThreshold, work],
-              {
-                #msPerItem: msPerItem,
-                #countItems: countItems,
-                #describe: describe,
-              },
+              {#describe: describe},
             ),
             returnValue:
                 _i27.ifNotNull(
@@ -1458,11 +1442,7 @@ class MockLog extends _i1.Mock implements _i46.Log {
                     Invocation.method(
                       #async,
                       [tag, msThreshold, work],
-                      {
-                        #msPerItem: msPerItem,
-                        #countItems: countItems,
-                        #describe: describe,
-                      },
+                      {#describe: describe},
                     ),
                   ),
                   (T v) => _i8.Future<T>.value(v),
@@ -1472,11 +1452,7 @@ class MockLog extends _i1.Mock implements _i46.Log {
                   Invocation.method(
                     #async,
                     [tag, msThreshold, work],
-                    {
-                      #msPerItem: msPerItem,
-                      #countItems: countItems,
-                      #describe: describe,
-                    },
+                    {#describe: describe},
                   ),
                 ),
           )

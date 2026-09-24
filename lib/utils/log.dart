@@ -39,68 +39,41 @@ class Log {
   }
 
   /// Does [work] and measures performance in milliseconds. If [work] takes
-  /// longer than its threshold to finish, an error is logged, otherwise only
+  /// longer than [msThreshold] to finish, an error is logged, otherwise only
   /// a debug message is logged.
   ///
-  /// The threshold is [msThreshold], plus [msPerItem] for each item counted by
-  /// [countItems]. This allows work that grows with the amount of data, such
-  /// as a report, to be measured against a budget per item, rather than a
-  /// fixed time that users with more data will eventually exceed.
-  ///
   /// If set, the result of [describe] is included in the error to provide
-  /// context, such as the amount of data processed.
-  ///
-  /// [countItems] and [describe] are passed the result of [work], and are not
-  /// included in the measured time.
+  /// context, such as the amount of data processed. [describe] is passed the
+  /// result of [work], and is not included in the measured time.
   ///
   /// The value of [work] is returned. See [async] to measure asynchronous work.
   T sync<T>(
     String tag,
     int msThreshold,
     T Function() work, {
-    double msPerItem = 0,
-    int Function(T result)? countItems,
     String Function(T result)? describe,
   }) {
     var stopwatch = Stopwatch()..start();
     var result = work();
     stopwatch.stop();
-    _logElapsed(
-      tag,
-      stopwatch,
-      msThreshold,
-      result,
-      msPerItem: msPerItem,
-      countItems: countItems,
-      describe: describe,
-    );
+    _logElapsed(tag, stopwatch, msThreshold, result, describe: describe);
     return result;
   }
 
   /// Does [work] and measures performance in milliseconds. See [sync] for
-  /// details on the threshold, [msPerItem], [countItems], and [describe].
+  /// details on [msThreshold] and [describe].
   ///
   /// The value of [work] is returned. See [sync] to measure synchronous work.
   Future<T> async<T>(
     String tag,
     int msThreshold,
     Future<T> work, {
-    double msPerItem = 0,
-    int Function(T result)? countItems,
     String Function(T result)? describe,
   }) async {
     var stopwatch = Stopwatch()..start();
     var result = await work;
     stopwatch.stop();
-    _logElapsed(
-      tag,
-      stopwatch,
-      msThreshold,
-      result,
-      msPerItem: msPerItem,
-      countItems: countItems,
-      describe: describe,
-    );
+    _logElapsed(tag, stopwatch, msThreshold, result, describe: describe);
     return result;
   }
 
@@ -109,25 +82,20 @@ class Log {
     Stopwatch watch,
     int msThreshold,
     T result, {
-    required double msPerItem,
-    required int Function(T result)? countItems,
     required String Function(T result)? describe,
   }) {
     var elapsed = watch.elapsed.inMilliseconds;
-    var itemCount = countItems?.call(result) ?? 0;
-    var threshold = (msThreshold + msPerItem * itemCount).round();
 
-    if (elapsed > threshold) {
+    if (elapsed > msThreshold) {
       var details = [
         "${elapsed}ms",
-        "threshold ${threshold}ms",
-        if (countItems != null) "$itemCount items",
+        "threshold ${msThreshold}ms",
         if (describe != null) describe(result),
       ].join(", ");
       e(
         TimeoutException(
           "$tag ($details) exceeded run threshold",
-          Duration(milliseconds: threshold),
+          Duration(milliseconds: msThreshold),
         ),
       );
     } else {
