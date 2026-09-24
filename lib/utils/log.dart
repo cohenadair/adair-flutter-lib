@@ -39,40 +39,67 @@ class Log {
   }
 
   /// Does [work] and measures performance in milliseconds. If [work] takes
-  /// longer than [msThreshold] to finish, an error message is logged, otherwise
-  /// only a debug message is logged.
+  /// longer than [msThreshold] to finish, an error is logged, otherwise only
+  /// a debug message is logged.
+  ///
+  /// If set, the result of [describe] is included in the logged message to
+  /// provide context, such as the amount of data processed. [describe] is
+  /// passed the result of [work], and is not included in the measured time.
   ///
   /// The value of [work] is returned. See [async] to measure asynchronous work.
-  T sync<T>(String tag, int msThreshold, T Function() work) {
+  T sync<T>(
+    String tag,
+    int msThreshold,
+    T Function() work, {
+    String Function(T result)? describe,
+  }) {
     var stopwatch = Stopwatch()..start();
     var result = work();
-    _logElapsed(tag, stopwatch, msThreshold);
+    stopwatch.stop();
+    _logElapsed(tag, stopwatch, msThreshold, result, describe: describe);
     return result;
   }
 
-  /// Does [work] and measures performance in milliseconds. If [work] takes
-  /// longer than [msThreshold] to finish, an error message is logged, otherwise
-  /// only a debug message is logged.
+  /// Does [work] and measures performance in milliseconds. See [sync] for
+  /// details on [msThreshold] and [describe].
   ///
   /// The value of [work] is returned. See [sync] to measure synchronous work.
-  Future<T> async<T>(String tag, int msThreshold, Future<T> work) async {
+  Future<T> async<T>(
+    String tag,
+    int msThreshold,
+    Future<T> work, {
+    String Function(T result)? describe,
+  }) async {
     var stopwatch = Stopwatch()..start();
     var result = await work;
-    _logElapsed(tag, stopwatch, msThreshold);
+    stopwatch.stop();
+    _logElapsed(tag, stopwatch, msThreshold, result, describe: describe);
     return result;
   }
 
-  void _logElapsed(String tag, Stopwatch watch, int msThreshold) {
+  void _logElapsed<T>(
+    String tag,
+    Stopwatch watch,
+    int msThreshold,
+    T result, {
+    required String Function(T result)? describe,
+  }) {
     var elapsed = watch.elapsed.inMilliseconds;
+    var details = [
+      "${elapsed}ms",
+      "threshold ${msThreshold}ms",
+      if (describe != null) describe(result),
+    ].join(", ");
+
     if (elapsed > msThreshold) {
       e(
         TimeoutException(
-          "$tag (${elapsed}ms) exceeded run threshold",
+          "$tag ($details) exceeded run threshold",
           Duration(milliseconds: msThreshold),
         ),
       );
     } else {
-      d("$tag took ${elapsed}ms");
+      d("$tag ($details) within run threshold");
     }
   }
 

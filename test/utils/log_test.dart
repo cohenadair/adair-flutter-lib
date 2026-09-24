@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:adair_flutter_lib/utils/log.dart';
@@ -235,4 +236,58 @@ void main() {
       expect(printed.first.contains("E/AL-Test: Reason"), isTrue);
     },
   );
+
+  test("sync error includes description", () {
+    log.sync("TAG", 10, () {
+      sleep(const Duration(milliseconds: 60));
+      return 3;
+    }, describe: (result) => "$result things");
+
+    final exception =
+        verify(
+              crashlytics.recordError(
+                captureAny,
+                any,
+                reason: anyNamed("reason"),
+                fatal: anyNamed("fatal"),
+              ),
+            ).captured.single
+            as TimeoutException;
+    expect(exception.message, contains("threshold 10ms, 3 things"));
+    expect(exception.duration, const Duration(milliseconds: 10));
+  });
+
+  test("sync error excludes description when not set", () {
+    log.sync("TAG", 10, () => sleep(const Duration(milliseconds: 60)));
+
+    final exception =
+        verify(
+              crashlytics.recordError(
+                captureAny,
+                any,
+                reason: anyNamed("reason"),
+                fatal: anyNamed("fatal"),
+              ),
+            ).captured.single
+            as TimeoutException;
+    expect(exception.message, contains("threshold 10ms)"));
+  });
+
+  test("sync debug includes description", () {
+    log.sync("TAG", 1000, () => 3, describe: (result) => "$result things");
+
+    expect(
+      verify(crashlytics.log(captureAny)).captured.single,
+      contains("threshold 1000ms, 3 things) within run threshold"),
+    );
+  });
+
+  test("sync debug excludes description when not set", () {
+    log.sync("TAG", 1000, () => 3);
+
+    expect(
+      verify(crashlytics.log(captureAny)).captured.single,
+      contains("threshold 1000ms) within run threshold"),
+    );
+  });
 }
