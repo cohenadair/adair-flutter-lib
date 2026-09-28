@@ -10,16 +10,27 @@ void main() {
     await StubbedManagers.create();
   });
 
-  test(
-    "errorSnackBar returns a SnackBar with colorScheme.error as backgroundColor",
-    () {
-      final themeData = ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      );
-      final snackBar = errorSnackBar("Error message", themeData);
-      expect(snackBar.backgroundColor, themeData.colorScheme.error);
-    },
-  );
+  test("errorSnackBar uses an opaque errorContainer as its background", () {
+    final themeData = ThemeData(
+      colorScheme: ColorScheme.dark(errorContainer: Colors.pink.shade500),
+    );
+    expect(
+      errorSnackBar("Error message", themeData).backgroundColor,
+      Colors.pink.shade500,
+    );
+  });
+
+  test("errorSnackBar blends a translucent errorContainer onto scaffold", () {
+    final errorContainer = Colors.pink.withAlpha(150);
+    final themeData = ThemeData(
+      colorScheme: ColorScheme.dark(errorContainer: errorContainer),
+      scaffoldBackgroundColor: Colors.black,
+    );
+    expect(
+      errorSnackBar("Error message", themeData).backgroundColor,
+      Color.alphaBlend(errorContainer, Colors.black),
+    );
+  });
 
   test("errorSnackBar uses snackBarDurationDefault for its duration", () {
     final themeData = ThemeData();
@@ -27,11 +38,12 @@ void main() {
     expect(snackBar.duration, const Duration(seconds: snackBarDurationDefault));
   });
 
-  test("errorSnackBar uses white text", () {
-    final themeData = ThemeData();
+  test("errorSnackBar uses colorScheme.onErrorContainer for its text", () {
+    final themeData = ThemeData(
+      colorScheme: const ColorScheme.dark(onErrorContainer: Colors.black),
+    );
     final snackBar = errorSnackBar("Error message", themeData);
-    final text = snackBar.content as Text;
-    expect(text.style?.color, Colors.white);
+    expect((snackBar.content as Text).style?.color, Colors.black);
   });
 
   testWidgets("showSuccessSnackBar shows a SnackBar with the message", (

@@ -5,9 +5,17 @@ const int snackBarDurationDefault = 5;
 
 SnackBar errorSnackBar(String message, ThemeData themeData) {
   return SnackBar(
-    content: Text(message, style: const TextStyle(color: Colors.white)),
+    content: Text(
+      message,
+      style: TextStyle(color: themeData.colorScheme.onErrorContainer),
+    ),
     duration: const Duration(seconds: snackBarDurationDefault),
-    backgroundColor: themeData.colorScheme.error,
+    // errorContainer may be translucent; blend it onto the scaffold background
+    // so it looks the same as an error card, without content showing through.
+    backgroundColor: Color.alphaBlend(
+      themeData.colorScheme.errorContainer,
+      themeData.scaffoldBackgroundColor,
+    ),
   );
 }
 
