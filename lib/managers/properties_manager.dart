@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import '../utils/properties_file.dart';
 
 /// A class for accessing data in configuration files.
-class PropertiesManager implements Manager {
+class PropertiesManager extends Manager {
   static var _instance = PropertiesManager._();
 
   static PropertiesManager get get => _instance;

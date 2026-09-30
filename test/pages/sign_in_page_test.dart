@@ -356,7 +356,7 @@ void main() {
       find.text("Email and password sign in is disabled for this app."),
       findsOneWidget,
     );
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    verify(managers.authManager.signOut()).called(1);
   });
 
   testWidgets("Firebase throws unknown error", (tester) async {
@@ -484,14 +484,14 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text("HOME"), findsOneWidget);
-      verifyNever(managers.firebaseAuthWrapper.signOut());
+      verifyNever(managers.authManager.signOut());
     },
   );
 
   testWidgets("Auto-init signs out when postSignInVerification fails", (
     tester,
   ) async {
-    when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+    when(managers.authManager.signOut()).thenAnswer((_) {
       authController.add(null);
       return Future.value();
     });
@@ -510,14 +510,14 @@ void main() {
     authController.add(MockUser());
     await tester.pumpAndSettle();
 
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    verify(managers.authManager.signOut()).called(1);
     expect(find.text("HOME"), findsNothing);
   });
 
   testWidgets(
     "Auto-init signs out when postSignInVerification throws an exception",
     (tester) async {
-      when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+      when(managers.authManager.signOut()).thenAnswer((_) {
         authController.add(null);
         return Future.value();
       });
@@ -537,7 +537,7 @@ void main() {
       authController.add(MockUser());
       await tester.pumpAndSettle();
 
-      verify(managers.firebaseAuthWrapper.signOut()).called(1);
+      verify(managers.authManager.signOut()).called(1);
       expect(find.text("HOME"), findsNothing);
     },
   );
@@ -546,7 +546,7 @@ void main() {
     "Auto-init signs out and swallows a FirebaseAuthException internal-error"
     " from postSignInVerification",
     (tester) async {
-      when(managers.firebaseAuthWrapper.signOut()).thenAnswer((_) {
+      when(managers.authManager.signOut()).thenAnswer((_) {
         authController.add(null);
         return Future.value();
       });
@@ -570,7 +570,7 @@ void main() {
 
       expect(prints, isEmpty);
       expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
-      verify(managers.firebaseAuthWrapper.signOut()).called(1);
+      verify(managers.authManager.signOut()).called(1);
       expect(find.text("HOME"), findsNothing);
     },
   );
@@ -680,7 +680,7 @@ void main() {
 
     expect(find.text("post-sign-in-error"), findsOneWidget);
     expect(find.text("H"), findsNothing);
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    verify(managers.authManager.signOut()).called(1);
   });
 
   testWidgets("Post sign in verification throws exception", (tester) async {
@@ -705,7 +705,7 @@ void main() {
 
     expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
     expect(find.text("H"), findsNothing);
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    verify(managers.authManager.signOut()).called(1);
   });
 
   testWidgets("Post sign in verification swallows a FirebaseAuthException"
@@ -735,7 +735,7 @@ void main() {
     expect(prints, isEmpty);
     expect(find.text(L10n.get.lib.signInPageErrorGeneric), findsOneWidget);
     expect(find.text("H"), findsNothing);
-    verify(managers.firebaseAuthWrapper.signOut()).called(1);
+    verify(managers.authManager.signOut()).called(1);
   });
 
   testWidgets("Post sign in verification succeeds", (tester) async {
@@ -757,7 +757,7 @@ void main() {
     await tester.pumpAndSettle(const Duration(seconds: 1));
 
     expect(find.text("HOME"), findsNothing);
-    verifyNever(managers.firebaseAuthWrapper.signOut());
+    verifyNever(managers.authManager.signOut());
   });
 
   testWidgets("Reset password button is visible", (tester) async {

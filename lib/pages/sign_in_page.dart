@@ -1,5 +1,6 @@
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/l10n/l10n.dart';
+import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/utils/dialog.dart';
@@ -245,7 +246,7 @@ class _SignInPageState extends State<SignInPage> {
     final error = await _runPostSignInVerification();
 
     if (error.isNotEmpty) {
-      await FirebaseAuthWrapper.get.signOut();
+      await AuthManager.get.signOut();
     }
 
     if (!mounted) {
@@ -259,6 +260,8 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
+  // TODO: Move the sign-in flow (sign in, run postSignInVerification, and
+  // sign out on failure) to AuthManager, leaving only UI state here.
   Future<void> _signIn() async {
     setState(() {
       _isSigningIn = true;
@@ -281,7 +284,7 @@ class _SignInPageState extends State<SignInPage> {
 
     // Something bad happened. Make sure we're signed out.
     if (error.isNotEmpty) {
-      await FirebaseAuthWrapper.get.signOut();
+      await AuthManager.get.signOut();
     }
 
     if (!mounted) {

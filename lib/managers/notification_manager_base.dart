@@ -10,7 +10,7 @@ import '../utils/permission.dart';
 import '../wrappers/permission_handler_wrapper.dart';
 import 'manager.dart';
 
-abstract class NotificationManagerBase implements Manager {
+abstract class NotificationManagerBase extends Manager {
   // Called when a user taps a notification.
   VoidCallback? onDidReceiveNotificationResponse;
   late final FlutterLocalNotificationsPlugin _flutterNotifications;

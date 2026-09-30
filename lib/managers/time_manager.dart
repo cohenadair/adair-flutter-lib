@@ -9,7 +9,7 @@ import '../utils/log.dart';
 import '../utils/string.dart';
 import '../wrappers/native_time_zone_wrapper.dart';
 
-class TimeManager implements Manager {
+class TimeManager extends Manager {
   static var _instance = TimeManager._();
 
   static TimeManager get get => _instance;

@@ -1,3 +1,4 @@
+import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
@@ -14,7 +15,8 @@ import '../utils/root.dart';
 class AdairFlutterLibApp extends StatefulWidget {
   /// A list of managers that need to be initialized before the app starts.
   /// While these managers initialize, a loading page is shown before either
-  /// the [SignInPage] or [homeBuilder].
+  /// the [SignInPage] or [homeBuilder]. [AuthManager.signOut] also calls
+  /// each manager's [Manager.onSignOut], in this order.
   final List<Manager> managers;
 
   /// Non-null if user authentication using Firebase is required; null
@@ -127,6 +129,7 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
   }
 
   Future<void> _initApp() async {
+    AuthManager.get.managers = widget.managers;
     for (var manager in widget.managers) {
       await manager.init();
     }

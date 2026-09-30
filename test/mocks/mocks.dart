@@ -1,7 +1,9 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/app_review_manager.dart';
+import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/managers/email_manager.dart';
+import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -43,6 +45,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([AppCheckWrapper])
 @GenerateMocks([AppConfig])
 @GenerateMocks([AppReviewManager])
+@GenerateMocks([AuthManager])
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])
 @GenerateMocks([DeviceInfoWrapper])
@@ -61,6 +64,7 @@ import 'package:shared_preferences/shared_preferences.dart';
   ],
 )
 @GenerateMocks([LogInResult])
+@GenerateMocks([Manager])
 @GenerateMocks([MethodChannel])
 @GenerateMocks([MethodChannelWrapper])
 @GenerateMocks([NativeTimeZoneWrapper])

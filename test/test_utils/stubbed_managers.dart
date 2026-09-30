@@ -1,6 +1,7 @@
 import 'package:adair_flutter_lib/adair_flutter_lib.dart';
 import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/app_review_manager.dart';
+import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/managers/email_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
@@ -40,6 +41,7 @@ class StubbedManagers {
   late final MockAdairFlutterLib adairFlutterLib;
   late final MockAppConfig appConfig;
   late final MockAppReviewManager appReviewManager;
+  late final MockAuthManager authManager;
   late final MockEmailManager emailManager;
   late final MockPropertiesManager propertiesManager;
   late final MockSubscriptionManager subscriptionManager;
@@ -100,6 +102,10 @@ class StubbedManagers {
     appReviewManager = MockAppReviewManager();
     when(appReviewManager.init()).thenAnswer((_) => Future.value());
     AppReviewManager.set(appReviewManager);
+
+    authManager = MockAuthManager();
+    when(authManager.signOut()).thenAnswer((_) async {});
+    AuthManager.set(authManager);
 
     emailManager = MockEmailManager();
     EmailManager.set(emailManager);

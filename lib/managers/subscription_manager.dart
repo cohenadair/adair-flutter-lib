@@ -26,7 +26,7 @@ enum RestoreSubscriptionResult { noSubscriptionsFound, error, success }
 /// - iOS subscriptions will auto-review five times before becoming inactive.
 ///   There's nothing to do here but wait. For wait times, see
 ///   https://help.apple.com/app-store-connect/#/dev7e89e149d.
-class SubscriptionManager implements Manager {
+class SubscriptionManager extends Manager {
   static var _instance = SubscriptionManager._();
 
   static SubscriptionManager get get => _instance;

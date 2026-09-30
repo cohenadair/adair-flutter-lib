@@ -61,6 +61,22 @@ void main() {
     verify(managers.timeManager.init()).called(1);
   });
 
+  testWidgets("Managers are registered with AuthManager for sign-out", (
+    tester,
+  ) async {
+    when(managers.timeManager.init()).thenAnswer((_) => Future.value());
+
+    await tester.pumpWidget(
+      AdairFlutterLibApp(
+        managers: [managers.timeManager],
+        homeBuilder: (_) => Text("Home"),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    verify(managers.authManager.managers = [managers.timeManager]).called(1);
+  });
+
   testWidgets("Landing page shows error when managers fail to initialize", (
     tester,
   ) async {

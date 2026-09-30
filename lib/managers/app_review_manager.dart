@@ -11,7 +11,7 @@ final _log = const Log("AppReviewManager");
 /// Tracks qualifying events (e.g. a completed session) reported by an app and
 /// requests the OS-native App Store rate/review prompt once every
 /// [_eventThreshold] events, subject to a cooldown between requests.
-class AppReviewManager implements Manager {
+class AppReviewManager extends Manager {
   static var _instance = AppReviewManager._();
 
   static AppReviewManager get get => _instance;

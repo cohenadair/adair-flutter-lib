@@ -30,6 +30,8 @@ class FirebaseAuthWrapper {
     );
   }
 
+  /// Don't call this directly; call `AuthManager.signOut` instead, so every
+  /// `Manager.onSignOut` runs before the user is signed out.
   Future<void> signOut() => FirebaseAuth.instance.signOut();
 
   Future<void> sendPasswordResetEmail({required String email}) =>
