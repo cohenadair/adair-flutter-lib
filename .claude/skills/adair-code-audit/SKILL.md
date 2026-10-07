@@ -16,6 +16,19 @@ and apply the additions below wherever adair-flutter-lib is in scope.
 
 - The Flutter root is `adair-flutter-lib/`.
 
+## Step 6 — Tests for nested packages (`packages/*`)
+
+- A nested package (e.g. `packages/install-attribution`) has its own
+  gitignored `pubspec.lock`, which can resolve newer transitive versions
+  (e.g. `cloud_firestore`) than the lib's. Importing the lib's
+  `test/mocks/mocks.mocks.dart` or `StubbedManagers` from there then fails to
+  compile. For a manager that only talks to a method channel, use the real
+  `MethodChannelWrapper` plus
+  `TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+  .setMockMethodCallHandler(...)` instead of the lib's mocks.
+- The lib's `analysis_options.yaml` excludes `packages/**`; run `flutter
+  analyze` / `flutter test` from the package directory itself.
+
 ## Step 5 / Step 8 — Regenerating mocks
 
 - Regenerate stale mocks with `dart run build_runner build` from
