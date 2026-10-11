@@ -181,5 +181,6 @@
   "signInPageResetPasswordDialogMessage": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",
   "signInPageResetPasswordDialogAction": "Restablecer contraseña",
   "signInPageResetPasswordConfirmation": "Se han enviado las instrucciones para restablecer tu contraseña a tu correo electrónico. Asegúrate de revisar tu carpeta de correo no deseado.",
+  "signInPageResetPasswordUnavailableError": "No pudimos enviar el correo para restablecer tu contraseña. Inténtalo de nuevo más tarde.",
   "version": "Versión"
 }

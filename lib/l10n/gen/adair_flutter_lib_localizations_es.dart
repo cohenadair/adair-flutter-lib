@@ -333,5 +333,9 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
       'Se han enviado las instrucciones para restablecer tu contraseña a tu correo electrónico. Asegúrate de revisar tu carpeta de correo no deseado.';
 
   @override
+  String get signInPageResetPasswordUnavailableError =>
+      'No pudimos enviar el correo para restablecer tu contraseña. Inténtalo de nuevo más tarde.';
+
+  @override
   String get version => 'Versión';
 }
