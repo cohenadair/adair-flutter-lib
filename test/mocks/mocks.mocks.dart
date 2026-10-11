@@ -4,84 +4,85 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
-import 'dart:convert' as _i69;
+import 'dart:convert' as _i70;
 import 'dart:io' as _i6;
-import 'dart:typed_data' as _i62;
+import 'dart:typed_data' as _i63;
 import 'dart:ui' as _i3;
 
 import 'package:adair_flutter_lib/adair_flutter_lib.dart' as _i22;
 import 'package:adair_flutter_lib/app_config.dart' as _i26;
 import 'package:adair_flutter_lib/managers/app_review_manager.dart' as _i28;
 import 'package:adair_flutter_lib/managers/auth_manager.dart' as _i29;
-import 'package:adair_flutter_lib/managers/email_manager.dart' as _i35;
+import 'package:adair_flutter_lib/managers/email_manager.dart' as _i36;
 import 'package:adair_flutter_lib/managers/manager.dart' as _i30;
-import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i54;
-import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i58;
+import 'package:adair_flutter_lib/managers/properties_manager.dart' as _i55;
+import 'package:adair_flutter_lib/managers/subscription_manager.dart' as _i59;
 import 'package:adair_flutter_lib/managers/time_manager.dart' as _i15;
-import 'package:adair_flutter_lib/utils/log.dart' as _i48;
+import 'package:adair_flutter_lib/utils/log.dart' as _i49;
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart' as _i23;
 import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart' as _i24;
-import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i31;
-import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart' as _i34;
-import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart' as _i59;
-import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i63;
-import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart' as _i64;
-import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart' as _i66;
-import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart' as _i67;
-import 'package:adair_flutter_lib/wrappers/http_wrapper.dart' as _i68;
-import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart' as _i44;
-import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i45;
+import 'package:adair_flutter_lib/wrappers/connection_wrapper.dart' as _i31;
+import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart' as _i32;
+import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart' as _i35;
+import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart' as _i60;
+import 'package:adair_flutter_lib/wrappers/firebase_auth_wrapper.dart' as _i64;
+import 'package:adair_flutter_lib/wrappers/firebase_wrapper.dart' as _i65;
+import 'package:adair_flutter_lib/wrappers/firestore_wrapper.dart' as _i67;
+import 'package:adair_flutter_lib/wrappers/functions_wrapper.dart' as _i68;
+import 'package:adair_flutter_lib/wrappers/http_wrapper.dart' as _i69;
+import 'package:adair_flutter_lib/wrappers/in_app_review_wrapper.dart' as _i45;
+import 'package:adair_flutter_lib/wrappers/io_wrapper.dart' as _i46;
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart'
-    as _i47;
-import 'package:adair_flutter_lib/wrappers/method_channel_wrapper.dart' as _i49;
+    as _i48;
+import 'package:adair_flutter_lib/wrappers/method_channel_wrapper.dart' as _i50;
 import 'package:adair_flutter_lib/wrappers/native_time_zone_wrapper.dart'
-    as _i50;
-import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart' as _i51;
-import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart' as _i52;
+    as _i51;
+import 'package:adair_flutter_lib/wrappers/package_info_wrapper.dart' as _i52;
+import 'package:adair_flutter_lib/wrappers/path_provider_wrapper.dart' as _i53;
 import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart'
-    as _i53;
-import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i55;
+    as _i54;
+import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart' as _i56;
 import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart'
-    as _i56;
-import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart' as _i61;
+    as _i57;
+import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart' as _i62;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i18;
 import 'package:cloud_functions/cloud_functions.dart' as _i19;
 import 'package:cloud_functions_platform_interface/cloud_functions_platform_interface.dart'
     as _i21;
 import 'package:device_info_plus/device_info_plus.dart' as _i5;
-import 'package:file_picker/file_picker.dart' as _i60;
+import 'package:file_picker/file_picker.dart' as _i61;
 import 'package:firebase_app_check/firebase_app_check.dart' as _i25;
 import 'package:firebase_auth/firebase_auth.dart' as _i17;
-import 'package:firebase_core/firebase_core.dart' as _i65;
+import 'package:firebase_core/firebase_core.dart' as _i66;
 import 'package:firebase_storage/firebase_storage.dart' as _i16;
-import 'package:flutter/foundation.dart' as _i32;
+import 'package:flutter/foundation.dart' as _i33;
 import 'package:flutter/material.dart' as _i2;
 import 'package:flutter/services.dart' as _i10;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     as _i7;
 import 'package:flutter_local_notifications/src/initialization_settings.dart'
-    as _i39;
-import 'package:flutter_local_notifications/src/notification_details.dart'
-    as _i41;
-import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
-    as _i42;
-import 'package:flutter_local_notifications/src/types.dart' as _i43;
-import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
     as _i40;
+import 'package:flutter_local_notifications/src/notification_details.dart'
+    as _i42;
+import 'package:flutter_local_notifications/src/platform_specifics/android/schedule_mode.dart'
+    as _i43;
+import 'package:flutter_local_notifications/src/types.dart' as _i44;
+import 'package:flutter_local_notifications_platform_interface/flutter_local_notifications_platform_interface.dart'
+    as _i41;
 import 'package:http/http.dart' as _i20;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i27;
 import 'package:package_info_plus/package_info_plus.dart' as _i11;
-import 'package:purchases_flutter/models/entitlement_info_wrapper.dart' as _i36;
+import 'package:purchases_flutter/models/entitlement_info_wrapper.dart' as _i37;
 import 'package:purchases_flutter/models/entitlement_infos_wrapper.dart' as _i4;
-import 'package:purchases_flutter/models/period_unit.dart' as _i46;
-import 'package:purchases_flutter/models/store.dart' as _i37;
-import 'package:purchases_flutter/models/store_transaction.dart' as _i33;
-import 'package:purchases_flutter/models/verification_result.dart' as _i38;
+import 'package:purchases_flutter/models/period_unit.dart' as _i47;
+import 'package:purchases_flutter/models/store.dart' as _i38;
+import 'package:purchases_flutter/models/store_transaction.dart' as _i34;
+import 'package:purchases_flutter/models/verification_result.dart' as _i39;
 import 'package:purchases_flutter/object_wrappers.dart' as _i9;
 import 'package:purchases_flutter/purchases_flutter.dart' as _i12;
 import 'package:shared_preferences/shared_preferences.dart' as _i13;
-import 'package:shared_preferences_platform_interface/types.dart' as _i57;
+import 'package:shared_preferences_platform_interface/types.dart' as _i58;
 import 'package:timezone/timezone.dart' as _i14;
 
 // ignore_for_file: type=lint
@@ -652,11 +653,28 @@ class MockAuthManager extends _i1.Mock implements _i29.AuthManager {
           as _i8.Future<void>);
 }
 
+/// A class which mocks [ConnectionWrapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockConnectionWrapper extends _i1.Mock implements _i31.ConnectionWrapper {
+  MockConnectionWrapper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<bool> hasInternetAccess({List<Uri>? uris}) =>
+      (super.noSuchMethod(
+            Invocation.method(#hasInternetAccess, [], {#uris: uris}),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
+}
+
 /// A class which mocks [CrashlyticsWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCrashlyticsWrapper extends _i1.Mock
-    implements _i31.CrashlyticsWrapper {
+    implements _i32.CrashlyticsWrapper {
   MockCrashlyticsWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -671,7 +689,7 @@ class MockCrashlyticsWrapper extends _i1.Mock
           as _i8.Future<void>);
 
   @override
-  _i8.Future<void> recordFlutterFatalError(_i32.FlutterErrorDetails? details) =>
+  _i8.Future<void> recordFlutterFatalError(_i33.FlutterErrorDetails? details) =>
       (super.noSuchMethod(
             Invocation.method(#recordFlutterFatalError, [details]),
             returnValue: _i8.Future<void>.value(),
@@ -776,12 +794,12 @@ class MockCustomerInfo extends _i1.Mock implements _i9.CustomerInfo {
           as List<String>);
 
   @override
-  List<_i33.StoreTransaction> get nonSubscriptionTransactions =>
+  List<_i34.StoreTransaction> get nonSubscriptionTransactions =>
       (super.noSuchMethod(
             Invocation.getter(#nonSubscriptionTransactions),
-            returnValue: <_i33.StoreTransaction>[],
+            returnValue: <_i34.StoreTransaction>[],
           )
-          as List<_i33.StoreTransaction>);
+          as List<_i34.StoreTransaction>);
 
   @override
   String get firstSeen =>
@@ -833,7 +851,7 @@ class MockCustomerInfo extends _i1.Mock implements _i9.CustomerInfo {
 /// A class which mocks [DeviceInfoWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDeviceInfoWrapper extends _i1.Mock implements _i34.DeviceInfoWrapper {
+class MockDeviceInfoWrapper extends _i1.Mock implements _i35.DeviceInfoWrapper {
   MockDeviceInfoWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -862,20 +880,20 @@ class MockDeviceInfoWrapper extends _i1.Mock implements _i34.DeviceInfoWrapper {
 /// A class which mocks [EmailManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEmailManager extends _i1.Mock implements _i35.EmailManager {
+class MockEmailManager extends _i1.Mock implements _i36.EmailManager {
   MockEmailManager() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i35.EmailSendResult> send({
+  _i8.Future<_i36.EmailSendResult> send({
     required String? appName,
     required String? replyToEmail,
     required String? replyToName,
     required String? subject,
     required String? text,
     required String? userMessage,
-    List<_i35.EmailAttachment>? attachments = const [],
+    List<_i36.EmailAttachment>? attachments = const [],
     bool? isSpamFilterEnabled = true,
   }) =>
       (super.noSuchMethod(
@@ -889,17 +907,17 @@ class MockEmailManager extends _i1.Mock implements _i35.EmailManager {
               #attachments: attachments,
               #isSpamFilterEnabled: isSpamFilterEnabled,
             }),
-            returnValue: _i8.Future<_i35.EmailSendResult>.value(
-              _i35.EmailSendResult.sent,
+            returnValue: _i8.Future<_i36.EmailSendResult>.value(
+              _i36.EmailSendResult.sent,
             ),
           )
-          as _i8.Future<_i35.EmailSendResult>);
+          as _i8.Future<_i36.EmailSendResult>);
 }
 
 /// A class which mocks [EntitlementInfo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockEntitlementInfo extends _i1.Mock implements _i36.EntitlementInfo {
+class MockEntitlementInfo extends _i1.Mock implements _i37.EntitlementInfo {
   MockEntitlementInfo() {
     _i1.throwOnMissingStub(this);
   }
@@ -964,36 +982,36 @@ class MockEntitlementInfo extends _i1.Mock implements _i36.EntitlementInfo {
           as bool);
 
   @override
-  _i36.OwnershipType get ownershipType =>
+  _i37.OwnershipType get ownershipType =>
       (super.noSuchMethod(
             Invocation.getter(#ownershipType),
-            returnValue: _i36.OwnershipType.purchased,
+            returnValue: _i37.OwnershipType.purchased,
           )
-          as _i36.OwnershipType);
+          as _i37.OwnershipType);
 
   @override
-  _i37.Store get store =>
+  _i38.Store get store =>
       (super.noSuchMethod(
             Invocation.getter(#store),
-            returnValue: _i37.Store.appStore,
+            returnValue: _i38.Store.appStore,
           )
-          as _i37.Store);
+          as _i38.Store);
 
   @override
-  _i36.PeriodType get periodType =>
+  _i37.PeriodType get periodType =>
       (super.noSuchMethod(
             Invocation.getter(#periodType),
-            returnValue: _i36.PeriodType.intro,
+            returnValue: _i37.PeriodType.intro,
           )
-          as _i36.PeriodType);
+          as _i37.PeriodType);
 
   @override
-  _i38.VerificationResult get verification =>
+  _i39.VerificationResult get verification =>
       (super.noSuchMethod(
             Invocation.getter(#verification),
-            returnValue: _i38.VerificationResult.notRequested,
+            returnValue: _i39.VerificationResult.notRequested,
           )
-          as _i38.VerificationResult);
+          as _i39.VerificationResult);
 
   @override
   List<Object?> get props =>
@@ -1010,28 +1028,28 @@ class MockEntitlementInfos extends _i1.Mock implements _i4.EntitlementInfos {
   }
 
   @override
-  Map<String, _i36.EntitlementInfo> get all =>
+  Map<String, _i37.EntitlementInfo> get all =>
       (super.noSuchMethod(
             Invocation.getter(#all),
-            returnValue: <String, _i36.EntitlementInfo>{},
+            returnValue: <String, _i37.EntitlementInfo>{},
           )
-          as Map<String, _i36.EntitlementInfo>);
+          as Map<String, _i37.EntitlementInfo>);
 
   @override
-  Map<String, _i36.EntitlementInfo> get active =>
+  Map<String, _i37.EntitlementInfo> get active =>
       (super.noSuchMethod(
             Invocation.getter(#active),
-            returnValue: <String, _i36.EntitlementInfo>{},
+            returnValue: <String, _i37.EntitlementInfo>{},
           )
-          as Map<String, _i36.EntitlementInfo>);
+          as Map<String, _i37.EntitlementInfo>);
 
   @override
-  _i38.VerificationResult get verification =>
+  _i39.VerificationResult get verification =>
       (super.noSuchMethod(
             Invocation.getter(#verification),
-            returnValue: _i38.VerificationResult.notRequested,
+            returnValue: _i39.VerificationResult.notRequested,
           )
-          as _i38.VerificationResult);
+          as _i39.VerificationResult);
 
   @override
   List<Object?> get props =>
@@ -1050,10 +1068,10 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
 
   @override
   _i8.Future<bool?> initialize(
-    _i39.InitializationSettings? initializationSettings, {
-    _i40.DidReceiveNotificationResponseCallback?
+    _i40.InitializationSettings? initializationSettings, {
+    _i41.DidReceiveNotificationResponseCallback?
     onDidReceiveNotificationResponse,
-    _i40.DidReceiveBackgroundNotificationResponseCallback?
+    _i41.DidReceiveBackgroundNotificationResponseCallback?
     onDidReceiveBackgroundNotificationResponse,
   }) =>
       (super.noSuchMethod(
@@ -1072,20 +1090,20 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           as _i8.Future<bool?>);
 
   @override
-  _i8.Future<_i40.NotificationAppLaunchDetails?>
+  _i8.Future<_i41.NotificationAppLaunchDetails?>
   getNotificationAppLaunchDetails() =>
       (super.noSuchMethod(
             Invocation.method(#getNotificationAppLaunchDetails, []),
-            returnValue: _i8.Future<_i40.NotificationAppLaunchDetails?>.value(),
+            returnValue: _i8.Future<_i41.NotificationAppLaunchDetails?>.value(),
           )
-          as _i8.Future<_i40.NotificationAppLaunchDetails?>);
+          as _i8.Future<_i41.NotificationAppLaunchDetails?>);
 
   @override
   _i8.Future<void> show(
     int? id,
     String? title,
     String? body,
-    _i41.NotificationDetails? notificationDetails, {
+    _i42.NotificationDetails? notificationDetails, {
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -1132,10 +1150,10 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     String? title,
     String? body,
     _i14.TZDateTime? scheduledDate,
-    _i41.NotificationDetails? notificationDetails, {
-    required _i42.AndroidScheduleMode? androidScheduleMode,
+    _i42.NotificationDetails? notificationDetails, {
+    required _i43.AndroidScheduleMode? androidScheduleMode,
     String? payload,
-    _i43.DateTimeComponents? matchDateTimeComponents,
+    _i44.DateTimeComponents? matchDateTimeComponents,
   }) =>
       (super.noSuchMethod(
             Invocation.method(
@@ -1157,9 +1175,9 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     int? id,
     String? title,
     String? body,
-    _i40.RepeatInterval? repeatInterval,
-    _i41.NotificationDetails? notificationDetails, {
-    required _i42.AndroidScheduleMode? androidScheduleMode,
+    _i41.RepeatInterval? repeatInterval,
+    _i42.NotificationDetails? notificationDetails, {
+    required _i43.AndroidScheduleMode? androidScheduleMode,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -1179,9 +1197,9 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
     String? title,
     String? body,
     Duration? repeatDurationInterval,
-    _i41.NotificationDetails? notificationDetails, {
-    _i42.AndroidScheduleMode? androidScheduleMode =
-        _i42.AndroidScheduleMode.exact,
+    _i42.NotificationDetails? notificationDetails, {
+    _i43.AndroidScheduleMode? androidScheduleMode =
+        _i43.AndroidScheduleMode.exact,
     String? payload,
   }) =>
       (super.noSuchMethod(
@@ -1196,33 +1214,33 @@ class MockFlutterLocalNotificationsPlugin extends _i1.Mock
           as _i8.Future<void>);
 
   @override
-  _i8.Future<List<_i40.PendingNotificationRequest>>
+  _i8.Future<List<_i41.PendingNotificationRequest>>
   pendingNotificationRequests() =>
       (super.noSuchMethod(
             Invocation.method(#pendingNotificationRequests, []),
             returnValue:
-                _i8.Future<List<_i40.PendingNotificationRequest>>.value(
-                  <_i40.PendingNotificationRequest>[],
+                _i8.Future<List<_i41.PendingNotificationRequest>>.value(
+                  <_i41.PendingNotificationRequest>[],
                 ),
           )
-          as _i8.Future<List<_i40.PendingNotificationRequest>>);
+          as _i8.Future<List<_i41.PendingNotificationRequest>>);
 
   @override
-  _i8.Future<List<_i40.ActiveNotification>> getActiveNotifications() =>
+  _i8.Future<List<_i41.ActiveNotification>> getActiveNotifications() =>
       (super.noSuchMethod(
             Invocation.method(#getActiveNotifications, []),
-            returnValue: _i8.Future<List<_i40.ActiveNotification>>.value(
-              <_i40.ActiveNotification>[],
+            returnValue: _i8.Future<List<_i41.ActiveNotification>>.value(
+              <_i41.ActiveNotification>[],
             ),
           )
-          as _i8.Future<List<_i40.ActiveNotification>>);
+          as _i8.Future<List<_i41.ActiveNotification>>);
 }
 
 /// A class which mocks [InAppReviewWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockInAppReviewWrapper extends _i1.Mock
-    implements _i44.InAppReviewWrapper {
+    implements _i45.InAppReviewWrapper {
   MockInAppReviewWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1248,7 +1266,7 @@ class MockInAppReviewWrapper extends _i1.Mock
 /// A class which mocks [IoWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIoWrapper extends _i1.Mock implements _i45.IoWrapper {
+class MockIoWrapper extends _i1.Mock implements _i46.IoWrapper {
   MockIoWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1356,12 +1374,12 @@ class MockIntroductoryPrice extends _i1.Mock implements _i9.IntroductoryPrice {
       (super.noSuchMethod(Invocation.getter(#cycles), returnValue: 0) as int);
 
   @override
-  _i46.PeriodUnit get periodUnit =>
+  _i47.PeriodUnit get periodUnit =>
       (super.noSuchMethod(
             Invocation.getter(#periodUnit),
-            returnValue: _i46.PeriodUnit.day,
+            returnValue: _i47.PeriodUnit.day,
           )
-          as _i46.PeriodUnit);
+          as _i47.PeriodUnit);
 
   @override
   int get periodNumberOfUnits =>
@@ -1381,7 +1399,7 @@ class MockIntroductoryPrice extends _i1.Mock implements _i9.IntroductoryPrice {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockLocalNotificationsWrapper extends _i1.Mock
-    implements _i47.LocalNotificationsWrapper {
+    implements _i48.LocalNotificationsWrapper {
   MockLocalNotificationsWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1401,7 +1419,7 @@ class MockLocalNotificationsWrapper extends _i1.Mock
 /// A class which mocks [Log].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLog extends _i1.Mock implements _i48.Log {
+class MockLog extends _i1.Mock implements _i49.Log {
   MockLog() {
     _i1.throwOnMissingStub(this);
   }
@@ -1627,7 +1645,7 @@ class MockMethodChannel extends _i1.Mock implements _i10.MethodChannel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockMethodChannelWrapper extends _i1.Mock
-    implements _i49.MethodChannelWrapper {
+    implements _i50.MethodChannelWrapper {
   MockMethodChannelWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1648,7 +1666,7 @@ class MockMethodChannelWrapper extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNativeTimeZoneWrapper extends _i1.Mock
-    implements _i50.NativeTimeZoneWrapper {
+    implements _i51.NativeTimeZoneWrapper {
   MockNativeTimeZoneWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1679,7 +1697,7 @@ class MockNativeTimeZoneWrapper extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPackageInfoWrapper extends _i1.Mock
-    implements _i51.PackageInfoWrapper {
+    implements _i52.PackageInfoWrapper {
   MockPackageInfoWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1699,7 +1717,7 @@ class MockPackageInfoWrapper extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPathProviderWrapper extends _i1.Mock
-    implements _i52.PathProviderWrapper {
+    implements _i53.PathProviderWrapper {
   MockPathProviderWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1871,7 +1889,7 @@ class MockPackage extends _i1.Mock implements _i9.Package {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockPermissionHandlerWrapper extends _i1.Mock
-    implements _i53.PermissionHandlerWrapper {
+    implements _i54.PermissionHandlerWrapper {
   MockPermissionHandlerWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -1988,7 +2006,7 @@ class MockPlatformException extends _i1.Mock implements _i10.PlatformException {
 /// A class which mocks [PropertiesManager].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPropertiesManager extends _i1.Mock implements _i54.PropertiesManager {
+class MockPropertiesManager extends _i1.Mock implements _i55.PropertiesManager {
   MockPropertiesManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -2103,7 +2121,7 @@ class MockPropertiesManager extends _i1.Mock implements _i54.PropertiesManager {
 /// A class which mocks [PurchasesWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPurchasesWrapper extends _i1.Mock implements _i55.PurchasesWrapper {
+class MockPurchasesWrapper extends _i1.Mock implements _i56.PurchasesWrapper {
   MockPurchasesWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -2353,15 +2371,15 @@ class MockSharedPreferencesAsync extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSharedPreferencesWrapper extends _i1.Mock
-    implements _i56.SharedPreferencesWrapper {
+    implements _i57.SharedPreferencesWrapper {
   MockSharedPreferencesWrapper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
   _i13.SharedPreferencesAsync sharedPreferencesAsync({
-    _i57.SharedPreferencesOptions? options =
-        const _i57.SharedPreferencesOptions(),
+    _i58.SharedPreferencesOptions? options =
+        const _i58.SharedPreferencesOptions(),
   }) =>
       (super.noSuchMethod(
             Invocation.method(#sharedPreferencesAsync, [], {#options: options}),
@@ -2453,7 +2471,7 @@ class MockStoreProduct extends _i1.Mock implements _i9.StoreProduct {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionManager extends _i1.Mock
-    implements _i58.SubscriptionManager {
+    implements _i59.SubscriptionManager {
   MockSubscriptionManager() {
     _i1.throwOnMissingStub(this);
   }
@@ -2496,7 +2514,7 @@ class MockSubscriptionManager extends _i1.Mock
           as _i8.Future<void>);
 
   @override
-  _i8.Future<void> purchaseSubscription(_i58.Subscription? sub) =>
+  _i8.Future<void> purchaseSubscription(_i59.Subscription? sub) =>
       (super.noSuchMethod(
             Invocation.method(#purchaseSubscription, [sub]),
             returnValue: _i8.Future<void>.value(),
@@ -2505,22 +2523,22 @@ class MockSubscriptionManager extends _i1.Mock
           as _i8.Future<void>);
 
   @override
-  _i8.Future<_i58.RestoreSubscriptionResult> restoreSubscription() =>
+  _i8.Future<_i59.RestoreSubscriptionResult> restoreSubscription() =>
       (super.noSuchMethod(
             Invocation.method(#restoreSubscription, []),
-            returnValue: _i8.Future<_i58.RestoreSubscriptionResult>.value(
-              _i58.RestoreSubscriptionResult.noSubscriptionsFound,
+            returnValue: _i8.Future<_i59.RestoreSubscriptionResult>.value(
+              _i59.RestoreSubscriptionResult.noSubscriptionsFound,
             ),
           )
-          as _i8.Future<_i58.RestoreSubscriptionResult>);
+          as _i8.Future<_i59.RestoreSubscriptionResult>);
 
   @override
-  _i8.Future<_i58.Subscriptions?> subscriptions() =>
+  _i8.Future<_i59.Subscriptions?> subscriptions() =>
       (super.noSuchMethod(
             Invocation.method(#subscriptions, []),
-            returnValue: _i8.Future<_i58.Subscriptions?>.value(),
+            returnValue: _i8.Future<_i59.Subscriptions?>.value(),
           )
-          as _i8.Future<_i58.Subscriptions?>);
+          as _i8.Future<_i59.Subscriptions?>);
 
   @override
   _i8.Future<void> onSignOut() =>
@@ -3261,14 +3279,14 @@ class MockIosDeviceInfo extends _i1.Mock implements _i5.IosDeviceInfo {
 /// A class which mocks [FilePickerWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFilePickerWrapper extends _i1.Mock implements _i59.FilePickerWrapper {
+class MockFilePickerWrapper extends _i1.Mock implements _i60.FilePickerWrapper {
   MockFilePickerWrapper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<_i60.FilePickerResult?> pickFiles({
-    _i60.FileType? type = _i60.FileType.any,
+  _i8.Future<_i61.FilePickerResult?> pickFiles({
+    _i61.FileType? type = _i61.FileType.any,
     List<String>? allowedExtensions,
     bool? allowMultiple = false,
     bool? withData = false,
@@ -3280,21 +3298,21 @@ class MockFilePickerWrapper extends _i1.Mock implements _i59.FilePickerWrapper {
               #allowMultiple: allowMultiple,
               #withData: withData,
             }),
-            returnValue: _i8.Future<_i60.FilePickerResult?>.value(),
+            returnValue: _i8.Future<_i61.FilePickerResult?>.value(),
           )
-          as _i8.Future<_i60.FilePickerResult?>);
+          as _i8.Future<_i61.FilePickerResult?>);
 }
 
 /// A class which mocks [StorageWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStorageWrapper extends _i1.Mock implements _i61.StorageWrapper {
+class MockStorageWrapper extends _i1.Mock implements _i62.StorageWrapper {
   MockStorageWrapper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<void> putData(String? path, _i62.Uint8List? bytes) =>
+  _i8.Future<void> putData(String? path, _i63.Uint8List? bytes) =>
       (super.noSuchMethod(
             Invocation.method(#putData, [path, bytes]),
             returnValue: _i8.Future<void>.value(),
@@ -3340,7 +3358,7 @@ class MockStorageWrapper extends _i1.Mock implements _i61.StorageWrapper {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFirebaseAuthWrapper extends _i1.Mock
-    implements _i63.FirebaseAuthWrapper {
+    implements _i64.FirebaseAuthWrapper {
   MockFirebaseAuthWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -3414,13 +3432,13 @@ class MockIdTokenResult extends _i1.Mock implements _i17.IdTokenResult {
 /// A class which mocks [FirebaseWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFirebaseWrapper extends _i1.Mock implements _i64.FirebaseWrapper {
+class MockFirebaseWrapper extends _i1.Mock implements _i65.FirebaseWrapper {
   MockFirebaseWrapper() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i8.Future<void> initializeApp({_i65.FirebaseOptions? options}) =>
+  _i8.Future<void> initializeApp({_i66.FirebaseOptions? options}) =>
       (super.noSuchMethod(
             Invocation.method(#initializeApp, [], {#options: options}),
             returnValue: _i8.Future<void>.value(),
@@ -3432,7 +3450,7 @@ class MockFirebaseWrapper extends _i1.Mock implements _i64.FirebaseWrapper {
 /// A class which mocks [FirestoreWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFirestoreWrapper extends _i1.Mock implements _i66.FirestoreWrapper {
+class MockFirestoreWrapper extends _i1.Mock implements _i67.FirestoreWrapper {
   MockFirestoreWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -3474,7 +3492,7 @@ class MockFirestoreWrapper extends _i1.Mock implements _i66.FirestoreWrapper {
 /// A class which mocks [FunctionsWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFunctionsWrapper extends _i1.Mock implements _i67.FunctionsWrapper {
+class MockFunctionsWrapper extends _i1.Mock implements _i68.FunctionsWrapper {
   MockFunctionsWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -3497,7 +3515,7 @@ class MockFunctionsWrapper extends _i1.Mock implements _i67.FunctionsWrapper {
 /// A class which mocks [HttpWrapper].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpWrapper extends _i1.Mock implements _i68.HttpWrapper {
+class MockHttpWrapper extends _i1.Mock implements _i69.HttpWrapper {
   MockHttpWrapper() {
     _i1.throwOnMissingStub(this);
   }
@@ -3507,7 +3525,7 @@ class MockHttpWrapper extends _i1.Mock implements _i68.HttpWrapper {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i69.Encoding? encoding,
+    _i70.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
             Invocation.method(

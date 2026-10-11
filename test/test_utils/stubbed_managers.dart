@@ -8,6 +8,7 @@ import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/connection_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
@@ -50,6 +51,7 @@ class StubbedManagers {
   late final MockFirebaseWrapper firebaseWrapper;
   late final MockAppCheckWrapper appCheckWrapper;
   late final MockAnalyticsWrapper analyticsWrapper;
+  late final MockConnectionWrapper connectionWrapper;
   late final MockCrashlyticsWrapper crashlyticsWrapper;
   late final MockDeviceInfoWrapper deviceInfoWrapper;
   late final MockFilePickerWrapper filePickerWrapper;
@@ -118,6 +120,12 @@ class StubbedManagers {
 
     analyticsWrapper = MockAnalyticsWrapper();
     AnalyticsWrapper.set(analyticsWrapper);
+
+    connectionWrapper = MockConnectionWrapper();
+    when(
+      connectionWrapper.hasInternetAccess(uris: anyNamed("uris")),
+    ).thenAnswer((_) async => true);
+    ConnectionWrapper.set(connectionWrapper);
 
     crashlyticsWrapper = MockCrashlyticsWrapper();
     CrashlyticsWrapper.set(crashlyticsWrapper);

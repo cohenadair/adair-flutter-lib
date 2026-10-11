@@ -10,6 +10,7 @@ import 'package:adair_flutter_lib/managers/time_manager.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/wrappers/analytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/app_check_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/connection_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/crashlytics_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/device_info_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/file_picker_wrapper.dart';
@@ -46,6 +47,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([AppConfig])
 @GenerateMocks([AppReviewManager])
 @GenerateMocks([AuthManager])
+@GenerateMocks([ConnectionWrapper])
 @GenerateMocks([CrashlyticsWrapper])
 @GenerateMocks([CustomerInfo])
 @GenerateMocks([DeviceInfoWrapper])
