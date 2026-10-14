@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adair_flutter_lib/utils/permission.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -125,6 +127,66 @@ void main() {
       final result = await requestNotificationPermission();
 
       expect(result, isFalse);
+    },
+  );
+
+  test(
+    "Concurrent requests for the same permission share one request",
+    () async {
+      final request = Completer<bool>();
+      when(
+        managers.permissionHandlerWrapper.requestLocation(),
+      ).thenAnswer((_) => request.future);
+
+      final first = requestLocationPermission();
+      final second = requestLocationPermission();
+      request.complete(true);
+
+      expect(await Future.wait([first, second]), [true, true]);
+      verify(managers.permissionHandlerWrapper.requestLocation()).called(1);
+    },
+  );
+
+  test(
+    "A request waits for a different in-progress request to finish",
+    () async {
+      final location = Completer<bool>();
+      when(
+        managers.permissionHandlerWrapper.requestLocation(),
+      ).thenAnswer((_) => location.future);
+
+      final first = requestLocationPermission();
+      final second = requestNotificationPermission();
+      await pumpEventQueue();
+
+      // Overlapping requests make permission_handler throw "a request for
+      // permissions is already running", so the second must not start yet.
+      verifyNever(managers.permissionHandlerWrapper.requestNotification());
+
+      location.complete(true);
+      expect(await Future.wait([first, second]), [true, true]);
+      verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
+    },
+  );
+
+  test("A failed request doesn't block the next request", () async {
+    when(
+      managers.permissionHandlerWrapper.requestLocation(),
+    ).thenThrow(Exception("already running"));
+
+    final first = requestLocationPermission();
+    final second = requestNotificationPermission();
+
+    expect(await Future.wait([first, second]), [false, true]);
+  });
+
+  test(
+    "A permission can be requested again after its request finishes",
+    () async {
+      await requestLocationPermission();
+      await requestLocationPermission();
+
+      verify(managers.permissionHandlerWrapper.requestLocation()).called(2);
     },
   );
 }

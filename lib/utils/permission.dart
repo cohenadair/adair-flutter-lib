@@ -36,12 +36,45 @@ Future<bool> requestLocationAlwaysPermission() =>
 Future<bool> requestStoragePermission() =>
     _requestGranted(PermissionHandlerWrapper.get.requestStorage);
 
+/// The most recently queued permission request, or null if none are in
+/// progress. See [_requestGranted].
+Future<bool>? _lastRequest;
+
+/// Requests that haven't finished yet, keyed by request function.
+final _requestsInProgress = <Future<bool> Function(), Future<bool>>{};
+
 /// The underlying permission_handler plugin throws a [PlatformException] if
-/// a request for any permission is already in progress when this is called
-/// (e.g. from overlapping calls to different request functions above). Treat
-/// that, and any other unexpected failure, as "not granted" rather than
-/// crashing.
-Future<bool> _requestGranted(Future<bool> Function() request) async {
+/// a request for any permission is already in progress (e.g. a second tap on
+/// a "current location" button while the OS prompt from the first is still
+/// showing). To avoid that, requests run one at a time: a request for a
+/// permission that's already being requested shares that request's result,
+/// and any other request waits for the in-progress one to finish.
+Future<bool> _requestGranted(Future<bool> Function() request) {
+  final inProgress = _requestsInProgress[request];
+  if (inProgress != null) {
+    return inProgress;
+  }
+
+  final previous = _lastRequest;
+  late final Future<bool> result;
+  result =
+      (previous == null
+              ? _request(request)
+              : previous.then((_) => _request(request)))
+          .whenComplete(() {
+            _requestsInProgress.remove(request);
+            if (identical(_lastRequest, result)) {
+              _lastRequest = null;
+            }
+          });
+  _requestsInProgress[request] = result;
+  _lastRequest = result;
+  return result;
+}
+
+/// Treats an unexpected failure as "not granted" rather than crashing. Never
+/// throws, so a failed request doesn't break the queue in [_requestGranted].
+Future<bool> _request(Future<bool> Function() request) async {
   try {
     return await request();
   } catch (e) {
