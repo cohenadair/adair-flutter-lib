@@ -165,6 +165,28 @@ void main() {
     expect(find.text("Test description."), findsOneWidget);
   });
 
+  testWidgets(
+    "Permission request returns false when the permission page is dismissed",
+    (tester) async {
+      when(
+        managers.permissionHandlerWrapper.isNotificationDenied,
+      ).thenAnswer((_) => Future.value(true));
+
+      final result = notificationManager.requestPermissionIfNeeded(
+        context: await buildContext(tester),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(NotificationPermissionPage), findsOneWidget);
+
+      // Simulates the system back button.
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(NotificationPermissionPage), findsNothing);
+      expect(await result, isFalse);
+    },
+  );
+
   test(
     "requestPermissionIfNeeded with showPermissionPage false calls requestNotification directly when denied",
     () async {
