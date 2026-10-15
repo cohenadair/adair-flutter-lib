@@ -2,38 +2,51 @@ import 'dart:async';
 
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../pages/notification_permission_page.dart';
+import '../utils/log.dart';
 import '../utils/page.dart';
 import '../utils/permission.dart';
 import '../wrappers/permission_handler_wrapper.dart';
 import 'manager.dart';
 
 abstract class NotificationManagerBase extends Manager {
+  static const _log = Log("NotificationManagerBase");
+
   // Called when a user taps a notification.
   VoidCallback? onDidReceiveNotificationResponse;
   late final FlutterLocalNotificationsPlugin _flutterNotifications;
+  var _isInitialized = false;
 
   @override
   @protected
   Future<void> init() async {
     _flutterNotifications = LocalNotificationsWrapper.get.newInstance();
-    await _flutterNotifications.initialize(
-      InitializationSettings(
-        iOS: DarwinInitializationSettings(
-          // Permission is requested when needed.
-          requestAlertPermission: false,
-          requestBadgePermission: false,
-          requestSoundPermission: false,
-          requestCriticalPermission: false,
-          requestProvisionalPermission: false,
-          notificationCategories: iosCategories,
+    try {
+      await _flutterNotifications.initialize(
+        InitializationSettings(
+          iOS: DarwinInitializationSettings(
+            // Permission is requested when needed.
+            requestAlertPermission: false,
+            requestBadgePermission: false,
+            requestSoundPermission: false,
+            requestCriticalPermission: false,
+            requestProvisionalPermission: false,
+            notificationCategories: iosCategories,
+          ),
+          android: AndroidInitializationSettings("ic_notification"),
         ),
-        android: AndroidInitializationSettings("ic_notification"),
-      ),
-      onDidReceiveNotificationResponse: _onReceiveNotificationResponse,
-    );
+        onDidReceiveNotificationResponse: _onReceiveNotificationResponse,
+      );
+      _isInitialized = true;
+    } on PlatformException catch (e) {
+      // E.g. invalid_icon when the notification icon resource is missing from
+      // a broken install. Notifications are non-essential, so this shouldn't
+      // stop the app from starting.
+      _log.e(e, reason: "Initializing local notifications");
+    }
   }
 
   @protected
@@ -83,7 +96,11 @@ abstract class NotificationManagerBase extends Manager {
     String? body,
     NotificationDetails? details,
     String? payload,
-  }) {
+  }) async {
+    if (!_isInitialized) {
+      _log.w("Can't show notification; plugin isn't initialized");
+      return;
+    }
     return _flutterNotifications.show(
       id,
       title,
@@ -93,7 +110,10 @@ abstract class NotificationManagerBase extends Manager {
     );
   }
 
-  Future<void> cancel({required int id}) {
+  Future<void> cancel({required int id}) async {
+    if (!_isInitialized) {
+      return;
+    }
     return _flutterNotifications.cancel(id);
   }
 }
