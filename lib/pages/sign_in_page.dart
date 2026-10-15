@@ -216,6 +216,11 @@ class _SignInPageState extends State<SignInPage> {
         // there's nothing useful to log.
         return L10n.get.lib.signInPageErrorGeneric;
       }
+      if (e.code == "network-request-failed") {
+        // The device is offline or the connection dropped. Expected, and
+        // not something the app can fix, so it isn't logged.
+        return L10n.get.lib.signInPageErrorNetworkFailed;
+      }
       _log.e(e, reason: "Post-sign in verification");
       return L10n.get.lib.signInPageErrorGeneric;
     } catch (e, stackTrace) {
