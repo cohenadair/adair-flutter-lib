@@ -920,6 +920,38 @@ void main() {
   );
 
   testWidgets(
+    "Reset password dialog shows unavailable message when the email fails to send",
+    (tester) async {
+      await pumpNotSignedIn(tester);
+      await openResetPasswordDialog(tester);
+      await enterTextAndSettle(
+        tester,
+        find.descendant(
+          of: find.byType(AlertDialog),
+          matching: find.widgetWithText(TextField, "Email"),
+        ),
+        "test@test.com",
+      );
+
+      stubSendReset(
+        // ignore: invalid_use_of_protected_member
+        (_) => throw FirebaseFunctionsException(
+          code: "unavailable",
+          message: "Failed to send password reset email.",
+        ),
+      );
+
+      await tapAndSettle(tester, find.widgetWithText(TextButton, "Reset"));
+      expect(find.byType(Loading), findsNothing);
+      expect(
+        find.text("We couldn't send the reset email. Please try again later."),
+        findsOneWidget,
+      );
+      expect(find.text("Failed to send password reset email."), findsNothing);
+    },
+  );
+
+  testWidgets(
     "Reset password dialog shows generic error for unknown exception",
     (tester) async {
       await pumpNotSignedIn(tester);

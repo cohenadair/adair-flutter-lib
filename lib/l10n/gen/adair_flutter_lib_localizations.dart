@@ -654,6 +654,12 @@ abstract class AdairFlutterLibLocalizations {
   /// **'If an account exists for that email address, you\'\'ll receive a password reset link shortly. Be sure to check your spam or junk folder if it doesn\'\'t arrive.'**
   String get signInPageResetPasswordConfirmation;
 
+  /// No description provided for @signInPageResetPasswordUnavailableError.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'\'t send the reset email. Please try again later.'**
+  String get signInPageResetPasswordUnavailableError;
+
   /// No description provided for @version.
   ///
   /// In en, this message translates to:
