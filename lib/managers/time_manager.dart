@@ -24,9 +24,6 @@ class TimeManager extends Manager {
 
   final _log = const Log("TimeManager");
 
-  @visibleForTesting
-  TimeManager();
-
   TZDateTime get currentDateTime => TZDateTime.now(currentLocation.value);
 
   TimeZoneLocation get currentLocation => _currentLocation;
