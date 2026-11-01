@@ -3,6 +3,7 @@ import 'package:adair_flutter_lib/app_config.dart';
 import 'package:adair_flutter_lib/managers/app_review_manager.dart';
 import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/managers/email_manager.dart';
+import 'package:adair_flutter_lib/managers/permissions_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -43,6 +44,7 @@ class StubbedManagers {
   late final MockAppReviewManager appReviewManager;
   late final MockAuthManager authManager;
   late final MockEmailManager emailManager;
+  late final MockPermissionsManager permissionsManager;
   late final MockPropertiesManager propertiesManager;
   late final MockSubscriptionManager subscriptionManager;
   late final MockTimeManager timeManager;
@@ -109,6 +111,9 @@ class StubbedManagers {
 
     emailManager = MockEmailManager();
     EmailManager.set(emailManager);
+
+    permissionsManager = MockPermissionsManager();
+    PermissionsManager.set(permissionsManager);
 
     firebaseWrapper = MockFirebaseWrapper();
     FirebaseWrapper.set(firebaseWrapper);

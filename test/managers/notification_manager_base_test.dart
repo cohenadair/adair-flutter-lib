@@ -94,7 +94,7 @@ void main() {
         managers.permissionHandlerWrapper.isNotificationDenied,
       ).thenAnswer((_) => Future.value(true));
       when(
-        managers.permissionHandlerWrapper.requestNotification(),
+        managers.permissionsManager.requestNotification(),
       ).thenAnswer((_) => Future.value(true));
 
       final result = await notificationManager.requestPermissionIfNeeded(
@@ -102,7 +102,7 @@ void main() {
       );
 
       expect(result, isTrue);
-      verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
+      verify(managers.permissionsManager.requestNotification()).called(1);
     },
   );
 

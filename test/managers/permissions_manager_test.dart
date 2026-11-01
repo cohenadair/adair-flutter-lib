@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:adair_flutter_lib/utils/permission.dart';
+import 'package:adair_flutter_lib/managers/permissions_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -8,9 +8,12 @@ import '../test_utils/stubbed_managers.dart';
 
 void main() {
   late StubbedManagers managers;
+  late PermissionsManager permissionsManager;
 
   setUp(() async {
     managers = await StubbedManagers.create();
+    permissionsManager = PermissionsManager();
+
     when(
       managers.permissionHandlerWrapper.requestAccessMediaLocation(),
     ).thenAnswer((_) async => true);
@@ -31,41 +34,33 @@ void main() {
     ).thenAnswer((_) async => true);
   });
 
-  test(
-    "requestPhotosPermission on non-Android calls only requestPhotos",
-    () async {
-      managers.stubIosDeviceInfo();
+  test("requestPhotos on non-Android calls only requestPhotos", () async {
+    managers.stubIosDeviceInfo();
 
-      final result = await requestPhotosPermission();
+    final result = await permissionsManager.requestPhotos();
 
-      verifyNever(
-        managers.permissionHandlerWrapper.requestAccessMediaLocation(),
-      );
-      verify(managers.permissionHandlerWrapper.requestPhotos()).called(1);
-      expect(result, isTrue);
-    },
-  );
+    verifyNever(managers.permissionHandlerWrapper.requestAccessMediaLocation());
+    verify(managers.permissionHandlerWrapper.requestPhotos()).called(1);
+    expect(result, isTrue);
+  });
 
-  test(
-    "requestPhotosPermission returns false when a permission is denied",
-    () async {
-      managers.stubIosDeviceInfo();
-      when(
-        managers.permissionHandlerWrapper.requestPhotos(),
-      ).thenAnswer((_) async => false);
+  test("requestPhotos returns false when a permission is denied", () async {
+    managers.stubIosDeviceInfo();
+    when(
+      managers.permissionHandlerWrapper.requestPhotos(),
+    ).thenAnswer((_) async => false);
 
-      final result = await requestPhotosPermission();
+    final result = await permissionsManager.requestPhotos();
 
-      expect(result, isFalse);
-    },
-  );
+    expect(result, isFalse);
+  });
 
   test(
-    "requestPhotosPermission on Android calls only requestAccessMediaLocation",
+    "requestPhotos on Android calls only requestAccessMediaLocation",
     () async {
       managers.stubAndroidDeviceInfo();
 
-      final result = await requestPhotosPermission();
+      final result = await permissionsManager.requestPhotos();
 
       verify(
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
@@ -76,59 +71,61 @@ void main() {
   );
 
   test(
-    "requestPhotosPermission on Android returns false when permission denied",
+    "requestPhotos on Android returns false when permission denied",
     () async {
       managers.stubAndroidDeviceInfo();
       when(
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       ).thenAnswer((_) async => false);
 
-      final result = await requestPhotosPermission();
+      final result = await permissionsManager.requestPhotos();
 
       expect(result, isFalse);
     },
   );
 
-  test("requestNotificationPermission calls requestNotification", () async {
-    final result = await requestNotificationPermission();
+  test("requestNotification calls the wrapper's requestNotification", () async {
+    final result = await permissionsManager.requestNotification();
 
     verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
     expect(result, isTrue);
   });
 
-  test("requestLocationPermission calls requestLocation", () async {
-    final result = await requestLocationPermission();
+  test("requestLocation calls the wrapper's requestLocation", () async {
+    final result = await permissionsManager.requestLocation();
 
     verify(managers.permissionHandlerWrapper.requestLocation()).called(1);
     expect(result, isTrue);
   });
 
-  test("requestLocationAlwaysPermission calls requestLocationAlways", () async {
-    final result = await requestLocationAlwaysPermission();
+  test(
+    "requestLocationAlways calls the wrapper's requestLocationAlways",
+    () async {
+      final result = await permissionsManager.requestLocationAlways();
 
-    verify(managers.permissionHandlerWrapper.requestLocationAlways()).called(1);
-    expect(result, isTrue);
-  });
+      verify(
+        managers.permissionHandlerWrapper.requestLocationAlways(),
+      ).called(1);
+      expect(result, isTrue);
+    },
+  );
 
-  test("requestStoragePermission calls requestStorage", () async {
-    final result = await requestStoragePermission();
+  test("requestStorage calls the wrapper's requestStorage", () async {
+    final result = await permissionsManager.requestStorage();
 
     verify(managers.permissionHandlerWrapper.requestStorage()).called(1);
     expect(result, isTrue);
   });
 
-  test(
-    "requestNotificationPermission returns false when the wrapper throws",
-    () async {
-      when(
-        managers.permissionHandlerWrapper.requestNotification(),
-      ).thenThrow(Exception("already running"));
+  test("requestNotification returns false when the wrapper throws", () async {
+    when(
+      managers.permissionHandlerWrapper.requestNotification(),
+    ).thenThrow(Exception("already running"));
 
-      final result = await requestNotificationPermission();
+    final result = await permissionsManager.requestNotification();
 
-      expect(result, isFalse);
-    },
-  );
+    expect(result, isFalse);
+  });
 
   test(
     "Concurrent requests for the same permission share one request",
@@ -138,8 +135,8 @@ void main() {
         managers.permissionHandlerWrapper.requestLocation(),
       ).thenAnswer((_) => request.future);
 
-      final first = requestLocationPermission();
-      final second = requestLocationPermission();
+      final first = permissionsManager.requestLocation();
+      final second = permissionsManager.requestLocation();
       request.complete(true);
 
       expect(await Future.wait([first, second]), [true, true]);
@@ -155,8 +152,8 @@ void main() {
         managers.permissionHandlerWrapper.requestLocation(),
       ).thenAnswer((_) => location.future);
 
-      final first = requestLocationPermission();
-      final second = requestNotificationPermission();
+      final first = permissionsManager.requestLocation();
+      final second = permissionsManager.requestNotification();
       await pumpEventQueue();
 
       // Overlapping requests make permission_handler throw "a request for
@@ -174,8 +171,8 @@ void main() {
       managers.permissionHandlerWrapper.requestLocation(),
     ).thenThrow(Exception("already running"));
 
-    final first = requestLocationPermission();
-    final second = requestNotificationPermission();
+    final first = permissionsManager.requestLocation();
+    final second = permissionsManager.requestNotification();
 
     expect(await Future.wait([first, second]), [false, true]);
   });
@@ -183,8 +180,8 @@ void main() {
   test(
     "A permission can be requested again after its request finishes",
     () async {
-      await requestLocationPermission();
-      await requestLocationPermission();
+      await permissionsManager.requestLocation();
+      await permissionsManager.requestLocation();
 
       verify(managers.permissionHandlerWrapper.requestLocation()).called(2);
     },

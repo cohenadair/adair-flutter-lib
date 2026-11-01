@@ -18,7 +18,7 @@ void main() {
   });
 
   testWidgets("Request permission", (tester) async {
-    when(managers.permissionHandlerWrapper.requestNotification()).thenAnswer(
+    when(managers.permissionsManager.requestNotification()).thenAnswer(
       (_) => Future.delayed(
         const Duration(milliseconds: 50),
         () => Future.value(false),
@@ -34,7 +34,7 @@ void main() {
 
     expect(find.byType(Loading), findsOneWidget);
 
-    // Finish requestNotificationPermission() call.
+    // Finish the requestNotification() call.
     await tester.pumpAndSettle(const Duration(milliseconds: 50));
     expect(find.byType(NotificationPermissionPage), findsNothing);
   });
@@ -43,7 +43,7 @@ void main() {
     await pumpContext(tester, (_) => const NotificationPermissionPage("Test"));
 
     await tapAndSettle(tester, find.byType(CloseButton));
-    verifyNever(managers.permissionHandlerWrapper.requestNotification());
+    verifyNever(managers.permissionsManager.requestNotification());
   });
 
   testWidgets("Navigator returns false when page is closed", (tester) async {
@@ -68,7 +68,7 @@ void main() {
   testWidgets("Navigator returns true when permission is granted", (
     tester,
   ) async {
-    when(managers.permissionHandlerWrapper.requestNotification()).thenAnswer(
+    when(managers.permissionsManager.requestNotification()).thenAnswer(
       (_) => Future.delayed(
         const Duration(milliseconds: 50),
         () => Future.value(true),

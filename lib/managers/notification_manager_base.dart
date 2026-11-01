@@ -6,9 +6,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../pages/notification_permission_page.dart';
 import '../utils/page.dart';
-import '../utils/permission.dart';
 import '../wrappers/permission_handler_wrapper.dart';
 import 'manager.dart';
+import 'permissions_manager.dart';
 
 abstract class NotificationManagerBase extends Manager {
   // Called when a user taps a notification.
@@ -62,7 +62,7 @@ abstract class NotificationManagerBase extends Manager {
     }
 
     if (!showPermissionPage) {
-      return requestNotificationPermission();
+      return PermissionsManager.get.requestNotification();
     }
 
     if (context == null || !context.mounted) {

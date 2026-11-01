@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/managers/app_review_manager.dart';
 import 'package:adair_flutter_lib/managers/auth_manager.dart';
 import 'package:adair_flutter_lib/managers/email_manager.dart';
 import 'package:adair_flutter_lib/managers/manager.dart';
+import 'package:adair_flutter_lib/managers/permissions_manager.dart';
 import 'package:adair_flutter_lib/managers/properties_manager.dart';
 import 'package:adair_flutter_lib/managers/subscription_manager.dart';
 import 'package:adair_flutter_lib/managers/time_manager.dart';
@@ -74,6 +75,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([Offerings])
 @GenerateMocks([Package])
 @GenerateMocks([PermissionHandlerWrapper])
+@GenerateMocks([PermissionsManager])
 @GenerateMocks([PlatformException])
 @GenerateMocks([PropertiesManager])
 @GenerateMocks([PurchasesWrapper])
