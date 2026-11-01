@@ -26,8 +26,7 @@ class PermissionHandlerWrapper {
       Permission.locationAlways.isGranted;
 
   // TODO: Make private to adair-flutter-lib, if possible.
-  /// Don't call directly. Call `permission.dart`'s
-  /// `requestPhotosPermission()` instead.
+  /// Don't call directly. Call `PermissionsManager.requestPhotos()` instead.
   Future<bool> requestAccessMediaLocation() async =>
       (await Permission.accessMediaLocation.request()).isGranted;
 
@@ -35,8 +34,7 @@ class PermissionHandlerWrapper {
       (await Permission.storage.request()).isGranted;
 
   // TODO: Make private to adair-flutter-lib, if possible.
-  /// Don't call directly. Call `permission.dart`'s
-  /// `requestPhotosPermission()` instead.
+  /// Don't call directly. Call `PermissionsManager.requestPhotos()` instead.
   Future<bool> requestPhotos() async =>
       (await Permission.photos.request()).isGranted;
 
@@ -49,8 +47,8 @@ class PermissionHandlerWrapper {
   ///     [PermissionStatus.permanentlyDenied].
   ///   - User selects "Allow", returns [PermissionStatus.granted].
   // TODO: Make private to adair-flutter-lib, if possible.
-  /// Don't call directly. Call `permission.dart`'s
-  /// `requestNotificationPermission()` instead.
+  /// Don't call directly. Call
+  /// `PermissionsManager.requestNotification()` instead.
   Future<bool> requestNotification() async =>
       (await _notification.request()).isGranted;
 
