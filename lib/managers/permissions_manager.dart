@@ -27,9 +27,6 @@ class PermissionsManager {
 
   PermissionsManager._();
 
-  @visibleForTesting
-  PermissionsManager();
-
   /// The most recently queued request, or null if none are in progress.
   Future<bool>? _lastRequest;
 

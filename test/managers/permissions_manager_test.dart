@@ -8,11 +8,11 @@ import '../test_utils/stubbed_managers.dart';
 
 void main() {
   late StubbedManagers managers;
-  late PermissionsManager permissionsManager;
 
   setUp(() async {
     managers = await StubbedManagers.create();
-    permissionsManager = PermissionsManager();
+    // StubbedManagers sets a mock; use the real manager here.
+    PermissionsManager.reset();
 
     when(
       managers.permissionHandlerWrapper.requestAccessMediaLocation(),
@@ -37,7 +37,7 @@ void main() {
   test("requestPhotos on non-Android calls only requestPhotos", () async {
     managers.stubIosDeviceInfo();
 
-    final result = await permissionsManager.requestPhotos();
+    final result = await PermissionsManager.get.requestPhotos();
 
     verifyNever(managers.permissionHandlerWrapper.requestAccessMediaLocation());
     verify(managers.permissionHandlerWrapper.requestPhotos()).called(1);
@@ -50,7 +50,7 @@ void main() {
       managers.permissionHandlerWrapper.requestPhotos(),
     ).thenAnswer((_) async => false);
 
-    final result = await permissionsManager.requestPhotos();
+    final result = await PermissionsManager.get.requestPhotos();
 
     expect(result, isFalse);
   });
@@ -60,7 +60,7 @@ void main() {
     () async {
       managers.stubAndroidDeviceInfo();
 
-      final result = await permissionsManager.requestPhotos();
+      final result = await PermissionsManager.get.requestPhotos();
 
       verify(
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
@@ -78,21 +78,21 @@ void main() {
         managers.permissionHandlerWrapper.requestAccessMediaLocation(),
       ).thenAnswer((_) async => false);
 
-      final result = await permissionsManager.requestPhotos();
+      final result = await PermissionsManager.get.requestPhotos();
 
       expect(result, isFalse);
     },
   );
 
   test("requestNotification calls the wrapper's requestNotification", () async {
-    final result = await permissionsManager.requestNotification();
+    final result = await PermissionsManager.get.requestNotification();
 
     verify(managers.permissionHandlerWrapper.requestNotification()).called(1);
     expect(result, isTrue);
   });
 
   test("requestLocation calls the wrapper's requestLocation", () async {
-    final result = await permissionsManager.requestLocation();
+    final result = await PermissionsManager.get.requestLocation();
 
     verify(managers.permissionHandlerWrapper.requestLocation()).called(1);
     expect(result, isTrue);
@@ -101,7 +101,7 @@ void main() {
   test(
     "requestLocationAlways calls the wrapper's requestLocationAlways",
     () async {
-      final result = await permissionsManager.requestLocationAlways();
+      final result = await PermissionsManager.get.requestLocationAlways();
 
       verify(
         managers.permissionHandlerWrapper.requestLocationAlways(),
@@ -111,7 +111,7 @@ void main() {
   );
 
   test("requestStorage calls the wrapper's requestStorage", () async {
-    final result = await permissionsManager.requestStorage();
+    final result = await PermissionsManager.get.requestStorage();
 
     verify(managers.permissionHandlerWrapper.requestStorage()).called(1);
     expect(result, isTrue);
@@ -122,7 +122,7 @@ void main() {
       managers.permissionHandlerWrapper.requestNotification(),
     ).thenThrow(Exception("already running"));
 
-    final result = await permissionsManager.requestNotification();
+    final result = await PermissionsManager.get.requestNotification();
 
     expect(result, isFalse);
   });
@@ -135,8 +135,8 @@ void main() {
         managers.permissionHandlerWrapper.requestLocation(),
       ).thenAnswer((_) => request.future);
 
-      final first = permissionsManager.requestLocation();
-      final second = permissionsManager.requestLocation();
+      final first = PermissionsManager.get.requestLocation();
+      final second = PermissionsManager.get.requestLocation();
       request.complete(true);
 
       expect(await Future.wait([first, second]), [true, true]);
@@ -152,8 +152,8 @@ void main() {
         managers.permissionHandlerWrapper.requestLocation(),
       ).thenAnswer((_) => location.future);
 
-      final first = permissionsManager.requestLocation();
-      final second = permissionsManager.requestNotification();
+      final first = PermissionsManager.get.requestLocation();
+      final second = PermissionsManager.get.requestNotification();
       await pumpEventQueue();
 
       // Overlapping requests make permission_handler throw "a request for
@@ -171,8 +171,8 @@ void main() {
       managers.permissionHandlerWrapper.requestLocation(),
     ).thenThrow(Exception("already running"));
 
-    final first = permissionsManager.requestLocation();
-    final second = permissionsManager.requestNotification();
+    final first = PermissionsManager.get.requestLocation();
+    final second = PermissionsManager.get.requestNotification();
 
     expect(await Future.wait([first, second]), [false, true]);
   });
@@ -180,8 +180,8 @@ void main() {
   test(
     "A permission can be requested again after its request finishes",
     () async {
-      await permissionsManager.requestLocation();
-      await permissionsManager.requestLocation();
+      await PermissionsManager.get.requestLocation();
+      await PermissionsManager.get.requestLocation();
 
       verify(managers.permissionHandlerWrapper.requestLocation()).called(2);
     },
