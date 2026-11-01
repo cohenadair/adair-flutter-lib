@@ -4949,11 +4949,9 @@ class MockWriteBatch extends _i1.Mock implements _i18.WriteBatch {
   );
 
   @override
-  void update(
-    _i18.DocumentReference<Object?>? document,
-    Map<Object, Object?>? data,
-  ) => super.noSuchMethod(
-    Invocation.method(#update, [document, data]),
-    returnValueForMissingStub: null,
-  );
+  void update<T>(_i18.DocumentReference<T>? document, T? data) =>
+      super.noSuchMethod(
+        Invocation.method(#update, [document, data]),
+        returnValueForMissingStub: null,
+      );
 }
