@@ -105,8 +105,12 @@ class SubscriptionManager extends Manager {
       );
     } on PlatformException catch (e) {
       var code = PurchasesErrorHelper.getErrorCode(e);
+      // A pending payment (e.g. Ask to Buy, or a deferred payment method)
+      // isn't a failure. The storefront tells the user, and the customer info
+      // listener picks up the purchase once it's approved.
       if (code != PurchasesErrorCode.purchaseCancelledError &&
-          code != PurchasesErrorCode.storeProblemError) {
+          code != PurchasesErrorCode.storeProblemError &&
+          code != PurchasesErrorCode.paymentPendingError) {
         _log.e(Exception("Purchase error: ${e.message}"));
       }
     }

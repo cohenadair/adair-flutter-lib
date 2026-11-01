@@ -48,6 +48,16 @@ void main() {
     return customerInfo;
   }
 
+  MockPlatformException stubPurchaseError(PurchasesErrorCode code) {
+    var exception = MockPlatformException();
+    when(exception.code).thenReturn(code.index.toString());
+    when(exception.message).thenReturn("Test");
+    when(
+      managers.purchasesWrapper.purchasePackage(any),
+    ).thenAnswer((_) => throw exception);
+    return exception;
+  }
+
   test("Initialize for Android", () async {
     when(
       managers.purchasesWrapper.getCustomerInfo(),
@@ -130,6 +140,40 @@ void main() {
       managers.purchasesWrapper.getCustomerInfo(),
     ).thenAnswer((_) => throw exception);
     await SubscriptionManager.get.init();
+    verify(exception.message).called(1);
+  });
+
+  test("purchaseSubscription ignores cancelled error", () async {
+    var exception = stubPurchaseError(
+      PurchasesErrorCode.purchaseCancelledError,
+    );
+    await SubscriptionManager.get.purchaseSubscription(
+      Subscription(MockPackage()),
+    );
+    verifyNever(exception.message);
+  });
+
+  test("purchaseSubscription ignores store problem error", () async {
+    var exception = stubPurchaseError(PurchasesErrorCode.storeProblemError);
+    await SubscriptionManager.get.purchaseSubscription(
+      Subscription(MockPackage()),
+    );
+    verifyNever(exception.message);
+  });
+
+  test("purchaseSubscription ignores pending payment error", () async {
+    var exception = stubPurchaseError(PurchasesErrorCode.paymentPendingError);
+    await SubscriptionManager.get.purchaseSubscription(
+      Subscription(MockPackage()),
+    );
+    verifyNever(exception.message);
+  });
+
+  test("purchaseSubscription logs other errors", () async {
+    var exception = stubPurchaseError(PurchasesErrorCode.unknownError);
+    await SubscriptionManager.get.purchaseSubscription(
+      Subscription(MockPackage()),
+    );
     verify(exception.message).called(1);
   });
 
