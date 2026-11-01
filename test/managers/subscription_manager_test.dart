@@ -48,6 +48,16 @@ void main() {
     return customerInfo;
   }
 
+  MockPlatformException stubPurchaseError(PurchasesErrorCode code) {
+    var exception = MockPlatformException();
+    when(exception.code).thenReturn(code.index.toString());
+    when(exception.message).thenReturn("Test");
+    when(
+      managers.purchasesWrapper.purchasePackage(any),
+    ).thenAnswer((_) => throw exception);
+    return exception;
+  }
+
   test("Initialize for Android", () async {
     when(
       managers.purchasesWrapper.getCustomerInfo(),
@@ -71,16 +81,6 @@ void main() {
     verify(managers.propertiesManager.revenueCatAppleApiKey).called(1);
     verifyNever(managers.propertiesManager.revenueCatGoogleApiKey);
   });
-
-  MockPlatformException stubPurchaseError(PurchasesErrorCode code) {
-    var exception = MockPlatformException();
-    when(exception.code).thenReturn(code.index.toString());
-    when(exception.message).thenReturn("Test");
-    when(
-      managers.purchasesWrapper.purchasePackage(any),
-    ).thenAnswer((_) => throw exception);
-    return exception;
-  }
 
   test("Initialize ignores network error", () async {
     var exception = MockPlatformException();
