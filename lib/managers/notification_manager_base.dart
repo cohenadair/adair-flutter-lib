@@ -82,10 +82,13 @@ abstract class NotificationManagerBase extends Manager {
       return false;
     }
 
-    return (await present<bool>(
-      context,
-      NotificationPermissionPage(userDescription),
-    ))!;
+    // Null if the page is dismissed without a choice, e.g. with the system
+    // back button.
+    return await present<bool>(
+          context,
+          NotificationPermissionPage(userDescription),
+        ) ??
+        false;
   }
 
   /// Shows a local notification. Wrapper for
