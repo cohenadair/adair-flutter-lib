@@ -575,6 +575,40 @@ void main() {
     },
   );
 
+  testWidgets(
+    "Auto-init shows a network error without logging network-request-failed",
+    (tester) async {
+      when(managers.authManager.signOut()).thenAnswer((_) {
+        authController.add(null);
+        return Future.value();
+      });
+
+      await pumpContext(
+        tester,
+        (_) => SignInPage(
+          info: SignInPageInfo(
+            postSignInVerification: () =>
+                throw FirebaseAuthException(code: "network-request-failed"),
+          ),
+          homeBuilder: (_) => Text("HOME"),
+        ),
+      );
+      await tester.pump();
+
+      final prints = await capturePrints(() async {
+        authController.add(MockUser());
+        await tester.pumpAndSettle();
+      });
+
+      expect(prints, isEmpty);
+      expect(
+        find.text(L10n.get.lib.signInPageErrorNetworkFailed),
+        findsOneWidget,
+      );
+      verify(managers.authManager.signOut()).called(1);
+    },
+  );
+
   testWidgets("Auto-init does not call postSignInVerification twice", (
     tester,
   ) async {
