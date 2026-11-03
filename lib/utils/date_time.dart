@@ -189,13 +189,19 @@ String formatTimeMillis(BuildContext context, Int64 millis, String? timeZone) {
 ///   - Monday at 2:35 PM
 ///   - Jan 8 at 2:35 PM
 ///   - Dec 8, 2018 at 2:35 PM
+///
+/// When [ordinal] is true, the date is formatted with
+/// [formatDateAsRecentOrdinal], and [abbreviated] is ignored.
 String formatDateTime(
   BuildContext context,
   TZDateTime dateTime, {
   bool abbreviated = false,
   bool excludeMidnight = false,
+  bool ordinal = false,
 }) {
-  var recentDate = formatDateAsRecent(dateTime, abbreviated: abbreviated);
+  var recentDate = ordinal
+      ? formatDateAsRecentOrdinal(dateTime)
+      : formatDateAsRecent(dateTime, abbreviated: abbreviated);
 
   var time = TimeOfDay.fromDateTime(dateTime);
   if (excludeMidnight && time.hour == 0 && time.minute == 0) {

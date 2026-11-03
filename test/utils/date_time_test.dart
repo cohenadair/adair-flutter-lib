@@ -408,6 +408,19 @@ void main() {
     );
   });
 
+  testWidgets("formatDateTime uses ordinal date", (tester) async {
+    managers.stubCurrentTime(newYorkDateTime(2024, 6, 20, 12));
+    expect(
+      formatDateTime(
+        await buildContext(tester),
+        newYorkDateTime(2024, 6, 8, 6),
+        abbreviated: true,
+        ordinal: true,
+      ),
+      "June 8th at 6:00 AM",
+    );
+  });
+
   testWidgets("isFrequencyTimerReady timer is null", (tester) async {
     when(managers.timeManager.currentTimestamp).thenReturn(0);
 
