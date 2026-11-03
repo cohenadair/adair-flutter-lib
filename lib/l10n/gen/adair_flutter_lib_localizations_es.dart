@@ -74,6 +74,25 @@ class AdairFlutterLibLocalizationsEs extends AdairFlutterLibLocalizations {
   }
 
   @override
+  String monthDayOrdinalFormat(String month, String day) {
+    return '$day de $month';
+  }
+
+  @override
+  String dateWithYearFormat(String date, String year) {
+    return '$date de $year';
+  }
+
+  @override
+  String dateTimeRangeSameDayFormat(
+    String date,
+    String startTime,
+    String endTime,
+  ) {
+    return '$date, de $startTime a $endTime';
+  }
+
+  @override
   String get now => 'Now';
 
   @override

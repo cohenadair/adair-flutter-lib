@@ -16,6 +16,20 @@ void main() {
     managers = await StubbedManagers.create();
   });
 
+  TZDateTime newYorkDateTime(int year, int month, int day, [int hour = 0]) {
+    return TZDateTime(getLocation("America/New_York"), year, month, day, hour);
+  }
+
+  Future<void> stubOrdinalNow(WidgetTester tester) async {
+    managers.stubCurrentTime(newYorkDateTime(2024, 6, 20, 12));
+    await buildContext(tester); // To use L10n.
+  }
+
+  Future<String> formatOrdinal(WidgetTester tester, int day) async {
+    await stubOrdinalNow(tester);
+    return formatDateAsRecentOrdinal(newYorkDateTime(2024, 1, day));
+  }
+
   test("isLater", () {
     expect(
       isLater(
@@ -464,6 +478,121 @@ void main() {
         TimeManager.get.dateTimeFromValues(2022, 10, 6),
       ),
       isFalse,
+    );
+  });
+
+  testWidgets("formatDateAsRecentOrdinal returns today", (tester) async {
+    await stubOrdinalNow(tester);
+    expect(formatDateAsRecentOrdinal(newYorkDateTime(2024, 6, 20)), "Today");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal returns yesterday", (tester) async {
+    await stubOrdinalNow(tester);
+    expect(
+      formatDateAsRecentOrdinal(newYorkDateTime(2024, 6, 19)),
+      "Yesterday",
+    );
+  });
+
+  testWidgets("formatDateAsRecentOrdinal returns weekday within a week", (
+    tester,
+  ) async {
+    await stubOrdinalNow(tester);
+    expect(formatDateAsRecentOrdinal(newYorkDateTime(2024, 6, 17)), "Monday");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal returns month and day in same year", (
+    tester,
+  ) async {
+    await stubOrdinalNow(tester);
+    expect(formatDateAsRecentOrdinal(newYorkDateTime(2024, 6, 8)), "June 8th");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal includes year in different year", (
+    tester,
+  ) async {
+    await stubOrdinalNow(tester);
+    expect(
+      formatDateAsRecentOrdinal(newYorkDateTime(2018, 12, 8)),
+      "December 8th, 2018",
+    );
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 1st", (tester) async {
+    expect(await formatOrdinal(tester, 1), "January 1st");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 2nd", (tester) async {
+    expect(await formatOrdinal(tester, 2), "January 2nd");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 3rd", (tester) async {
+    expect(await formatOrdinal(tester, 3), "January 3rd");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 21st", (tester) async {
+    expect(await formatOrdinal(tester, 21), "January 21st");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 22nd", (tester) async {
+    expect(await formatOrdinal(tester, 22), "January 22nd");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 23rd", (tester) async {
+    expect(await formatOrdinal(tester, 23), "January 23rd");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 31st", (tester) async {
+    expect(await formatOrdinal(tester, 31), "January 31st");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats other days with th", (
+    tester,
+  ) async {
+    expect(await formatOrdinal(tester, 4), "January 4th");
+  });
+
+  testWidgets("formatDateAsRecentOrdinal formats 11th", (tester) async {
+    expect(await formatOrdinal(tester, 11), "January 11th");
+  });
+
+  testWidgets("formatSameDayDateTimeRange omits matching start period", (
+    tester,
+  ) async {
+    managers.stubCurrentTime(newYorkDateTime(2024, 6, 20, 12));
+    expect(
+      formatSameDayDateTimeRange(
+        await buildContext(tester),
+        newYorkDateTime(2024, 6, 8, 6),
+        newYorkDateTime(2024, 6, 8, 10),
+      ),
+      "June 8th from 6:00 to 10:00 AM",
+    );
+  });
+
+  testWidgets("formatSameDayDateTimeRange shows differing periods", (
+    tester,
+  ) async {
+    managers.stubCurrentTime(newYorkDateTime(2024, 6, 20, 12));
+    expect(
+      formatSameDayDateTimeRange(
+        await buildContext(tester),
+        newYorkDateTime(2024, 6, 20, 11),
+        newYorkDateTime(2024, 6, 20, 13),
+      ),
+      "Today from 11:00 AM to 1:00 PM",
+    );
+  });
+
+  testWidgets("formatSameDayDateTimeRange in 24-hour format", (tester) async {
+    managers.stubCurrentTime(newYorkDateTime(2024, 6, 20, 12));
+    expect(
+      formatSameDayDateTimeRange(
+        await buildContext(tester, use24Hour: true),
+        newYorkDateTime(2024, 6, 8, 6),
+        newYorkDateTime(2024, 6, 8, 10),
+      ),
+      "June 8th from 06:00 to 10:00",
     );
   });
 }

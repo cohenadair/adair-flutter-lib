@@ -71,6 +71,42 @@
       }
     }
   },
+  "monthDayOrdinalFormat": "{day} de {month}",
+  "@monthDayOrdinalFormat": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "dateWithYearFormat": "{date} de {year}",
+  "@dateWithYearFormat": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "dateTimeRangeSameDayFormat": "{date}, de {startTime} a {endTime}",
+  "@dateTimeRangeSameDayFormat": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "startTime": {
+        "type": "String"
+      },
+      "endTime": {
+        "type": "String"
+      }
+    }
+  },
   "now": "Now",
   "durationAllDates": "Todas las fechas",
   "durationToday": "Hoy",
