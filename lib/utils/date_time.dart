@@ -189,13 +189,19 @@ String formatTimeMillis(BuildContext context, Int64 millis, String? timeZone) {
 ///   - Monday at 2:35 PM
 ///   - Jan 8 at 2:35 PM
 ///   - Dec 8, 2018 at 2:35 PM
+///
+/// When [ordinal] is true, the date is formatted with
+/// [formatDateAsRecentOrdinal], and [abbreviated] is ignored.
 String formatDateTime(
   BuildContext context,
   TZDateTime dateTime, {
   bool abbreviated = false,
   bool excludeMidnight = false,
+  bool ordinal = false,
 }) {
-  var recentDate = formatDateAsRecent(dateTime, abbreviated: abbreviated);
+  var recentDate = ordinal
+      ? formatDateAsRecentOrdinal(dateTime)
+      : formatDateAsRecent(dateTime, abbreviated: abbreviated);
 
   var time = TimeOfDay.fromDateTime(dateTime);
   if (excludeMidnight && time.hour == 0 && time.minute == 0) {
@@ -261,6 +267,74 @@ String formatDateAsRecent(TZDateTime dateTime, {bool abbreviated = false}) {
   }
 
   return DateFormats.localized(format).format(dateTime);
+}
+
+/// Returns a formatted date, using the full month name and an ordinal day
+/// when the date isn't recent.
+///
+/// Examples:
+///   - Today
+///   - Yesterday
+///   - Monday
+///   - June 8th
+///   - December 8th, 2018
+String formatDateAsRecentOrdinal(TZDateTime dateTime) {
+  final now = TimeManager.get.currentDateTime;
+  if (isSameDate(dateTime, now) ||
+      isYesterday(now, dateTime) ||
+      isWithinOneWeek(dateTime, now)) {
+    return formatDateAsRecent(dateTime);
+  }
+
+  final monthDay = L10n.get.lib.monthDayOrdinalFormat(
+    DateFormats.localized(L10n.get.lib.dateFormatMonthFull).format(dateTime),
+    dateTime.day.toString(),
+  );
+
+  return isSameYear(dateTime, now)
+      ? monthDay
+      : L10n.get.lib.dateWithYearFormat(monthDay, dateTime.year.toString());
+}
+
+/// Returns a formatted time range for [start] and [end], which are expected
+/// to be on the same date. The date is only shown once, and in 12-hour time,
+/// the start's period is omitted when it matches the end's.
+///
+/// Examples:
+///   - June 8th from 6:30 to 10:30 AM
+///   - Today from 11:30 AM to 1:30 PM
+///   - June 8th from 06:30 to 10:30
+String formatSameDayDateTimeRange(
+  BuildContext context,
+  TZDateTime start,
+  TZDateTime end,
+) {
+  final startTime = TimeOfDay.fromDateTime(start);
+  final endTime = TimeOfDay.fromDateTime(end);
+
+  return L10n.get.lib.dateTimeRangeSameDayFormat(
+    formatDateAsRecentOrdinal(start),
+    startTime.period == endTime.period
+        ? _formatTimeOfDayWithoutPeriod(context, startTime)
+        : formatTimeOfDay(context, startTime),
+    formatTimeOfDay(context, endTime),
+  );
+}
+
+/// Returns [time] formatted without its day period (AM/PM), if the current
+/// time format puts the period after the time. Otherwise, returns the
+/// normally formatted time.
+String _formatTimeOfDayWithoutPeriod(BuildContext context, TimeOfDay time) {
+  final localizations = MaterialLocalizations.of(context);
+  if (localizations.timeOfDayFormat(
+        alwaysUse24HourFormat: MediaQuery.alwaysUse24HourFormatOf(context),
+      ) !=
+      TimeOfDayFormat.h_colon_mm_space_a) {
+    return formatTimeOfDay(context, time);
+  }
+
+  return "${localizations.formatHour(time)}:"
+      "${localizations.formatMinute(time)}";
 }
 
 bool isFrequencyTimerReady({

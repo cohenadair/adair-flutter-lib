@@ -204,6 +204,28 @@ abstract class AdairFlutterLibLocalizations {
   /// **'{from} to {to}'**
   String dateRangeFormat(String from, String to);
 
+  /// No description provided for @monthDayOrdinalFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{day, select, 1{{month} 1st} 2{{month} 2nd} 3{{month} 3rd} 21{{month} 21st} 22{{month} 22nd} 23{{month} 23rd} 31{{month} 31st} other{{month} {day}th}}'**
+  String monthDayOrdinalFormat(String month, String day);
+
+  /// No description provided for @dateWithYearFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{date}, {year}'**
+  String dateWithYearFormat(String date, String year);
+
+  /// No description provided for @dateTimeRangeSameDayFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} from {startTime} to {endTime}'**
+  String dateTimeRangeSameDayFormat(
+    String date,
+    String startTime,
+    String endTime,
+  );
+
   /// No description provided for @now.
   ///
   /// In en, this message translates to:
