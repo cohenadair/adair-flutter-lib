@@ -169,6 +169,16 @@ void main() {
     verifyNever(exception.message);
   });
 
+  test("purchaseSubscription ignores purchase not allowed error", () async {
+    var exception = stubPurchaseError(
+      PurchasesErrorCode.purchaseNotAllowedError,
+    );
+    await SubscriptionManager.get.purchaseSubscription(
+      Subscription(MockPackage()),
+    );
+    verifyNever(exception.message);
+  });
+
   test("purchaseSubscription logs other errors", () async {
     var exception = stubPurchaseError(PurchasesErrorCode.unknownError);
     await SubscriptionManager.get.purchaseSubscription(
