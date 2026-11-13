@@ -1,8 +1,8 @@
 import 'package:adair_flutter_lib/l10n/gen/adair_flutter_lib_localizations.dart';
 import 'package:adair_flutter_lib/utils/root.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:adair_flutter_lib/utils/widget.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A widget that wraps a child in default localizations.
 class Testable extends StatelessWidget {
@@ -37,6 +37,7 @@ class Testable extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: themeMode,
+      builder: materialUiCompatibilityBuilder,
       theme:
           theme ??
           ThemeData(
@@ -46,9 +47,7 @@ class Testable extends StatelessWidget {
           ),
       localizationsDelegates: [
         AdairFlutterLibLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
         ...localizations,
         ...additionalLocalizations,
       ],

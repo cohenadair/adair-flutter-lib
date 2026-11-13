@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Default Material 3 dimensions that don't have accessible constants.
 const m3DialogRadius = Radius.circular(28);

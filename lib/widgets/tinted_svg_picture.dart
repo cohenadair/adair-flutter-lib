@@ -1,6 +1,6 @@
 import 'package:adair_flutter_lib/res/theme.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Renders [asset] tinted a single colour — [color] if given, otherwise the
 /// current [BuildContexts.colorApp]. [maxWidth] and [maxHeight] behave like

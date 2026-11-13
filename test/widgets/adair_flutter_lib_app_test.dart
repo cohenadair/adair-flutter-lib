@@ -6,8 +6,8 @@ import 'package:adair_flutter_lib/utils/root.dart';
 import 'package:adair_flutter_lib/widgets/adair_flutter_lib_app.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

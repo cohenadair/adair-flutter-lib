@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class PurchasesWrapper {

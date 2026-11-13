@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // TODO: Rename to AdairFlutterLibAppConfig to be consistent with other
 //  lib-specific classes (or rename the other classes).

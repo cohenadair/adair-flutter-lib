@@ -1,6 +1,6 @@
 import 'package:adair_flutter_lib/utils/number.dart';
 import 'package:adair_flutter_lib/utils/validator.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:quiver/strings.dart';
 
 /// A class for storing a value of an input widget, such as a text field or

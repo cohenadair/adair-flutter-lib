@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A test widget that allows testing of [child.dispose] by invoking
 /// [DisposableTesterState.removeChild].

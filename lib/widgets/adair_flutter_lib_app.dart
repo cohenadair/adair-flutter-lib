@@ -3,14 +3,14 @@ import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/pages/landing_page.dart';
 import 'package:adair_flutter_lib/widgets/async_builder.dart';
 import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../app_config.dart';
 import '../l10n/gen/adair_flutter_lib_localizations.dart';
 import '../pages/sign_in_page.dart';
 import '../utils/root.dart';
+import '../utils/widget.dart';
 
 class AdairFlutterLibApp extends StatefulWidget {
   /// A list of managers that need to be initialized before the app starts.
@@ -36,9 +36,9 @@ class AdairFlutterLibApp extends StatefulWidget {
   /// only if the user is signed in.
   final WidgetBuilder homeBuilder;
 
-  /// See [MaterialApp.localizationsDelegates]. [AdairFlutterLibLocalizations],
-  /// [GlobalMaterialLocalizations], [GlobalWidgetsLocalizations], and
-  /// [GlobalCupertinoLocalizations] are included automatically.
+  /// See [MaterialApp.localizationsDelegates]. [AdairFlutterLibLocalizations]
+  /// and [GlobalMaterialLocalizations.delegates] (Material, Cupertino, and
+  /// widgets localizations) are included automatically.
   final Iterable<LocalizationsDelegate> localizationsDelegates;
 
   /// See [MaterialApp.supportedLocales]. US and Canadian English are included
@@ -92,6 +92,7 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       theme: widget.theme,
       darkTheme: widget.darkTheme,
       themeMode: widget.themeMode,
+      builder: materialUiCompatibilityBuilder,
       home: Stack(
         children: [
           AsyncBuilder.future(
@@ -106,9 +107,7 @@ class _AdairFlutterLibAppState extends State<AdairFlutterLibApp> {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         AdairFlutterLibLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
         ...widget.localizationsDelegates,
       ],
       supportedLocales: [

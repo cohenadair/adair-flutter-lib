@@ -1,6 +1,6 @@
 import 'package:adair_flutter_lib/utils/string.dart';
 import 'package:adair_flutter_lib/widgets/dropdown_options_view.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A text field that wraps Flutter's [Autocomplete] widget with a consistent
 /// M3-styled dropdown container.

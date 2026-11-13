@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:material_ui/material_ui.dart';
 
 typedef WidgetCallback = Widget Function(BuildContext);
 
@@ -28,4 +28,14 @@ FutureOr<void> safeUseContext(
     return Future.value();
   }
   await use();
+}
+
+/// A [MaterialApp.builder] that lets dependencies still built on
+/// `package:flutter/material.dart` resolve the app's theme and Material
+/// localizations. Remove once every dependency has migrated to
+/// `package:material_ui`.
+Widget materialUiCompatibilityBuilder(BuildContext context, Widget? child) {
+  // Deprecated only because it's a temporary migration utility.
+  // ignore: deprecated_member_use
+  return MaterialUiCompatibilityBridge(child: child!);
 }

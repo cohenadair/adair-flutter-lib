@@ -1,7 +1,7 @@
 import 'package:adair_flutter_lib/res/dimen.dart';
 import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/widgets/enabled_opacity.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A [Checkbox] widget with optional padding. By default there is zero padding,
 /// allowing the [PaddedCheckbox] to horizontally align perfectly with

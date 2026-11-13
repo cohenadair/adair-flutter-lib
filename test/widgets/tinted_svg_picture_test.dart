@@ -1,8 +1,8 @@
 import 'package:adair_flutter_lib/res/theme.dart';
 import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../test_utils/testable.dart';
 

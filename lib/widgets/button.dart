@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 // TODO: This widget is probably no longer needed, since with M3 we'll no longer
 //  be using uppercase text buttons. This should be removed and replaced with

@@ -1,8 +1,8 @@
 import 'package:adair_flutter_lib/pages/scroll_page.dart';
 import 'package:adair_flutter_lib/widgets/nav_rail_content.dart';
 import 'package:adair_flutter_lib/widgets/restricted_width.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../test_utils/testable.dart';
 

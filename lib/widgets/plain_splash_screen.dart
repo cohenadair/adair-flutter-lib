@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A fullscreen widget that matches the native splash screen — plain scaffold
 /// background color and no app bar. Used while the app is initializing or when

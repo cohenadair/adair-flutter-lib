@@ -1,8 +1,8 @@
 import 'package:adair_flutter_lib/res/style.dart';
 import 'package:adair_flutter_lib/widgets/input_controller.dart';
 import 'package:adair_flutter_lib/widgets/text_input.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../test_utils/testable.dart';
 

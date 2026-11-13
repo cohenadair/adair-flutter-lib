@@ -1,6 +1,6 @@
 import 'package:adair_flutter_lib/utils/color.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   test("parseHexColor returns null for empty hex string", () {

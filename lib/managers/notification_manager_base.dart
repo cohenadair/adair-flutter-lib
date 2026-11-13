@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:adair_flutter_lib/wrappers/local_notifications_wrapper.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../pages/notification_permission_page.dart';
 import '../utils/log.dart';

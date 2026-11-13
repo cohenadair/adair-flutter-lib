@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:material_ui/material_ui.dart';
 
 class NativeTimeZoneWrapper {
   static var _instance = NativeTimeZoneWrapper._();

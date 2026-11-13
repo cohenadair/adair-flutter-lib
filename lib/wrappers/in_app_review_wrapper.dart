@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:material_ui/material_ui.dart';
 
 class InAppReviewWrapper {
   static var _instance = InAppReviewWrapper._();

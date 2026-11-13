@@ -10,8 +10,8 @@ import 'package:adair_flutter_lib/widgets/plain_splash_screen.dart';
 import 'package:adair_flutter_lib/widgets/tinted_svg_picture.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

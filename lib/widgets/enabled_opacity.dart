@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// An [Opacity] wrapper whose state depends on the [isEnabled] property.
 class EnabledOpacity extends StatelessWidget {

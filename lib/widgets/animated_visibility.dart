@@ -1,5 +1,5 @@
 import 'package:adair_flutter_lib/res/anim.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A wrapper for [AnimatedOpacity] with a default duration.
 class AnimatedVisibility extends StatelessWidget {
