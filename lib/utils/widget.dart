@@ -1,5 +1,8 @@
 import 'dart:async';
 
+// Used to pass useMaterial3 through to legacy Material dependencies.
+// ignore: deprecated_member_use
+import 'package:flutter/material.dart' as legacy show Theme, ThemeData;
 import 'package:material_ui/material_ui.dart';
 
 typedef WidgetCallback = Widget Function(BuildContext);
@@ -37,5 +40,24 @@ FutureOr<void> safeUseContext(
 Widget materialUiCompatibilityBuilder(BuildContext context, Widget? child) {
   // Deprecated only because it's a temporary migration utility.
   // ignore: deprecated_member_use
-  return MaterialUiCompatibilityBridge(child: child!);
+  return MaterialUiCompatibilityBridge(
+    // The bridge only maps colors, text, platform, and density, so legacy
+    // ThemeData falls back to Material 3. Carry over the app's actual
+    // useMaterial3 so legacy widgets (e.g. SfCalendar) keep their styling.
+    child: Builder(
+      builder: (context) {
+        final bridged = legacy.Theme.of(context);
+        return legacy.Theme(
+          data: legacy.ThemeData(
+            useMaterial3: Theme.of(context).useMaterial3,
+            platform: bridged.platform,
+            visualDensity: bridged.visualDensity,
+            colorScheme: bridged.colorScheme,
+            textTheme: bridged.textTheme,
+          ),
+          child: child!,
+        );
+      },
+    ),
+  );
 }

@@ -59,4 +59,24 @@ void main() {
       expect(legacyLocalizations.okButtonLabel, "OK");
     },
   );
+
+  testWidgets(
+    "materialUiCompatibilityBuilder passes useMaterial3 to legacy Material",
+    (tester) async {
+      late legacy.ThemeData legacyTheme;
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: ThemeData(useMaterial3: false),
+          builder: materialUiCompatibilityBuilder,
+          home: Builder(
+            builder: (context) {
+              legacyTheme = legacy.Theme.of(context);
+              return const SizedBox();
+            },
+          ),
+        ),
+      );
+      expect(legacyTheme.useMaterial3, isFalse);
+    },
+  );
 }
