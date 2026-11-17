@@ -44,12 +44,17 @@ Widget materialUiCompatibilityBuilder(BuildContext context, Widget? child) {
     // The bridge only maps colors, text, platform, and density, so legacy
     // ThemeData falls back to Material 3. Carry over the app's actual
     // useMaterial3 so legacy widgets (e.g. SfCalendar) keep their styling.
+    //
+    // The legacy Theme also inserts an IconTheme above the whole app, so
+    // carry over the app's iconTheme too, or every icon and IconButton
+    // outside a themed widget (e.g. ListTile) loses the app's icon color.
     child: Builder(
       builder: (context) {
         final bridged = legacy.Theme.of(context);
         return legacy.Theme(
           data: legacy.ThemeData(
             useMaterial3: Theme.of(context).useMaterial3,
+            iconTheme: Theme.of(context).iconTheme,
             platform: bridged.platform,
             visualDensity: bridged.visualDensity,
             colorScheme: bridged.colorScheme,

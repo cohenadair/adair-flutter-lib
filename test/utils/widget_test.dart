@@ -79,4 +79,26 @@ void main() {
       expect(legacyTheme.useMaterial3, isFalse);
     },
   );
+
+  testWidgets("materialUiCompatibilityBuilder keeps the app's icon theme", (
+    tester,
+  ) async {
+    late Color? iconColor;
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: ThemeData(
+          useMaterial3: false,
+          iconTheme: const IconThemeData(color: Colors.green),
+        ),
+        builder: materialUiCompatibilityBuilder,
+        home: Builder(
+          builder: (context) {
+            iconColor = IconTheme.of(context).color;
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
+    expect(iconColor, Colors.green);
+  });
 }
