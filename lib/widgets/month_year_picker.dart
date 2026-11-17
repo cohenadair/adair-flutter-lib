@@ -46,6 +46,9 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
     _month = initialDate.month;
   }
 
+  Color get _colorAppBarContent =>
+      AppConfig.get.colorAppBarContent(context.isDarkTheme);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -81,7 +84,7 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
             IconButton(
               icon: const Icon(Icons.chevron_left),
               onPressed: () => setState(() => _year--),
-              color: AppConfig.get.colorAppBarContent(context.isDarkTheme),
+              color: _colorAppBarContent,
             ),
             Expanded(
               child: Padding(
@@ -89,14 +92,16 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
                 child: Text(
                   _year.toString(),
                   textAlign: TextAlign.center,
-                  style: styleTitleAlert(context),
+                  style: styleTitleAlert(
+                    context,
+                  ).copyWith(color: _colorAppBarContent),
                 ),
               ),
             ),
             IconButton(
               icon: const Icon(Icons.chevron_right),
               onPressed: () => setState(() => _year++),
-              color: AppConfig.get.colorAppBarContent(context.isDarkTheme),
+              color: _colorAppBarContent,
             ),
           ],
         ),
@@ -143,8 +148,9 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
   }
 
   Widget _buildMonth(int month) {
+    var isSelected = _month == month;
     VoidCallback? onTap;
-    if (_month != month) {
+    if (!isSelected) {
       onTap = () => setState(() => _month = month);
     }
     var borderRadius = const BorderRadius.all(
@@ -158,7 +164,7 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
         height: _monthHeight,
         width: _monthWidth,
         decoration: BoxDecoration(
-          color: _month == month ? context.colorApp : Colors.transparent,
+          color: isSelected ? context.colorApp : Colors.transparent,
           borderRadius: borderRadius,
         ),
         child: Material(
@@ -168,11 +174,17 @@ class _MonthYearPickerState extends State<_MonthYearPicker> {
             borderRadius: borderRadius,
             child: Padding(
               padding: insetsDefault,
-              child: Text(
-                DateFormats.localized(
-                  L10n.get.lib.dateFormatMonth,
-                ).format(DateTime(_year, month)),
-                textAlign: TextAlign.center,
+              child: AnimatedDefaultTextStyle(
+                duration: animDurationDefault,
+                style: DefaultTextStyle.of(context).style.copyWith(
+                  color: isSelected ? _colorAppBarContent : null,
+                ),
+                child: Text(
+                  DateFormats.localized(
+                    L10n.get.lib.dateFormatMonth,
+                  ).format(DateTime(_year, month)),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),

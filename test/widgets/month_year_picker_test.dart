@@ -3,6 +3,7 @@ import 'package:adair_flutter_lib/widgets/button.dart';
 import 'package:adair_flutter_lib/widgets/month_year_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:mockito/mockito.dart';
 import 'package:timezone/timezone.dart';
 
 import '../test_utils/finder.dart';
@@ -27,7 +28,7 @@ void main() {
     );
   }
 
-  testWidgets("Changing year", (tester) async {
+  Future<void> openPicker(WidgetTester tester) async {
     await pumpContext(
       tester,
       (context) => Scaffold(
@@ -37,8 +38,25 @@ void main() {
         ),
       ),
     );
-
     await tapAndSettle(tester, find.text("TEST"));
+  }
+
+  Color? monthTextColor(WidgetTester tester, String month) {
+    return tester
+        .widget<AnimatedDefaultTextStyle>(
+          find
+              .ancestor(
+                of: find.text(month),
+                matching: find.byType(AnimatedDefaultTextStyle),
+              )
+              .first,
+        )
+        .style
+        .color;
+  }
+
+  testWidgets("Changing year", (tester) async {
+    await openPicker(tester);
     expect(find.text("2022"), findsOneWidget);
 
     await tapAndSettle(tester, find.byIcon(Icons.chevron_left));
@@ -52,18 +70,28 @@ void main() {
     expect(find.text("2023"), findsOneWidget);
   });
 
-  testWidgets("Changing month", (tester) async {
-    await pumpContext(
-      tester,
-      (context) => Scaffold(
-        body: Button(
-          text: "Test",
-          onPressed: () => showMonthYearPicker(context),
-        ),
-      ),
-    );
+  testWidgets("Year text uses the app bar content color", (tester) async {
+    when(managers.appConfig.colorAppBarContent).thenReturn((_) => Colors.red);
+    await openPicker(tester);
+    expect(tester.widget<Text>(find.text("2022")).style?.color, Colors.red);
+  });
 
-    await tapAndSettle(tester, find.text("TEST"));
+  testWidgets("Selected month text uses the app bar content color", (
+    tester,
+  ) async {
+    when(managers.appConfig.colorAppBarContent).thenReturn((_) => Colors.red);
+    await openPicker(tester);
+    expect(monthTextColor(tester, "Oct"), Colors.red);
+  });
+
+  testWidgets("Unselected month text uses the default color", (tester) async {
+    when(managers.appConfig.colorAppBarContent).thenReturn((_) => Colors.red);
+    await openPicker(tester);
+    expect(monthTextColor(tester, "Mar"), isNot(Colors.red));
+  });
+
+  testWidgets("Changing month", (tester) async {
+    await openPicker(tester);
     verifyMonth(tester, "Oct", AppConfig.get.colorAppTheme);
 
     await tapAndSettle(tester, find.text("Mar"));
