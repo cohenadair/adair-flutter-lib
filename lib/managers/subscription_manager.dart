@@ -107,10 +107,13 @@ class SubscriptionManager extends Manager {
       var code = PurchasesErrorHelper.getErrorCode(e);
       // A pending payment (e.g. Ask to Buy, or a deferred payment method)
       // isn't a failure. The storefront tells the user, and the customer info
-      // listener picks up the purchase once it's approved.
+      // listener picks up the purchase once it's approved. A device or
+      // account that isn't allowed to make purchases is a user restriction,
+      // not an app bug, so it isn't logged either (same as in init).
       if (code != PurchasesErrorCode.purchaseCancelledError &&
           code != PurchasesErrorCode.storeProblemError &&
-          code != PurchasesErrorCode.paymentPendingError) {
+          code != PurchasesErrorCode.paymentPendingError &&
+          code != PurchasesErrorCode.purchaseNotAllowedError) {
         _log.e(Exception("Purchase error: ${e.message}"));
       }
     }
