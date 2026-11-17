@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.5.3                # https://pub.dev/packages/shared_preferences
   syncfusion_flutter_core: ^28.2.5          # https://pub.dev/packages/syncfusion_flutter_core
   timezone: ^0.10.0                         # https://pub.dev/packages/timezone
+  url_launcher: ^6.3.1                      # https://pub.dev/packages/url_launcher
   material_ui: ^1.11.0
   cupertino_ui: ^1.1.6
 
