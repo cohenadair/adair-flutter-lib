@@ -29,6 +29,7 @@ import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/url_launcher_wrapper.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
@@ -72,6 +73,7 @@ class StubbedManagers {
   late final MockPathProviderWrapper pathProviderWrapper;
   late final MockSharedPreferencesWrapper sharedPreferencesWrapper;
   late final MockStorageWrapper storageWrapper;
+  late final MockUrlLauncherWrapper urlLauncherWrapper;
 
   // TODO: Remove the Future return type.
   static Future<StubbedManagers> create() async {
@@ -199,6 +201,9 @@ class StubbedManagers {
 
     storageWrapper = MockStorageWrapper();
     StorageWrapper.set(storageWrapper);
+
+    urlLauncherWrapper = MockUrlLauncherWrapper();
+    UrlLauncherWrapper.set(urlLauncherWrapper);
   }
 
   void stubCurrentTime(DateTime now, {String timeZone = "America/New_York"}) {

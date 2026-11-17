@@ -31,6 +31,7 @@ import 'package:adair_flutter_lib/wrappers/permission_handler_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/purchases_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/shared_preferences_wrapper.dart';
 import 'package:adair_flutter_lib/wrappers/storage_wrapper.dart';
+import 'package:adair_flutter_lib/wrappers/url_launcher_wrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -87,6 +88,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @GenerateMocks([SubscriptionManager])
 @GenerateMocks([TimeManager])
 @GenerateMocks([TimeZoneLocation])
+@GenerateMocks([UrlLauncherWrapper])
 @GenerateMocks([AndroidBuildVersion])
 @GenerateMocks([AndroidDeviceInfo])
 @GenerateMocks([IosDeviceInfo])
