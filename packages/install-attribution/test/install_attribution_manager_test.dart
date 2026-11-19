@@ -52,6 +52,48 @@ void main() {
     );
   });
 
+  test("init logs SKAN unknown error as a warning", () async {
+    stubRegister(
+      () async => throw PlatformException(
+        code: "register_failed",
+        details: {"domain": "SKANErrorDomain", "code": 10},
+      ),
+    );
+
+    await expectLater(
+      initAndSettle,
+      prints(contains("W/AL-InstallAttributionManager: Registering install")),
+    );
+  });
+
+  test("init logs other SKAN errors as errors", () async {
+    stubRegister(
+      () async => throw PlatformException(
+        code: "register_failed",
+        details: {"domain": "SKANErrorDomain", "code": 3},
+      ),
+    );
+
+    await expectLater(
+      initAndSettle,
+      prints(contains("E/AL-InstallAttributionManager: Registering install")),
+    );
+  });
+
+  test("init logs same error code from another domain as an error", () async {
+    stubRegister(
+      () async => throw PlatformException(
+        code: "register_failed",
+        details: {"domain": "NSCocoaErrorDomain", "code": 10},
+      ),
+    );
+
+    await expectLater(
+      initAndSettle,
+      prints(contains("E/AL-InstallAttributionManager: Registering install")),
+    );
+  });
+
   test("init returns before the native call completes", () async {
     final completer = Completer<Object?>();
     stubRegister(() => completer.future);

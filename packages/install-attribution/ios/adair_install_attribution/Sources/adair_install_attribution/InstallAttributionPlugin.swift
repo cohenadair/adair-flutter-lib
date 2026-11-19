@@ -51,10 +51,13 @@ public class InstallAttributionPlugin: NSObject, FlutterPlugin {
   private static func complete(result: @escaping FlutterResult, error: Error?, path: String) {
     DispatchQueue.main.async {
       if let error = error {
+        // Domain and code let Dart pick out specific SKAdNetwork errors
+        // without parsing the localized message.
+        let nsError = error as NSError
         result(FlutterError(
           code: "register_failed",
           message: error.localizedDescription,
-          details: nil
+          details: ["domain": nsError.domain, "code": nsError.code]
         ))
       } else {
         result(path)
