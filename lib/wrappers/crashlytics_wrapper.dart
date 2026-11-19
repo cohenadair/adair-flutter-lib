@@ -20,10 +20,6 @@ class CrashlyticsWrapper {
     );
   }
 
-  Future<void> recordFlutterFatalError(FlutterErrorDetails details) {
-    return FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-  }
-
   Future<void> log(String message) {
     return FirebaseCrashlytics.instance.log(message);
   }
