@@ -46,12 +46,10 @@ void main() {
       managers.crashlyticsWrapper.setCustomKey(any, any),
     ).thenAnswer((_) async {});
     when(
-      managers.crashlyticsWrapper.recordFlutterFatalError(any),
-    ).thenAnswer((_) async {});
-    when(
       managers.crashlyticsWrapper.recordError(
         any,
         any,
+        reason: anyNamed("reason"),
         fatal: anyNamed("fatal"),
       ),
     ).thenAnswer((_) async {});
@@ -180,81 +178,30 @@ void main() {
     },
   );
 
-  test("Flutter error handler forwards to CrashlyticsWrapper", () async {
+  test("Flutter error handler records a non-fatal error", () async {
     await setupFirebase(isRelease: false);
     final details = FlutterErrorDetails(exception: Exception("test"));
     FlutterError.onError!(details);
     verify(
-      managers.crashlyticsWrapper.recordFlutterFatalError(details),
+      managers.crashlyticsWrapper.recordError(
+        details.exception,
+        details.stack,
+        reason: "Unhandled Flutter error",
+        fatal: false,
+      ),
     ).called(1);
   });
-
-  test(
-    "Flutter error handler calls recordError as non-fatal when matcher returns true",
-    () async {
-      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => true);
-      final details = FlutterErrorDetails(exception: Exception("test"));
-      FlutterError.onError!(details);
-      verify(
-        managers.crashlyticsWrapper.recordError(
-          details.exception,
-          details.stack,
-          fatal: false,
-        ),
-      ).called(1);
-      verifyNever(managers.crashlyticsWrapper.recordFlutterFatalError(any));
-    },
-  );
-
-  test(
-    "Flutter error handler calls recordFlutterFatalError when matcher returns false",
-    () async {
-      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => false);
-      final details = FlutterErrorDetails(exception: Exception("test"));
-      FlutterError.onError!(details);
-      verify(
-        managers.crashlyticsWrapper.recordFlutterFatalError(details),
-      ).called(1);
-      verifyNever(
-        managers.crashlyticsWrapper.recordError(
-          any,
-          any,
-          fatal: anyNamed("fatal"),
-        ),
-      );
-    },
-  );
-
-  test(
-    "Flutter error handler calls recordFlutterFatalError when no matcher is provided",
-    () async {
-      await setupFirebase(isRelease: false);
-      final details = FlutterErrorDetails(exception: Exception("test"));
-      FlutterError.onError!(details);
-      verify(
-        managers.crashlyticsWrapper.recordFlutterFatalError(details),
-      ).called(1);
-      verifyNever(
-        managers.crashlyticsWrapper.recordError(
-          any,
-          any,
-          fatal: anyNamed("fatal"),
-        ),
-      );
-    },
-  );
 
   test(
     "Flutter error handler records nothing when ignoreMatcher returns true",
     () async {
       await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => true);
-      final details = FlutterErrorDetails(exception: Exception("test"));
-      FlutterError.onError!(details);
-      verifyNever(managers.crashlyticsWrapper.recordFlutterFatalError(any));
+      FlutterError.onError!(FlutterErrorDetails(exception: Exception("test")));
       verifyNever(
         managers.crashlyticsWrapper.recordError(
           any,
           any,
+          reason: anyNamed("reason"),
           fatal: anyNamed("fatal"),
         ),
       );
@@ -262,97 +209,61 @@ void main() {
   );
 
   test(
-    "Flutter error handler falls back to nonFatalMatcher when ignoreMatcher returns false",
+    "Flutter error handler records a non-fatal error when ignoreMatcher returns false",
     () async {
-      await setupFirebase(
-        isRelease: false,
-        ignoreMatcher: (_, _) => false,
-        nonFatalMatcher: (_, _) => true,
-      );
+      await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => false);
       final details = FlutterErrorDetails(exception: Exception("test"));
       FlutterError.onError!(details);
       verify(
         managers.crashlyticsWrapper.recordError(
           details.exception,
           details.stack,
+          reason: "Unhandled Flutter error",
           fatal: false,
         ),
       ).called(1);
     },
   );
 
-  test(
-    "Platform error handler forwards to CrashlyticsWrapper with fatal true",
-    () async {
-      await setupFirebase(isRelease: false);
-      final error = Exception("platform test");
-      final stack = StackTrace.current;
-      PlatformDispatcher.instance.onError!(error, stack);
-      verify(
-        managers.crashlyticsWrapper.recordError(error, stack, fatal: true),
-      ).called(1);
-    },
-  );
-
-  test(
-    "Platform error handler calls recordError as non-fatal when matcher returns true",
-    () async {
-      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => true);
-      final error = Exception("platform test");
-      final stack = StackTrace.current;
-      PlatformDispatcher.instance.onError!(error, stack);
-      verify(
-        managers.crashlyticsWrapper.recordError(error, stack, fatal: false),
-      ).called(1);
-    },
-  );
-
-  test(
-    "Platform error handler calls recordError as fatal when matcher returns false",
-    () async {
-      await setupFirebase(isRelease: false, nonFatalMatcher: (_, _) => false);
-      final error = Exception("platform test");
-      final stack = StackTrace.current;
-      PlatformDispatcher.instance.onError!(error, stack);
-      verify(
-        managers.crashlyticsWrapper.recordError(error, stack, fatal: true),
-      ).called(1);
-    },
-  );
-
-  test(
-    "Platform error handler calls recordError as fatal when no matcher is provided",
-    () async {
-      await setupFirebase(isRelease: false);
-      final error = Exception("platform test");
-      final stack = StackTrace.current;
-      PlatformDispatcher.instance.onError!(error, stack);
-      verify(
-        managers.crashlyticsWrapper.recordError(error, stack, fatal: true),
-      ).called(1);
-    },
-  );
+  test("Platform error handler records a non-fatal error", () async {
+    await setupFirebase(isRelease: false);
+    final error = Exception("platform test");
+    final stack = StackTrace.current;
+    PlatformDispatcher.instance.onError!(error, stack);
+    verify(
+      managers.crashlyticsWrapper.recordError(
+        error,
+        stack,
+        reason: "Unhandled async error",
+        fatal: false,
+      ),
+    ).called(1);
+  });
 
   test("Platform error handler returns true", () async {
     await setupFirebase(isRelease: false);
-    final result = PlatformDispatcher.instance.onError!(
-      Exception("test"),
-      StackTrace.current,
+    expect(
+      PlatformDispatcher.instance.onError!(
+        Exception("test"),
+        StackTrace.current,
+      ),
+      isTrue,
     );
-    expect(result, isTrue);
   });
 
   test(
     "Platform error handler records nothing when ignoreMatcher returns true",
     () async {
       await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => true);
-      final error = Exception("platform test");
-      final stack = StackTrace.current;
-      final result = PlatformDispatcher.instance.onError!(error, stack);
+      final result = PlatformDispatcher.instance.onError!(
+        Exception("platform test"),
+        StackTrace.current,
+      );
       verifyNever(
         managers.crashlyticsWrapper.recordError(
           any,
           any,
+          reason: anyNamed("reason"),
           fatal: anyNamed("fatal"),
         ),
       );
@@ -361,21 +272,34 @@ void main() {
   );
 
   test(
-    "Platform error handler falls back to nonFatalMatcher when ignoreMatcher returns false",
+    "Platform error handler records a non-fatal error when ignoreMatcher returns false",
     () async {
-      await setupFirebase(
-        isRelease: false,
-        ignoreMatcher: (_, _) => false,
-        nonFatalMatcher: (_, _) => true,
-      );
+      await setupFirebase(isRelease: false, ignoreMatcher: (_, _) => false);
       final error = Exception("platform test");
       final stack = StackTrace.current;
       PlatformDispatcher.instance.onError!(error, stack);
       verify(
-        managers.crashlyticsWrapper.recordError(error, stack, fatal: false),
+        managers.crashlyticsWrapper.recordError(
+          error,
+          stack,
+          reason: "Unhandled async error",
+          fatal: false,
+        ),
       ).called(1);
     },
   );
+
+  test("handleIsolateError records a non-fatal error", () async {
+    await handleIsolateError(["test error", null]);
+    verify(
+      managers.crashlyticsWrapper.recordError(
+        "test error",
+        null,
+        reason: "Unhandled isolate error",
+        fatal: false,
+      ),
+    ).called(1);
+  });
 
   test(
     "handleIsolateError converts string stack trace to StackTrace before forwarding",
@@ -386,6 +310,7 @@ void main() {
         managers.crashlyticsWrapper.recordError(
           any,
           captureAny,
+          reason: anyNamed("reason"),
           fatal: anyNamed("fatal"),
         ),
       ).captured.single;
@@ -401,6 +326,7 @@ void main() {
         managers.crashlyticsWrapper.recordError(
           any,
           null,
+          reason: anyNamed("reason"),
           fatal: anyNamed("fatal"),
         ),
       ).called(1);

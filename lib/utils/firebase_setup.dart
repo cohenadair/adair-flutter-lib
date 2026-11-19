@@ -11,7 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-typedef NonFatalMatcher = bool Function(Object error, StackTrace? stack);
+typedef ErrorMatcher = bool Function(Object error, StackTrace? stack);
 
 const _sensitivePropertiesPath = "assets/sensitive.properties";
 const _keyAppCheckDebugToken = "appCheck.debugToken";
@@ -36,22 +36,21 @@ const _log = Log("firebase_setup");
 /// console) instead of each device auto-generating and needing its own
 /// token registered.
 ///
-/// The [nonFatalMatcher] callback, if provided, is called for every unhandled
-/// error. When it returns true the error is recorded as non-fatal, allowing
-/// the app to survive. When it returns false (or is omitted) the error is
-/// recorded as fatal, preserving existing behaviour.
+/// All unhandled Dart errors are recorded to Crashlytics as non-fatal. An
+/// uncaught Dart error doesn't terminate a Flutter app, so recording it as
+/// fatal overstates its impact and skews crash-free statistics. Real crashes
+/// (native, process-ending) are still reported as fatal by the Crashlytics
+/// native SDKs.
 ///
-/// The [ignoreMatcher] callback, if provided, is checked before
-/// [nonFatalMatcher] for every unhandled error. When it returns true, the
-/// error is not recorded to Crashlytics at all (and the app still survives,
-/// same as a matched [nonFatalMatcher]). Use this for known, unactionable
-/// third-party errors that would otherwise be pure noise in Crashlytics.
+/// The [ignoreMatcher] callback, if provided, is called for every unhandled
+/// error. When it returns true, the error is not recorded to Crashlytics at
+/// all. Use this for known, unactionable third-party errors that would
+/// otherwise be pure noise in Crashlytics.
 Future<void> setupFirebase({
   bool isRelease = kReleaseMode,
   bool enableAppCheck = false,
   FirebaseOptions? options,
-  NonFatalMatcher? nonFatalMatcher,
-  NonFatalMatcher? ignoreMatcher,
+  ErrorMatcher? ignoreMatcher,
 }) async {
   await FirebaseWrapper.get.initializeApp(options: options);
 
@@ -81,15 +80,12 @@ Future<void> setupFirebase({
       return;
     }
 
-    if (nonFatalMatcher?.call(details.exception, details.stack) == true) {
-      CrashlyticsWrapper.get.recordError(
-        details.exception,
-        details.stack,
-        fatal: false,
-      );
-    } else {
-      CrashlyticsWrapper.get.recordFlutterFatalError(details);
-    }
+    CrashlyticsWrapper.get.recordError(
+      details.exception,
+      details.stack,
+      reason: "Unhandled Flutter error",
+      fatal: false,
+    );
   };
 
   // Catches async Dart errors not caught by the Flutter framework.
@@ -101,7 +97,8 @@ Future<void> setupFirebase({
     CrashlyticsWrapper.get.recordError(
       error,
       stack,
-      fatal: nonFatalMatcher == null || nonFatalMatcher(error, stack) == false,
+      reason: "Unhandled async error",
+      fatal: false,
     );
     return true;
   };
@@ -130,5 +127,10 @@ Future<void> handleIsolateError(dynamic pair) async {
   final stackTrace = pair.last == null
       ? null
       : StackTrace.fromString(pair.last as String);
-  await CrashlyticsWrapper.get.recordError(pair.first, stackTrace, fatal: true);
+  await CrashlyticsWrapper.get.recordError(
+    pair.first,
+    stackTrace,
+    reason: "Unhandled isolate error",
+    fatal: false,
+  );
 }
