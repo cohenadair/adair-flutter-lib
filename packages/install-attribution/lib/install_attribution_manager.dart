@@ -4,6 +4,7 @@ import 'package:adair_flutter_lib/managers/manager.dart';
 import 'package:adair_flutter_lib/utils/log.dart';
 import 'package:adair_flutter_lib/wrappers/method_channel_wrapper.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 final _log = const Log("InstallAttributionManager");
 
@@ -30,6 +31,12 @@ class InstallAttributionManager extends Manager {
   static const _channelName = "adair_install_attribution";
   static const _methodRegister = "register";
 
+  // Keys of the native error details, and the SKAdNetwork values to match.
+  static const _detailsDomain = "domain";
+  static const _detailsCode = "code";
+  static const _skanErrorDomain = "SKANErrorDomain";
+  static const _skanErrorUnknown = 10;
+
   /// Returns immediately; registration runs in the background so it never
   /// delays app startup. Never throws; failures are only logged.
   @override
@@ -46,7 +53,24 @@ class InstallAttributionManager extends Manager {
         "${await MethodChannelWrapper.get.channel(_channelName).invokeMethod<String>(_methodRegister)}",
       );
     } catch (e) {
-      _log.e(e, reason: "Registering install attribution");
+      if (_isSkanUnknownError(e)) {
+        // Only seen on iOS 15-17, where it repeats on every launch for the
+        // same device. Nothing in the app can fix it, so don't report it.
+        _log.w("Registering install attribution: $e");
+      } else {
+        _log.e(e, reason: "Registering install attribution");
+      }
     }
+  }
+
+  /// True if [e] is SKAdNetwork's catch-all `SKANErrorUnknown` (code 10).
+  bool _isSkanUnknownError(Object e) {
+    if (e is! PlatformException) {
+      return false;
+    }
+    final details = e.details;
+    return details is Map &&
+        details[_detailsDomain] == _skanErrorDomain &&
+        details[_detailsCode] == _skanErrorUnknown;
   }
 }
